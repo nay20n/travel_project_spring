@@ -5,7 +5,7 @@
 <mapper namespace="placeMapper">
 	<select id="selectPlaceImages" resultType="java.lang.String">
 		<![CDATA[
-			SELECT image "image" FROM places_images WHERE place_id=#{placeId}
+			SELECT image "image" FROM places_images WHERE place_id=#{placeId} ORDER BY image_num
 		]]>
 	</select>
 	<select id="selectArrPlaceId" resultType="java.lang.String">
@@ -13,4 +13,64 @@
 			SELECT arr_place_id FROM boards WHERE bno=#{bno}
 		]]>
 	</select>
+	<select id="selectPlaceDetails" resultType="java.util.Map">
+		<![CDATA[ 
+			SELECT p.name "name",(SELECT NVL(AVG(rating),0) FROM reviews r WHERE p.place_id = r.place_id) "avgRating",
+				   p.category "category", (SELECT COUNT(*) FROM reviews r WHERE p.place_id = r.place_id) "reviewCnt",
+				   p.address "address", p.business_hours "businessHours", p.website_url "websiteUrl",
+				   (SELECT COUNT(*) FROM like_places WHERE member_id = #{memberId} AND place_id = #{placeId}) "isLiked",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=0) "rating0",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=1) "rating1",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=2) "rating2",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=3) "rating3",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=4) "rating4",
+				   (SELECT count(*) FROM reviews r WHERE p.place_id = r.place_id AND rating=5) "rating5"
+			FROM places p
+			WHERE p.place_id = #{placeId}
+		]]>
+	</select>
+	<insert id="insertLikedPlace">
+		<![CDATA[
+			INSERT INTO like_places(member_id, place_id, like_time) VALUES(#{memberId},#{placeId},SYSDATE)
+		]]>
+	</insert>
+	<delete id="deleteLikedPlace">
+		<![CDATA[
+			DELETE FROM like_places WHERE member_id = #{memberId} AND place_id = #{placeId}
+		]]>
+	</delete>
+	<select id="selectReviews" resultType="java.util.Map">
+		<![CDATA[
+		SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT r.review_idx "reviewIdx", r.content "content", r.rating "rating", r.final_date "finalDate", 
+				  			   r.image "image", m.nick_name "nickName", m.profile_img "profileImg"
+						FROM reviews r INNER JOIN members m ON r.user_id = m.member_id
+						WHERE place_id = #{placeId}
+						ORDER BY r.final_date DESC) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<insert id="insertReview">
+		<![CDATA[
+			INSERT INTO reviews(review_idx, user_id, place_id, content, rating, final_date, image)
+			VALUES(seq_reviews.nextval, #{memberId}, #{placeId}, #{content}, #{rating}, SYSDATE, #{image})
+		]]>
+	</insert>
+	<update id="updateReview">
+		<![CDATA[
+			UPDATE reviews SET content = #{content}, rating = #{rating}, image = #{image} WHERE review_idx = #{reviewIdx} AND user_id = #{memberId}
+		]]>
+	</update>
+	<delete id="deleteReview">
+		<![CDATA[
+			DELETE FROM reviews WHERE review_idx = #{reviewIdx} AND user_id = #{memberId}
+		]]>
+	</delete>
+	<insert id="insertPlace">
+		<![CDATA[
+			INSERT INTO places (place_id, name, category, address, lat, lng, website_url)
+			VALUES (#{placeId},#{name},#{category},#{address},#{lat},#{lng},#{websiteUrl})
+		]]>
+	</insert>
 </mapper>
