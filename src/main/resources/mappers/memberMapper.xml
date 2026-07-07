@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<select id="getProfileImage" resultType="java.lang.String">
+		<![CDATA[
+			SELECT profile_img 
+			FROM members 
+			WHERE member_id = #{memberID}
+		]]>
+	</select>
+	<select id="isExistEmail" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM members 
+			WHERE email = #{email}
+		]]>
+	</select>
+	<select id="canLogin" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM members 
+			WHERE email = #{email} AND pw = #{pw}
+		]]>
+	</select>
+	<update id="updateKey">
+		<![CDATA[
+			UPDATE members SET key =#{key}, ex_date = SYSDATE+1/24/6 
+			WHERE email = #{email}
+		]]>
+	</update>
+	<select id="isValidCode" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM members 
+			WHERE key = #{key} AND ex_date > CURRENT_DATE
+		]]>
+	</select>
+	<insert id="addMember">
+		<![CDATA[
+			INSERT INTO members(member_id, email, nick_name, pw)
+			VALUES(seq_member.nextval, #{email}, '익명의 사용자', #{pw})
+		]]>
+	</insert>
+	<update id="modifyProfileImg">
+		<![CDATA[
+			UPDATE members SET profile_img = #{profileImg}
+			WHERE member_id = #{memberId}
+		]]>
+	</update>
+	<update id="modifyEmail">
+		<![CDATA[
+			UPDATE members SET email = #{email} 
+			WHERE member_id = #{memberId}
+		]]>
+	</update>
+	<update id="modifyPw">
+		<![CDATA[
+			UPDATE members SET pw = #{pw}
+			WHERE member_id = #{memberId}
+		]]>
+	</update>
+	<select id="getMyBoard" resultType="java.util.List">
+		<![CDATA[
+			SELECT *
+			FROM(
+			     SELECT ROWNUM rnum, b1.*
+			     FROM (
+			            SELECT 
+			                b.bno "게시글 번호", 
+			                TRUNC(SYSDATE-start_date) "디데이", 
+			                title "일정 이름", 
+			                nick_name "작성자",
+			                (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = b.bno)"찜 유무",
+			                (SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "찜 개수"
+			            FROM members m
+			                INNER JOIN boards b ON m.member_id = b.writer_id
+			            WHERE b.writer_id = #{memberId} OR b.share_user_id = #{memberId}
+			            ORDER BY final_date DESC
+			            ) b1
+			    )
+			WHERE rnum >= #{startBno} AND rnum <= #{endBno};
+		]]>
+	</select>
+</mapper>
