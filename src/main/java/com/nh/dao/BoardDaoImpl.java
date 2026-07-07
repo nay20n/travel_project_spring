@@ -12,18 +12,6 @@ public class BoardDaoImpl implements BoardDao {
 	@Autowired
 	SqlSession sqlSession;
 	
-	// 도착 정보 조회
-	@Override
-	public String getArrPlaceIdByBno(int bno) {
-		return sqlSession.selectOne("boardMapper.selectArrPlaceId", bno);
-	}
-
-	// 장소 이미지 조회
-	@Override
-	public List<String> getPlaceImages(String placeId) {
-		return sqlSession.selectList("boardMapper.selectPlaceImages", placeId);
-	}
-	
 	// 게시글 삽입
 	@Override
 	public void insertBoard(Map<String, Object> map1) {
@@ -104,18 +92,18 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 최신 게시글 조회
 	@Override
-	public List<Map<String, Object>> getBoardsLatestOrder(Map<String, Object> map1) {
-		if(map1.containsKey("memberId"))
-			return sqlSession.selectList("boardMapper.selectBoardsLatestOrder", map1);
-		return sqlSession.selectList("boardMapper.selectBoardsLatestOrderLogoutVer",map1);
+	public List<Map<String, Object>> getBoardsLastestOrder(Map<String, Object> map1) {
+		if(map1.get("memberId")==null)
+			return sqlSession.selectList("boardMapper.selectBoardsLastestOrderLogoutVer",map1);
+		return sqlSession.selectList("boardMapper.selectBoardsLastestOrder", map1);
 	}
 	
 	// 검색어 게시글 조회
 	@Override
 	public List<Map<String, Object>> getBoardsKeyOrder(Map<String, Object> map1) {
-		if(map1.containsKey("memberId"))
-			return sqlSession.selectList("boardMapper.selectBoardsKeyOrder", map1);
-		return sqlSession.selectList("boardMapper.selectBoardsKeyOrderLogoutVer",map1);
+		if(map1.get("memberId")==null)
+			return sqlSession.selectList("boardMapper.selectBoardsKeyOrderLogoutVer",map1);
+		return sqlSession.selectList("boardMapper.selectBoardsKeyOrder", map1);
 	}
 	
 	// 위도 경도 조회

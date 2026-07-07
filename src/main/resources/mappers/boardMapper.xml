@@ -3,16 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
-	<select id="selectPlaceImages" resultType="java.lang.String">
-		<![CDATA[
-			SELECT image "image" FROM places_images WHERE place_id=#{placeId}
-		]]>
-	</select>
-	<select id="selectArrPlaceId" resultType="java.lang.String">
-		<![CDATA[
-			SELECT arr_place_id FROM boards WHERE bno=#{bno}
-		]]>
-	</select>
 	<insert id="insertBoard">
 		<![CDATA[
 			INSERT INTO boards(bno, writer_id, title, final_date, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
@@ -142,7 +132,7 @@
 			WHERE bno = #{bno}
 		]]>
 	</insert>
-	<select id="selectBoardsLatestOrder" resultType="java.util.Map">
+	<select id="selectBoardsLastestOrder" resultType="java.util.Map">
 		<![CDATA[
 			SELECT *
 			FROM (SELECT rownum rnum, b1.*
@@ -158,7 +148,7 @@
 			WHERE b2.rnum BETWEEN #{start} AND #{end}
 		]]>
 	</select>
-	<select id="selectBoardsLatestOrderLogoutVer" resultType="java.util.Map">
+	<select id="selectBoardsLastestOrderLogoutVer" resultType="java.util.Map">
 		<![CDATA[
 			SELECT *
 			FROM (SELECT rownum rnum, b1.*
@@ -238,8 +228,8 @@
 	</update>
 	<select id="selectRecommendedPlace" resultType="java.util.Map">
 		<![CDATA[
-			SELECT r.spot "spot", p.lat "lat", p.lng "lng"
-			FROM recommended_places r INNER JOIN places p ON r.place_id = p.place_id
+			SELECT spot "spot", place_id "arrPlaceId"
+			FROM recommended_places r
 			ORDER BY num
 		]]>
 	</select>

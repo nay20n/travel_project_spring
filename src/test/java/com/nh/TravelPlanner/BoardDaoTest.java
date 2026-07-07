@@ -23,36 +23,6 @@ public class BoardDaoTest {
 	@Autowired
 	BoardDao bDao;
 	
-	// 도착 정보 조회 테스트
-	@Test
-	public void testGetArrPlaceIdByBno() {
-		// 1) Given
-		int bno = 1;
-		
-		// 2) When
-		String arrPlaceId = bDao.getArrPlaceIdByBno(bno);
-		
-		// 3) Then
-		assertNotNull("도착정보는 널이 아님", arrPlaceId);
-		
-		System.out.println(arrPlaceId);
-	}
-	
-	// 장소이미지 조회 테스트
-	@Test
-	public void testGetPlaceImages() {
-		// 1) Given
-		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
-		
-		// 2) When
-		List<String> listimages = bDao.getPlaceImages(placeId);
-		
-		// 3) Then
-		assertNotNull("리스트는 널이 아님", listimages);
-		
-		System.out.println(listimages);
-	}
-	
 	// 게시글 삽입 테스트
 	@Test
 	@Transactional
@@ -268,7 +238,7 @@ public class BoardDaoTest {
 		}
 	}
 	
-	// 일정 날짜 추가 및 삭제 테스트
+	// 타인의 일정 게시글 복제 테스트
 	@Test
 	@Transactional
 	public void testCopyBoard() {
@@ -287,15 +257,15 @@ public class BoardDaoTest {
 	
 	// 최신 게시글 조회 테스트
 	@Test
-	public void testGetBoardsLatestOrder() {
+	public void testGetBoardsLastestOrder() {
 		// 1) Given
 		Map<String, Object> map1 = new HashMap<>();
-		// map1.put("memberId", 1); // 선택적
+		map1.put("memberId", 1); // null 넣을 수 있음
 		map1.put("start", 1); // 첫번째 게시글부터
 		map1.put("end", 2); // 두번째 게시글까지
 		
 		// 2) When
-		List<Map<String, Object>> listMap = bDao.getBoardsLatestOrder(map1);
+		List<Map<String, Object>> listMap = bDao.getBoardsLastestOrder(map1);
 		
 		// 3) Then
 		assertNotNull("리스트는 널이 아님", listMap);
@@ -310,7 +280,7 @@ public class BoardDaoTest {
 	public void testGetBoardsKeyOrder() {
 		// 1) Given
 		Map<String, Object> map1 = new HashMap<>();
-		map1.put("memberId", 1); // 선택적
+		map1.put("memberId", 1); // null 넣을 수 있음
 		map1.put("input", "%" + "부산" + "%");
 		map1.put("start", 1); // 첫번째 게시글부터
 		map1.put("end", 2); // 두번째 게시글까지
