@@ -3,5 +3,249 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
-	
+	<select id="selectPlaceImages" resultType="java.lang.String">
+		<![CDATA[
+			SELECT image "image" FROM places_images WHERE place_id=#{placeId}
+		]]>
+	</select>
+	<select id="selectArrPlaceId" resultType="java.lang.String">
+		<![CDATA[
+			SELECT arr_place_id FROM boards WHERE bno=#{bno}
+		]]>
+	</select>
+	<insert id="insertBoard">
+		<![CDATA[
+			INSERT INTO boards(bno, writer_id, title, final_date, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
+			VALUES(seq_board.nextval, #{writerId}, '내 게시글', SYSDATE, #{startPlaceId}, #{arrPlaceId}, TO_DATE(#{startDate}, 'YYYY-MM-DD'),TO_DATE(#{endDate}, 'YYYY-MM-DD'),0,0,0,0,#{arrPlaceCity})
+		]]>
+	</insert>
+	<insert id="insertLikeBoard">
+		<![CDATA[
+			INSERT INTO like_boards(member_id, bno, like_time)
+			VALUES(#{memberId}, #{bno}, SYSDATE)
+		]]>
+	</insert>
+	<delete id="deleteLikeBoard">
+		<![CDATA[
+			DELETE FROM like_boards WHERE member_id = #{memberId} AND bno = #{bno}
+		]]>
+	</delete>
+	<select id="selectedPlaces" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT p.place_id "placeId", p.name "name", p.category "category", p.address "address",
+							   p.lat "lat", p.lng "lng", NVL(ROUND(AVG(r.rating), 1),0) "avgRating",
+							   COUNT(DISTINCT r.review_idx) "reviewCnt",
+							   (SELECT COUNT(*) FROM like_places lp WHERE member_id = #{memberId} AND lp.place_id = p.place_id) "isLiked"
+						FROM blocks bl INNER JOIN boards b ON b.bno = bl.bno
+							 INNER JOIN places p ON bl.place_id = p.place_id
+							 LEFT OUTER JOIN reviews r ON bl.place_id = r.place_id
+						WHERE b.bno = #{bno}
+						GROUP BY p.place_id, p.name, p.category, p.address, p.lat, p.lng
+						ORDER BY MIN(bl.start_time)) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<select id="likedPlaces" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT p.place_id "placeId", p.name "name", p.category "category", p.address "address",
+							p.lat "lat", p.lng "lng", NVL(ROUND(AVG(r.rating), 1),0) "avgRating",
+							COUNT(DISTINCT r.review_idx) "reviewCnt",
+							(SELECT COUNT(*) FROM like_places lp WHERE member_id = #{memberId} AND lp.place_id = p.place_id) "isLiked"
+						FROM like_places lp
+							INNER JOIN  places p ON lp.place_id = p.place_id
+							LEFT OUTER JOIN reviews r ON r.place_id = lp.place_id
+						WHERE lp.member_id = #{memberId}
+							AND (6371 * ACOS( 
+							COS( (SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180) ) * COS( p.lat * (ACOS(-1)/180) )
+							* COS( (p.lng * (ACOS(-1)/180)) - (SELECT lng FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180))
+							+ SIN( (SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180) )
+							* SIN( p.lat * (ACOS(-1)/180) ) )) <= 20 OR p.address LIKE (SELECT arr_place_city FROM boards WHERE bno = #{bno})
+						GROUP BY p.place_id, p.name, p.category, p.address, p.lat, p.lng) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<update id="updateTilte">
+		<![CDATA[
+			UPDATE boards SET title = #{title}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<select id="selectSerchedPlace" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT p.place_id "placeId", p.name "name", p.category "category", p.address "address",
+							p.lat "lat", p.lng "lng", NVL(ROUND(AVG(r.rating), 1),0) "avgRating",
+							COUNT(DISTINCT r.review_idx) "reviewCnt",
+							(SELECT COUNT(*) FROM like_places lp WHERE member_id = #{memberId} AND lp.place_id = p.place_id) "isLiked"
+						FROM places p
+							LEFT OUTER JOIN reviews r ON p.place_id = r.place_id
+						WHERE ( name LIKE #{input} OR category LIKE #{input} OR address LIKE #{input} )
+							AND (6371 * ACOS( 
+							COS( (SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180) ) * COS( p.lat * (ACOS(-1)/180) )
+							* COS( (p.lng * (ACOS(-1)/180)) - (SELECT lng FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180))
+							+ SIN( (SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180) )
+							* SIN( p.lat * (ACOS(-1)/180) ) )) <= 20 OR p.address LIKE (SELECT arr_place_city FROM boards WHERE bno = #{bno})
+						GROUP BY  p.place_id, p.name, p.category, p.address, p.lat, p.lng
+						ORDER BY "reviewCnt" DESC, "name" DESC) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<update id="updateShareKey">
+		<![CDATA[
+			UPDATE boards SET key = #{key}, ex_date = (SYSDATE + 1 / 24/10) WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateSharedMember">
+		<![CDATA[
+			UPDATE boards SET share_user_id = #{memberId} WHERE bno = #{bno} AND share_user_id IS NULL AND key = #{key} AND ex_date > SYSDATE
+		]]>
+	</update>
+	<update id="updateTravelDate">
+		<![CDATA[
+			UPDATE boards SET start_date = TO_DATE(#{startDate}, 'YYYY-MM-DD'), end_date =  TO_DATE(#{endDate}, 'YYYY-MM-DD') , final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateFinalDate">
+		<![CDATA[
+			UPDATE boards SET final_date = SYSDATE WHERE bno=#{bno}
+		]]>
+	</update>
+	<select id="selectBoardInfo" resultType="java.util.Map">
+		<![CDATA[
+			SELECT b.writer_id "writerId", b.title "title", b.start_place_id "startPlaceId", b.arr_place_id "arrPlaceId",
+				b.start_date "startDate", b.end_date "endDate",
+				b.max_cost "maxCost", b.transport_cost "transportCost", b.food_cost "foodCost", b.room_cost "roomCost", b.etc_cost "etcCost",
+				(SELECT COUNT(*) FROM comments c WHERE b.bno = c.bno) "reviewCnt",
+				(SELECT COUNT(*) FROM like_places lp WHERE member_id = #{memberId} AND lp.place_id = p.place_id) "isLiked",
+				(SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "likedCnt",
+				bl.block_idx "blockIdx", bl.start_time "startTime", bl.end_time "endTime",
+				bl.color_idx "colorIdx", c.color_code "colorCode",
+				p.name "name"
+			FROM boards b
+				LEFT OUTER JOIN blocks bl ON b.bno=bl.bno
+				LEFT OUTER JOIN places p ON bl.place_id=p.place_id
+				INNER JOIN colors c ON bl.color_idx = c.color_idx
+			WHERE b.bno = #{bno}
+		]]>
+	</select>
+	<insert id="insertOtherBoard">
+		<![CDATA[
+			INSERT INTO boards(bno, writer_id, title, final_date, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
+				SELECT SEQ_BOARD.NEXTVAL, #{memberId}, '내 게시글', SYSDATE, #{startPlaceId},
+				arr_place_id, TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{startDate}, 'YYYY-MM-DD') + (end_date - start_date),
+				transport_cost, food_cost, room_cost, etc_cost, arr_place_city
+			FROM boards
+			WHERE bno = #{bno}
+		]]>
+	</insert>
+	<select id="selectBoardsLatestOrder" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT DISTINCT bo.bno "bno", bo.title "title",
+							   EXTRACT(YEAR FROM bo.start_date) "year",
+							   EXTRACT(MONTH FROM bo.start_date) "month",
+							   SYSDATE - bo.final_date "elapsedTime",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno=bo.bno) "likedCnt",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = bo.bno) "isLiked"
+						FROM boards bo INNER JOIN blocks bl ON bo.bno = bl.bno
+							 INNER JOIN places p ON bl.place_id = p.place_id
+						ORDER BY "elapsedTime") b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<select id="selectBoardsLatestOrderLogoutVer" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT DISTINCT bo.bno "bno", bo.title "title",
+							   EXTRACT(YEAR FROM bo.start_date) "year",
+							   EXTRACT(MONTH FROM bo.start_date) "month",
+							   SYSDATE - bo.final_date "elapsedTime",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno=bo.bno) "likedCnt"
+						FROM boards bo INNER JOIN blocks bl ON bo.bno = bl.bno
+							 INNER JOIN places p ON bl.place_id = p.place_id
+						ORDER BY "elapsedTime") b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<select id="selectBoardsKeyOrder" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT DISTINCT bo.bno "bno", bo.title "title",
+							   EXTRACT(YEAR FROM bo.start_date) "year",
+							   EXTRACT(MONTH FROM bo.start_date) "month",
+							   SYSDATE - bo.final_date "elapsedTime",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno=bo.bno) "likedCnt",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = bo.bno) "isLiked"
+						FROM boards bo INNER JOIN blocks bl ON bo.bno = bl.bno
+							 INNER JOIN places p ON bl.place_id = p.place_id
+						WHERE ((bo.title LIKE #{input} ) OR (p.address LIKE #{input} ))
+						ORDER BY 'likedCnt' DESC) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<select id="selectBoardsKeyOrderLogoutVer" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT rownum rnum, b1.*
+				  FROM (SELECT DISTINCT bo.bno "bno", bo.title "title",
+							   EXTRACT(YEAR FROM bo.start_date) "year",
+							   EXTRACT(MONTH FROM bo.start_date) "month",
+							   SYSDATE - bo.final_date "elapsedTime",
+							   (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno=bo.bno) "likedCnt"
+						FROM boards bo INNER JOIN blocks bl ON bo.bno = bl.bno
+							 INNER JOIN places p ON bl.place_id = p.place_id
+						WHERE ((bo.title LIKE #{input} ) OR (p.address LIKE #{input} ))
+						ORDER BY 'likedCnt' DESC) b1) b2
+			WHERE b2.rnum BETWEEN #{start} AND #{end}
+		]]>
+	</select>
+	<select id="selectMapInfo" resultType="java.util.Map">
+		<![CDATA[
+			SELECT pl.lat "lat", pl.lng "lng" FROM places pl INNER JOIN blocks bl ON bl.place_id=pl.place_id WHERE bno=#{bno}
+		]]>
+	</select>
+	<update id="updateAllCost">
+		<![CDATA[
+			UPDATE boards SET max_cost = #{maxCost}, transport_cost = #{transportCost}, food_cost = #{foodCost}, room_cost = #{roomCost}, etc_cost = #{etcCost}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateTransportCost">
+		<![CDATA[
+			UPDATE boards SET transport_cost = #{transportCost}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateFoodCost">
+		<![CDATA[
+			UPDATE boards SET food_cost = #{foodCost}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateRoomCost">
+		<![CDATA[
+			UPDATE boards SET room_cost = #{roomCost}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<update id="updateEtcCost">
+		<![CDATA[
+			UPDATE boards SET etc_cost = #{etcCost}, final_date = SYSDATE WHERE bno = #{bno}
+		]]>
+	</update>
+	<select id="selectRecommendedPlace" resultType="java.util.Map">
+		<![CDATA[
+			SELECT r.spot "spot", p.lat "lat", p.lng "lng"
+			FROM recommended_places r INNER JOIN places p ON r.place_id = p.place_id
+			ORDER BY num
+		]]>
+	</select>
+	<delete id="deleteBoard">
+		<![CDATA[
+			DELETE FROM boards WHERE bno = #{bno}
+		]]>
+	</delete>
 </mapper>
