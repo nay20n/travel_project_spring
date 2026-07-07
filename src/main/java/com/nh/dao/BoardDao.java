@@ -5,20 +5,6 @@ import java.util.Map;
 
 public interface BoardDao {
 	/**
-	 * 장소이미지 조회 (리스트가 비어있을 수 있음)
-	 * @param placeId
-	 * @return 장소이미지 리스트
-	 */
-	List<String> getPlaceImages(String placeId);
-	
-	/**
-	 * 도착 정보 조회
-	 * @param bno
-	 * @return arrPlaceId
-	 */
-	String getArrPlaceIdByBno(int bno);
-	
-	/**
 	 * 게시글 삽입
 	 * @param map1(writerId, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity)
 	 */
@@ -105,7 +91,7 @@ public interface BoardDao {
 	 * @param map1(memberId(선택적), start(시작번호), end(끝번호))
 	 * @return 최신 게시글 map 리스트(bno, title, year, month, elapsedTime, likedCnt, isLiked)
 	 */
-	List<Map<String, Object>> getBoardsLatestOrder(Map<String, Object> map1);
+	List<Map<String, Object>> getBoardsLastestOrder(Map<String, Object> map1);
 	
 	/**
 	 * 검색어 게시글 조회(지도 그리기 때문에 장소가 들어간 블록이 있는 게시글만 조회됨/위도 경도는 페이징 처리를 위해 따로 조회)
@@ -129,7 +115,7 @@ public interface BoardDao {
 	
 	/**
 	 * 추천 여행지 조회
-	 * @return 추천 여행지 리스트(spot(이름), lat, lng)
+	 * @return 추천 여행지 리스트(spot(이름), arrPlaceId)
 	 */
 	List<Map<String, Object>> viewRecommendedPlace();
 	
