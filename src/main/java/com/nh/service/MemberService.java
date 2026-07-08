@@ -1,5 +1,8 @@
 package com.nh.service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface MemberService {
 	/**
 	 * 프로필 이미지 조회
@@ -64,4 +67,35 @@ public interface MemberService {
 	 * @param pw : 새로운 비밀번호
 	 */
 	void modifyPw(int memberId, String pw);
+	
+	/**
+	 * 내 게시글들 조회
+	 * @param memberId : 로그인한 사람의 아이디
+	 * @param page : 현재 페이지 번호
+	 * @return 내 일정들
+	 */
+	List<Map<String,Object>> getMyBoard(int memberId, int page);
+	
+	/**
+	 * 내가 찜한 일정들 조회
+	 * @param memberId : 로그인한 사람의 아이디
+	 * @param page : 현재 페이지 번호
+	 * @return 내가 찜한 일정들
+	 */
+	List<Map<String,Object>> getLikedBoard(int memberId, int page);
+	
+	/**
+	 * 내가 댓글 단 일정 조회
+	 * @param memberId : 로그인 한 사람의 아이디 
+	 * @param page : 현재 페이지 번호
+	 * @return 내가 댓글 단 일정들 
+	 */
+	List<Map<String,Object>> getCommentBoard(int memberId, int page);
+	
+	/**
+	 * 프로필 & 활동한 내용 카운트 조회
+	 * @param memberId : 로그인 한 사람의 아이디
+	 * @return 사용자의 정보 + 활동 내역 카운트
+	 */
+	Map<String,Object> getMemberProfile(int memberId);
 }

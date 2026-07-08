@@ -60,26 +60,80 @@
 			WHERE member_id = #{memberId}
 		]]>
 	</update>
-	<select id="getMyBoard" resultType="java.util.List">
+	<select id="getMyBoard" resultType="java.util.Map">
 		<![CDATA[
 			SELECT *
 			FROM(
 			     SELECT ROWNUM rnum, b1.*
 			     FROM (
 			            SELECT 
-			                b.bno "게시글 번호", 
-			                TRUNC(SYSDATE-start_date) "디데이", 
-			                title "일정 이름", 
-			                nick_name "작성자",
-			                (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = b.bno)"찜 유무",
-			                (SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "찜 개수"
+			                b.bno "bno", 
+			                TRUNC(SYSDATE-start_date) "dDay", 
+			                title "title", 
+			                nick_name "nickName",
+			                (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = b.bno) "isLiked",
+			                (SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "cntLike"
 			            FROM members m
 			                INNER JOIN boards b ON m.member_id = b.writer_id
 			            WHERE b.writer_id = #{memberId} OR b.share_user_id = #{memberId}
 			            ORDER BY final_date DESC
 			            ) b1
 			    )
-			WHERE rnum >= #{startBno} AND rnum <= #{endBno};
+			WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	<select id="getLikedBoard" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM(
+			    SELECT ROWNUM rnum, b1.*
+			    FROM (
+			          SELECT  b.bno "bno", 
+				          title "title", 
+				          nick_name "nickName" , 
+				          (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = b.bno)"isLiked", 
+				          (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno = b.bno) "cntLike" 
+			          FROM like_boards lb 
+			            INNER JOIN boards b ON lb.bno = b.bno 
+			            INNER JOIN members m ON b.writer_id = m.member_id 
+			          WHERE lb.member_id = #{memberId}
+			          ORDER BY like_time DESC
+			        ) b1
+			    )
+			WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	<select id="getCommentBoard" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM(
+			    SELECT ROWNUM rnum, b1.*
+			    FROM(
+			        SELECT 
+			            b.bno "bno",
+			            title "title", 
+			            nick_name "nickName", 
+			            (SELECT COUNT(*) FROM like_boards lb WHERE lb.member_id = #{memberId} AND lb.bno = b.bno) "isLiked", 
+			            (SELECT COUNT(*) FROM like_boards lb WHERE lb.bno = b.bno) "cntLike" 
+			        FROM members m 
+			            INNER JOIN boards b ON m.member_id = b.writer_id 
+			        WHERE (SELECT MAX(c.final_date) FROM comments c WHERE c.bno = b.bno  AND writer_id = #{memberId}) IS NOT NULL 
+			        ORDER BY (SELECT MAX(c.final_date) FROM comments c WHERE c.bno = b.bno  AND writer_id = #{memberId})
+			    )b1
+			)
+			WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	<select id="getMemberProfile" resultType="java.util.Map">
+		<![CDATA[
+			SELECT 
+			    profile_img "profileImg",
+			    nick_name "nickName", 
+			    (SELECT COUNT(*) FROM boards WHERE writer_id = #{memberId} OR share_user_id = #{memberId}) "cntBoard", 
+			    (SELECT COUNT(*) FROM like_boards WHERE member_id = #{memberId}) "cntLike", 
+			    (SELECT COUNT(*) FROM comments WHERE writer_id = #{memberId}) "cntComment" 
+			FROM members 
+			WHERE member_id = #{memberId} 
 		]]>
 	</select>
 </mapper>
