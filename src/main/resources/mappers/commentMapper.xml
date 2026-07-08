@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommentMapper">
+	<select id="CountComment" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM boards b 
+				INNER JOIN comments c ON b.bno = c.bno 
+			WHERE b.bno = #{bno}
+		]]>
+	</select>
+	<select id="getComment" resultType="java.util.Map">
+		<![CDATA[
+			SELECT *
+			FROM(
+			    SELECT ROWNUM rnum, b1.*
+			    FROM(
+			        SELECT 
+			            profile_img "proFile", 
+			            member_id "memberId" ,
+			            nick_name "nickName", 
+			            content "content", 
+			            final_date "finalDate"
+			        FROM comments c 
+			            INNER JOIN members m ON c.writer_id = m.member_id WHERE bno = #{bno}
+			    )b1
+			)
+			WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	<delete id="deleteComment">
+		<![CDATA[
+			DELETE 
+			FROM (
+				SELECT *  
+			    FROM comments c INNER JOIN boards b ON c.bno = b.bno 
+			    WHERE (c.writer_id = #{id} OR b.writer_id = #{id})
+			    )  
+			WHERE cno = #{cno}
+		]]>
+	</delete>
+	<insert id="insertComment">
+		<![CDATA[
+			INSERT INTO comments(cno, bno, writer_id, content, final_date)
+			VALUES(seq_comment.nextval, #{bno}, #{writerId}, #{content}, SYSDATE) 
+		]]>
+	</insert>
+	<update id="modifyComment">
+		<![CDATA[
+			UPDATE comments SET content=#{content} WHERE cno=#{cno}
+		]]>
+	</update>
+</mapper>

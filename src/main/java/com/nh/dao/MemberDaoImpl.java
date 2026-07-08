@@ -81,16 +81,41 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public List<Map<String, Object>> getMyBoard(int memberId, int startBno, int endBno) {
+	public List<Map<String, Object>> getMyBoard(int memberId, int start, int end) {
 		
 		//한번에 보여줄 bno들 계산
-		//pagnation
 		
 		Map<String, Integer> map = new HashMap<>();
 		map.put("memberId", memberId);
-		map.put("startBno",startBno);
-		map.put("endBno",endBno);
+		map.put("start",start);
+		map.put("end",end);
 		
 		return sqlSession.selectList("memberMapper.getMyBoard", map);
 	}
+
+	@Override
+	public List<Map<String, Object>> getLikedBoard(int memberId, int start, int end) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("start",start);
+		map.put("end",end);
+		
+		return sqlSession.selectList("memberMapper.getLikedBoard",map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCommentBoard(int memberId, int start, int end) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("start",start);
+		map.put("end",end);
+		
+		return sqlSession.selectList("memberMapper.getLikedBoard", map);
+	}
+
+	@Override
+	public Map<String, Object> getMemberProfile(int memberId) {
+		return sqlSession.selectOne("memberMapper.getMemberProfile", memberId);
+	}
+	
 }

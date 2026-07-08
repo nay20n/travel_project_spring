@@ -71,10 +71,34 @@ public interface MemberDao {
 	/**
 	 * 내 게시글들 조회
 	 * @param memberId : 로그인한 사람의 아이디
-	 * @param page : 현재 페이지 번호
+	 * @param start: 보이는 게시글 시작
+	 * @param end : 보이는 게시글 마지막
 	 * @return 내 일정들
 	 */
-	List<Map<String,Object>> getMyBoard(int memberId, int startBno, int endBno);
+	List<Map<String,Object>> getMyBoard(int memberId, int start, int end);
 	
+	/**
+	 * 내가 찜한 일정들 조회
+	 * @param memberId : 로그인 한 사람의 아이디
+	 * @param start: 보이는 게시글 시작
+	 * @param end : 보이는 게시글 마지막
+	 * @return 내가 찜한 일정들
+	 */
+	List<Map<String,Object>> getLikedBoard(int memberId, int start, int end);
 	
+	/**
+	 * 내가 댓글 단 일정 조회
+	 * @param memberId : 로그인 한 사람의 아이디
+	 * @param start: 보이는 게시글 시작
+	 * @param end : 보이는 게시글 마지막
+	 * @return 내가 댓글단 일정들
+	 */
+	List<Map<String,Object>> getCommentBoard(int memberId, int start, int end);
+
+	/**
+	 * 프로필 & 활동한 내용 카운트 조회
+	 * @param memberId : 로그인 한 사람의 아이디
+	 * @return 사용자의 정보 + 활동 내역 카운트
+	 */
+	Map<String,Object> getMemberProfile(int memberId);
 }
