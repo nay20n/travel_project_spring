@@ -20,7 +20,9 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getComment(int bno, int start, int end) {
+	public List<Map<String, Object>> getComment(int bno, int page) {
+		int end = page * 10;
+		int start = end - 9;
 		return cDao.getComment(bno, start, end);
 	}
 

@@ -1,0 +1,144 @@
+.bd{border: 1px solid red;}
+.bs{box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;}
+.fl{float:left;}
+.fr{float:right;}
+.borderWraning { border-color: red !important;}
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #E3D4FF;
+	border-radius: 10px;
+	background-clip: padding-box;
+	border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+	background-color: rgba(0, 0, 0, 0);
+	border-radius: 10px;
+}
+* {box-sizing: border-box;}
+body {
+   font-family: Pretendard, "Apple SD Gothic Neo";
+   background-color: #F8F5FD;
+}
+body > *:not(:first-child) {margin: 80px auto 0;}
+/************헤더***********/
+#header {
+	margin:auto;
+	background-color: white;
+	width: 850px; /* 필요시사이즈조절 */
+	height: 72px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#header > div { /* 가방, 텍스트 */
+	cursor: pointer;
+	margin: auto 15px;
+}
+#header > div:nth-child(1) > svg {
+	color: #925DE8;
+	height: 24px;
+}
+#header > div:nth-child(1) > a { /*트래블플레너*/
+	color: #925DE8;
+	font-size: 24px;
+	font-weight: 500;
+}
+/*메인*/
+#main {
+	position: relative;
+	width: 850px;
+	height: 565px;
+	background-color: white;
+	border-radius: 5px;
+	padding: 28px 40px;
+	
+}
+#main * {
+	margin:auto;
+}
+#main > svg:nth-child(1) {
+	display:block;
+	width: 70px;
+	margin-bottom: 20px;
+	color: #925DE8;
+	padding: 10px;
+	border-radius: 30px;
+	background-color: #F8F5FD;
+	border: 1px solid rgb(210, 210, 210);	
+}
+#main > h3 { /*비밀번호재설정*/
+	letter-spacing: -0.15px;
+	color: rgb(38, 55, 71);
+	text-align:center;
+}
+
+#pwInput { /*div*/
+	width: 423px;
+	margin-top: 30px;
+	padding: 5px;
+}
+#pwInput > div {
+	margin-bottom: 35px;
+}
+#pwInput > div > div:nth-child(1) { /*비밀번호, 비밀번호 확인*/
+	margin-bottom: 17px;
+	font-size: 13px;
+	font-weight: 700;
+	color: rgb(0,0,0);
+}
+#pwInput > div > div:nth-child(1)::after { /* * */
+	color: red;
+	content: "*";
+}
+#pwInput > div:nth-child(1) > div:nth-child(3) { /*비밀번호 (영문자, 숫자 특수문자 포함 최소 8~20자)*/
+	margin-left: 4px;
+	margin-top: 7px;
+	font-size: 12px;
+	line-height: 12px;
+	color: #98a8b9;
+}
+.pwWarning {color: rgb(255, 0, 0) !important;}
+#pwInput > div:nth-child(2) > div:nth-child(3) { /*입력하신 비밀번호와 다릅니다.*/
+	visibility: hidden;
+	margin-left: 4px;
+	margin-top: 7px;
+	font-size: 12px;
+	line-height: 12px;
+	color: rgb(255, 0, 0);
+}
+.show {visibility: visible !important;}
+#pwInput > div > input { /*인풋들*/
+	padding: 14px;
+	border-radius: 4px;
+	border: 1px solid rgb(210, 210, 210);
+	width: 400px;
+	height: 46px;
+	font-size: 16px;
+	font-weight: 400;
+	background-color: #fbfbfd;
+}
+#main > div:last-child { /*버튼 담고 있는 div*/
+	width: 510px;
+	height: 50px;
+	margin-top: 38px;
+}
+#main > div:last-child > button {
+	margin: 0px 5px;
+	border: none;
+	display:block;
+	width: 100px;
+	height: 48px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	color: white;
+	background-color: #925DE8;
+}
+#main > div:last-child > button:hover {
+	opacity: 0.3;
+}

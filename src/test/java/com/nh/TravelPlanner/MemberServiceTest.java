@@ -227,4 +227,21 @@ public class MemberServiceTest {
 		System.out.println(map.get("nickName") + " / " + map.get("cntBoard"));
 	}
 	
+	//마이페이지 첫 호출
+	@Test
+	public void testGetMyPage() {
+		// 1) Given
+		int memberId = 2;
+		
+		// 2) When
+		Map<String,Object> map = mSvc.getMyPage(memberId);
+		
+		// 3) Then : map이 null이 아니면 됨.
+		assertNotNull("map이 null이면 안됨.", map);
+		System.out.println(map.get("getMemberProfile"));
+		System.out.println("내가 쓴 일정 : " + map.get("getMyBoard"));
+		System.out.println("내가찜한 일정  : " + map.get("getLikedBoard"));
+		System.out.println("내가 댓글 쓴 일정 : " + map.get("getCommentBoard"));
+		
+	}
 }

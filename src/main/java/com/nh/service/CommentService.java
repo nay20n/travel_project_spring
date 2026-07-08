@@ -18,7 +18,7 @@ public interface CommentService {
 	 * @param page : 페이지 번호
 	 * @return 댓글 목록 리스트
 	 */
-	List<Map<String, Object>> getComment(int bno, int start, int end);
+	List<Map<String, Object>> getComment(int bno, int page);
 	
 	/**
 	 * 게시글 댓글 삭제

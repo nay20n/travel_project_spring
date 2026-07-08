@@ -1,5 +1,6 @@
 package com.nh.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +84,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Map<String, Object> getMemberProfile(int memberId) {
 		return mDao.getMemberProfile(memberId);
+	}
+
+	@Override
+	public Map<String,Object> getMyPage(int memberId) {
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("getMemberProfile", mDao.getMemberProfile(memberId));
+		map.put("getMyBoard", mDao.getMyBoard(memberId, 1, 10));
+		map.put("getLikedBoard", mDao.getLikedBoard(memberId, 1, 10));
+		map.put("getCommentBoard", mDao.getCommentBoard(memberId, 1, 10));
+		
+		return map;
 	}
 	
 }
