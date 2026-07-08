@@ -1,31 +1,17 @@
-package com.nh.dao;
+package com.nh.service;
 
 import java.util.List;
 import java.util.Map;
 
-public interface PlaceDao {
+public interface PlaceService {
 	/**
-	 * 장소이미지 조회 (리스트가 비어있을 수 있음)
-	 * @param placeId
-	 * @return 장소이미지 리스트
-	 */
-	List<String> getPlaceImages(String placeId);
-	
-	/**
-	 * 도착 정보 조회
-	 * @param bno
-	 * @return arrPlaceId
-	 */
-	String getArrPlaceIdByBno(int bno);
-	
-	/**
-	 * 장소정보 조회 (이미지 조회가 분리되어 있으므로 꼭 넣어줘야함)
+	 * 장소 정보 조회(장소 정보창 팝업)
 	 * @param placeId
 	 * @param memberId
-	 * @return 장소정보 name, avgRating, category, reviewCnt, address, businessHours, websiteUrl, isLiked, rating0~5
+	 * @return name, avgRating, category, reviewCnt, address, businessHours, websiteUrl, isLiked, images 리스트, rating0~5
 	 */
-	Map<String, Object> viewPlaceDetails(String placeId, int memberId);
-
+	Map<String, Object> getPlaceDetail(String placeId, int memberId);
+	
 	/**
 	 * 찜한장소 삽입
 	 * @param memberId
@@ -43,11 +29,10 @@ public interface PlaceDao {
 	/**
 	 * 장소 댓글 목록 조회
 	 * @param placeId
-	 * @param start 시작번호
-	 * @param end 끝번호
+	 * @param page
 	 * @return 댓글 정보들 리스트(reviewIdx, content, rating, finalDate, image, nickName, profileImg)
 	 */
-	List<Map<String,Object>> getReviews(String placeId, int start, int end);
+	List<Map<String,Object>> getReviews(String placeId, int page);
 	
 	/**
 	 * 장소 댓글 삽입
@@ -75,9 +60,9 @@ public interface PlaceDao {
 	 * @param memberId
 	 */
 	void deleteReview(int reviewIdx, int memberId);
-
+	
 	/**
-	 * DB에 장소 삽입(Place API)
+	 * DB에 없는 장소 삽입(Place API)
 	 * @param placeId
 	 * @param name
 	 * @param category
@@ -88,11 +73,4 @@ public interface PlaceDao {
 	 * @param businessHours(null 가능)
 	 */
 	void addPlace(String placeId, String name, String category, String address, double lat, double lng, String websiteUrl, String businessHours);
-
-	/**
-	 * DB에 있는 장소인지 확인
-	 * @param placeId
-	 * @return true=존재함
-	 */
-	boolean isExistPlace(String placeId);
 }

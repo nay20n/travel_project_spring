@@ -14,54 +14,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nh.dao.PlaceDao;
+import com.nh.service.PlaceService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {
 	"file:src/main/webapp/WEB-INF/spring/root-context.xml"
 })
-public class PlaceDaoTest {
+public class PlaceServiceTest {
 	@Autowired
-	PlaceDao pDao;
-	
-	// 도착 정보 조회 테스트
-	@Test
-	public void testGetArrPlaceIdByBno() {
-		// 1) Given
-		int bno = 1;
-		
-		// 2) When
-		String arrPlaceId = pDao.getArrPlaceIdByBno(bno);
-		
-		// 3) Then
-		assertNotNull("도착정보는 널이 아님", arrPlaceId);
-		
-		System.out.println(arrPlaceId);
-	}
-	
-	// 장소이미지 조회 테스트
-	@Test
-	public void testGetPlaceImages() {
-		// 1) Given
-		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
-		
-		// 2) When
-		List<String> listimages = pDao.getPlaceImages(placeId);
-		
-		// 3) Then
-		assertNotNull("리스트는 널이 아님", listimages);
-		
-		System.out.println(listimages);
-	}
+	PlaceService pSvc;
 	
 	// 장소 정보 조회 테스트
 	@Test
-	public void testViewPlaceDetails() {
+	public void testGetPlaceDetails() {
 		// 1) Given
 		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
 		int memberId = 1;
 		
 		// 2) When
-		Map<String, Object> listDetail = pDao.viewPlaceDetails(placeId, memberId);
+		Map<String, Object> listDetail = pSvc.getPlaceDetail(placeId, memberId);
 		
 		// 3) Then
 		assertNotNull("리스트는 널이 아님", listDetail);
@@ -78,7 +49,7 @@ public class PlaceDaoTest {
 		int memberId = 3;
 		
 		// 2) When
-		pDao.addLikedPlace(memberId, placeId);
+		pSvc.addLikedPlace(memberId, placeId);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
@@ -92,7 +63,7 @@ public class PlaceDaoTest {
 		int memberId = 1;
 		
 		// 2) When
-		pDao.deleteLikedPlace(memberId, placeId);
+		pSvc.deleteLikedPlace(memberId, placeId);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
@@ -102,11 +73,10 @@ public class PlaceDaoTest {
 	public void testViewReviews() {
 		// 1) Given
 		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
-		int start = 1;
-		int end = 3;
+		int page = 1;
 		
 		// 2) When
-		List<Map<String, Object>> listReview = pDao.getReviews(placeId, start, end);
+		List<Map<String, Object>> listReview = pSvc.getReviews(placeId, page);
 		
 		// 3) Then
 		assertNotNull("리스트는 널이 아님", listReview);
@@ -126,7 +96,7 @@ public class PlaceDaoTest {
 		String image = null;
 		
 		// 2) When
-		pDao.addReview(memberId, placeId, content, rating, image);
+		pSvc.addReview(memberId, placeId, content, rating, image);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
@@ -143,7 +113,7 @@ public class PlaceDaoTest {
 		String image = "수정";
 		
 		// 2) When
-		pDao.modifyReview(reviewIdx, memberId, content, rating, image);
+		pSvc.modifyReview(reviewIdx, memberId, content, rating, image);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
@@ -157,7 +127,7 @@ public class PlaceDaoTest {
 		int memberId = 1;
 		
 		// 2) When
-		pDao.deleteReview(reviewIdx, memberId);
+		pSvc.deleteReview(reviewIdx, memberId);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
@@ -177,22 +147,8 @@ public class PlaceDaoTest {
 		String businessHours = "테스트 영업시간";
 		
 		// 2) When
-		pDao.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours);
+		pSvc.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours);
 		
 		// 3) Then : sql 오류가 없다면 성공
-	}
-	
-	// 장소 확인 테스트
-	@Test
-	@Transactional
-	public void testIsExistPlace() {
-		// 1) Given
-		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
-		
-		// 2) When
-		boolean bol = pDao.isExistPlace(placeId);
-		
-		// 3) Then
-		assertTrue("로우앤스윗은 DB에 존재해야함", bol);
 	}
 }

@@ -84,7 +84,7 @@ public interface BoardDao {
 	 * 타인의 일정 게시글 복제
 	 * @param map1(memberId, startPlaceId, startDate, bno)
 	 */
-	void copyBoard(Map<String, Object> map1);
+	int copyBoard(Map<String, Object> map1);
 
 	/**
 	 * 최신 게시글 조회(지도 그리기 때문에 장소가 들어간 블록이 있는 게시글만 조회됨/위도 경도는 페이징 처리를 위해 따로 조회)
@@ -124,4 +124,10 @@ public interface BoardDao {
 	 * @param bno
 	 */
 	void deleteBoard(int bno);
+	
+	/**
+	 * 글 삭제로 인한 찜한 게시글 삭제
+	 * @param bno
+	 */
+	void deleteLikeBoardByBno(int bno);
 }

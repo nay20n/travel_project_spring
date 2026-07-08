@@ -86,8 +86,9 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 타인의 일정 게시글 복제
 	@Override
-	public void copyBoard(Map<String, Object> map1) {
+	public int copyBoard(Map<String, Object> map1) {
 		sqlSession.insert("boardMapper.insertOtherBoard", map1);
+		return (int)map1.get("newBno");
 	}
 	
 	// 최신 게시글 조회
@@ -139,5 +140,11 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public void deleteBoard(int bno) {
 		sqlSession.delete("boardMapper.deleteBoard", bno);
+	}
+
+	// 찜한 게시글 글번호 모두 삭제
+	@Override
+	public void deleteLikeBoardByBno(int bno) {
+		sqlSession.delete("boardMapper.deleteLikeBoardByBno", bno);
 	}
 }

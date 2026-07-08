@@ -102,7 +102,7 @@ public interface BoardService {
 	List<Map<String, Object>> getBoardInfo(int memberId, int bno);
 	
 	/**
-	 * 타인의 일정 게시글 복제
+	 * 타인의 일정 게시글 복제 (블럭도 같이 복제)
 	 * @param memberId
 	 * @param startPlaceId
 	 * @param startDate
@@ -145,8 +145,10 @@ public interface BoardService {
 	List<Map<String, Object>> viewRecommendedPlace();
 
 	/**
-	 * 게시글 삭제(블록이 있다면 삭제할 수 없음)
+	 * 게시글 삭제(블럭, 찜도 같이 삭제됨)
+	 * 다른 삭제들도 필요해서 오류 상태
 	 * @param bno
+	 * @param memberId
 	 */
-	void deleteBoard(int bno);
+	void deleteBoard(int bno, int memberId);
 }

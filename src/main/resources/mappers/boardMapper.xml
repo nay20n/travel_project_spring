@@ -125,12 +125,15 @@
 	<insert id="insertOtherBoard">
 		<![CDATA[
 			INSERT INTO boards(bno, writer_id, title, final_date, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
-				SELECT SEQ_BOARD.NEXTVAL, #{memberId}, '내 게시글', SYSDATE, #{startPlaceId},
-				arr_place_id, TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{startDate}, 'YYYY-MM-DD') + (end_date - start_date),
-				transport_cost, food_cost, room_cost, etc_cost, arr_place_city
+			SELECT seq_BOARD.NEXTVAL, #{memberId}, '내 게시글', SYSDATE, #{startPlaceId},
+				   arr_place_id, TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{startDate}, 'YYYY-MM-DD') + (end_date - start_date),
+				   transport_cost, food_cost, room_cost, etc_cost, arr_place_city
 			FROM boards
 			WHERE bno = #{bno}
 		]]>
+		<selectKey keyProperty="newBno" resultType="int" order="AFTER">
+        	SELECT seq_BOARD.CURRVAL FROM dual
+    	</selectKey>
 	</insert>
 	<select id="selectBoardsLastestOrder" resultType="java.util.Map">
 		<![CDATA[
@@ -236,6 +239,11 @@
 	<delete id="deleteBoard">
 		<![CDATA[
 			DELETE FROM boards WHERE bno = #{bno}
+		]]>
+	</delete>
+	<delete id="deleteLikeBoardByBno">
+		<![CDATA[
+			DELETE FROM like_boards WHERE bno = #{bno}
 		]]>
 	</delete>
 </mapper>

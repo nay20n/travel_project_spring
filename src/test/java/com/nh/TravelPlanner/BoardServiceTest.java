@@ -215,7 +215,7 @@ public class BoardServiceTest {
 		}
 	}
 	
-	// 타인의 일절 게시글 복제 테스트
+	// 타인의 일정 게시글 복제 테스트
 	@Test
 	@Transactional
 	public void testCopyBoard() {
@@ -303,14 +303,16 @@ public class BoardServiceTest {
 	}
 	
 	// 게시글 삭제 테스트
+	// 다른 삭제들이 필요해서 오류
 	@Test
 	@Transactional
 	public void testDeleteBoard() {
 		// 1) Given
-		int bno = 155; // 블럭 없는 게시글이어야해서 일단 있는 거 넣었어요. 155 없으면 에러날 거예요.
+		int bno = 1;
+		int memberId = 1;
 		
 		// 2) When
-		bSvc.deleteBoard(bno);
+		bSvc.deleteBoard(bno, memberId);
 		
 		// 3) Then
 	}
