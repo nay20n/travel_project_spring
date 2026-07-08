@@ -8,8 +8,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nh.dao.AiBlockDao;
 import com.nh.dao.BlockDao;
 import com.nh.dao.BoardDao;
+import com.nh.dao.CommentDao;
 import com.nh.dao.PlaceDao;
 
 @Service
@@ -20,6 +22,10 @@ public class BoardServiceImpl implements BoardService {
 	PlaceDao pDao;
 	@Autowired
 	BlockDao blDao;
+	@Autowired
+	AiBlockDao aDao;
+	@Autowired
+	CommentDao cDao;
 	
 	// 게시글 삽입
 	@Override
@@ -281,13 +287,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	// 게시글 삭제
-	// * 다른 삭제들도 필요해서 오류 상태
 	@Override
 	public void deleteBoard(int bno, int memberId) {
 		// 찜 삭제
 		bDao.deleteLikeBoardByBno(bno);
+		// ai 블럭 삭제
+		aDao.deleteAiBlock(bno);
 		// 블럭 삭제
 		blDao.deleteBlock(bno, memberId);
+		// 댓글 삭제
+		cDao.deleteCommentByBno(bno);
 		// 게시글 삭제
 		bDao.deleteBoard(bno);
 	}

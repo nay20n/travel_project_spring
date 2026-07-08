@@ -120,7 +120,7 @@ public interface BoardDao {
 	List<Map<String, Object>> viewRecommendedPlace();
 	
 	/**
-	 * 게시글 삭제(블록이 있다면 삭제할 수 없음)
+	 * 게시글 삭제(FK 연결되어 있을 시 삭제 불가)
 	 * @param bno
 	 */
 	void deleteBoard(int bno);
