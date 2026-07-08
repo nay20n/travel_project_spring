@@ -42,12 +42,11 @@ public class CommentServiceTest {
 	@Test
 	public void testGetComment() {
 		// 1) Given
-		int bno = 4;
-		int start = 1;
-		int end = 2;
+		int bno = 1;
+		int page = 1;
 		
 		// 2) When
-		List<Map<String,Object>> list = cSvc.getComment(bno, start, end);
+		List<Map<String,Object>> list = cSvc.getComment(bno, page);
 		
 		// 3) Then : list가 null이면 안됨. 빈곳이라도 가르켜야됨.
 		assertNotNull("list가 null이면 안됨.", list);
