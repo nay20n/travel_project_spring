@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AiBlockMapper">
+	<select id="getAiBlock" resultType="java.util.Map">
+		<![CDATA[
+			SELECT
+				ab.ai_block_idx "idx", 
+				ab.bno "bno", 
+				ab.place_id "placeId", 
+				ab.ai_start_time "startTime", 
+				ab.ai_end_time "endTime", 
+				ab.ai_travel_time "travelTime", 
+				p.name "placeName", 
+				p.lat "lat", 
+				p.lng "lng" 
+			FROM ai_blocks ab 
+			    INNER JOIN places p ON p.place_id = ab.place_id 
+			WHERE bno = #{bno}
+			ORDER BY ai_start_time
+		]]>
+	</select>
+	<delete id="deleteAiBlock">
+		<![CDATA[
+			DELETE FROM ai_blocks WHERE bno= #{bno}
+		]]>
+	</delete>
+	<insert id="insertAiBlock">
+		<![CDATA[
+			INSERT INTO ai_blocks(ai_block_idx, bno, place_id, ai_start_time, ai_end_time, ai_travel_time)
+			VALUES(SEQ_AI_BLOCK.nextval, #{bno}, #{placeId}, TO_DATE(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{endTime}, 'YYYY-MM-DD HH24:MI:SS'), #{travelTime})  
+		]]>
+	</insert>
+	<insert id="copyAiBlock">
+		<![CDATA[
+			INSERT INTO blocks(block_idx, bno, place_id, start_time, end_time, checked_ai, travel_time, color_idx) 
+				SELECT SEQ_BLOCK.nextval, #{bno}, place_id, ai_start_time, ai_end_time, 0, ai_travel_time, 1 
+				FROM ai_blocks 
+				WHERE bno = #{bno} 
+		]]>
+	</insert>
+</mapper>

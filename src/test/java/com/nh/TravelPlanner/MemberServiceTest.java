@@ -3,6 +3,9 @@ package com.nh.TravelPlanner;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,4 +159,72 @@ public class MemberServiceTest {
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
+	
+	// 내 게시글 조회 (마이페이지)
+	@Test
+	public void testGetMyBoard() {
+		// 1) Given
+		int memberId = 1;
+		int page = 1;
+		
+		// 2) When
+		List<Map<String, Object>> list = mSvc.getMyBoard(memberId, page);
+		//System.out.println(list.size());
+		// 3) Then : list가 NULL이면 안됨.
+		assertNotNull("list가 null이면 안됨.", list);
+		
+		for(int i=0; i<=list.size()-1; i++) {
+			System.out.println(list.get(i).get("bno") + " / " + list.get(i).get("title") + " / " + list.get(i).get("nickName"));
+		}
+	}
+	
+	// 내가 찜한 일정들 조회 (마이페이지)
+	@Test
+	public void testGetLikedBoard() {
+		// 1) Given
+		int memberId = 1;
+		int page = 1;
+		
+		// 2) When
+		List<Map<String, Object>> list = mSvc.getLikedBoard(memberId, page);
+		
+		// 3) then
+		assertNotNull("list가 null이면 안됨.", list);
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i).get("bno") + " / " + list.get(i).get("title") + " / " + list.get(i).get("nickName"));
+		}
+	}
+	
+
+	// 내가 댓글단 일정들 조회 (마이페이지)
+	@Test
+	public void testGetCommentBoard() {
+		// 1) Given
+		int memberId = 2;
+		int page = 1;
+		
+		// 2) When
+		List<Map<String, Object>> list = mSvc.getCommentBoard(memberId, page);
+		
+		// 3) then
+		assertNotNull("list가 null이면 안됨.", list);
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i).get("bno") + " / " + list.get(i).get("title") + " / " + list.get(i).get("nickName"));
+		}
+	}
+	
+	// 프로필 & 활동한 내용 카운트 조회
+	@Test
+	public void testGetMemberProfile() {
+		// 1) Given
+		int memberId = 1;
+		
+		// 2) When
+		Map<String,Object> map = mSvc.getMemberProfile(memberId);
+		
+		// 3) Then
+		assertNotNull("map가 null이면 안됨.", map);
+		System.out.println(map.get("nickName") + " / " + map.get("cntBoard"));
+	}
+	
 }
