@@ -16,7 +16,7 @@ public class CommentDaoImpl implements CommentDao{
 	
 	@Override
 	public int CountComment(int bno) {
-		return sqlSession.selectOne("CommentMapper.CountComment", bno);
+		return sqlSession.selectOne("commentMapper.CountComment", bno);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class CommentDaoImpl implements CommentDao{
 		map.put("bno", bno);
 		map.put("start", start);
 		map.put("end", end);
-		return sqlSession.selectList("CommentMapper.getComment", map);
+		return sqlSession.selectList("commentMapper.getComment", map);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class CommentDaoImpl implements CommentDao{
 		Map<String, Integer> map = new HashMap<>();
 		map.put("cno", cno);
 		map.put("id", id);
-		sqlSession.delete("CommentMapper.deleteComment", map);
+		sqlSession.delete("commentMapper.deleteComment", map);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class CommentDaoImpl implements CommentDao{
 		map.put("bno", bno);
 		map.put("writerId", writerId);
 		map.put("content", content);
-		sqlSession.insert("CommentMapper.insertComment", map);
+		sqlSession.insert("commentMapper.insertComment", map);
 	}
 
 	@Override
@@ -50,7 +50,12 @@ public class CommentDaoImpl implements CommentDao{
 		Map<String, Object> map = new HashMap<>();
 		map.put("cno", cno);
 		map.put("content", content);
-		sqlSession.update("CommentMapper.modifyComment", map);
+		sqlSession.update("commentMapper.modifyComment", map);
 		
+	}
+
+	@Override
+	public void deleteCommentByBno(int bno) {
+		sqlSession.delete("commentMapper.deleteCommentByBno", bno);
 	}
 }
