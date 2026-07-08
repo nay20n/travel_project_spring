@@ -73,4 +73,9 @@
 			VALUES (#{placeId},#{name},#{category},#{address},#{lat},#{lng},#{websiteUrl})
 		]]>
 	</insert>
+	<select id="selectIsExistPlace" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM places WHERE place_id = #{placeId}
+		]]>
+	</select>
 </mapper>

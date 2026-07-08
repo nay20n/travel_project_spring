@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nh.dao.BlockDao;
 import com.nh.dao.BoardDao;
 import com.nh.dao.PlaceDao;
 
@@ -17,6 +18,8 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao bDao;
 	@Autowired
 	PlaceDao pDao;
+	@Autowired
+	BlockDao blDao;
 	
 	// 게시글 삽입
 	@Override
@@ -204,7 +207,9 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("startDate", startDate);
 		map1.put("bno", bno);
 		
-		bDao.copyBoard(map1);
+		// 블럭 복제
+		int newBno = bDao.copyBoard(map1);
+		blDao.copyBlock(newBno, bno, startDate);
 	}
 	
 	// 최신 게시글 조회
@@ -276,8 +281,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	// 게시글 삭제
+	// * 다른 삭제들도 필요해서 오류 상태
 	@Override
-	public void deleteBoard(int bno) {
+	public void deleteBoard(int bno, int memberId) {
+		// 찜 삭제
+		bDao.deleteLikeBoardByBno(bno);
+		// 블럭 삭제
+		blDao.deleteBlock(bno, memberId);
+		// 게시글 삭제
 		bDao.deleteBoard(bno);
 	}
 }

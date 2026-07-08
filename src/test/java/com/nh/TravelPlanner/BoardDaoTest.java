@@ -358,6 +358,19 @@ public class BoardDaoTest {
 		// 2) When
 		bDao.deleteBoard(bno);
 		
-		// 3) Then
+		// 3) Then : sql 오류가 없다면 성공
+	}
+	
+	// 찜한 게시글 글번호 모두 삭제 테스트
+	@Test
+	@Transactional
+	public void testDeleteLikeBoardByBno() {
+		// 1) Given
+		int bno = 1;
+		
+		// 2) When
+		bDao.deleteLikeBoardByBno(bno);
+		
+		// 3) Then : sql 오류가 없다면 성공
 	}
 }

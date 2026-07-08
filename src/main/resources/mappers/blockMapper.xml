@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blockMapper">
+	<insert id="insertBlock">
+		<![CDATA[
+			INSERT INTO blocks(block_idx, bno, start_time, end_time, checked_ai, color_idx)
+			VALUES(seq_block.nextval, #{bno}, TO_DATE(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{endTime}, 'YYYY-MM-DD HH24:MI:SS'), '0', 1)
+		]]>
+		<selectKey keyProperty="blockIdx" resultType="int" order="AFTER">
+        	SELECT seq_block.CURRVAL FROM dual
+    	</selectKey>
+	</insert>
+	<update id="updateBlockPlace">
+		<![CDATA[
+			UPDATE  blocks SET place_id = #{placeId} WHERE block_idx = #{blockIdx}
+		]]>
+	</update>
+	<delete id="deleteBlockByIdx">
+		<![CDATA[
+			DELETE FROM blocks WHERE block_idx = #{blockIdx}
+		]]>
+	</delete>
+	<delete id="deleteBlockByBno">
+		<![CDATA[
+			DELETE FROM (SELECT * FROM blocks bl INNER JOIN boards bo ON bl.bno = bo.bno WHERE bo.bno = #{bno} AND writer_id = #{memberId})
+		]]>
+	</delete>
+	<update id="updateBlockColor">
+		<![CDATA[
+			UPDATE  blocks SET color_idx = #{colorIdx} WHERE block_idx = #{blockIdx}
+		]]>
+	</update>
+	<update id="updateBlockTime">
+		<![CDATA[
+			UPDATE  blocks SET start_time = TO_DATE(#{startTime}, 'YYYY-MM-DD HH24:MI:SS'), end_time = TO_DATE(#{endTime}, 'YYYY-MM-DD HH24:MI:SS')
+			WHERE block_idx = #{blockIdx}
+		]]>
+	</update>
+	<update id="updateBlockCheckedAi">
+		<![CDATA[
+			UPDATE  blocks SET checked_ai = #{checkedAi} WHERE block_idx = #{blockIdx}
+		]]>
+	</update>
+	<update id="updateBlockTravelTime">
+		<![CDATA[
+			UPDATE  blocks SET travel_time = #{travelTime} WHERE block_idx = #{blockIdx}
+		]]>
+	</update>
+	<select id="selectBlockDetail" resultType="java.util.Map">
+		<![CDATA[
+			SELECT b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi",
+				   b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.category "category", p.address "address", p.lat "lat", p.lng "lng"
+			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
+				 INNER JOIN colors c ON b.color_idx = c.color_idx
+			WHERE block_idx = #{blockIdx}
+		]]>
+	</select>
+	<select id="selectAllBlocks" resultType="java.util.Map">
+		<![CDATA[
+			SELECT b.block_idx "blockIdx", b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi", b.travel_time "travelTime",
+				   b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.lat "lat", p.lng "lng"
+			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
+				 INNER JOIN colors c ON b.color_idx = c.color_idx
+			WHERE b.bno = #{bno}
+			ORDER BY start_time
+		]]>
+	</select>
+	<select id="selectBlocksBetween" resultType="java.util.Map">
+		<![CDATA[
+			SELECT b.block_idx "blockIdx", b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi", b.travel_time "travelTime",
+				   b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.lat "lat", p.lng "lng"
+			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
+				 INNER JOIN colors c ON b.color_idx = c.color_idx
+			WHERE b.bno = #{bno}
+				  AND start_time BETWEEN TO_DATE(#{inputStartTime}, 'YYYY-MM-DD HH24:MI:SS') 
+				  				 AND TO_DATE(#{inputEndTime}, 'YYYY-MM-DD HH24:MI:SS')
+			ORDER BY start_time
+		]]>
+	</select>
+	<delete id="deleteBlockInDate">
+		<![CDATA[
+			DELETE FROM blocks 
+			WHERE bno = #{bno} AND trunc(start_time) = TO_DATE(#{date}, 'YYYY-MM-DD HH24:MI:SS')
+		]]>
+	</delete>
+	<select id="selectColors" resultType="java.util.Map">
+		<![CDATA[
+			SELECT color_idx "colorIdx", color_code "colorCode" FROM colors ORDER BY color_idx
+		]]>
+	</select>
+	<insert id="insertCopyBlock">
+		<![CDATA[
+			INSERT INTO blocks(block_idx, bno, place_id, start_time, end_time, checked_ai, color_idx)
+			SELECT SEQ_BLOCK.NEXTVAL, #{newBno}, place_id,
+				   start_time + (TO_DATE(#{newStartTime}, 'YYYY-MM-DD') - TRUNC(start_time)), 
+				   end_time + (TO_DATE(#{newStartTime}, 'YYYY-MM-DD')  - TRUNC(end_time)),
+				   0, color_idx
+			FROM blocks 
+			WHERE bno = #{bno}
+		]]>
+	</insert>
+</mapper>

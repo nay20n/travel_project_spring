@@ -103,7 +103,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	
 	// 장소 삽입
 	@Override
-	public void addPlace(String placeId, String name, String category, String address, Number lat, Number lng,
+	public void addPlace(String placeId, String name, String category, String address, double lat, double lng,
 			String websiteUrl, String businessHours) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("placeId", placeId);
@@ -114,9 +114,13 @@ public class PlaceDaoImpl implements PlaceDao {
 		map1.put("lng", lng);
 		map1.put("websiteUrl", websiteUrl==null ? "" : websiteUrl);
 		map1.put("businessHours", businessHours==null ? "" : businessHours);
-		
-		sqlSession.insert("placeMapper.insertPlace", name);
+		sqlSession.insert("placeMapper.insertPlace", map1);
 	}
 	
-	
+	// DB에 있는 장소인지 확인
+	@Override
+	public boolean isExistPlace(String placeId) {
+		Integer cnt = sqlSession.selectOne("placeMapper.selectIsExistPlace", placeId);
+		return cnt>0;
+	}
 }
