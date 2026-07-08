@@ -98,4 +98,11 @@ public interface MemberService {
 	 * @return 사용자의 정보 + 활동 내역 카운트
 	 */
 	Map<String,Object> getMemberProfile(int memberId);
+	
+	/**
+	 * 마이페이지 한번에 처음 호출
+	 * @param memberId : 로그인 한 사람의 아이디
+	 * @return
+	 */
+	Map<String,Object> getMyPage(int memberId);
 }
