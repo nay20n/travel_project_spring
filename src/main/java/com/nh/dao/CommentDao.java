@@ -41,4 +41,10 @@ public interface CommentDao {
 	 * @param content : 수정할 댓글 내용
 	 */
 	void modifyComment(int cno, String content);
+	
+	/**
+	 * 게시글 댓글 삭제(게시글 삭제를 위해 전체 삭제)
+	 * @param bno
+	 */
+	void deleteCommentByBno(int bno);
 }

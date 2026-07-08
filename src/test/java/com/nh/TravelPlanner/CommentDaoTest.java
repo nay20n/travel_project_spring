@@ -101,4 +101,17 @@ public class CommentDaoTest {
 		// 3) Then : sql 오류가 안나야됨.
 	}
 	
+	// 게시글 댓글 삭제 테스트
+	@Test
+	@Transactional
+	public void testDeleteCommentByBno() {
+		// 1) Given
+		int bno = 1;
+		
+		// 2) When
+		cDao.deleteCommentByBno(bno);
+		
+		// 3) Then : sql 오류가 안나야됨.
+	}
+	
 }

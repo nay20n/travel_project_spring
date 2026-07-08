@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CommentMapper">
+<mapper namespace="commentMapper">
 	<select id="CountComment" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) 
@@ -52,4 +52,9 @@
 			UPDATE comments SET content=#{content} WHERE cno=#{cno}
 		]]>
 	</update>
+	<delete id="deleteCommentByBno">
+		<![CDATA[
+			DELETE FROM comments WHERE bno=#{bno}
+		]]>
+	</delete>
 </mapper>

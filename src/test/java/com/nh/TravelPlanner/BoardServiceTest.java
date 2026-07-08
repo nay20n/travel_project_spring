@@ -303,7 +303,6 @@ public class BoardServiceTest {
 	}
 	
 	// 게시글 삭제 테스트
-	// 다른 삭제들이 필요해서 오류
 	@Test
 	@Transactional
 	public void testDeleteBoard() {

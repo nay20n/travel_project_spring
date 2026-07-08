@@ -145,7 +145,7 @@ public interface BoardService {
 	List<Map<String, Object>> viewRecommendedPlace();
 
 	/**
-	 * 게시글 삭제(블럭, 찜도 같이 삭제됨)
+	 * 게시글 삭제(블럭, 찜, ai블럭, 댓글도 같이 삭제됨)
 	 * 다른 삭제들도 필요해서 오류 상태
 	 * @param bno
 	 * @param memberId
