@@ -8,20 +8,6 @@ function getSum() {
 	$("#content1>div:nth-child(2)>div:nth-child(2)>div:nth-child(7)>span:nth-child(2)").html(sum+"원");
 }
 $(function() {
-	// *************헤더****************
-	// 메인로고 누르면 메인화면으로
-	$("#header>div:nth-child(1)>div:nth-child(1)").click(function() {
-		location.href="MainPage.html";
-	});
-	// 로그아웃 알림 및 메인화면으로
-	$("#header> div:nth-child(2)>div:nth-child(1)>div").click(function() {
-		alert("로그아웃 되었습니다!");
-		location.href="MainPage.html";		
-	});
-	// 마이페이지 이동
-	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {
-		location.href="MyPage.html";
-	});
 	// *************예산****************
 	// 게시글 복제
 	$(".other>div").click(function() {

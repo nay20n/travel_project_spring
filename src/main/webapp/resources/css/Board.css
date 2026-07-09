@@ -13,82 +13,9 @@ body>* {
 	margin: auto;
 }
 
-/* ***************헤더***************** */
+/* 헤더 크기 */
 #header {
-	background-color: white;
 	width: 1200px;
-	height: 72px;
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-#header>div {
-	margin: auto 15px;
-}
-
-#header>div:nth-child(1) {
-	display: flex;
-	justify-content: flex-start;
-}
-
-#header>div:nth-child(1) > div:nth-child(1) {
-	cursor: pointer;
-}
-
-#header>div:nth-child(1) > div > svg {
-	color: #925DE8;
-	height: 24px;
-}
-
-#header>div:nth-child(1) > div > a {
-	color: #925DE8;
-	font-size: 24px;
-	font-weight: 500;
-}
-
-#header>div:nth-child(1)> div:nth-child(2) {
-	cursor: text;
-	margin-left: 10px;
-	margin-top: 10px;
-}
-
-#header>div:nth-child(2) {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-#header>div:nth-child(2) > div:nth-child(1) {
-	margin-right: 10px;
-	margin-top: 5px;
-}
-
-#header> div:nth-child(2) > div:nth-child(1)> div {
-	border-radius: 10px;
-	background-color: #925DE8;
-	padding: 8px 10px;
-	font-size: 16px;
-	font-weight: 500;
-	color: white;
-}
-
-#header> div:nth-child(2) > div:nth-child(1)> div:hover {
-	opacity: 30%;
-}
-
-#header>div:nth-child(2) > div:nth-child(2) > div {
-	border-radius: 28px;
-	background-color: #925DE8;
-	padding: 18px 3px;
-	font-size: 10px;
-	font-weight: 500;
-	color: white;
-}
-
-#header>div:nth-child(2) > div:nth-child(2) > div:hover {
-	opacity: 30%;
 }
 
 /* ************************content1******************* */
