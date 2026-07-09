@@ -136,4 +136,18 @@
 			WHERE member_id = #{memberId} 
 		]]>
 	</select>
+	<select id="getNickName" resultType="java.lang.String">
+		<![CDATA[
+			SELECT nick_name
+			FROM members
+			WHERE member_id = #{memberId} 
+		]]>
+	</select>
+	<select id="getEmail" resultType="java.lang.String">
+		<![CDATA[
+			SELECT email
+			FROM members
+			WHERE member_id = #{memberId} 
+		]]>
+	</select>
 </mapper>

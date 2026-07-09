@@ -20,7 +20,7 @@
 			<div>도시 1곳을 선택해 주세요.</div>
 		</div>
 		<div id="searchPlace" class="bs">
-			<img src = "img/searchPlaceImg.png"> 
+			<img src = "../resources/img/searchPlaceImg.png"> 
 		</div>
 		<div id="nextBtn">
 			<div class="bs">다음</div>

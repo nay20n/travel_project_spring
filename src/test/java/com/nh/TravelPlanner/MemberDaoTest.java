@@ -234,4 +234,32 @@ public class MemberDaoTest {
 		System.out.println(map.get("nickName") + " / " + map.get("cntBoard"));
 	}
 	
+	// 닉네임 조회
+	@Test
+	public void testGetNickName() {
+		// 1)Given
+		int memberId = 1;
+		
+		// 2) When
+		String nickName = mDao.getNickName(memberId);
+		
+		// 3) Then
+		assertNotNull("nickName은 null이면 안됨.", nickName);
+		System.out.println("nickName : " + nickName);
+	}
+	
+	// 이메일 조회
+	@Test
+	public void testGetEmial() {
+		// 1)Given
+		int memberId = 1;
+		
+		// 2) When
+		String email = mDao.getEmail(memberId);
+		
+		// 3) Then
+		assertNotNull("email은 null이면 안됨.", email);
+		System.out.println("email : " + email);
+	}
+	
 }

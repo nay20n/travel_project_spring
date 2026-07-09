@@ -1,18 +1,35 @@
 package com.nh.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.nh.service.BoardService;
 
 @Controller
 public class NewPlanController {
 	
+	@Autowired
+	BoardService bSvc;
 	
 	private static final Logger logger = LoggerFactory.getLogger(NewPlanController.class);
 	
 	@RequestMapping("/newplan/arr")
-	public String arr() {
+	public String arr(Model model, HttpSession session) {
+		
+		//임시 로그인
+		session.setAttribute("loginId", 1);
+		
+		List<Map<String, Object>> recommendedPlace = bSvc.viewRecommendedPlace();
+		model.addAttribute("recommendedPlace",recommendedPlace);
 		return "ArrPlace";
 	}
 	

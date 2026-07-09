@@ -21,7 +21,7 @@
 			<div>원하는 기간을 선택해 주세요.</div>
 		</div>
 		<div id="selectDate">
-			<img class="bs" src="img/calender.png"/>
+			<img class="bs" src="../resources/img/calender.png"/>
 		</div>
 		<div id="nextBtn">
 			<div class="bs">다음</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,26 +23,18 @@
 		<div id="recomendPlace">
 			<div>추천 여행지</div>
 			<div>
-				<span>제주도</span>
-				<span>경주</span>
-				<span>속초</span>
-				
-				<span>대전</span>
-				<span>해운대</span>
-				<span>강릉</span>
-				
-				<span>여수</span>
-				<span>남해</span>
-				<span>서울</span>
+				<c:forEach var="list" items="${recommendedPlace}">
+					<span data-placeId="${list.placeId}">${list.spot}</span>
+				</c:forEach>
 			</div>
 		</div>
 		<div id="searchPlace">
 			<div>직접 여행지 찾기</div>
-			<img class="bs" src = "img/searchPlaceImg.png"> 
+			<img class="bs" src = "../resources/img/searchPlaceImg.png"> 
 		</div>
 		<div id="aiPlace">
 			<div>사진으로 여행지 찾기</div>
-			<img class="bs" src = "img/AIPlaceImg.png"> 
+			<img class="bs" src = "../resources/img/AIPlaceImg.png"> 
 		</div>
 		<div id="nextBtn">
 			<div class="bs">다음</div>

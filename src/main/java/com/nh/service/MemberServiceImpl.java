@@ -82,11 +82,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Map<String, Object> getMemberProfile(int memberId) {
-		return mDao.getMemberProfile(memberId);
-	}
-
-	@Override
 	public Map<String,Object> getMyPage(int memberId) {
 		
 		Map<String,Object> map = new HashMap<>();
@@ -96,6 +91,16 @@ public class MemberServiceImpl implements MemberService {
 		map.put("getCommentBoard", mDao.getCommentBoard(memberId, 1, 10));
 		
 		return map;
+	}
+
+	@Override
+	public String getNickName(int memberId) {
+		return mDao.getNickName(memberId);
+	}
+
+	@Override
+	public String getEmail(int memberId) {
+		return mDao.getEmail(memberId);
 	}
 	
 }
