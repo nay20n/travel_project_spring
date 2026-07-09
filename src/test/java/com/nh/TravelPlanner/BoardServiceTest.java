@@ -205,14 +205,11 @@ public class BoardServiceTest {
 		int memberId = 1;
 		
 		// 2) When
-		List<Map<String, Object>> listMap = bSvc.getBoardInfo(memberId, bno);
+		Map<String, Object> mapBoard = bSvc.getBoardInfo(memberId, bno);
 		
 		// 3) Then
-		assertNotNull("1번 게시글 정보는 널이 아님", listMap);
-		
-		for(int i=0;i<listMap.size();i++) {
-			System.out.println(listMap.get(i));
-		}
+		assertNotNull("1번 게시글 정보는 널이 아님", mapBoard);
+		System.out.println(mapBoard);
 	}
 	
 	// 타인의 일정 게시글 복제 테스트

@@ -2,7 +2,7 @@ $(function() {
 	// ************ 메인 *******************
 	// 직접 여행 만들기 (로그인 되었을 경우)
 	$("#main>div:nth-child(5)").click(function() {
-		location.href="ArrPlace.html";
+		location.href="newplan/arr";
 	});
 	// ************ 게시글 *******************
 	// 검색(돋보기 클릭) 시 옆 글자 바꾸기
@@ -17,7 +17,8 @@ $(function() {
 	});
 	// 게시글로 이동
 	$("#board>div>div>img:nth-child(1)").click(function() {
-		location.href="Board.html";
+		let bno = $(this).parent().attr("data-bno");
+		location.href="plan/" + bno;
 	});
 	// 하트 on off
 	$("#board>div:NOT(:first-child)>div>div:nth-child(2)>span>svg").click(function() {

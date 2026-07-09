@@ -1,5 +1,6 @@
 package com.nh.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,17 @@ import org.springframework.stereotype.Repository;
 public class BoardDaoImpl implements BoardDao {
 	@Autowired
 	SqlSession sqlSession;
+	
+	// 메인페이지 게시글 조회에서 수정 경과시간을 문자열 형태로 바꾸기
+	public String getTimeString(double elapsedTime) {
+		StringBuffer sb = new StringBuffer();
+		if(elapsedTime>14) sb.append("오래");
+		else if(elapsedTime>1) sb.append((int)elapsedTime + "일");
+		else if(elapsedTime/24>1) sb.append((int)(elapsedTime/24) + "시간");
+		else sb.append((int)(elapsedTime/24/60) + "분");
+		sb.append("전");
+		return sb.toString();
+	}
 	
 	// 게시글 삽입
 	@Override
@@ -80,8 +92,8 @@ public class BoardDaoImpl implements BoardDao {
 
 	// 게시글 정보 조회
 	@Override
-	public List<Map<String, Object>> getBoardInfo(Map<String, Object> map1) {
-		return sqlSession.selectList("boardMapper.selectBoardInfo", map1);
+	public Map<String, Object> getBoardInfo(Map<String, Object> map1) {
+		return sqlSession.selectOne("boardMapper.selectBoardInfo", map1);
 	}
 	
 	// 타인의 일정 게시글 복제
@@ -94,17 +106,35 @@ public class BoardDaoImpl implements BoardDao {
 	// 최신 게시글 조회
 	@Override
 	public List<Map<String, Object>> getBoardsLastestOrder(Map<String, Object> map1) {
-		if(map1.get("memberId")==null)
-			return sqlSession.selectList("boardMapper.selectBoardsLastestOrderLogoutVer",map1);
-		return sqlSession.selectList("boardMapper.selectBoardsLastestOrder", map1);
+		List<Map<String, Object>> listBoards;
+		if(map1.get("memberId")==null) {
+			listBoards = sqlSession.selectList("boardMapper.selectBoardsLastestOrderLogoutVer",map1);
+		} else { 
+			listBoards = sqlSession.selectList("boardMapper.selectBoardsLastestOrder", map1);
+		}
+		// 수정 경과시간을 문자열 형태로 바꾸기
+		for(int i=0;i<listBoards.size();i++) {
+			Map<String, Object> tempMap = listBoards.get(i);
+			tempMap.put("elapsedTime", getTimeString(((BigDecimal)tempMap.get("elapsedTime")).doubleValue()));
+		}
+		return listBoards;
 	}
 	
 	// 검색어 게시글 조회
 	@Override
 	public List<Map<String, Object>> getBoardsKeyOrder(Map<String, Object> map1) {
-		if(map1.get("memberId")==null)
-			return sqlSession.selectList("boardMapper.selectBoardsKeyOrderLogoutVer",map1);
-		return sqlSession.selectList("boardMapper.selectBoardsKeyOrder", map1);
+		List<Map<String, Object>> listBoards;
+		if(map1.get("memberId")==null) {
+			listBoards = sqlSession.selectList("boardMapper.selectBoardsKeyOrderLogoutVer",map1);
+		} else {
+			listBoards =  sqlSession.selectList("boardMapper.selectBoardsKeyOrder", map1);
+		}
+		// 수정 경과시간을 문자열 형태로 바꾸기
+		for(int i=0;i<listBoards.size();i++) {
+			Map<String, Object> tempMap = listBoards.get(i);
+			tempMap.put("elapsedTime", getTimeString(((BigDecimal)tempMap.get("elapsedTime")).doubleValue()));
+		}
+		return listBoards;
 	}
 	
 	// 위도 경도 조회

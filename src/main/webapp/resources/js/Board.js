@@ -12,16 +12,16 @@ $(function() {
 	// 게시글 복제
 	$(".other>div").click(function() {
 		alert("게시글이 복제되었습니다!");
-		location.href="StartPlace.html";
+		location.href="newplan/start";
 	});
 	// 삭제
 	$(".my>div:nth-child(1)").click(function() {
 		alert("정말 삭제하시겠습니까?");
-		location.href="MainPage.html";
+		location.href="/TravelPlanner";
 	});
 	// 수정
 	$(".my>div:nth-child(2)").click(function() {
-		location.href="MainWeek.html";
+		location.href = $(location).attr('pathname') + "/week";
 	});
 	// AI 비용
 	$(".my>div:nth-child(3)").click(function() {

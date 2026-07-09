@@ -74,11 +74,11 @@ public interface BoardDao {
 	void modifyFinalDate(int bno);
 	
 	/**
-	 * 게시글 정보 조회
+	 * 게시글 정보 조회 (블럭과 댓글은 따로 넣어줘야함)
 	 * @param map1(memberId, bno)
-	 * @return 해당 글의 정보 map 리스트(블럭 때문에)(writerId, title, startPlaceId, arrPlaceId, startDate, endDate, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt, blockIdx, startTime, endTime, colorIdx, colorCode, name)
+	 * @return 해당 글의 정보 map (writerId, title, startDate, endDate, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt)
 	 */
-	List<Map<String, Object>> getBoardInfo(Map<String, Object> map1);
+	Map<String, Object> getBoardInfo(Map<String, Object> map1);
 	
 	/**
 	 * 타인의 일정 게시글 복제

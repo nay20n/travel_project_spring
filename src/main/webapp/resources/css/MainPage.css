@@ -110,10 +110,6 @@ body>* {
 	overflow: hidden;
 }
 
-#board>div {
-	width: 1280px;
-}
-
 #board>div:nth-child(1)>span { /* 최신여행계획 */
 	margin-left: 20px;
 	font-size: 25px;
@@ -140,9 +136,10 @@ body>* {
 }
 
 #board>div { /* 게시글4개 */
+	width: 1280px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	margin: 20px auto 0px;
 }
 
