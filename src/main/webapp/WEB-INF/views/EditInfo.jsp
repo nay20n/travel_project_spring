@@ -21,13 +21,14 @@
 				<svg class="bs" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 36 36" class="g_js3qful0GWzHh6xoQP"><circle cx="18" cy="18" r="18" fill="#000"></circle><path fill="#fff" d="M11.375 22.658v2.969h2.969l8.756-8.756-2.97-2.969zm14.02-8.083a.79.79 0 0 0 0-1.116l-1.852-1.852a.79.79 0 0 0-1.116 0l-1.45 1.448 2.97 2.97z"></path></svg>
 				<div>
 					<div>이름</div> 
-					<input class="bs" type="text"/>
+					<input class="bs" type="text" value="${nickName}"/>
 				</div>
 				<div>
 					<div>이메일</div> 
-					<input class="bs" type="email"/>
+					<input class="bs" type="email" value="${email}"/>
 					<div>기존 이메일과 동일합니다. 새 이메일 주소를 입력하세요.</div>
 					<button class="fr bs">이메일 변경</button>
+					<button class="fr bs">비밀번호 변경</button>
 				</div>
 				<div class="fr">
 					<button class="bs">취소</button>
@@ -35,14 +36,13 @@
 				</div>
 			</div>
 		</div>
-		<div id="pw" class="bs">
+		<!-- <div id="pw" class="bs">
 			<div>비밀번호</div>
 			<div>
-				<div>최근 업데이트 : 2026-03-17</div>
 				<div>비밀번호</div>
 				<button class="bs">비밀번호 변경</button>
 			</div>
-		</div>
+		</div> -->
 		<div id="connect" class="bs">
 			<div>계정연동</div>
 			<div>

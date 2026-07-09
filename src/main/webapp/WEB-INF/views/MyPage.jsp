@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,27 +31,27 @@
 		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   			<path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 		</svg>
-		<div>닉네임</div>
+		<div>${getMyPage.get("getMemberProfile").nickName}</div>
 		<div class="bs"> <!--내 일정 수 박스-->
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   				<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
 			</svg>
 			<div>내 일정 수</div>
-			<div>4</div>
+			<div>${getMyPage.get("getMemberProfile").cntBoard}</div>
 		</div>
 		<div class="bs"> <!--찜 수 박스-->
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   				<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 			</svg>
 			<div>찜한 수</div>
-			<div>4</div>
+			<div>${getMyPage.get("getMemberProfile").cntLike}</div>
 		</div>
 		<div class="bs"> <!--댓글 쓴 수 박스-->
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   				<path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
 			</svg>
 			<div>댓글 쓴 수</div>
-			<div>4</div>
+			<div>${getMyPage.get("getMemberProfile").cntComment}</div>
 		</div>
 		<div class="bs"> <!--정보 수정-->
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -73,68 +74,35 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th>1.</th>
-						<td>D-1</td>
-						<td></td>
-						<td>아무개</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg>
-							️<span>(40)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>2.</th>
-						<td>D-Day</td>
-						<td>졸업여행</td>
-						<td>홍길동</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg>️ 
-							<span>(0)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>3.</th>
-						<td>D-2</td>
-						<td>힐링여행</td>
-						<td>여행블로그</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg>️ 
-							<span>(3)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>4.</th>
-						<td>D+3</td>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg>️ 
-							<span>(13)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>5.</th>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<th>6.</th>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
+					<c:forEach var="myBoard" items="${getMyPage.get(\"getMyBoard\")}" varStatus="status">
+						<tr data-bno="${myBoard.bno}">
+							<th><c:out value="${status.count}"/>.</th>
+							<td>
+								<c:choose>
+									<c:when test="${myBoard.dDay>0}">D+${myBoard.dDay}</c:when>
+									<c:when test="${myBoard.dDay<0}">D${myBoard.dDay}</c:when>
+									<c:otherwise>D-Day</c:otherwise>
+								</c:choose>
+							</td>
+							<td>${myBoard.title}</td>
+							<td>${myBoard.nickName}</td>
+							<td>
+								<c:choose>
+									<c:when test="${myBoard.isLiked==1}">
+										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:when>
+									<c:otherwise>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:otherwise>
+								</c:choose>
+								️<span>${myBoard.cntLike}</span>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -152,61 +120,28 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th>1.</th>
-						<td>부산여행</td>
-						<td>아무개</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg>️ 
-							<span>(40)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>2.</th>
-						<td>졸업여행</td>
-						<td>홍길동</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(0)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>3.</th>
-						<td>힐링여행</td>
-						<td>여행블로그</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(3)</span>
-						 </td>
-					</tr>
-					<tr>
-						<th>4.</th>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(14)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>5.</th>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(14)</span>
-						</td>
-					</tr>
+					<c:forEach var="likeBoard" items="${getMyPage.get(\"getLikedBoard\")}" varStatus="status">
+						<tr data-bno="${likeBoard.bno}">
+							<th><c:out value="${status.count}"/>.</th>
+							<td>${likeBoard.title}</td>
+							<td>${likeBoard.nickName}</td>
+							<td>
+								<c:choose>
+									<c:when test="${likeBoard.isLiked==1}">
+										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:when>
+									<c:otherwise>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:otherwise>
+								</c:choose>
+								️<span>${likeBoard.cntLike}</span>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -224,82 +159,28 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th>1.</th>
-						<td>부산여행</td>
-						<td>아무개</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(40)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>2.</th>
-						<td>졸업여행</td>
-						<td>홍길동</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(0)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>3.</th>
-						<td>힐링여행</td>
-						<td>여행블로그</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(3)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>4.</th>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(13)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>5.</th>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(40)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>6.</th> <td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(10)</span>
-						</td>
-					</tr>
-					<tr>
-						<th>7.</th>
-						<td>가족과의 화해여행</td>
-						<td>나연이의 여행</td>
-						<td>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-							</svg> 
-							<span>(0)</span>
-						</td>
-					</tr>
+					<c:forEach var="commentBoard" items="${getMyPage.get(\"getCommentBoard\")}" varStatus="status">
+						<tr data-bno="${commentBoard.bno}">
+							<th><c:out value="${status.count}"/>.</th>
+							<td>${commentBoard.title}</td>
+							<td>${commentBoard.nickName}</td>
+							<td>
+								<c:choose>
+									<c:when test="${commentBoard.isLiked==1}">
+										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:when>
+									<c:otherwise>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+										</svg>
+									</c:otherwise>
+								</c:choose>
+								️<span>${commentBoard.cntLike}</span>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -331,7 +212,7 @@
 				</div>
 			</div>
 			<div id="popupVerify">
-				<img class="bs" src = "img/google.png"> 
+				<img class="bs" src = "resources/img/google.png"> 
 			</div>
 		</div>
 	</div>

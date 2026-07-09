@@ -5,7 +5,7 @@ $(function() {
 		alert("프로필 사진 수정");
 	});
 	//이메일 변경 버튼  
-	$("#basicInfo > div:nth-child(2) > div:nth-child(4) > button").click(function(){
+	$("#basicInfo > div:nth-child(2) > div:nth-child(4) > button:nth-child(4)").click(function(){
 		
 		let email = $("#basicInfo > div:nth-child(2) > div:nth-child(4) > input").val();
 		
@@ -18,6 +18,10 @@ $(function() {
 			$(".popupContainer").show();
 		}
 	});
+	//비밀번호 변경 버튼 클릭 
+	$("#basicInfo > div:nth-child(2) > div:nth-child(4) > button:nth-child(5)").click(function(){
+		location.href="../setpw";
+	});
 	// 팝업창 닫기
 	$(".popupContent > svg:nth-child(1)").click(function() {
 		$(".popupContainer").hide();
@@ -29,11 +33,6 @@ $(function() {
 	//저장버튼
 	$("#basicInfo > div:nth-child(2) > div:nth-child(5) > button:nth-child(2)").click(function(){
 		alert("저장되었습니다.");
-	});
-	/***********비밀번호**************/
-	//비밀번호 변경 버튼 클릭 
-	$("#pw > div:nth-child(2) > button").click(function(){
-		location.href="SetPw.html";
 	});
 	/***********계정연동*************/
 	//연결해제 버튼 

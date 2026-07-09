@@ -200,7 +200,7 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 	margin: auto;
 	height: 181px;
 	width: 850px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 .table svg {
 	width: 15px;
@@ -213,8 +213,6 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 .table table {
 	margin: auto;
 	width: 781px;
-	height: 181px;
-	overflow: scroll;
 	border-collapse : collapse;
 	font-size: 12px;
 }
@@ -223,10 +221,11 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 	top: 0px;
 	background-color: #E9D5FF;
 }
-.table tr {
+.table tbody tr {
 	border: 1px solid #EDE8F6;
+	cursor: pointer;
 }
-.table tr:not(:first-child):hover {
+.table tr:hover {
 	background-color: rgba(227, 212, 255, 0.3);
 }
 .table th { /*순서*/
@@ -234,14 +233,11 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 	font-size: 15px;
 }
 .table th:not(:first-child) {/*나머지*/
-	cursor:pointer;
-	font-weight: 500;
 	padding: 6px 6px;
-	font-size: 15px;
 }
 .table td {
 	font-weight: 400;
-	padding: 6px 6px;
+	padding: 10px 6px;
 	font-size: 13px;
 	text-align: center;
 }
