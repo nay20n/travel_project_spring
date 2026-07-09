@@ -52,243 +52,105 @@
 			</div>
 		</div>
 		<div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"></img>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
+			<c:forEach var="board" items="${boards}">
+				<div class="bs" data-bno="${board.bno}">
+					<img src="resources/img/게시글예시이미지.png"></img>
+					<div>
+						<span>${board.title}</span>
+						<span>
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+							</svg>
+							${board.year}년 ${board.month}월
+						</span>
+					</div>
+					<div>
+						<span>
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+							</svg>
+							${board.elapsedTime}
+						</span>
+					</div>
 				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"></img>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"></img>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"/>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-		</div>
-		<div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"/>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"/>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"/>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
-			<div class="bs">
-				<img src="img/게시글예시이미지.png"/>
-				<div>
-					<span>나만의 부산여행</span>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-						</svg>
-						2026년 5월
-					</span>
-				</div>
-				<div>
-					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
-						6분전
-					</span>
-				</div>
-			</div>
+			</c:forEach>
 		</div>
 	</div>
-	<div class="popupContainer">
-		<div class="loginpop popupContent bs">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-			</svg>
-			<div>
+	<c:if test="${sessionScope.loginId==null}">
+		<div class="popupContainer">
+			<div class="loginpop popupContent bs">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 				</svg>
-				<div>간편가입 + 로그인</div>
-			</div>
-			<div>
-				<div class="inputBdDiv"><input class="userEmail" type="email" placeholder="이메일"/></div> <!-- 이메일창 -->
-				<div class="inputBdDiv"><input class="userPw" type="password" placeholder="비밀번호"/></div> <!-- 비밀번호창 -->
-				<div class="hide"> <!-- 비밀번호 불일치 -->
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-						<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
 					</svg>
-					아이디 또는 비밀번호가 일치하지 않습니다
+					<div>간편가입 + 로그인</div>
 				</div>
 				<div>
-					<span>비밀번호를 잊으셨나요?</span>
-					<span>비밀번호 재설정</span>
+					<div class="inputBdDiv"><input class="userEmail" type="email" placeholder="이메일"/></div> <!-- 이메일창 -->
+					<div class="inputBdDiv"><input class="userPw" type="password" placeholder="비밀번호"/></div> <!-- 비밀번호창 -->
+					<div class="hide"> <!-- 비밀번호 불일치 -->
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+							<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+						</svg>
+						아이디 또는 비밀번호가 일치하지 않습니다
+					</div>
+					<div>
+						<span>비밀번호를 잊으셨나요?</span>
+						<span>비밀번호 재설정</span>
+					</div>
+					<div class="loginButton login">로그인</div>
 				</div>
-				<div class="loginButton login">로그인</div>
-			</div>
-			<div>
-				<div class="loginButton"></div>
-				<div class="loginButton"></div>
-				<div class="loginButton">이메일로 가입하기</div>
-			</div>
-		</div>
-		<div class="popupContent bs">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-			</svg>
-			<div>
-				<div class="popupBigTitle">이메일 입력</div>
-				<div class="popupSmallTitle">인증번호를 받을 이메일을 입력해주세요</div>
-				<div class="inputBdDiv"><input type="email" placeholder="이메일"/></div>
-				<div class="loginButton">인증번호 받기</div>
-				<div class="loginButton">뒤로가기</div>
 				<div>
-					<label>
-						<input class="checkBox" type="checkbox" name="agreeCheck"/>
-						<span class="agree">(필수) 이용약관 및 개인정보처리방침에 동의합니다.</span>
-					</label>
+					<div class="loginButton"></div>
+					<div class="loginButton"></div>
+					<div class="loginButton">이메일로 가입하기</div>
 				</div>
 			</div>
-		</div>
-		<div class="popupContent bs">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-			</svg>
-			<div>
-				<div class="popupBigTitle">인증번호 입력</div>
-				<div class="popupSmallTitle">
-					<span>zxton@naver.com</span><span>(으)로</span>
-				</div>
-				<div class="popupSmallTitle">
-					<span>전송된 4자리 숫자를 입력하세요.</span>
-				</div>
-				<div class="loginButton">0000</div> <!-- 인증번호받는곳 -->
-				<div class="loginButton">인증 완료</div>
-				<div class="loginButton">인증번호 재전송</div>
+			<div class="popupContent bs">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+				</svg>
 				<div>
-					<label>
-						<input class="checkBox" type="checkbox" name="agreeCheck" checked/>
-						<span class="agree">(필수) 이용약관 및 개인정보처리방침에 동의합니다.</span>
-					</label>
+					<div class="popupBigTitle">이메일 입력</div>
+					<div class="popupSmallTitle">인증번호를 받을 이메일을 입력해주세요</div>
+					<div class="inputBdDiv"><input type="email" placeholder="이메일"/></div>
+					<div class="loginButton">인증번호 받기</div>
+					<div class="loginButton">뒤로가기</div>
+					<div>
+						<label>
+							<input class="checkBox" type="checkbox" name="agreeCheck"/>
+							<span class="agree">(필수) 이용약관 및 개인정보처리방침에 동의합니다.</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="popupContent bs">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+				</svg>
+				<div>
+					<div class="popupBigTitle">인증번호 입력</div>
+					<div class="popupSmallTitle">
+						<span>zxton@naver.com</span><span>(으)로</span>
+					</div>
+					<div class="popupSmallTitle">
+						<span>전송된 4자리 숫자를 입력하세요.</span>
+					</div>
+					<div class="loginButton">0000</div> <!-- 인증번호받는곳 -->
+					<div class="loginButton">인증 완료</div>
+					<div class="loginButton">인증번호 재전송</div>
+					<div>
+						<label>
+							<input class="checkBox" type="checkbox" name="agreeCheck" checked/>
+							<span class="agree">(필수) 이용약관 및 개인정보처리방침에 동의합니다.</span>
+						</label>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</c:if>
 </body>
 </html>

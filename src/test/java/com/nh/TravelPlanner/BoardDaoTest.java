@@ -228,14 +228,11 @@ public class BoardDaoTest {
 		map1.put("memberId", 1);
 		
 		// 2) When
-		List<Map<String, Object>> listMap = bDao.getBoardInfo(map1);
+		Map<String, Object> mapBoard = bDao.getBoardInfo(map1);
 		
 		// 3) Then
-		assertNotNull("1번 게시글 정보는 널이 아님", listMap);
-		
-		for(int i=0;i<listMap.size();i++) {
-			System.out.println(listMap.get(i));
-		}
+		assertNotNull("1번 게시글 정보는 널이 아님", mapBoard);
+		System.out.println(mapBoard);
 	}
 	
 	// 타인의 일정 게시글 복제 테스트

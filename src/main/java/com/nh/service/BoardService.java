@@ -97,9 +97,9 @@ public interface BoardService {
 	 * 게시글 정보 조회
 	 * @param memberId 로그인한 아이디
 	 * @param bno
-	 * @return 해당 글의 정보 map 리스트(블럭 때문에)(writerId, title, startPlaceId,  arrPlaceId, startDate, endDate, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt, blockIdx, startTime, endTime, colorIdx, colorCode, name)
+	 * @return 해당 글의 정보 map (writerId, title, startPlaceId, arrPlaceId, startDate, endDate, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt, blocks리스트(blockIdx, startTime, endTime, colorIdx, colorCode, name))
 	 */
-	List<Map<String, Object>> getBoardInfo(int memberId, int bno);
+	Map<String, Object> getBoardInfo(int memberId, int bno);
 	
 	/**
 	 * 타인의 일정 게시글 복제 (블럭도 같이 복제)

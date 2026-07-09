@@ -196,12 +196,15 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시글 정보 조회
 	@Override
-	public List<Map<String, Object>> getBoardInfo(int memberId, int bno) {
+	public Map<String, Object> getBoardInfo(int memberId, int bno) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("bno", bno);
 		map1.put("memberId", memberId);
 		
-		return bDao.getBoardInfo(map1);
+		Map<String, Object> mapBoard = bDao.getBoardInfo(map1);
+		mapBoard.put("blocks", blDao.getAllBlocks(bno));
+		
+		return mapBoard;
 	}
 	
 	// 타인의 일정 게시글 복제
