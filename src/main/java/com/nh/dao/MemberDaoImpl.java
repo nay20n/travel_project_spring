@@ -110,12 +110,22 @@ public class MemberDaoImpl implements MemberDao{
 		map.put("start",start);
 		map.put("end",end);
 		
-		return sqlSession.selectList("memberMapper.getLikedBoard", map);
+		return sqlSession.selectList("memberMapper.getCommentBoard", map);
 	}
 
 	@Override
 	public Map<String, Object> getMemberProfile(int memberId) {
 		return sqlSession.selectOne("memberMapper.getMemberProfile", memberId);
+	}
+
+	@Override
+	public String getNickName(int memberId) {
+		return sqlSession.selectOne("memberMapper.getNickName", memberId);
+	}
+
+	@Override
+	public String getEmail(int memberId) {
+		return sqlSession.selectOne("memberMapper.getEmail", memberId);
 	}
 	
 }
