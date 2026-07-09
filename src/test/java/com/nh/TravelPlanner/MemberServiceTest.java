@@ -213,20 +213,6 @@ public class MemberServiceTest {
 		}
 	}
 	
-	// 프로필 & 활동한 내용 카운트 조회
-	@Test
-	public void testGetMemberProfile() {
-		// 1) Given
-		int memberId = 1;
-		
-		// 2) When
-		Map<String,Object> map = mSvc.getMemberProfile(memberId);
-		
-		// 3) Then
-		assertNotNull("map가 null이면 안됨.", map);
-		System.out.println(map.get("nickName") + " / " + map.get("cntBoard"));
-	}
-	
 	//마이페이지 첫 호출
 	@Test
 	public void testGetMyPage() {
@@ -242,6 +228,32 @@ public class MemberServiceTest {
 		System.out.println("내가 쓴 일정 : " + map.get("getMyBoard"));
 		System.out.println("내가찜한 일정  : " + map.get("getLikedBoard"));
 		System.out.println("내가 댓글 쓴 일정 : " + map.get("getCommentBoard"));
+	}
+	
+	// 닉네임 조회
+	@Test
+	public void testGetNickName() {
+		// 1)Given
+		int memberId = 1;
 		
+		// 2) When
+		String nickName = mSvc.getNickName(memberId);
+		
+		// 3) Then
+		assertNotNull("nickName은 null이면 안됨.", nickName);
+		System.out.println("nickName : " + nickName);
+	}
+	// 이메일 조회
+	@Test
+	public void testGetEmial() {
+		// 1)Given
+		int memberId = 1;
+		
+		// 2) When
+		String email = mSvc.getEmail(memberId);
+		
+		// 3) Then
+		assertNotNull("email은 null이면 안됨.", email);
+		System.out.println("email : " + email);
 	}
 }

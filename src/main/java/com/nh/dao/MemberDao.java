@@ -101,4 +101,18 @@ public interface MemberDao {
 	 * @return 사용자의 정보 + 활동 내역 카운트
 	 */
 	Map<String,Object> getMemberProfile(int memberId);
+	
+	/**
+	 * 로그인한 사람의 닉네임 조회
+	 * @param memberId : 조회할 사람의 아이디
+	 * @return 조회된 닉네임
+	 */
+	String getNickName(int memberId);
+	
+	/**
+	 * 로그인한 사람의 이메일 조회
+	 * @param memberId : 조회할 사람의 아이디 
+	 * @return 조회된 닉네임
+	 */
+	String getEmail(int memberId);
 }
