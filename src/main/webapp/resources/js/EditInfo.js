@@ -1,9 +1,4 @@
 $(function() {
-	/***************** 헤더 ************/
-	// 트래플 플래너 로그 클릭
-	$("#header > div:nth-child(1)").click(function() {
-		location.href="MainPage.html";
-	});
 	/************** 기본정보 ************/
 	// 프로필 연필 수정 버튼 
 	$("#basicInfo > div:nth-child(2) > svg").click(function() {

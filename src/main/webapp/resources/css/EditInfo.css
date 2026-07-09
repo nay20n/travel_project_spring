@@ -25,28 +25,8 @@ body {
    background-color: #F8F5FD;
 }
 #header {
-	margin:auto;
-	background-color: white;
 	width: 850px; /* 필요시사이즈조절 */
-	height: 72px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 }
-#header > div {
-	cursor: pointer;
-	margin: auto 15px;
-}
-#header > div:nth-child(1) > svg {
-	color: #925DE8;
-	height: 24px;
-}
-#header > div:nth-child(1) > a { /*트래블플레너*/
-	color: #925DE8;
-	font-size: 24px;
-	font-weight: 500;
-}
-
 /*****메인부분 시작*****/
 body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 비밀번호, 계정연동 텍스트*/
 	padding: 14px;
