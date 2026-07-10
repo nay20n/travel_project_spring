@@ -13,7 +13,7 @@ public interface BoardService {
 	 * @param endDate
 	 * @param arrPlaceCity
 	 */
-	void insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate, String arrPlaceCity);
+	int insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate, String arrPlaceCity);
 	
 	/**
 	 * 게시글 찜 삽입

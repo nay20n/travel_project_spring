@@ -8,7 +8,7 @@ public interface BoardDao {
 	 * 게시글 삽입
 	 * @param map1(writerId, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity)
 	 */
-	void insertBoard(Map<String, Object> map1);
+	int insertBoard(Map<String, Object> map1);
 	
 	/**
 	 * 게시글 찜 삽입
