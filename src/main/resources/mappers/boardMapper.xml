@@ -5,9 +5,12 @@
 <mapper namespace="boardMapper">
 	<insert id="insertBoard">
 		<![CDATA[
-			INSERT INTO boards(bno, writer_id, title, final_date, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
-			VALUES(seq_board.nextval, #{writerId}, '내 게시글', SYSDATE, #{startPlaceId}, #{arrPlaceId}, TO_DATE(#{startDate}, 'YYYY-MM-DD'),TO_DATE(#{endDate}, 'YYYY-MM-DD'),0,0,0,0,#{arrPlaceCity})
+			INSERT INTO boards(bno, writer_id, title, start_place_id, arr_place_id, start_date, end_date, transport_cost, food_cost, room_cost, etc_cost, arr_place_city)
+			VALUES(seq_board.nextval, #{writerId}, '내 게시글', #{startPlaceId}, #{arrPlaceId}, TO_DATE(#{startDate}, 'YYYY-MM-DD'),TO_DATE(#{endDate}, 'YYYY-MM-DD'),0,0,0,0,#{arrPlaceCity})
 		]]>
+		<selectKey keyProperty="bno" resultType="java.lang.Integer" order="AFTER">
+			SELECT seq_board.CURRVAL FROM dual
+		</selectKey>
 	</insert>
 	<insert id="insertLikeBoard">
 		<![CDATA[
