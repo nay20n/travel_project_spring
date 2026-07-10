@@ -35,7 +35,7 @@
 			</div>
 			<div class="place">
 				<div>
-					<img src="img/장소예시이미지.png" />
+					<img src="../../resources/img/장소예시이미지.png" />
 				</div>
 				<div class="placeInfo">
 					<div class="placeTitle">
@@ -59,7 +59,7 @@
 			</div>
 			<div class="place">
 				<div>
-					<img src="img/장소예시이미지.png" />
+					<img src="../../resources/img/장소예시이미지.png" />
 				</div>
 				<div class="placeInfo">
 					<div class="placeTitle">
@@ -83,7 +83,7 @@
 			</div>
 			<div class="place">
 				<div>
-					<img src="img/장소예시이미지.png" />
+					<img src="../../resources/img/장소예시이미지.png" />
 				</div>
 				<div class="placeInfo">
 					<div class="placeTitle">
@@ -107,7 +107,7 @@
 			</div>
 			<div class="place">
 				<div>
-					<img src="img/장소예시이미지.png" />
+					<img src="../../resources/img/장소예시이미지.png" />
 				</div>
 				<div class="placeInfo">
 					<div class="placeTitle">
@@ -131,7 +131,7 @@
 			</div>
 			<div class="place">
 				<div>
-					<img src="img/장소예시이미지.png" />
+					<img src="../../resources/img/장소예시이미지.png" />
 				</div>
 				<div class="placeInfo">
 					<div class="placeTitle">
@@ -176,7 +176,7 @@
   				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 			</svg>
 			<div>
-				<img src="img/장소예시이미지.png" />
+				<img src="../../resources/img/장소예시이미지.png" />
 				<div class="popupPlace">
 					<div>
 						<div>
@@ -310,7 +310,7 @@
 						<div class="placeReview">
 							<div>
 								<div>
-									<img src="img/im.jpg"/>
+									<img src="../../resources/img/im.jpg"/>
 									<div>김믈</div>
 								</div>
 								<div>
@@ -347,13 +347,13 @@
 								</div>
 								<div>2026년 6월 11일</div>
 							</div>
-							<img src="img/리뷰예시이미지.png" />
+							<img src="../../resources/img/리뷰예시이미지.png" />
 							<div>정말 맛있어요~~</div>
 						</div>
 						<div class="placeReview">
 							<div>
 								<div>
-									<img src="img/im.jpg" />
+									<img src="../../resources/img/im.jpg" />
 									<div>김믈</div>
 								</div>
 								<div>
@@ -391,7 +391,7 @@
 								</div>
 								<div>2026년 6월 11일</div>
 							</div>
-							<img class="hide" src="img/리뷰예시이미지.png" />
+							<img class="hide" src="../../resources/img/리뷰예시이미지.png" />
 							<div>정말 맛있어요~~</div>
 						</div>
 					</div>

@@ -33,6 +33,6 @@ $(function() {
 		let startId = "ChIJzzlcLQGifDURm_JbQKHsEX4"
 		
 		if(isActive) // 활성화 됐을때만 이동 가능 
-			location.href="date?arrId=" + arrId + "?startId=" + startId;
+			location.href="date?arrId=" + arrId + "&startId=" + startId;
 	});
 });

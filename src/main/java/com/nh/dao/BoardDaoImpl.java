@@ -26,8 +26,9 @@ public class BoardDaoImpl implements BoardDao {
 	
 	// 게시글 삽입
 	@Override
-	public void insertBoard(Map<String, Object> map1) {
+	public int insertBoard(Map<String, Object> map1) {
 		sqlSession.insert("boardMapper.insertBoard", map1);
+		return (int) map1.get("bno");
 	}
 		
 	// 게시글 찜 삽입

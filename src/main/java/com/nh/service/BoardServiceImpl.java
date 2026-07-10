@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시글 삽입
 	@Override
-	public void insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate, String arrPlaceCity) {
+	public int insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate, String arrPlaceCity) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("writerId", writerId);
 		map1.put("startPlaceId", startPlaceId);
@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("endDate", endDate);
 		map1.put("arrPlaceCity", arrPlaceCity);
 		
-		bDao.insertBoard(map1);
+		return bDao.insertBoard(map1);
 	}
 	
 	// 게시글 찜 삽입

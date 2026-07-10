@@ -37,9 +37,10 @@ public class BoardDaoTest {
 		map1.put("arrPlaceCity", "부산");
 		
 		// 2) When
-		bDao.insertBoard(map1);
+		int bno = bDao.insertBoard(map1);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(bno);
 	}
 	
 	// 게시글 찜 삽입 테스트

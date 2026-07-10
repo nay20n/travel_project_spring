@@ -8,7 +8,6 @@
 		<link rel="styleSheet" href="../resources/css/Date.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="../resources/js/Data.js"></script>
-		
 	</head>
 	<body>
 		<div id="header">
