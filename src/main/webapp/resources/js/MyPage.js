@@ -60,22 +60,6 @@ $(function() {
 	$(window).on('beforeunload', function(event) {
 		
 	});
-
-	/***************** 헤더 ************/
-	// 트래플 플래너 로그 클릭
-	$("#header > div:nth-child(1)").click(function() {
-		location.href="MainPage.html";
-	});
-	//로그아웃 버튼 클릭 
-	$("#header > div:nth-child(2) > div:nth-child(1)> a").click(function() {
-		alert("로그아웃 되었습니다.");
-		location.href="MainPage.html";
-	});
-	//마이페이지 버튼 클릭
-	$("#header > div:nth-child(2) > div:nth-child(2) > a").click(function() {
-		location.href="MyPage.html";
-	});
-	
 	/***************** 테이블 ******************/
 	// 테이블 행 클릭시 게시글로 이동 
 	$(".table tbody tr").click(function() {

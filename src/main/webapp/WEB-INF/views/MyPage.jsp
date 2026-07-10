@@ -3,218 +3,205 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>마이페이지</title>
-		<link rel="stylesheet" href="resources/css/MyPage.css"/>
-		<script type="text/javascript" src="resources/js/jquery-4.0.0.min.js"></script>
-		<script type="text/javascript" src="resources/js/MyPage.js"></script>
-	</head>
-	<body>
-	<div id="header" class="bs"> <!-- 헤더 -->
-	<div> <!-- 왼쪽 -->
+<head>
+	<meta charset="UTF-8">
+	<title>마이페이지</title>
+	<link rel="stylesheet" href="resources/css/MyPage.css"/>
+	<link rel="stylesheet" href="resources/css/Header.css"/>
+	<script type="text/javascript" src="resources/js/jquery-4.0.0.min.js"></script>
+	<script type="text/javascript" src="resources/js/MyPage.js"></script>
+	<script type="text/javascript" src="resources/js/Header.js"></script>
+</head>
+<body>
+<%@ include file="Header.jsp"%>
+<div id="profile" class="bs"> <!--젤 위 프로필 박스-->
+	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+ 			<path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+	</svg>
+	<div>${getMyPage.get("getMemberProfile").nickName}</div>
+	<div class="bs"> <!--내 일정 수 박스-->
 		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+ 				<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
 		</svg>
-			<a>트래블 플래너</a>
+		<div>내 일정 수</div>
+		<div>${getMyPage.get("getMemberProfile").cntBoard}</div>
 	</div>
-	<div> <!-- 오른쪽 -->
-		<div>
-			<a class="bs">로그아웃</a>
-		</div>
-		<div>	
-			<a class="bs">마이페이지</a>
-		</div>
-	</div>
-	</div>
-	<div id="profile" class="bs"> <!--젤 위 프로필 박스-->
+	<div class="bs"> <!--찜 수 박스-->
 		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  			<path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+ 				<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 		</svg>
-		<div>${getMyPage.get("getMemberProfile").nickName}</div>
-		<div class="bs"> <!--내 일정 수 박스-->
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  				<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-			</svg>
-			<div>내 일정 수</div>
-			<div>${getMyPage.get("getMemberProfile").cntBoard}</div>
-		</div>
-		<div class="bs"> <!--찜 수 박스-->
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  				<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-			</svg>
-			<div>찜한 수</div>
-			<div>${getMyPage.get("getMemberProfile").cntLike}</div>
-		</div>
-		<div class="bs"> <!--댓글 쓴 수 박스-->
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  				<path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-			</svg>
-			<div>댓글 쓴 수</div>
-			<div>${getMyPage.get("getMemberProfile").cntComment}</div>
-		</div>
-		<div class="bs"> <!--정보 수정-->
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-	  			<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-			</svg>
-			<a>정보 수정</a>
-		</div>
+		<div>찜한 수</div>
+		<div>${getMyPage.get("getMemberProfile").cntLike}</div>
 	</div>
-	<div class="tableDiv" class="bs"> <!--내 게시글 박스-->
-		<div class="tableTitle">내 게시글</div>
-		<div class="table">
-			<table class="bs">
-				<thead>
-					<tr>
-						<th>순서</th>
-						<th>디데이</th>
-						<th>일정 이름</th>
-						<th>작성자 닉네임</th>
-						<th>찜</th>
+	<div class="bs"> <!--댓글 쓴 수 박스-->
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+ 				<path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+		</svg>
+		<div>댓글 쓴 수</div>
+		<div>${getMyPage.get("getMemberProfile").cntComment}</div>
+	</div>
+	<div class="bs"> <!--정보 수정-->
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  			<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+		</svg>
+		<a>정보 수정</a>
+	</div>
+</div>
+<div class="tableDiv" class="bs"> <!--내 게시글 박스-->
+	<div class="tableTitle">내 게시글</div>
+	<div class="table">
+		<table class="bs">
+			<thead>
+				<tr>
+					<th>순서</th>
+					<th>디데이</th>
+					<th>일정 이름</th>
+					<th>작성자 닉네임</th>
+					<th>찜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="myBoard" items="${getMyPage.get(\"getMyBoard\")}" varStatus="status">
+					<tr data-bno="${myBoard.bno}">
+						<th><c:out value="${status.count}"/>.</th>
+						<td>
+							<c:choose>
+								<c:when test="${myBoard.dDay>0}">D+${myBoard.dDay}</c:when>
+								<c:when test="${myBoard.dDay<0}">D${myBoard.dDay}</c:when>
+								<c:otherwise>D-Day</c:otherwise>
+							</c:choose>
+						</td>
+						<td>${myBoard.title}</td>
+						<td>${myBoard.nickName}</td>
+						<td>
+							<c:choose>
+								<c:when test="${myBoard.isLiked==1}">
+									<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:when>
+								<c:otherwise>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:otherwise>
+							</c:choose>
+							️<span>${myBoard.cntLike}</span>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="myBoard" items="${getMyPage.get(\"getMyBoard\")}" varStatus="status">
-						<tr data-bno="${myBoard.bno}">
-							<th><c:out value="${status.count}"/>.</th>
-							<td>
-								<c:choose>
-									<c:when test="${myBoard.dDay>0}">D+${myBoard.dDay}</c:when>
-									<c:when test="${myBoard.dDay<0}">D${myBoard.dDay}</c:when>
-									<c:otherwise>D-Day</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${myBoard.title}</td>
-							<td>${myBoard.nickName}</td>
-							<td>
-								<c:choose>
-									<c:when test="${myBoard.isLiked==1}">
-										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:when>
-									<c:otherwise>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:otherwise>
-								</c:choose>
-								️<span>${myBoard.cntLike}</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
-	<div class="tableDiv bs">
-		<div class="tableTitle">내가 찜한 게시글</div>
-		<div class="table">
-			<table class="bs">
-				<thead>
-					<tr>
-						<th>순서</th>
-						<th>일정이름</th>
-						<th>작성자 닉네임</th>
-						<th>찜</th>
+</div>
+<div class="tableDiv bs">
+	<div class="tableTitle">내가 찜한 게시글</div>
+	<div class="table">
+		<table class="bs">
+			<thead>
+				<tr>
+					<th>순서</th>
+					<th>일정이름</th>
+					<th>작성자 닉네임</th>
+					<th>찜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="likeBoard" items="${getMyPage.get(\"getLikedBoard\")}" varStatus="status">
+					<tr data-bno="${likeBoard.bno}">
+						<th><c:out value="${status.count}"/>.</th>
+						<td>${likeBoard.title}</td>
+						<td>${likeBoard.nickName}</td>
+						<td>
+							<c:choose>
+								<c:when test="${likeBoard.isLiked==1}">
+									<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:when>
+								<c:otherwise>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:otherwise>
+							</c:choose>
+							️<span>${likeBoard.cntLike}</span>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="likeBoard" items="${getMyPage.get(\"getLikedBoard\")}" varStatus="status">
-						<tr data-bno="${likeBoard.bno}">
-							<th><c:out value="${status.count}"/>.</th>
-							<td>${likeBoard.title}</td>
-							<td>${likeBoard.nickName}</td>
-							<td>
-								<c:choose>
-									<c:when test="${likeBoard.isLiked==1}">
-										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:when>
-									<c:otherwise>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:otherwise>
-								</c:choose>
-								️<span>${likeBoard.cntLike}</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
-	<div class="tableDiv bs">
-		<div class="tableTitle">내가 댓글을 단 게시글</div>
-		<div class="table">
-			<table class="bs">
-				<thead>
-					<tr>
-						<th>순서</th>
-						<th>일정이름</th>
-						<th>작성자 닉네임</th>
-						<th>찜</th>
+</div>
+<div class="tableDiv bs">
+	<div class="tableTitle">내가 댓글을 단 게시글</div>
+	<div class="table">
+		<table class="bs">
+			<thead>
+				<tr>
+					<th>순서</th>
+					<th>일정이름</th>
+					<th>작성자 닉네임</th>
+					<th>찜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="commentBoard" items="${getMyPage.get(\"getCommentBoard\")}" varStatus="status">
+					<tr data-bno="${commentBoard.bno}">
+						<th><c:out value="${status.count}"/>.</th>
+						<td>${commentBoard.title}</td>
+						<td>${commentBoard.nickName}</td>
+						<td>
+							<c:choose>
+								<c:when test="${commentBoard.isLiked==1}">
+									<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:when>
+								<c:otherwise>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+									</svg>
+								</c:otherwise>
+							</c:choose>
+							️<span>${commentBoard.cntLike}</span>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="commentBoard" items="${getMyPage.get(\"getCommentBoard\")}" varStatus="status">
-						<tr data-bno="${commentBoard.bno}">
-							<th><c:out value="${status.count}"/>.</th>
-							<td>${commentBoard.title}</td>
-							<td>${commentBoard.nickName}</td>
-							<td>
-								<c:choose>
-									<c:when test="${commentBoard.isLiked==1}">
-										<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:when>
-									<c:otherwise>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-										</svg>
-									</c:otherwise>
-								</c:choose>
-								️<span>${commentBoard.cntLike}</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
-	<!-- 정보수정 팝업.. -->
-	<div id="popupEditInfo">
-		<div class="bs">
-			<div id="popupHeader">
-				<span class="fl">계정 정보 인증</span>
-				<svg class="fr" xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 13 13"><path stroke="#000" stroke-width="2" d="M1 1 12 12.002M1 12 12 .998"></path></svg>
-			</div>
-			<div id="popupContent">
-				<div>계정 정보를 안전하게 보호하기 위해 비밀번호를 입력해주세요. SNS로 가입한 경우에는 다시 로그인해 주세요.</div>
-				<div id="popupPw">
-					<div>비밀번호 인증</div>
-					<div>
-						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="#000" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9zM18 20H6V10h12z"></path></svg>
-						<input class="bs" type="password" name="pw" placeholder="비밀번호를 입력해주세요."/>
-						<span class="fr bs">확인</span>
-					</div>
-				</div>
+</div>
+<!-- 정보수정 팝업.. -->
+<div id="popupEditInfo">
+	<div class="bs">
+		<div id="popupHeader">
+			<span class="fl">계정 정보 인증</span>
+			<svg class="fr" xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 13 13"><path stroke="#000" stroke-width="2" d="M1 1 12 12.002M1 12 12 .998"></path></svg>
+		</div>
+		<div id="popupContent">
+			<div>계정 정보를 안전하게 보호하기 위해 비밀번호를 입력해주세요. SNS로 가입한 경우에는 다시 로그인해 주세요.</div>
+			<div id="popupPw">
+				<div>비밀번호 인증</div>
 				<div>
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path fill="#000" fill-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M7 4v5h2V4zm0 6v2h2v-2z" clip-rule="evenodd"></path></svg>
-					<span>비밀번호 일치하지 않습니다.</span>
-				</div>
-				<div>
-					비밀번호를 잊으셨나요?
-					<a>비밀번호 재설정</a>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="#000" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9zM18 20H6V10h12z"></path></svg>
+					<input class="bs" type="password" name="pw" placeholder="비밀번호를 입력해주세요."/>
+					<span class="fr bs">확인</span>
 				</div>
 			</div>
-			<div id="popupVerify">
-				<img class="bs" src = "resources/img/google.png"> 
+			<div>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path fill="#000" fill-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M7 4v5h2V4zm0 6v2h2v-2z" clip-rule="evenodd"></path></svg>
+				<span>비밀번호 일치하지 않습니다.</span>
+			</div>
+			<div>
+				비밀번호를 잊으셨나요?
+				<a>비밀번호 재설정</a>
 			</div>
 		</div>
+		<div id="popupVerify">
+			<img class="bs" src = "resources/img/google.png"> 
+		</div>
 	</div>
-	</body>
+</div>
+</body>
 </html>
