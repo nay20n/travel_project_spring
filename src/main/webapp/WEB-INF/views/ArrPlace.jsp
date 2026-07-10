@@ -13,7 +13,6 @@
 	<body>
 		<div id="header">
 			<img class = "fl" src="//assets.triple.guide/images/btn-com-back@4x.png"/>
-			<div class="fr">2/3</div>
 		</div>
 		<div id="banner">
 			<img src="https://triple.guide/trips/static/icons/ico_earth-emoji.svg"/>
@@ -24,7 +23,7 @@
 			<div>추천 여행지</div>
 			<div>
 				<c:forEach var="list" items="${recommendedPlace}">
-					<span data-placeId="${list.placeId}">${list.spot}</span>
+					<span data-placeid="${list.arrPlaceId}">${list.spot}</span>
 				</c:forEach>
 			</div>
 		</div>

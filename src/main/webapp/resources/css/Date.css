@@ -38,13 +38,6 @@ body > * {margin: 0px auto;}
 	height: 34px;
 	margin: right: 6px;
 }
-#header > div {
-	margin-top: 8px;
-	margin-right: 21px;
-	font-size: 13px;
-	font-weight: 700;
-	color:  #925DE8;
-}
 /***************여행 기간은?*************/
 #banner {
 	margin-top: 18px;
