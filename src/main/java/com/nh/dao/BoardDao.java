@@ -76,7 +76,7 @@ public interface BoardDao {
 	/**
 	 * 게시글 정보 조회 (블럭과 댓글은 따로 넣어줘야함)
 	 * @param map1(memberId, bno)
-	 * @return 해당 글의 정보 map (writerId, title, startDate, endDate, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt)
+	 * @return 해당 글의 정보 map (writerId, title, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity, maxCost, transportCost, foodCost, roomCost, etcCost, reviewCnt, isLiked, likedCnt)
 	 */
 	Map<String, Object> getBoardInfo(Map<String, Object> map1);
 	

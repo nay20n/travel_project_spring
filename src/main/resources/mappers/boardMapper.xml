@@ -106,9 +106,10 @@
 	</update>
 	<select id="selectBoardInfo" resultType="java.util.Map">
 		<![CDATA[
-			SELECT b.writer_id "writerId", b.title "title", b.start_date "startDate", b.end_date "endDate",
+			SELECT b.writer_id "writerId", b.title "title", b.start_place_id "startPlaceId", b.arr_place_id "arrPlaceId",
+				TO_CHAR(b.start_date,'YYYY.MM.DD') "startDate", TO_CHAR(b.end_date,'YYYY.MM.DD') "endDate", b.arr_place_city "arrPlaceCity",
 				b.max_cost "maxCost", b.transport_cost "transportCost", b.food_cost "foodCost", b.room_cost "roomCost", b.etc_cost "etcCost",
-				(SELECT COUNT(*) FROM comments c WHERE b.bno = c.bno) "reviewCnt",
+				(SELECT COUNT(*) FROM comments c WHERE b.bno = c.bno) "reviewCnt", 
 				(SELECT COUNT(*) FROM like_boards lb WHERE member_id = #{memberId} AND lb.bno = b.bno) "isLiked",
 				(SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "likedCnt"
 			FROM boards b

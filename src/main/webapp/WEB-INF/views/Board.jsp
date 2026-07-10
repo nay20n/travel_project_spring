@@ -8,12 +8,14 @@
 	<title>게시글</title>
 	<link rel="stylesheet" href="../resources/css/Board.css"/>
 	<link rel="stylesheet" href="../resources/css/Header.css"/>
+	<link rel="stylesheet" href="../resources/css/BoardTitle.css"/>
 	<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 	<script type="text/javascript" src="../resources/js/Board.js"></script>
 	<script type="text/javascript" src="../resources/js/Header.js"></script>
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
+	<%@ include file="BoardTitle.jsp"%>
 	<div id="content1">
 		<div class="fl">
 			<div>
@@ -38,19 +40,19 @@
 				</h5>
 				<div>
 					<span class="fl">교통</span>
-					<span class="fee fr">50,000원</span>
+					<span class="fee fr">${transportCost}원</span>
 				</div>
 				<div>
 					<span class="fl">식사</span>
-					<span class="fee fr">50,000원</span>
+					<span class="fee fr">${foodCost}원</span>
 				</div>
 				<div>
 					<span class="fl">숙소</span>
-					<span class="fee fr">50,000원</span>
+					<span class="fee fr">${roomCost}원</span>
 				</div>
 				<div>
 					<span class="fl">기타</span>
-					<span class="fee fr">50,000원</span>
+					<span class="fee fr">${etcCost}원</span>
 				</div>
 				<div></div>
 				<div>
@@ -97,7 +99,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
 							</svg>
-							<span>나만의 일정으로 수정하기</span>
+							<span data-arrPlaceId="${arrPlaceId}">나만의 일정으로 수정하기</span>
 						</div>
 					</div>
 				</c:otherwise>
@@ -116,20 +118,20 @@
 			<!-- 일정표 -->
 		</div>
 	</div>
-	<div id="content3">
+	<div id="content3" class="${isLiked}">
 		<div>
 			<div>
 				<div class="button">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 heart">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 					</svg>
-					<div>찜(56)</div>
+					<div>찜(${likedCnt})</div>
 				</div>
 				<div class="button">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
 					</svg>
-					<div><label for="commentInput">댓글(100)</label></div>
+					<div><label for="commentInput">댓글(${reviewCnt})</label></div>
 				</div>
 			</div>
 			<div>

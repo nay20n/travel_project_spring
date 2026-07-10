@@ -203,6 +203,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		Map<String, Object> mapBoard = bDao.getBoardInfo(map1);
 		mapBoard.put("blocks", blDao.getAllBlocks(bno));
+		mapBoard.put("bno", bno);
 		
 		return mapBoard;
 	}
