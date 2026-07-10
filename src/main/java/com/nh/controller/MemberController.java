@@ -2,6 +2,8 @@ package com.nh.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,10 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@RequestMapping("/mypage")
-	public String mypage(Integer loginId, Model model) {
-		if(loginId==null) loginId=1;
+	public String mypage(HttpSession session, Model model) {
+		//임시 로그인
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
 		
 		Map<String,Object> getMyPage = mSvc.getMyPage(loginId);
 		
@@ -32,8 +36,10 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/mypage/edit")
-	public String edit(Integer loginId, Model model) {
-		if(loginId==null) loginId=1;
+	public String edit(HttpSession session, Model model) {
+		//임시 로그인
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
 		
 		String nickName = mSvc.getNickName(loginId);
 		String email = mSvc.getEmail(loginId);

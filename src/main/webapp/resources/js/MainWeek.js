@@ -1,4 +1,23 @@
 $(function() {
+	// ************왼쪽 장소들 ****************
+	// 내 일정 클릭 
+	
+	$("#main > div:nth-child(1) > div:nth-child(2) > div").click(function(){
+		fetch("../../MainWeekGetSelectedPlaces", initData)
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data);
+			
+			
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		})
+	});
+
+
 	// **************캘린더********************
 	// 일 단위로 이동
 	$(".changeView > span:nth-child(1)").click(function() {

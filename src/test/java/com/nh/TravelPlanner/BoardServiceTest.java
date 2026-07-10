@@ -35,9 +35,10 @@ public class BoardServiceTest {
 		String arrPlaceCity = "부산";
 		
 		// 2) When
-		bSvc.insertBoard(writerId, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity);
+		int bno = bSvc.insertBoard(writerId, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(bno);
 	}
 	
 	// 게시글 찜 삽입 테스트
