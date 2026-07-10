@@ -27,25 +27,7 @@ body > *:not(:first-child) {margin: 80px auto 0;}
 /************헤더***********/
 #header {
 	margin:auto;
-	background-color: white;
 	width: 850px; /* 필요시사이즈조절 */
-	height: 72px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-#header > div { /* 가방, 텍스트 */
-	cursor: pointer;
-	margin: auto 15px;
-}
-#header > div:nth-child(1) > svg {
-	color: #925DE8;
-	height: 24px;
-}
-#header > div:nth-child(1) > a { /*트래블플레너*/
-	color: #925DE8;
-	font-size: 24px;
-	font-weight: 500;
 }
 /*메인*/
 #main {

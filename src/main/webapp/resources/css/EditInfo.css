@@ -26,6 +26,7 @@ body {
 }
 #header {
 	width: 850px; /* 필요시사이즈조절 */
+	margin: auto;
 }
 /*****메인부분 시작*****/
 body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 비밀번호, 계정연동 텍스트*/

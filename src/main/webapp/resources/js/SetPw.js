@@ -1,10 +1,4 @@
 $(function(){
-	/***************** 헤더 ************/
-	// 트래플 플래너 로그 클릭
-	$("#header > div").click(function() {
-		location.href="MainPage.html";
-	});
-	
 	/*******저장버튼**********/
 	$("#main > div:last-child > button").click(function() {
 		let pw = $("#pwInput > div:nth-child(1) > input").val();

@@ -9,10 +9,10 @@
 		<link rel="stylesheet" href="../resources/css/Header.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="../resources/js/EditInfo.js"></script>
-		<script type="text/javascript" src="../resources/js/Header.js"></script>
+		<script type="text/javascript" src="../resources/js/HeaderPlain.js"></script>
 	</head>
 	<body>
-		<%@ include file="Header.jsp"%>
+		<%@ include file="HeaderPlain.jsp"%>
 		<div>계정관리</div>
 		<div id="basicInfo" class="bs">
 			<div>기본정보</div>
