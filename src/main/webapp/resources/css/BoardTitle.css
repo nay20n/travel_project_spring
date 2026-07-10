@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* ***************** title ****************** */
+#title {
+    height: 100px;
+	margin: 15px auto 8px;
+	background-image: url("../img/게시글타이틀배경.png");
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	border-radius: 20px;
+}
+
+#title > div:nth-child(1) { /* 타이틀 옆 지도svg */
+	height: 50px;
+	width: 50px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin: 0px 10px 0px 25px;
+}
+
+#title > div > svg { /* 타이틀 옆 지도svg */
+    color: #925DE8;
+}
+
+#title > div > div > div > svg { /* 작은 svg */
+	margin-right: 2px;
+	height: 20px;
+	color: #925DE8;
+}
+
+#title > div > div {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;	
+}
+
+#title > div > div > div {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	font-size: 14px;
+    font-weight: 400;
+    margin-right: 10px;
+}
+
+#title > div > div:nth-child(1) { /* 게시글 제목 */
+	font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}

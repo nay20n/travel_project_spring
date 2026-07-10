@@ -8,6 +8,11 @@ function getSum() {
 	$("#content1>div:nth-child(2)>div:nth-child(2)>div:nth-child(7)>span:nth-child(2)").html(sum+"원");
 }
 $(function() {
+	// 예산 합 초기화
+	getSum();
+	// 찜한 게시글 하트 채워두기
+	if($("#content3").hasClass("1")) $(".heart").addClass("fillHeart");
+	
 	// *************예산****************
 	// 게시글 복제
 	$(".other>div").click(function() {
@@ -34,7 +39,7 @@ $(function() {
 	// *******************댓글*********************
 	// 찜 색칠
 	$("#content3 > div:nth-child(1) > div > div:nth-child(1)").click(function() {
-		$(this).find("svg").toggleClass("fillHeart");;
+		$(this).find("svg").toggleClass("fillHeart");
 	});
 	// 댓글 수정
 	$(".comment>div>div:nth-child(2)>div:nth-child(1)").click(function() {
