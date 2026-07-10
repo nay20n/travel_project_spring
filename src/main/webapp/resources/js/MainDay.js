@@ -2,11 +2,11 @@ $(function() {
 	// *************캘린더*****************
 	// 주 클릭.
 	$(".changeView > span:nth-child(2)").click(function() {
-		location.href="MainWeek.html";
+		location.href="week";
 	});
 	// 월 클릭.
 	$(".changeView > span:nth-child(3)").click(function() {
-		location.href="MainMonth.html";
+		location.href="month";
 	});
 	// ************** AI 추천 일정 ***************
 	// 열기

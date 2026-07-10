@@ -29,6 +29,7 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 /* 헤더 사이즈 */
 #header {
 	width: 850px; /* 필요시사이즈조절 */
+	margin: auto;
 }
 /*************profile**********/
 #profile {
