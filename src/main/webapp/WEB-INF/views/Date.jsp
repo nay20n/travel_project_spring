@@ -13,7 +13,6 @@
 	<body>
 		<div id="header">
 			<img class = "fl" src="//assets.triple.guide/images/btn-com-back@4x.png"/>
-			<div class="fr">3/3</div>
 		</div>
 		<div id="banner">
 			<img src="https://triple.guide/trips/static/icons/ico_schedule-emoji.svg"/>
