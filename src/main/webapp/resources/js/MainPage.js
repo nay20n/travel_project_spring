@@ -6,7 +6,7 @@ $(function() {
 	});
 	// ************ 게시글 *******************
 	// 검색(돋보기 클릭) 시 옆 글자 바꾸기
-	$("#board>div>div>input").keypress(function(e) {
+	$("#board>div>div>input").on('keydown', function (e) {
 		if(e.keyCode == 13){
 			$("#board>div:nth-child(1)>div>svg").trigger("click");
 		}

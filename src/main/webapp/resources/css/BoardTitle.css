@@ -4,6 +4,7 @@
     height: 100px;
 	margin: 15px auto 8px;
 	background-image: url("../img/게시글타이틀배경.png");
+	background-size: cover;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
@@ -15,8 +16,6 @@
 	width: 50px;
     background-color: white;
     border-radius: 20px;
-    display: flex;
-    align-items: center;
     padding: 8px;
     margin: 0px 10px 0px 25px;
 }
@@ -46,8 +45,33 @@
     margin-right: 10px;
 }
 
-#title > div > div:nth-child(1) { /* 게시글 제목 */
+#title > div > span { /* 게시글 제목 수정 막힘 버전 */
 	font-size: 22px;
     font-weight: 600;
     margin-bottom: 5px;
+}
+
+#title > div > label > input:nth-child(1) { /* 게시글 제목 */
+	field-sizing: content;
+	font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+#title > div > label {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;	
+}
+
+#title > div > label > input:nth-child(1):focus { /* 게시글 제목 */
+    outline: none;
+}
+
+#title > div > label > svg {
+	margin-left: 5px;
+	width: 18px;
+	color: #925DE8;
 }
