@@ -12,6 +12,9 @@
 	<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 	<script type="text/javascript" src="../resources/js/Board.js"></script>
 	<script type="text/javascript" src="../resources/js/Header.js"></script>
+	<c:if test="${sessionScope.loginId==writerId}">
+		<script type="text/javascript" src="../resources/js/BoardTitle.js"></script>
+	</c:if>
 </head>
 <body>
 	<%@ include file="Header.jsp"%>

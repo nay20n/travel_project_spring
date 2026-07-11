@@ -1,13 +1,12 @@
 package com.nh.controller;
 
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +43,13 @@ public class RestContoller {
 		//List<Map<String,Object>> list = bSvc.getSelectedPlaces(bno, loginId, page);
 		return null;
 	}
-	
+	@PostMapping("/updateBoardTitle")
+	public void updateBoardTilte(@RequestBody Map<String,Object> mapReq, HttpServletRequest request){
+		// 요청에서 제목, bno 가져오기
+		String title = (String)mapReq.get("title");
+		int bno = Integer.parseInt((String)mapReq.get("bno"));
+		
+		// 제목 없데이트
+		bSvc.modifyTilte(title, bno);
+	}
 }
