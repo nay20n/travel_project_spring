@@ -50,7 +50,7 @@ public class PlaceServiceImpl implements PlaceService {
 	public void modifyReview(int reviewIdx, int memberId, String content, int rating, String image) {
 		pDao.modifyReview(reviewIdx, memberId, content, rating, image);
 	}
-
+	// 댓글 삭제 
 	@Override
 	public void deleteReview(int reviewIdx, int memberId) {
 		pDao.deleteReview(reviewIdx, memberId);

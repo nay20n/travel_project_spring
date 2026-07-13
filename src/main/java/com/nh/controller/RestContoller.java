@@ -4,18 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nh.service.BoardService;
 import com.nh.service.CommentService;
+import com.nh.service.MemberService;
 import com.nh.service.PlaceService;
 
 @RestController
@@ -26,6 +24,8 @@ public class RestContoller {
 	BoardService bSvc;
 	@Autowired
 	PlaceService pSvc;
+	@Autowired
+	MemberService mSvc;
 	
 	// 게시글 삽입하기
 	@PostMapping("/insertBoard")
@@ -143,12 +143,22 @@ public class RestContoller {
 		int loginId = (int)session.getAttribute("loginId");
 		int page = 1;
 		List<Map<String,Object>> reviews = pSvc.getReviews(placeId, page);
+		for(int i=0; i<reviews.size();i++) {
+			reviews.get(i).put("finalDate",(reviews.get(0).get("finalDate") + "").substring(0, 16));
+		}
 		Map<String,Object> placeDetail = pSvc.getPlaceDetail(placeId, loginId);
 		
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("placeDetail", placeDetail);
 		ret.put("reviews", reviews);
 		return ret;
+	}
+	// 내 게시글 조회 (마이페이지)
+	@PostMapping("/getMyBoard")
+	public List<Map<String,Object>> getMyBoard(HttpSession session, int page) {
+		int loginId = (int)session.getAttribute("loginId");
+		List<Map<String,Object>> boardList = mSvc.getMyBoard(loginId, page);
+		return boardList;
 	}
 	
 }
