@@ -151,6 +151,7 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 .table svg {
 	width: 15px;
 	margin-right: 3px;
+	cursor: pointer;
 }
 .fillHeart {
 	fill: #925DE8;
@@ -169,7 +170,6 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 }
 .table tbody tr {
 	border: 1px solid #EDE8F6;
-	cursor: pointer;
 }
 .table tr:hover {
 	background-color: rgba(227, 212, 255, 0.3);
@@ -186,6 +186,9 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 	padding: 10px 6px;
 	font-size: 13px;
 	text-align: center;
+}
+.table td:not(:last-child) {
+	cursor: pointer;
 }
 .table tbody tr td:last-child {
 	display: flex;
