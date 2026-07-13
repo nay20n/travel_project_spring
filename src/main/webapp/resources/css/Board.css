@@ -300,6 +300,20 @@ body>* {
 	margin: 8px 40px;
 }
 
+.comment > input {
+	font-size: 16px;
+	font-weight: 500;
+	margin: 8px 40px;
+	field-sizing: content;
+    border: none;
+    background-color: transparent;
+}
+
+.comment > input:focus {
+	outline-width: 2px;
+	outline-color: #E3D4FF;
+}
+
 .comment > div:nth-child(3) {
 	font-size: 11px;
 	font-weight: 600;

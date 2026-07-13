@@ -18,6 +18,7 @@
 			    SELECT ROWNUM rnum, b1.*
 			    FROM(
 			        SELECT 
+			        	cno "cno",
 			            profile_img "proFile", 
 			            member_id "memberId" ,
 			            nick_name "nickName", 
@@ -25,6 +26,7 @@
 			            TO_CHAR(final_date,'YYYY.MM.DD HH24:MI') "finalDate"
 			        FROM comments c 
 			            INNER JOIN members m ON c.writer_id = m.member_id WHERE bno = #{bno}
+			        ORDER BY final_date DESC
 			    )b1
 			)
 			WHERE rnum >= #{start} AND rnum <= #{end}

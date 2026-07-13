@@ -150,9 +150,9 @@
 				<div><span>1</span>/<span>${comments.lastPageNum}</span></div>
 			</div>
 		</div>
-		<div id="commentList">
+		<div id="commentList" data-writerId="${writerId}">
 		</div>
-		<div>
+		<div id="bottomPageNation">
 			<c:if test="${(pageNum-1)/5*5+1>5}">
 				<div class="moveDate">이전</div>
 			</c:if>
