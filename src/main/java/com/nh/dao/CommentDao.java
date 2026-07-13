@@ -16,7 +16,7 @@ public interface CommentDao {
 	 * 댓글 목록 조회
 	 * @param bno : 현재 보고 있는 게시굴의 번호
 	 * @param page : 페이지 번호
-	 * @return 댓글 목록 리스트
+	 * @return 댓글 목록 리스트(proFile,memberId,nickName,content,finalDate)
 	 */
 	List<Map<String, Object>> getComment(int bno, int start, int end);
 	
