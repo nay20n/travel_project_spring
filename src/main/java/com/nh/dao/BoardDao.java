@@ -130,4 +130,11 @@ public interface BoardDao {
 	 * @param bno
 	 */
 	void deleteLikeBoardByBno(int bno);
+	
+	/**
+	 * 도착지 city 조회
+	 * @param bno
+	 * @return
+	 */
+	String getBoardCity(int bno);
 }

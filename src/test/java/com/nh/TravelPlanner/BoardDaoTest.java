@@ -371,4 +371,17 @@ public class BoardDaoTest {
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
+	
+	// bno로 도착 city 조회 테스트
+	@Test
+	public void testGetBoardCity() {
+
+		int bno = 1;
+		
+		// 2) When
+		String city = bDao.getBoardCity(bno);
+		
+		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(city);
+	}
 }

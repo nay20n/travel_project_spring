@@ -1,81 +1,43 @@
-/* 
-let nextPageNum = 1;
-let ajaxLock = false;
-function addMyBoardPage() {
-	if(ajaxLock) return;
-	
-	gAjaxLock = true;
-	
-	$.ajax({
-		type : "post",
-		url: "",
-		data: {"pageNum": gNextPageNumber++},
-		success: function(arr){
-			console.log(arr);
-			for(let i=0; i < arr.length; i++) {
-				const str = `
-					<tr>
-						<th><c:out value="${status.count}"/>.</th>
-						<td>
-							<c:choose>
-								<c:when test="${myBoard.dDay>0}">D+${myBoard.dDay}</c:when>
-								<c:when test="${myBoard.dDay<0}">D${myBoard.dDay}</c:when>
-								<c:otherwise>D-Day</c:otherwise>
-							</c:choose>
-						</td>
-						<td>${myBoard.title}</td>
-						<td>${myBoard.nickName}</td>
-						<td>
-							<c:choose>
-								<c:when test="${myBoard.isLiked==1}">
-									<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-									</svg>
-								</c:when>
-								<c:otherwise>
-									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
-									</svg>
-								</c:otherwise>
-							</c:choose>
-							️<span>${myBoard.cntLike}</span>
-						</td>
-					</tr>
-				`;
-				$("#table_board").append(str); 
-				}
-				gAjaxLock = false;
-			},
-			error: function(r,s,e) {
-				alert(`[에러] code: \${r.status}
-					msg:\${r.responseTest}
-					error:\${e}`);
-			}
-	});
-}
-*/
-
 $(function() {
-
-	$(window).on('beforeunload', function(event) {
-		
-	});
 	/***************** 테이블 ******************/
 	// 테이블 행 클릭시 게시글로 이동 
-	$(".table tbody tr").click(function() {
-		let bno = $(this).data("bno");
+	$(".table table > tbody > tr > *:not(':last-child')").click(function() {
+		let bno = $(this).parent().data("bno");
 		//alert(bno);
 		location.href="plan/" + bno;
 	});
 	// 찜하기 하트 클릭 
 	$(".table svg").click(function() {
-		let cntLike = Number($(this).parent().find("span").html());
-		$(this).toggleClass("fillHeart");
-		if(!$(this).hasClass("fillHeart")){
-			$(this).parent().find("span").html(cntLike - 1)
-		} else {
+		$(this).toggleClass("fillHeart"); // css 꾸미기
+		let cntLike = Number($(this).parent().find("span").html()); // 찜 갯수 가져오기
+		let bno = $(this).parent().parent().data("bno");
+		//alert(bno);
+		
+		if(!$(this).hasClass("fillHeart")){ // 찜 삭제
+			$(this).parent().find("span").html(cntLike - 1);
+			fetch("deleteLikeBoard?bno="+bno, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		} else { // 찜 더하기
 			$(this).parent().find("span").html(cntLike + 1);
-		}
+			fetch("insertLikeBoard?bno="+bno, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		} 
 	});
 	$(".table").scroll(function(e){
 		var containerScrollTop = $(this).scrollTop();

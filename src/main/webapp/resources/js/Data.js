@@ -49,7 +49,7 @@ $(function(){
 			body: JSON.stringify(jsonData)
 		};
 		
-		fetch("../DataInsertBoard", initData)
+		fetch("../insertBoard", initData)
 		.then(function(response){
 			return response.json();
 		})

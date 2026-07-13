@@ -1,5 +1,8 @@
 package com.nh.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -27,6 +30,12 @@ public class BoardController {
 	
 	@GetMapping("/plan/{bno}/week")
 	public String planDetailWeek(@PathVariable int bno, Model model) {
+		
+		int loginId = 1;
+		int page = 1;
+		List<Map<String, Object>> placesList = bSvc.getSerchedPlaceByCity(loginId, bno, page);
+		model.addAttribute("placesList",placesList);
+		
 		return "MainWeek";
 	}
 	

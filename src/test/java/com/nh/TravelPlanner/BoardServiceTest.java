@@ -313,4 +313,23 @@ public class BoardServiceTest {
 		
 		// 3) Then
 	}
+	
+	// 게시글 city로 조회한 장소 조회 테스트 
+	@Test 
+	public void testGetSerchedPlaceByCity() {
+		// 1) Given
+		int memberId = 1;
+		int bno = 1;
+		int page = 1;
+		
+		// 2) When
+		List<Map<String, Object>> listMap = bSvc.getSerchedPlaceByCity(memberId, bno,page);
+		
+		// 3) Then
+		assertNotNull("리스트는 널이 아님", listMap);
+		
+		for(int i=0;i<listMap.size();i++) {
+			System.out.println(listMap.get(i));
+		}
+	}
 }
