@@ -17,6 +17,11 @@ body>* {
 	width: 1280px;
 }
 
+/* ***************** title ****************** */
+#title {
+	width: 1280px;
+}
+
 /* ***************메인********************** */
 #main {
 	width: 1280px;
@@ -48,6 +53,10 @@ body>* {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+#main > div:nth-child(1) > div:nth-child(1) > label > input {
+	width: 370px;
 }
 
 #main > div:nth-child(1) > div:nth-child(1) > label > svg { /* 돋보기 */
@@ -704,7 +713,6 @@ svg {
 }
 
 input {
-	width: 370px;
 	border: 1px;
 	border-radius: 8px;
 	border-width: 0;
