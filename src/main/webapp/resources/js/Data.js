@@ -63,9 +63,7 @@ $(function(){
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
-		})
-
-		
+		});
 		
 	});
 	
