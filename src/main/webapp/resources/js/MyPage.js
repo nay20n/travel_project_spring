@@ -8,12 +8,10 @@ $(function() {
 	});
 	// 찜하기 하트 클릭 
 	$(".table svg").click(function() {
-		$(this).toggleClass("fillHeart"); // css 꾸미기
 		let cntLike = Number($(this).parent().find("span").html()); // 찜 갯수 가져오기
 		let bno = $(this).parent().parent().data("bno");
 		//alert(bno);
-		
-		if(!$(this).hasClass("fillHeart")){ // 찜 삭제
+		if($(this).hasClass("fillHeart")){ // 찜 삭제
 			$(this).parent().find("span").html(cntLike - 1);
 			fetch("deleteLikeBoard?bno="+bno, {method:"POST"})
 			.then(function(response){
@@ -38,6 +36,7 @@ $(function() {
 				alert("에러! : " + error);
 			})
 		} 
+		$(this).toggleClass("fillHeart"); // css 꾸미기
 	});
 	$(".table").scroll(function(e){
 		var containerScrollTop = $(this).scrollTop();
