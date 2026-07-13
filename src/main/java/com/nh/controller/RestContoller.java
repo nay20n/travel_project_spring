@@ -1,13 +1,11 @@
 package com.nh.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +19,9 @@ public class RestContoller {
 	@Autowired
 	BoardService bSvc;
 	
-	@PostMapping("/DataInsertBoard")
-	public int DataInsertBoard(@RequestBody Map<String,Object> mapReq){
+	// 게시글 삽입하기
+	@PostMapping("/insertBoard")
+	public int insertBoard(@RequestBody Map<String,Object> mapReq){
 		String arrId = (String)mapReq.get("arrId");
 		String startId = (String)mapReq.get("startId");
 		String startDate = (String)mapReq.get("startDate");
@@ -34,8 +33,8 @@ public class RestContoller {
 		//System.out.println(bno);
 		return bno;
 	}
-	@RequestMapping("/MainWeekGetSelectedPlaces")
-	public Map<String,Object> MainWeekGetSelectedPlaces(HttpSession session, Model model) {
+	@RequestMapping("/getSelectedPlaces")
+	public Map<String,Object> getSelectedPlaces(HttpSession session, Model model) {
 		//임시 로그인
 		int loginId = 1;
 		session.setAttribute("loginId", loginId);
@@ -43,6 +42,32 @@ public class RestContoller {
 		
 		//List<Map<String,Object>> list = bSvc.getSelectedPlaces(bno, loginId, page);
 		return null;
+	}
+	// 게시글 찜하기
+	@PostMapping("/insertLikeBoard")
+	public boolean insertLikeBoard(HttpSession session, int bno) {
+		//임시 로그인
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
+		try {
+	        bSvc.insertLikeBoard(1, bno);
+	        return true; 
+	    } catch (Exception e) {
+	        return false;    
+	    }
+	}
+	//게시글 찜 삭제하기 
+	@PostMapping("/deleteLikeBoard")
+	public boolean deleteLikeBoard(HttpSession session, int bno) {
+		//임시 로그인,
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
+		try {
+	        bSvc.deleteLikeBoard(1, bno);
+	        return true; 
+	    } catch (Exception e) {
+	        return false;    
+	    }
 	}
 	
 }

@@ -151,4 +151,13 @@ public interface BoardService {
 	 * @param memberId
 	 */
 	void deleteBoard(int bno, int memberId);
+	
+	/**
+	 * 게시글 city로 검색해서 띄우는 조회
+	 * @param memberId
+	 * @param bno
+	 * @param page
+	 * @return 검색한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, images리스트)
+	 */
+	List<Map<String, Object>> getSerchedPlaceByCity(int memberId, int bno, int page);
 }
