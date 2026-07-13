@@ -1,3 +1,9 @@
+let gPageMy = 1;
+let gPageLike = 1;
+let gPageCom = 1;
+
+
+
 $(function() {
 	/***************** 테이블 ******************/
 	// 테이블 행 클릭시 게시글로 이동 
@@ -9,10 +15,12 @@ $(function() {
 	// 찜하기 하트 클릭 
 	$(".table svg").click(function() {
 		let cntLike = Number($(this).parent().find("span").html()); // 찜 갯수 가져오기
+		let cntLikeTotal = Number($("#profile > div:nth-child(4) > div:nth-child(3)").html());
 		let bno = $(this).parent().parent().data("bno");
 		//alert(bno);
 		if($(this).hasClass("fillHeart")){ // 찜 삭제
 			$(this).parent().find("span").html(cntLike - 1);
+			$("#profile > div:nth-child(4) > div:nth-child(3)").html(cntLikeTotal-1);
 			fetch("deleteLikeBoard?bno="+bno, {method:"POST"})
 			.then(function(response){
 				return response.json();
@@ -25,6 +33,7 @@ $(function() {
 			})
 		} else { // 찜 더하기
 			$(this).parent().find("span").html(cntLike + 1);
+			$("#profile > div:nth-child(4) > div:nth-child(3)").html(cntLikeTotal+1);
 			fetch("insertLikeBoard?bno="+bno, {method:"POST"})
 			.then(function(response){
 				return response.json();
@@ -44,7 +53,26 @@ $(function() {
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
 	    	alert("스크롤 끝까지 내림");
-	    	addMyBoardPage();
+			fetch("getMyBoard?page="+page, {method: "POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+				
+				for(let i=0; i<data.length; i++) {
+					i.rnum;
+					i.bno;
+					i.cntLike;
+					i.dDay;
+					i.nickName;
+					i.isLiked;
+					i.title;
+				}				
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			});
 		} 
 	});
 	

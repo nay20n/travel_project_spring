@@ -174,7 +174,7 @@ public class MemberServiceTest {
 		assertNotNull("list가 null이면 안됨.", list);
 		
 		for(int i=0; i<=list.size()-1; i++) {
-			System.out.println(list.get(i).get("bno") + " / " + list.get(i).get("title") + " / " + list.get(i).get("nickName"));
+			System.out.println(list.get(i));
 		}
 	}
 	

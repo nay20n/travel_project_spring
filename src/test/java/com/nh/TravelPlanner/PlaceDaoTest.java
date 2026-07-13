@@ -101,7 +101,7 @@ public class PlaceDaoTest {
 	@Test
 	public void testViewReviews() {
 		// 1) Given
-		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
+		String placeId = "ChIJe1QMOBvraDUR9__2s01MxDE";
 		int start = 1;
 		int end = 3;
 		
