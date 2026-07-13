@@ -46,14 +46,11 @@ public class CommentServiceTest {
 		int page = 1;
 		
 		// 2) When
-		List<Map<String,Object>> list = cSvc.getComment(bno, page);
+		Map<String,Object> map = cSvc.getComment(bno, page);
 		
 		// 3) Then : list가 null이면 안됨. 빈곳이라도 가르켜야됨.
-		assertNotNull("list가 null이면 안됨.", list);
-		System.out.println(list.size());
-		for(int i=0; i<list.size(); i++) {
-			System.out.println(list.get(i));
-		}
+		assertNotNull("map이 null이면 안됨.", map);
+		System.out.println(map);
 	}
 	
 	// 게시글 댓글 삭제 

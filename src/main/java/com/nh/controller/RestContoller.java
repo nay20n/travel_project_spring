@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nh.service.BoardService;
+import com.nh.service.CommentService;
 
 @RestController
 public class RestContoller {
-	
+	@Autowired
+	CommentService cSvc;
 	@Autowired
 	BoardService bSvc;
 	
@@ -34,6 +36,7 @@ public class RestContoller {
 		//System.out.println(bno);
 		return bno;
 	}
+	// 일정에 포함된 장소 가져오기(필터)
 	@RequestMapping("/getSelectedPlaces")
 	public Map<String,Object> getSelectedPlaces(HttpSession session, Model model) {
 		//임시 로그인
@@ -44,14 +47,45 @@ public class RestContoller {
 		//List<Map<String,Object>> list = bSvc.getSelectedPlaces(bno, loginId, page);
 		return null;
 	}
+	// 게시글 제목 수정하기
 	@PostMapping("/updateBoardTitle")
-	public void updateBoardTilte(@RequestBody Map<String,Object> mapReq, HttpServletRequest request){
+	public String updateBoardTilte(@RequestBody Map<String,Object> mapReq){
 		// 요청에서 제목, bno 가져오기
 		String title = (String)mapReq.get("title");
 		int bno = Integer.parseInt((String)mapReq.get("bno"));
 		
-		// 제목 없데이트
+		// 제목 업데이트
 		bSvc.modifyTilte(title, bno);
+		return "게시글 제목 변경됨";
+	}
+	// 게시글 댓글 가져오기
+	@PostMapping("/getBoardComment")
+	public Map<String,Object> updateBoardTilte(Integer pageNum, Integer bno){
+		if(pageNum==null) pageNum=1;
+		if(bno==null) bno=1;
+		return cSvc.getComment(bno, pageNum);
+	}
+	// 게시글 예산 수정하기
+	@PostMapping("/updateBoardFee")
+	public String updateBoardFee(@RequestBody Map<String,Object> mapReq){
+		int bno = Integer.parseInt((String)mapReq.get("bno"));
+		Integer currentFee = Integer.parseInt((String)mapReq.get("fee"));
+		String field = (String)mapReq.get("field");
+		
+		// 사용자 예산 수정
+		if(field.equals("transportCost"))
+			bSvc.modifyCost(bno, null, currentFee, null, null, null);
+		if(field.equals("foodCost"))
+			bSvc.modifyCost(bno, null, null, currentFee, null, null);
+		if(field.equals("roomCost"))
+			bSvc.modifyCost(bno, null, null, null, currentFee, null);
+		if(field.equals("etcCost"))
+			bSvc.modifyCost(bno, null, null, null, null, currentFee);
+		// ai 예상 견적(미완성)
+		if(field.equals("all"))
+			bSvc.modifyCost(bno, null, null, null, null, null);
+		
+		return "게시글 예산 수정됨";
 	}
 	// 게시글 찜하기
 	@PostMapping("/insertLikeBoard")

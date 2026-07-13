@@ -1,5 +1,6 @@
 package com.nh.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,18 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getComment(int bno, int page) {
-		int end = page * 10;
-		int start = end - 9;
-		return cDao.getComment(bno, start, end);
+	public Map<String, Object> getComment(int bno, int page) {
+		Map<String, Object> map1 = new HashMap<>();
+		
+		// 페이지네이션
+		int end = page * 5;
+		int start = end - 4;
+		List<Map<String, Object>> comments = cDao.getComment(bno, start, end);
+		int lastPageNum = (cDao.CountComment(bno)-1)/5+1;
+		
+		map1.put("comments", comments);
+		map1.put("lastPageNum", lastPageNum);
+		return map1;
 	}
 
 	@Override

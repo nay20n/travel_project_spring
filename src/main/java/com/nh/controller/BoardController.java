@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.nh.service.BoardService;
+import com.nh.service.CommentService;
 
 @Controller
 public class BoardController {
 	@Autowired
 	BoardService bSvc;
+	@Autowired
+	CommentService cSvc;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	

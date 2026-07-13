@@ -42,20 +42,28 @@
 					<span>여행 예산</span>
 				</h5>
 				<div>
-					<span class="fl">교통</span>
-					<span class="fee fr">${transportCost}원</span>
+					<span>교통</span>
+					<div>
+						<input data-bno="${bno}" data-field="transportCost" class="fee" type="text" value="${transportCost}"/><span>원</span>
+					</div>
 				</div>
 				<div>
-					<span class="fl">식사</span>
-					<span class="fee fr">${foodCost}원</span>
+					<span>식사</span>
+					<div>
+						<input data-bno="${bno}" data-field="foodCost" class="fee" type="text" value="${foodCost}"/><span>원</span>
+					</div>
 				</div>
 				<div>
-					<span class="fl">숙소</span>
-					<span class="fee fr">${roomCost}원</span>
+					<span>숙소</span>
+					<div>
+						<input data-bno="${bno}" data-field="roomCost" class="fee" type="text" value="${roomCost}"/><span>원</span>
+					</div>
 				</div>
 				<div>
-					<span class="fl">기타</span>
-					<span class="fee fr">${etcCost}원</span>
+					<span>기타</span>
+					<div>
+						<input data-bno="${bno}" data-field="etcCost" class="fee" type="text" value="${etcCost}"/><span>원</span>
+					</div>
 				</div>
 				<div></div>
 				<div>
@@ -64,8 +72,9 @@
 				</div>
 				<div>
 					<span></span>
-					<span class="fr">~ 400,000원 (AI 예상 최대 견적)</span>
+					<span class="fr">~ ${maxCost}원 (AI 예상 최대 견적)</span>
 				</div>
+				<div style="clear:both;"></div>
 			</div>
 			<c:choose>
 				<c:when test="${sessionScope.loginId==writerId}">
@@ -124,11 +133,11 @@
 	<div id="content3" class="${isLiked}">
 		<div>
 			<div>
-				<div class="button">
+				<div class="button" data-bno="${bno}">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 heart">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 					</svg>
-					<div>찜(${likedCnt})</div>
+					<div>찜(<span>${likedCnt}</span>)</div>
 				</div>
 				<div class="button">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -137,70 +146,36 @@
 					<div><label for="commentInput">댓글(${reviewCnt})</label></div>
 				</div>
 			</div>
-			<div>
-				<div>2/2</div>
-				<div class="moveDate">&lt;</div>
-				<div class="moveDate">></div>
+			<div id="topPageNation">
+				<div><span>1</span>/<span>${comments.lastPageNum}</span></div>
 			</div>
 		</div>
-		<div>
-			<div class="comment">
-				<div>
-					<div>
-						<img src="img/im.jpg" />
-						<div>김믈</div>
-					</div>
-					<div>
-						<div class="moveDate">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-							</svg>
-							수정
-						</div>
-						<div class="moveDate">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-							</svg>
-							삭제
-						</div>
-					</div>
-				</div>
-				<div>여기 정말 좋아요~~</div>
-				<div>2026.06.12 14:20</div>
-			</div>
-			<div class="comment">
-				<div>
-					<div>
-						<img src="img/im.jpg" />
-						<div>김믈</div>
-					</div>
-					<div>
-						<div class="moveDate">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-							</svg>
-							수정
-						</div>
-						<div class="moveDate">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-							</svg>
-							삭제
-						</div>
-					</div>
-				</div>
-				<div>매우매우긴~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 글</div>
-				<div>2026.06.12 14:10</div>
-			</div>
+		<div id="commentList">
 		</div>
 		<div>
-			<div class="moveDate">1</div>
-			<div class="moveDate">2</div>
+			<c:if test="${(pageNum-1)/5*5+1>5}">
+				<div class="moveDate">이전</div>
+			</c:if>
+			<c:forEach var="i" begin="${(pageNum-1)/5*5+1}" end="${(pageNum-1)/5*5+5}">
+				<c:if test="${i<=comments.lastPageNum}">
+					<c:choose>
+						<c:when test="${i==pageNum}">
+							<div class="fixDate">${i}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="moveDate nthPage">${i}</div>
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+			</c:forEach>
+			<c:if test="${(pageNum-1)/5*5+5<comments.lastPageNum+1}">
+				<div class="moveDate">다음</div>
+			</c:if>
 		</div>
-		<div>
-			<textarea id="commentInput"></textarea>
-			<div class="button">등록</div>
-		</div>
+	</div>
+	<div id="commentInput">
+		<textarea></textarea>
+		<div class="button">등록</div>
 	</div>
 </body>
 </html>
