@@ -1,8 +1,10 @@
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
+// rate : 점수 1, 2, 3점 
+// per : 1점의 개수 / 전체  
 function setGraph(rate, per) {
 	$(".graph").each(function(idx, item) {
 		if(5-idx==Number(rate)) {
-			let width = "width: " + per;
+			let width = "width: " + per*100 + "%";
 			$(this).attr("style",width);
 		}
 	});
@@ -43,14 +45,83 @@ $(function() {
 			$("#main > div:nth-child(1) > div:nth-child(1) > label > svg").trigger("click");
 		}
 	});
-	// 이름 클릭 시 정보창 팝업
-	$(".placeTitle>div:nth-child(1)>a").click(function(){
-		$(".popupContainer").removeClass("hide");
-		$(".popupContainer>div:nth-child(1)").removeClass("hide");
-	});
 	// 장소 옆 별 on off
 	$(".placeTitle>div>svg").click(function(){
-		$(this).toggleClass("fillStar");
+		let placeId = $(this).parent().parent().parent().parent().data("placeid");
+		alert(placeId);
+		if($(this).hasClass("fillStar")){ // 찜 삭제
+			fetch("../../deleteLikedPlace?placeId="+placeId, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		} else { // 찜 더하기
+			fetch("../../addLikedPlace?placeId="+placeId, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		} 
+		
+		$(this).toggleClass("fillStar"); // css 꾸미기 
+	});
+	
+	// 이름 클릭 시 정보창 팝업
+	$(".placeTitle>div:nth-child(1)>a").click(function(){
+		let placeId = $(this).parent().parent().parent().parent().data("placeid");
+		fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data.placeDetail);
+			console.log(data.reviews);
+			let petail = data.placeDetail;
+			let reviews = data.reviews;
+				
+			$(".popupPlace").attr("data-placeid", placeId);
+			$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(petail.name); 
+			$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(petail.avgRating);
+			$(".popupPlace > div:nth-child(2) > span:nth-child(3)").text("("+petail.reviewCnt+")"); 
+			$(".popupPlace > div:nth-child(3)").text(petail.category);
+			if(petail.isLiked==1) $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").addClass("fillStar");
+			else $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").removeClass("fillStar");
+			$(".placeDetail > div:nth-child(1)>span").text(petail.address);
+			$(".placeDetail > div:nth-child(3) > div").text(petail.businessHours);
+			$(".placeDetail > div:nth-child(4)>div").text(petail.websiteUrl);
+			setGraph(5 ,petail.rating5/petail.reviewCnt);
+			setGraph(4 ,petail.rating4/petail.reviewCnt);
+			setGraph(3 ,petail.rating3/petail.reviewCnt);
+			setGraph(2 ,petail.rating2/petail.reviewCnt);
+			setGraph(1 ,petail.rating1/petail.reviewCnt);
+			setGraph(0 ,petail.rating0/petail.reviewCnt);
+			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(petail.avgRating);
+			setAvgStar(petail.avgRating);
+			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + petail.reviewCnt + "개");
+			
+			
+			for(let i=0; i<reviews.length; i++) {
+				$(".placeReview > div:nth-child(1) > div:nth-child(1) > div").text(reviews[i].nickName);
+				$(".placeReview > div:nth-child(4)").text(reviews[i].content);
+				$(".placeReview > img").attr("src","../../resources/img/" + reviews[i].image);
+			}
+			
+			$(".popupContainer").removeClass("hide");
+			$(".popupContainer>div:nth-child(1)").removeClass("hide");
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		});
 	});
 	// ************** 팝업 ******************
 	// 팝업창 닫기
@@ -61,6 +132,32 @@ $(function() {
 	// ************** 장소 정보창 *************
 	// 장소 옆 별 on off
 	$(".popupPlace>div:nth-child(1)>div:nth-child(2)>svg").click(function(){
+		let placeId = $(".popupPlace").data("placeid");
+		//alert(placeId);
+		if($(this).hasClass("fillStar")){ // 찜 삭제
+			fetch("../../deleteLikedPlace?placeId="+placeId, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			});
+		} else { // 찜 더하기
+			fetch("../../addLikedPlace?placeId="+placeId, {method:"POST"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			});
+		}
+		$(".placeTitle > div > svg").toggleClass("fillStar");
 		$(this).toggleClass("fillStar");
 	});
 	// 영업시간 on off

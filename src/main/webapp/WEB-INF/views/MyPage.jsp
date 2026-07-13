@@ -61,7 +61,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="myBoard" items="${getMyPage.get(\"getMyBoard\")}" varStatus="status">
+				<c:forEach var="myBoard" items="${getMyPage.get('getMyBoard')}" varStatus="status">
 					<tr data-bno="${myBoard.bno}">
 						<th><c:out value="${status.count}"/>.</th>
 						<td>
