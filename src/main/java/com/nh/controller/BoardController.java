@@ -26,17 +26,19 @@ public class BoardController {
 	}
 	
 	@GetMapping("/plan/{bno}/week")
-	public String planDetailWeek(@PathVariable int bno, Model model) {
+	public String planDetailWeek(@PathVariable int bno, HttpSession session, Model model) {
+		model.addAllAttributes(bSvc.getBoardInfo((int)session.getAttribute("loginId"), bno));
 		return "MainWeek";
 	}
 	
 	@GetMapping("/plan/{bno}/month")
-	public String planDetailMonth(@PathVariable int bno, Model model) {
+	public String planDetailMonth(@PathVariable int bno, HttpSession session, Model model) {
 		return "MainMonth";
 	}
 	
 	@GetMapping("/plan/{bno}/day")
-	public String planDetailDay(@PathVariable int bno, Model model) {
+	public String planDetailDay(@PathVariable int bno, HttpSession session, Model model) {
+		model.addAllAttributes(bSvc.getBoardInfo((int)session.getAttribute("loginId"), bno));
 		return "MainDay";
 	}
 }

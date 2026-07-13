@@ -7,13 +7,16 @@
 	<title>일정표-메인(일)</title>
 	<link rel="stylesheet" href="../../resources/css/MainDay.css" />
 	<link rel="stylesheet" href="../../resources/css/Header.css"/>
+	<link rel="stylesheet" href="../../resources/css/BoardTitle.css"/>
 	<script type="text/javascript" src="../../resources/js/jquery-4.0.0.min.js"></script>
 	<script type="text/javascript" src="../../resources/js/MainPlan.js"></script>
 	<script type="text/javascript" src="../../resources/js/MainDay.js"></script>
 	<script type="text/javascript" src="../../resources/js/Header.js"></script>
+	<script type="text/javascript" src="../../resources/js/BoardTitle.js"></script>
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
+	<%@ include file="BoardTitle.jsp"%>
 	<div id="main">
 		<div class="bs">
 			<div class="inputBdDiv">
