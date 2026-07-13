@@ -32,7 +32,7 @@ public class PlaceServiceImpl implements PlaceService {
 	public void deleteLikedPlace(int memberId, String placeId) {
 		pDao.deleteLikedPlace(memberId, placeId);
 	}
-
+	// 장소 댓글 가져오기
 	@Override
 	public List<Map<String, Object>> getReviews(String placeId, int page) {
 		// 페이지네이션(10개씩 조회)

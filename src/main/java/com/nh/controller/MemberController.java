@@ -24,7 +24,7 @@ public class MemberController {
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
 		//임시 로그인
-		int loginId = 1;
+		int loginId = (int)session.getAttribute("loginId");
 		session.setAttribute("loginId", loginId);
 		
 		Map<String,Object> getMyPage = mSvc.getMyPage(loginId);
@@ -38,7 +38,7 @@ public class MemberController {
 	@RequestMapping("/mypage/edit")
 	public String edit(HttpSession session, Model model) {
 		//임시 로그인
-		int loginId = 1;
+		int loginId = (int)session.getAttribute("loginId");
 		session.setAttribute("loginId", loginId);
 		
 		String nickName = mSvc.getNickName(loginId);
