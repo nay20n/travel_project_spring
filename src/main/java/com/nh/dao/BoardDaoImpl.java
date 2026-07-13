@@ -178,4 +178,9 @@ public class BoardDaoImpl implements BoardDao {
 	public void deleteLikeBoardByBno(int bno) {
 		sqlSession.delete("boardMapper.deleteLikeBoardByBno", bno);
 	}
+
+	@Override
+	public String getBoardCity(int bno) {
+		return sqlSession.selectOne("boardMapper.getBoardCity", bno);
+	}
 }

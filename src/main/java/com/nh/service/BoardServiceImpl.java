@@ -304,4 +304,34 @@ public class BoardServiceImpl implements BoardService {
 		// 게시글 삭제
 		bDao.deleteBoard(bno);
 	}
+
+	@Override
+	public List<Map<String, Object>> getSerchedPlaceByCity(int memberId, int bno, int page) {
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("memberId", memberId);
+		map1.put("bno", bno);
+		
+		// 도착 정보
+		map1.put("arrPlaceId", pDao.getArrPlaceIdByBno(bno));
+		
+		// 페이지네이션 (10개씩 조회)
+		map1.put("end", page*10);
+		map1.put("start", page*10-9);
+		
+		// %검색%
+		String city = bDao.getBoardCity(bno);
+		map1.put("input", "%" + city + "%");
+		
+		List<Map<String, Object>> listPlaces = bDao.getSerchedPlace(map1);
+		
+		// 장소 이미지 추가
+		for(int i=0;i<listPlaces.size();i++) {
+			Map<String, Object> tempMap = listPlaces.get(i);
+			String placeId = (String)tempMap.get("placeId");
+			tempMap.put("images", pDao.getPlaceImages(placeId));
+		}
+		return listPlaces;
+	}
+
+	
 }

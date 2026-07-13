@@ -243,4 +243,9 @@
 			DELETE FROM like_boards WHERE bno = #{bno}
 		]]>
 	</delete>
+	<select id="getBoardCity" resultType="java.lang.String">
+		<![CDATA[
+			SELECT arr_place_city FROM boards WHERE bno = #{bno}
+		]]>
+	</select>
 </mapper>

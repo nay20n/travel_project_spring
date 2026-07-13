@@ -20,8 +20,9 @@ public class RestContoller {
 	@Autowired
 	BoardService bSvc;
 	
-	@PostMapping("/DataInsertBoard")
-	public int DataInsertBoard(@RequestBody Map<String,Object> mapReq){
+	// 게시글 삽입하기
+	@PostMapping("/insertBoard")
+	public int insertBoard(@RequestBody Map<String,Object> mapReq){
 		String arrId = (String)mapReq.get("arrId");
 		String startId = (String)mapReq.get("startId");
 		String startDate = (String)mapReq.get("startDate");
@@ -33,8 +34,8 @@ public class RestContoller {
 		//System.out.println(bno);
 		return bno;
 	}
-	@RequestMapping("/MainWeekGetSelectedPlaces")
-	public Map<String,Object> MainWeekGetSelectedPlaces(HttpSession session, Model model) {
+	@RequestMapping("/getSelectedPlaces")
+	public Map<String,Object> getSelectedPlaces(HttpSession session, Model model) {
 		//임시 로그인
 		int loginId = 1;
 		session.setAttribute("loginId", loginId);
@@ -51,5 +52,31 @@ public class RestContoller {
 		
 		// 제목 없데이트
 		bSvc.modifyTilte(title, bno);
+	}
+	// 게시글 찜하기
+	@PostMapping("/insertLikeBoard")
+	public boolean insertLikeBoard(HttpSession session, int bno) {
+		//임시 로그인
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
+		try {
+	        bSvc.insertLikeBoard(1, bno);
+	        return true; 
+	    } catch (Exception e) {
+	        return false;    
+	    }
+	}
+	//게시글 찜 삭제하기 
+	@PostMapping("/deleteLikeBoard")
+	public boolean deleteLikeBoard(HttpSession session, int bno) {
+		//임시 로그인,
+		int loginId = 1;
+		session.setAttribute("loginId", loginId);
+		try {
+	        bSvc.deleteLikeBoard(1, bno);
+	        return true; 
+	    } catch (Exception e) {
+	        return false;    
+	    }
 	}
 }
