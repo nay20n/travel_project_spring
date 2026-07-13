@@ -54,10 +54,18 @@ public class RestContoller {
 	}
 	// 게시글 댓글 가져오기
 	@PostMapping("/getBoardComment")
-	public Map<String,Object> updateBoardTilte(Integer pageNum, Integer bno){
-		if(pageNum==null) pageNum=1;
-		if(bno==null) bno=1;
+	public Map<String,Object> getBoardComment(@RequestBody Map<String,Object> mapReq){
+		int bno = Integer.parseInt((String)mapReq.get("bno"));
+		int pageNum = (int)mapReq.get("pageNum");
 		return cSvc.getComment(bno, pageNum);
+	}
+	// 게시글 댓글 수정하기
+	@PostMapping("/updateComment")
+	public String updateComment(@RequestBody Map<String,Object> mapReq){
+		int cno = (int)mapReq.get("cno");
+		String content = (String)mapReq.get("content");
+		cSvc.modifyComment(cno, content);
+		return "댓글 수정됨";
 	}
 	// 게시글 예산 수정하기
 	@PostMapping("/updateBoardFee")

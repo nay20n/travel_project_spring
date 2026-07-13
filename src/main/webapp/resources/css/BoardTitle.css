@@ -67,7 +67,8 @@
 }
 
 #title > div > label > input:nth-child(1):focus { /* 게시글 제목 */
-    outline: none;
+    outline-width: 2px;
+	outline-color: #E3D4FF;
 }
 
 #title > div > label > svg {
