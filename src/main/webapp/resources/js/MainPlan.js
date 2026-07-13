@@ -14,6 +14,10 @@ function setAvgStar(rate) {
 	let width = "width: " + (Number(rate)/5*100) + "%";
 	$(".placeDetail>div:nth-child(5)>div:nth-child(2)>div:nth-child(2)>div").attr("style",width);
 }
+function setStar(rate) {
+	for(let i=1; i<=rate; i++)
+		$(`.placeReview > div:nth-child(2) > div > svg:nth-child(${i})`).addClass("fillStar");
+}
 // 색 배열 들어오면 블럭 초기 색상 넣어주는 함수 + 임시 색 배열
 let blockColorArr = ["#fff4e6","#b0e0e6","#9fb5c8","#f7d9c4","#e2cfd4"];
 function setInitialColor(blockColorArr) {
@@ -78,6 +82,9 @@ $(function() {
 	
 	// 이름 클릭 시 정보창 팝업
 	$(".placeTitle>div:nth-child(1)>a").click(function(){
+		$(".popupContainer> div > div")
+	
+	
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
 		fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
 		.then(function(response){
@@ -86,34 +93,86 @@ $(function() {
 		.then(function(data){
 			console.log(data.placeDetail);
 			console.log(data.reviews);
-			let petail = data.placeDetail;
+			let pDetail = data.placeDetail;
 			let reviews = data.reviews;
 				
 			$(".popupPlace").attr("data-placeid", placeId);
-			$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(petail.name); 
-			$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(petail.avgRating);
-			$(".popupPlace > div:nth-child(2) > span:nth-child(3)").text("("+petail.reviewCnt+")"); 
-			$(".popupPlace > div:nth-child(3)").text(petail.category);
-			if(petail.isLiked==1) $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").addClass("fillStar");
+			$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(pDetail.name); 
+			$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(pDetail.avgRating);
+			$(".popupPlace > div:nth-child(2) > span:nth-child(3)").text("("+pDetail.reviewCnt+")"); 
+			$(".popupPlace > div:nth-child(3)").text(pDetail.category);
+			if(pDetail.isLiked==1) $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").addClass("fillStar");
 			else $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").removeClass("fillStar");
-			$(".placeDetail > div:nth-child(1)>span").text(petail.address);
-			$(".placeDetail > div:nth-child(3) > div").text(petail.businessHours);
-			$(".placeDetail > div:nth-child(4)>div").text(petail.websiteUrl);
-			setGraph(5 ,petail.rating5/petail.reviewCnt);
-			setGraph(4 ,petail.rating4/petail.reviewCnt);
-			setGraph(3 ,petail.rating3/petail.reviewCnt);
-			setGraph(2 ,petail.rating2/petail.reviewCnt);
-			setGraph(1 ,petail.rating1/petail.reviewCnt);
-			setGraph(0 ,petail.rating0/petail.reviewCnt);
-			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(petail.avgRating);
-			setAvgStar(petail.avgRating);
-			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + petail.reviewCnt + "개");
+			$(".placeDetail > div:nth-child(1)>span").text(pDetail.address);
 			
+			$(".placeDetail > div:nth-child(3) > div").text(pDetail.businessHours);
+			$(".placeDetail > div:nth-child(4)>div").text(pDetail.websiteUrl);
+			setGraph(5 ,pDetail.rating5/pDetail.reviewCnt);
+			setGraph(4 ,pDetail.rating4/pDetail.reviewCnt);
+			setGraph(3 ,pDetail.rating3/pDetail.reviewCnt);
+			setGraph(2 ,pDetail.rating2/pDetail.reviewCnt);
+			setGraph(1 ,pDetail.rating1/pDetail.reviewCnt);
+			setGraph(0 ,pDetail.rating0/pDetail.reviewCnt);
+			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(pDetail.avgRating);
+			setAvgStar(pDetail.avgRating);
+			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + pDetail.reviewCnt + "개");
 			
+			$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
 			for(let i=0; i<reviews.length; i++) {
-				$(".placeReview > div:nth-child(1) > div:nth-child(1) > div").text(reviews[i].nickName);
-				$(".placeReview > div:nth-child(4)").text(reviews[i].content);
-				$(".placeReview > img").attr("src","../../resources/img/" + reviews[i].image);
+			
+				let profile = reviews[i].profileImg;
+				if(profile==null)
+					profile = "defaultImg.png";
+				let img = reviews[i].image;
+				let imgHtml = ``;
+				if(img!=null)
+					imgHtml = `<img src="../../resources/img/${img}" />`
+				let reviewHtml = `<div class="placeReview">
+								<div>
+									<div>
+										<img src="../../resources/img/${profile}"/>
+										<div>${reviews[i].nickName}</div> 
+									</div>
+									<div>
+										<div class="inputBdDiv">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  											<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+											</svg>
+											수정
+										</div>
+										<div class="inputBdDiv">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  											<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+											</svg>
+											삭제
+										</div>
+									</div>
+								</div>
+								<div>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+										</svg>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+										</svg>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+										</svg>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+										</svg>
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+										</svg>
+									</div>
+									<div>${reviews[i].finalDate}</div>
+								</div>
+								${imgHtml}
+								<div>${reviews[i].content}</div>
+							</div>`;
+							
+				$(".popupPlace>div:nth-child(6)").append(reviewHtml);
+				setStar(reviews[i].rating);
 			}
 			
 			$(".popupContainer").removeClass("hide");
@@ -186,11 +245,11 @@ $(function() {
 		alert("등록!!");
 	});
 	// 댓글 수정
-	$(".placeReview>div:nth-child(1)>div:nth-child(2)>div:nth-child(1)").click(function() {
+	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)", function() {
 		alert("수정!");
 	});
 	// 댓글 삭제
-	$(".placeReview>div:nth-child(1)>div:nth-child(2)>div:nth-child(2)").click(function() {
+	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)", function() {
 		alert("삭제!");
 	});
 	// *************** 블럭 정보 팝업 *****************

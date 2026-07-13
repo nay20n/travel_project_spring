@@ -35,7 +35,6 @@ $(function(){
 		let endDate = "2026-09-02";	
 		let startDate = "2026-09-01";
 		
-		
 		const jsonData = {
 			arrId : arrId,
 			startId : startId,
