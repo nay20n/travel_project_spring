@@ -107,11 +107,11 @@
 				</c:when>
 				<c:otherwise>
 					<div class="other">
-						<div class="button">
+						<div class="button" data-arrPlaceId="${arrPlaceId}">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
 							</svg>
-							<span data-arrPlaceId="${arrPlaceId}">나만의 일정으로 수정하기</span>
+							<span>나만의 일정으로 수정하기</span>
 						</div>
 					</div>
 				</c:otherwise>
@@ -150,27 +150,9 @@
 				<div><span>1</span>/<span>${comments.lastPageNum}</span></div>
 			</div>
 		</div>
-		<div id="commentList" data-writerId="${writerId}">
+		<div id="commentList">
 		</div>
 		<div id="bottomPageNation">
-			<c:if test="${(pageNum-1)/5*5+1>5}">
-				<div class="moveDate">이전</div>
-			</c:if>
-			<c:forEach var="i" begin="${(pageNum-1)/5*5+1}" end="${(pageNum-1)/5*5+5}">
-				<c:if test="${i<=comments.lastPageNum}">
-					<c:choose>
-						<c:when test="${i==pageNum}">
-							<div class="fixDate">${i}</div>
-						</c:when>
-						<c:otherwise>
-							<div class="moveDate nthPage">${i}</div>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</c:forEach>
-			<c:if test="${(pageNum-1)/5*5+5<comments.lastPageNum+1}">
-				<div class="moveDate">다음</div>
-			</c:if>
 		</div>
 	</div>
 	<div id="commentInput">

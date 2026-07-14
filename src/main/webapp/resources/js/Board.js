@@ -1,10 +1,13 @@
-// 댓글 페이지 처리 함수
-let gPageLock = false;
+// 댓글 페이지 처리 필드
+let gPageLock = false; // 페이지 불러오는 중에는 작동하지 않도록 막아둠
 let gPageNum = 1;
+
+// 댓글 페이지 불러오기 함수
 function newPage(pageNum, bno) {
 	if(gPageLock) return;
 	gPageLock = true;
 	
+	// 댓글 불러오기 비동기
 	const jsonData = {
 		"pageNum" : pageNum,
 		"bno" : bno
@@ -21,18 +24,19 @@ function newPage(pageNum, bno) {
 		return response.json();
 	})
 	.then(function(data) {
-		$("#topPageNation>div>span:nth-child(1)").html(gPageNum);
-		$("#topPageNation>div>span:nth-child(2)").html(data.lastPageNum);
 		$("#commentList>*").remove();
 		let arr = data.comments;
-		let writerId = $("#commentList").attr('data-writerId');
+		let loginId = data.loginId;
 		for(let i=0;i<arr.length;i++){
 			let item = arr[i];
+			
 			const str1 = `
 				<div class="comment">
 					<div>
 						<div>
 			`;
+			
+			// 프로필 이미지
 			let str2 = "";
 			if(item.proFile==null){
 				str2 = `<img src="../resources/img/기본 프로필.png"/>`;
@@ -43,8 +47,10 @@ function newPage(pageNum, bno) {
 							<div>${item.nickName}</div>
 						</div>
 			`;
+			
+			// 수정, 삭제 버튼
 			let str4 = "";
-			if(item.memberId==writerId) {
+			if(item.memberId==loginId) {
 				str4 = `
 							<div>
 								<div class="moveDate">
@@ -61,7 +67,7 @@ function newPage(pageNum, bno) {
 								</div>
 							</div>
 						</div>
-						<input data-cno="${item.cno}" id="modifyComment" type="text" value="${item.content}"/>
+						<input data-cno="${item.cno}" type="text" value="${item.content}"/>
 				`;
 			}
 			else {
@@ -70,13 +76,24 @@ function newPage(pageNum, bno) {
 					<div>${item.content}</div>				
 				`
 			}
+			
 			const str5 = `
 					<div>${item.finalDate}</div>
 				</div>
 			`;
+			
 			$("#commentList").append(str1+str2+str3+str4+str5);
 		}
+		
+		// 상단 페이지 수 수정
+		$("#topPageNation>div>span:nth-child(1)").html(gPageNum);
+		$("#topPageNation>div>span:nth-child(2)").html(data.lastPageNum);
+		
+		// 댓글 넘기기가 필요하지 않을 경우 그리지 않음
 		$("#bottomPageNation>*").remove();
+		if(data.lastPageNum==1) return;
+		
+		// 페이지 이동 버튼
 		if(parseInt((gPageNum-1)/5)*5+1>5) $("#bottomPageNation").append(`<div id="beforePage" class="moveDate">이전</div>`);
 		for(let i=parseInt((gPageNum-1)/5)*5+1;i<=parseInt((gPageNum-1)/5)*5+5;i++){
 			if(i>data.lastPageNum) return;
@@ -106,12 +123,15 @@ function getSum() {
 
 
 $(function() {
+	// ************* 공통으로 쓸 필드 *************
 	let bno = $(".fee").attr('data-bno');
-	// 댓글 호출
+	
+	// ************ 첫 화면 불러올 때 초기화 ********
+	// 댓글
 	newPage(gPageNum,bno);
-	// 예산 합 초기화
+	// 예산 합
 	getSum();
-	// 찜한 게시글 하트 채워두기
+	// 찜한 게시글 하트
 	if($("#content3").hasClass("1")) $(".heart").addClass("fillHeart");
 	
 	// ************* 예산 사용자 입력 ****************
@@ -140,9 +160,9 @@ $(function() {
 		if (originalFee === currentFee) return;
 		
 		const jsonData = {
-			field : field,
-			fee : currentFee,
-			bno : bno
+			"field" : field,
+			"fee" : currentFee,
+			"bno" : bno
 		};
 		const initData = {
 			method: "post",
@@ -164,11 +184,11 @@ $(function() {
 		// 예산 합 초기화
 		getSum();
 	});
-	// *************** 예산 아래 버튼 ****************
+	
+	// *************** 예산 아래 버튼들 ****************
 	// 게시글 복제
 	$(document).on("click", ".other>div", function() {
-		alert("게시글이 복제되었습니다!");
-		location.href="/TravelPlanner/newplan/start";
+		location.href="/TravelPlanner/newplan/start?bno=" + bno;
 	});
 	// 삭제
 	$(document).on("click", ".my>div:nth-child(1)", function() {
@@ -188,22 +208,25 @@ $(function() {
 		alert("동기화!");
 	});
 	
-	// *******************댓글*********************
-	// 댓글 페이지네이션
+	// *************** 댓글 페이지네이션 ****************
+	// 이전
 	$(document).on("click", "#beforePage", function() {
 		gPageNum = parseInt((gPageNum-1)/5)*5;
 		newPage(gPageNum,bno);
 	});
+	// 다음
 	$(document).on("click", "#nextPage", function() {
 		gPageNum = parseInt((gPageNum-1)/5)*5+6;
 		newPage(gPageNum,bno);
 	});
+	// 페이지 버튼 클릭 시 불러오기
 	$(document).on("click", ".nthPage", function() {
 		let page = Number($(this).html());
 		gPageNum = page;
 		newPage(gPageNum,bno);
 	});
 	
+	// ************** 댓글 수정, 삭제 *******************
 	// 포커스 발생 시 현재 댓글 저장
 	$('.comment > input').on('focus', function () {
 	    $(this).data('original-value', $(this).val());
@@ -215,21 +238,27 @@ $(function() {
 	    }
 	});
 	// 수정 버튼 클릭 시 포커스
-	$(document).on("click", ".comment > div:nth-child(1) > div:nth-child(2) > div", function() {
+	$(document).on("click", ".comment>div>div:nth-child(2)>div:nth-child(1)", function() {
 	    $(this).parent().parent().parent().find("input").focus();
 	});
 	// 댓글 수정
 	$(document).on("blur", ".comment > input", function() {
 		const originalContent = String($(this).data('original-value'));
     	const currentContent = $(this).val();
-    	const cno = $(this).data('cno');
+    	const cno = $(this).data("cno");
+    	
+    	// 내용이 없거나 공백만 존재한다면 종료
+		if(currentContent.trim()=="") {
+			alert("빈 내용으로는 수정할 수 없습니다.");
+			return;
+		}
     	
 		// 제목에 변경 사항이 없다면 종료
 		if (originalContent === currentContent) return;
 		
 		const jsonData = {
 			"content" : currentContent,
-			"cno" : cno,
+			"cno" : cno
 		};
 		const initData = {
 			method: "post",
@@ -251,12 +280,74 @@ $(function() {
 	});
 	// 댓글 삭제
 	$(document).on("click", ".comment>div>div:nth-child(2)>div:nth-child(2)", function() {
-		alert("정말 삭제 하시나요?");
+		if(confirm("정말 삭제 하시나요?")) {
+			const cno = $(this).data("cno");
+	   
+			const jsonData = {
+				"cno" : cno
+			};
+			const initData = {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(jsonData)
+			};
+			fetch("/TravelPlanner/deleteComment", initData)
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				alert("삭제되었습니다.");
+				// 페이지 다시 그리기
+				newPage(gPageNum,bno);
+			})
+			.catch(function(error) {
+				alert("에러! : 댓글 삭제에 문제가 발생했습니다. 다시 시도해주세요." + error);
+			});
+			}
 	});
 	// 댓글 등록
 	$(document).on("click", "#commentInput>div", function() {
-		alert("등록~");
+		let content = $(this).parent().find("textarea").val();
+		const $btn = $(this);
+		
+		// 내용이 없거나 공백만 존재한다면 종료
+		if(content.trim()=="") {
+			$(this).parent().find("textarea").val("");
+			return;
+		}
+		
+		const jsonData = {
+			"content" : content,
+			"bno" : bno
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("/TravelPlanner/insertComment", initData)
+		.then(function(response) {
+			return response.text();
+		})
+		.then(function(data) {
+			console.log(data);
+			alert("정상 등록");
+			
+			// 페이지 다시 그리기
+			newPage(gPageNum,bno);
+		})
+		.catch(function(error) {
+			alert("에러! : 댓글 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
+		});
+		
+		// textarea 비우기
+		$(this).parent().find("textarea").val("");
 	});
+	// ****************** 게시글 찜 ************************8
 	// 찜 색칠
 	$("#content3 > div:nth-child(1) > div > div:nth-child(1)").on('click', function () {
 		let bno = $(this).data("bno");

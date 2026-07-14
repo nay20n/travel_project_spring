@@ -29,10 +29,12 @@ $(function() {
 		
 		// 도착 아이디 얻어오기
 		let arrId = getUrlParams().arrId;
+		// bno 얻어오기
+		let bno = getUrlParams().bno;
 		// 출발 아이디 (일단 서울역)
 		let startId = "ChIJzzlcLQGifDURm_JbQKHsEX4"
 		
 		if(isActive) // 활성화 됐을때만 이동 가능 
-			location.href="date?arrId=" + arrId + "&startId=" + startId;
+			location.href="date?arrId=" + arrId + "&startId=" + startId + "&bno=" + bno;
 	});
 });
