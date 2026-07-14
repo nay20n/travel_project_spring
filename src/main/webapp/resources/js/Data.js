@@ -59,7 +59,7 @@ $(function(){
 			console.log(data);
 			
 			let bno = data;
-			alert(bno);
+			// alert(bno);
 			location.href="../plan/" + bno;
 			
 		})

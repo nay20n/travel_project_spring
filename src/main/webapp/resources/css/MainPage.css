@@ -96,27 +96,25 @@ body>* {
 	height: 20px;
 }
 
-/* *********************게시글******************** */
+/* ****************search************* */
 
-#board>div:nth-child(1) { /* 검색창부분 */
+#search { /* 검색창부분 */
 	padding: 20px 10px 0px 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin: auto;
-}
-
-#board {
 	overflow: hidden;
+	width: 1280px;
 }
 
-#board>div:nth-child(1)>span { /* 최신여행계획 */
+#search>span { /* 최신여행계획 */
 	margin-left: 20px;
 	font-size: 25px;
 	font-weight: 600;
 }
 
-#board>div:nth-child(1)>div { /* 검색창 */
+#search>div { /* 검색창 */
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -124,9 +122,10 @@ body>* {
 	width: 350px;
 	border: 1px solid #925DE8;
 	border-radius: 8px;
+	background-color: white;
 }
 
-#board>div:nth-child(1)>div>svg { /* 돋보기 */
+#search>div>svg { /* 돋보기 */
 	position: absolute;
 	right: 10px;
 	height: 25px;
@@ -134,6 +133,16 @@ body>* {
 	color: #925DE8;
 	cursor: pointer;
 }
+
+#search>div>input {
+    width: 324px;
+}
+
+/* *********************게시글******************** */
+#board {
+	overflow: hidden;
+}
+
 
 #board>div { /* 게시글4개 */
 	width: 1280px;
@@ -181,7 +190,7 @@ body>* {
 	right: 73px;
 }
 
-#board>div:NOT(:first-child)>div>div:nth-child(2)>span>svg { /* 하트 */
+#board>div>div>div:nth-child(2)>span>svg { /* 하트 */
 	cursor: pointer;
 }
 
