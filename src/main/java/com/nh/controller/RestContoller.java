@@ -27,6 +27,19 @@ public class RestContoller {
 	@Autowired
 	MemberService mSvc;
 	
+	// 게시글 최신순 조회
+	@PostMapping("/getBoardsLastestOrder")
+	public List<Map<String,Object>> getBoardsLastestOrder(@RequestBody Map<String,Object> mapReq, HttpSession session) {
+		int pageNum = (Integer)mapReq.get("pageNum");
+		return bSvc.getBoardsLastestOrder((Integer)session.getAttribute("loginId"), pageNum);
+	}
+	// 게시글 검색 조회
+	@PostMapping("/getBoardsKeyOrder")
+	public List<Map<String,Object>> getBoardsKeyOrder(@RequestBody Map<String,Object> mapReq, HttpSession session) {
+		String input = (String)mapReq.get("input");
+		int pageNum = (Integer)mapReq.get("pageNum");
+		return bSvc.getBoardsKeyOrder((Integer)session.getAttribute("loginId"), input, pageNum);
+	}
 	// 게시글 삽입하기
 	@PostMapping("/insertBoard")
 	public int insertBoard(@RequestBody Map<String,Object> mapReq, HttpSession session){
@@ -44,12 +57,20 @@ public class RestContoller {
 			bno = bSvc.insertBoard(loginId, startId, arrId, startDate, endDate, arrCity);
 		} else {
 			int copyBno = Integer.parseInt(tempBno);
-			bno = 1;
-			bSvc.copyBoard(loginId, startId, startDate, copyBno);
+			bno = bSvc.copyBoard(loginId, startId, startDate, copyBno);
 		}
 		
 		//System.out.println(bno);
 		return bno;
+	}
+	// 게시글 삭제하기
+	@PostMapping("/deleteBoard")
+	public String deleteBoard(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int bno = Integer.parseInt((String)mapReq.get("bno"));
+
+		// 게시글 삭제
+		bSvc.deleteBoard(bno, (int)session.getAttribute("loginId"));
+		return "게시글 삭제";
 	}
 	// 게시글 제목 수정하기
 	@PostMapping("/updateBoardTitle")

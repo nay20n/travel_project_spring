@@ -23,7 +23,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(Integer pageNum, HttpSession session, Model model) {
 		// 임시 로그인 상태
-		session.setAttribute("loginId", 1);
+		session.setAttribute("loginId", 2);
 		
 		int page = 1;
 		
