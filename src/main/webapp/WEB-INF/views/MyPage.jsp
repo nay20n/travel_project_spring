@@ -47,7 +47,7 @@
 		<a>정보 수정</a>
 	</div>
 </div>
-<div class="tableDiv" class="bs"> <!--내 게시글 박스-->
+<div class="tableDiv bs"> <!--내 게시글 박스-->
 	<div class="tableTitle">내 게시글</div>
 	<div class="table">
 		<table class="bs">

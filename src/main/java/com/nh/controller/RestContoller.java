@@ -155,10 +155,11 @@ public class RestContoller {
 	}
 	// 내 게시글 조회 (마이페이지)
 	@PostMapping("/getMyBoard")
-	public List<Map<String,Object>> getMyBoard(HttpSession session, int page) {
+	public List<Map<String,Object>> getMyBoard(HttpSession session, int pageNum) {
 		int loginId = (int)session.getAttribute("loginId");
-		List<Map<String,Object>> boardList = mSvc.getMyBoard(loginId, page);
+		List<Map<String,Object>> boardList = mSvc.getMyBoard(loginId, pageNum);
 		return boardList;
 	}
+	
 	
 }
