@@ -276,7 +276,6 @@ $(function() {
 	});
 	// 댓글 등록
 	$(".reviewInput>div:nth-child(3)>div:nth-child(2)").click(function() {
-		
 		let content	= $(this).parent().parent().find("#textarea").find("textarea").val();
 		let placeId = $(".popupPlace").data("placeid");
 		let rating = 0;
