@@ -106,9 +106,10 @@ public interface BoardService {
 	 * @param memberId
 	 * @param startPlaceId
 	 * @param startDate
-	 * @param bno
+	 * @param bno 복제하려는 bno
+	 * @return 만들어진 게시글 bno
 	 */
-	void copyBoard(int memberId, String startPlaceId, String startDate, int bno);
+	int copyBoard(int memberId, String startPlaceId, String startDate, int bno);
 
 	/**
 	 * 최신 게시글 조회(지도 그리기 때문에 장소가 들어간 블록이 있는 게시글만 조회됨)
