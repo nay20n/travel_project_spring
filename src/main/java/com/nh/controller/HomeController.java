@@ -1,7 +1,5 @@
 package com.nh.controller;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,7 +21,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(Integer pageNum, HttpSession session, Model model) {
 		// 임시 로그인 상태
-		session.setAttribute("loginId", 2);
+		session.setAttribute("loginId", 1);
 		
 		int page = 1;
 		
