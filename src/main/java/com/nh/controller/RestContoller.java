@@ -235,5 +235,9 @@ public class RestContoller {
 		pSvc.addReview(loginId, placeId, content, rating, image);
 		return "insert";
 	}
-	
+	// 게시글 공유 링크 생성
+	@PostMapping("/createShareKey")
+	public String createShareKey() {
+		return bSvc.createShareKey(0);
+	}
 }

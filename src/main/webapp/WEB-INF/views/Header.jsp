@@ -1,5 +1,4 @@
-<%@
- page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div id="header" class="bs">
 	<div>
@@ -9,6 +8,7 @@
 		<a>트래블 플래너</a>
 	</div>
 	<div>
+		<div class="hide"></div>
 		<div class="headerBtn bs">
 			<div>로그아웃</div>
 		</div>

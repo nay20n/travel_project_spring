@@ -5,7 +5,7 @@ $(function() {
 		location.href="/TravelPlanner";
 	});
 	// 로그인 팝업
-	$("#header> div:nth-child(2)>div:nth-child(1)>div").click(function() {
+	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {
 		$(this).parent().find(".hide").addClass("hide");
 		$(".popupContainer").attr("style","display: block");
 		$(".loginpop").attr("style","display: block");

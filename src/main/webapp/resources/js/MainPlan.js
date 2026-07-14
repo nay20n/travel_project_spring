@@ -30,19 +30,6 @@ function setInitialColor(blockColorArr) {
 
 $(function() {
 	setInitialColor(blockColorArr);
-	// *************헤더****************
-	// 메인로고 누르면 메인화면으로
-	$("#header>div:nth-child(1)>div:nth-child(1)").click(function() {
-		location.href="MainPage.html";
-	});
-	// 공유
-	$("#header> div:nth-child(2)>div:nth-child(1)>div").click(function() {
-		alert("링크가 복사되었습니다!");	
-	});
-	// 마이페이지 이동
-	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {
-		location.href="MyPage.html";
-	});
 	// ************장소검색****************
 	// 검색 엔터로 돋보기 클릭
 	$("#main>div.bs>div.inputBdDiv>label>input").keypress(function(e) {
