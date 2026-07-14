@@ -8,6 +8,7 @@
 		<a>트래블 플래너</a>
 	</div>
 	<div>
+		<div class="hide"></div>
 		<div class="headerBtn bs">
 			<div>로그인</div>
 		</div>

@@ -30,7 +30,7 @@
 	font-weight: 500;
 }
 
-#header> div:nth-child(2) > *:hover {
+#header> div:nth-child(2) > div:NOT(:first-child):hover {
 	opacity: 30%;
 }
 
@@ -40,7 +40,7 @@
 	justify-content: space-between;
 }
 
-#header>div:nth-child(2) > .headerBtn {
+.headerBtn {
 	margin-right: 10px;
 	margin-top: 5px;
 	border-radius: 10px;
@@ -49,6 +49,32 @@
 	font-size: 16px;
 	font-weight: 500;
 	color: white;
+}
+
+#shareBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 10px;
+	margin-top: 5px;
+	border-radius: 10px;
+	background-color: white;
+	padding: 8px 10px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #925DE8;
+	border: 1px solid #925DE8;
+}
+
+#shareBtn:hover {
+	background-color: #EDE8F6;
+}
+
+#shareBtn > svg {
+	color: #925DE8;
+    flex-shrink: unset;
+    width: 20px;
+    margin-right: 5px;
 }
 
 #profileImg {
