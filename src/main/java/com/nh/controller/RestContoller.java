@@ -189,6 +189,30 @@ public class RestContoller {
 		List<Map<String,Object>> boardList = mSvc.getMyBoard(loginId, pageNum);
 		return boardList;
 	}
-	
+	// 내가 찜한 게시글 조회 (마이페이지)
+	@PostMapping("/getLikedBoard")
+	public List<Map<String,Object>> getLikedBoard(HttpSession session, int pageNum) {
+		int loginId = (int)session.getAttribute("loginId");
+		List<Map<String,Object>> boardList = mSvc.getLikedBoard(loginId, pageNum);
+		return boardList;
+	}
+	// 내가 댓글을 단 게시글 조회 (마이페이지)
+	@PostMapping("/getCommentBoard")
+	public List<Map<String,Object>> getCommentBoard(HttpSession session, int pageNum) {
+		int loginId = (int)session.getAttribute("loginId");
+		List<Map<String,Object>> boardList = mSvc.getCommentBoard(loginId, pageNum);
+		return boardList;
+	}
+	// 장소 댓글 입력 
+	@PostMapping("/addReview")
+	public String addReview(@RequestBody Map<String,Object> mapReq, HttpSession session) {
+		int loginId = (int)session.getAttribute("loginId");
+		String placeId = (String)mapReq.get("placeId");
+		String content = (String)mapReq.get("content");
+		int rating = (Integer)mapReq.get("rating");
+		String image = (String)mapReq.get("image");
+		pSvc.addReview(loginId, placeId, content, rating, image);
+		return "insert";
+	}
 	
 }

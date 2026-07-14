@@ -40,7 +40,7 @@ public class PlaceServiceImpl implements PlaceService {
 		int end = page*10;
 		return pDao.getReviews(placeId, start, end);
 	}
-
+	// 댓글 추가 
 	@Override
 	public void addReview(int memberId, String placeId, String content, int rating, String image) {
 		pDao.addReview(memberId, placeId, content, rating, image);
