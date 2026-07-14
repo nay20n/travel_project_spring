@@ -210,7 +210,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 타인의 일정 게시글 복제
 	@Override
-	public void copyBoard(int memberId, String startPlaceId, String startDate, int bno) {
+	public int copyBoard(int memberId, String startPlaceId, String startDate, int bno) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("memberId", memberId);
 		map1.put("startPlaceId", startPlaceId);
@@ -220,6 +220,7 @@ public class BoardServiceImpl implements BoardService {
 		// 블럭 복제
 		int newBno = bDao.copyBoard(map1);
 		blDao.copyBlock(newBno, bno, startDate);
+		return newBno;
 	}
 	
 	// 최신 게시글 조회

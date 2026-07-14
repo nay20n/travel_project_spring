@@ -154,7 +154,6 @@ $(function() {
 		const originalFee = String($(this).data('original-value'));
     	const currentFee = $(this).val();
     	const field = $(this).attr('data-field');
-    	const bno = $(this).attr('data-bno');
     	
 		// 제목에 변경 사항이 없다면 종료
 		if (originalFee === currentFee) return;
@@ -192,8 +191,31 @@ $(function() {
 	});
 	// 삭제
 	$(document).on("click", ".my>div:nth-child(1)", function() {
-		alert("정말 삭제하시겠습니까?");
-		location.href="/TravelPlanner";
+		if(confirm("정말 삭제하시겠습니까?")) {
+			const jsonData = {
+				"bno" : bno
+			};
+			const initData = {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(jsonData)
+			};
+			fetch("/TravelPlanner/deleteBoard", initData)
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				console.log(data);
+				location.href= "/TravelPlanner";
+			})
+			.catch(function(error) {
+				alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
+			});
+			// 예산 합 초기화
+			getSum();
+		}
 	});
 	// 수정
 	$(document).on("click", ".my>div:nth-child(2)", function() {
