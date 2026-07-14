@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /* ***************헤더***************** */
 #header {
 	background-color: white;
@@ -10,9 +9,14 @@
 	justify-content: space-between;
 }
 
+
 #header>div {
 	cursor: pointer;
 	margin: auto 15px;
+}
+
+#header> div:nth-child(1):hover {
+	opacity: 30%;
 }
 
 #header>div:nth-child(1)>svg {
@@ -26,6 +30,10 @@
 	font-weight: 500;
 }
 
+#header> div:nth-child(2) > *:hover {
+	opacity: 30%;
+}
+
 #header>div:nth-child(2) {
 	display: flex;
 	align-items: center;
@@ -35,9 +43,6 @@
 #header>div:nth-child(2) > .headerBtn {
 	margin-right: 10px;
 	margin-top: 5px;
-}
-
-#header> div:nth-child(2) > .headerBtn > div {
 	border-radius: 10px;
 	background-color: #925DE8;
 	padding: 8px 10px;
@@ -46,11 +51,7 @@
 	color: white;
 }
 
-#header> div:nth-child(2) > .headerBtn > div:hover {
-	opacity: 30%;
-}
-
-#profileImg > div {
+#profileImg {
 	border-radius: 28px;
 	background-color: #925DE8;
 	padding: 18px 3px;
