@@ -25,7 +25,9 @@ $(function(){
 	
 	// 다음 페이지 클릭하면 도착지 페이지로 이동
 	$("#nextBtn > div").click(function(){
-	
+		
+		// bno 가져오기
+		let bno = getUrlParams().bno;
 		// 도착 아이디 가져오기 
 		let arrId = getUrlParams().arrId;
 		let arrCity = "부산광역시";
@@ -41,6 +43,7 @@ $(function(){
 			endDate : endDate,
 			startDate : startDate, 
 			arrCity : arrCity,
+			bno : bno
 		};
 		const initData = {
 			method: "post",

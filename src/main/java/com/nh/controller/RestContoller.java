@@ -36,8 +36,18 @@ public class RestContoller {
 		String endDate = (String)mapReq.get("endDate");
 		String arrCity = (String)mapReq.get("arrCity");
 		int loginId = (int)session.getAttribute("loginId");;
+		String tempBno = (String)mapReq.get("bno");
 		
-		int bno = bSvc.insertBoard(loginId, startId, arrId, startDate, endDate, arrCity);
+		int bno;
+		
+		if(tempBno.equals("undefined")) {
+			bno = bSvc.insertBoard(loginId, startId, arrId, startDate, endDate, arrCity);
+		} else {
+			int copyBno = Integer.parseInt(tempBno);
+			bno = 1;
+			bSvc.copyBoard(loginId, startId, startDate, copyBno);
+		}
+		
 		//System.out.println(bno);
 		return bno;
 	}
@@ -54,10 +64,14 @@ public class RestContoller {
 	}
 	// 게시글 댓글 가져오기
 	@PostMapping("/getBoardComment")
-	public Map<String,Object> getBoardComment(@RequestBody Map<String,Object> mapReq){
+	public Map<String,Object> getBoardComment(@RequestBody Map<String,Object> mapReq, HttpSession session){
 		int bno = Integer.parseInt((String)mapReq.get("bno"));
 		int pageNum = (int)mapReq.get("pageNum");
-		return cSvc.getComment(bno, pageNum);
+		Map<String,Object> map1 = cSvc.getComment(bno, pageNum);
+		
+		// 로그인한 아이디와 작성자 아이디 비교를 위해 필요
+		map1.put("loginId", (int)session.getAttribute("loginId"));
+		return map1;
 	}
 	// 게시글 댓글 수정하기
 	@PostMapping("/updateComment")
@@ -65,7 +79,22 @@ public class RestContoller {
 		int cno = (int)mapReq.get("cno");
 		String content = (String)mapReq.get("content");
 		cSvc.modifyComment(cno, content);
-		return "댓글 수정됨";
+		return "update";
+	}
+	// 게시글 댓글 삽입하기
+	@PostMapping("/insertComment")
+	public String insertComment(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		String content = (String)mapReq.get("content");
+		int bno = Integer.parseInt((String)mapReq.get("bno"));
+		cSvc.insertComment(bno, (int)session.getAttribute("loginId"), content);
+		return "insert";
+	}
+	// 게시글 댓글 삭제하기
+	@PostMapping("/deleteComment")
+	public String deleteComment(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int cno = (int)mapReq.get("cno");
+		cSvc.deleteComment(cno, (int)session.getAttribute("loginId"));
+		return "delete";
 	}
 	// 게시글 예산 수정하기
 	@PostMapping("/updateBoardFee")
