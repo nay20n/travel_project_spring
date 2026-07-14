@@ -41,10 +41,12 @@ body > *:not(:first-child) {margin: 20px auto 0;}
 	background-color: white;
 	align-items: center;    
 }
-#profile > svg { /*프로필 사진*/
-	margin-left: 15px;
-	width: 170px;
+#profile > img { /*프로필 사진*/
+	margin: 0px 9px;
+	width: 160px;
 	color: #E3D4FF;
+	border-radius: 80px;
+	padding: 17px;
 }
 #profile > div:nth-child(2) { /*닉네임*/
 	font-size: 25px;
