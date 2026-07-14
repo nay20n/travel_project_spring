@@ -36,8 +36,8 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public List<Map<String, Object>> getReviews(String placeId, int page) {
 		// 페이지네이션(10개씩 조회)
-		int start = page*10-9;
-		int end = page*10;
+		int start = page*5-4;
+		int end = page*5;
 		return pDao.getReviews(placeId, start, end);
 	}
 	// 댓글 추가 

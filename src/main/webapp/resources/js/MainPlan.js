@@ -14,6 +14,7 @@ function setAvgStar(rate) {
 	let width = "width: " + (Number(rate)/5*100) + "%";
 	$(".placeDetail>div:nth-child(5)>div:nth-child(2)>div:nth-child(2)>div").attr("style",width);
 }
+// 댓글 별점 그리는 함수
 function setStar(rate, rnum) {
 	for(let i=1; i<=rate; i++){
 		$(`.popupPlace>div:nth-child(6)>div:nth-child(${rnum})>div:nth-child(2)>div:nth-child(1)>svg:nth-child(${i})`).addClass("fillStar");
@@ -27,8 +28,105 @@ function setInitialColor(blockColorArr) {
 		$(this).attr("style",color);
 	});
 }
+let reviewPageLock = false;
+// 댓글 페이지 불러오는 함수 
+function newPage(pageNum, placeId) {
+	if(reviewPageLock) return;
+	reviewPageLock = true;
+	
+	// 댓글 불러오기 비동기
+	const jsonData = {
+		"pageNum" : pageNum,
+		"placeId" : placeId
+	};
+	const initData = {
+		method: "post",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	};
+	fetch("../../getReviews", initData)
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+		console.log(data);
+		//$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
+		for(let i=0; i<data.length; i++) {
+			let rnum = Number(data[i].RNUM);
+			
+			let profile = `<img src="../../resources/img/기본 프로필.png"/>`;
+			if(data[i].profileImg!=null)
+				profile = `<img src="../../resources/img/${data[i].profileImg}"/>`;
+				
+			let imgHtml = `<img class="hide"/>`;
+			if(data[i].image!=null)
+				imgHtml = `<img src="../../resources/img/${data[i].image}" />`;
+				
+			let content = ``;
+			if(data[i].content!=null)
+				content = `<div>${data[i].content}</div>`
+				
+			let reviewHtml = `<div class="placeReview">
+							<div>
+								<div>
+									${profile}
+									<div>${data[i].nickName}</div> 
+								</div>
+								<div>
+									<div class="inputBdDiv">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  											<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+										</svg>
+										수정
+									</div>
+									<div class="inputBdDiv">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  											<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+										</svg>
+										삭제
+									</div>
+								</div>
+							</div>
+							<div>
+								<div>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> 
+										<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+									</svg>
+								</div>
+								<div>${data[i].finalDate}</div>
+							</div>
+							${imgHtml}
+							${content}
+						</div>`;
+						
+			$(".popupPlace>div:nth-child(6)").append(reviewHtml);
+			setStar(data[i].rating,rnum);
+		}
+		reviewPageLock = false;
+		
+	})
+	.catch(function(error) {
+		alert("에러! : " + error);
+	});
+}
 
 $(function() {
+
+	let popupPageNum = 1;
 	setInitialColor(blockColorArr);
 	// ************장소검색****************
 	// 검색 엔터로 돋보기 클릭
@@ -40,7 +138,7 @@ $(function() {
 	// 장소 옆 별 on off
 	$(".placeTitle>div>svg").click(function(){
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
-		alert(placeId);
+		//alert(placeId);
 		if($(this).hasClass("fillStar")){ // 찜 삭제
 			fetch("../../deleteLikedPlace?placeId="+placeId, {method:"POST"})
 			.then(function(response){
@@ -64,7 +162,6 @@ $(function() {
 				alert("에러! : " + error);
 			})
 		} 
-		
 		$(this).toggleClass("fillStar"); // css 꾸미기 
 	});
 	
@@ -126,7 +223,6 @@ $(function() {
 				setGraph(0 ,pDetail.rating0/pDetail.reviewCnt);
 			}
 			
-			//alert(avgRating);
 			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(Math.round(avgRating*10)/10);
 			setAvgStar(pDetail.avgRating);
 			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + pDetail.reviewCnt + "개");
@@ -203,6 +299,16 @@ $(function() {
 			alert("에러! : " + error);
 		});
 	});
+	// 장소 팝업창 스크롤
+	$(".popupContainer > div:nth-child(1)").scroll(function(e){
+		var containerScrollTop = $(this).scrollTop();
+    	var containerHeight = $(this).height()
+	    var contentHeight = $(this)[0].scrollHeight;
+	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
+	    	let placeId = $(this).find('div').find(".popupPlace").data("placeid");
+	    	newPage(++popupPageNum, placeId);
+		} 
+	});
 	// ************** 팝업 ******************
 	// 팝업창 닫기
 	$(".popupContent>svg:nth-child(1)").click(function() {
@@ -213,7 +319,6 @@ $(function() {
 	// 장소 옆 별 on off
 	$(".popupPlace>div:nth-child(1)>div:nth-child(2)>svg").click(function(){
 		let placeId = $(".popupPlace").data("placeid");
-		//alert(placeId);
 		if($(this).hasClass("fillStar")){ // 찜 삭제
 			fetch("../../deleteLikedPlace?placeId="+placeId, {method:"POST"})
 			.then(function(response){
@@ -237,7 +342,8 @@ $(function() {
 				alert("에러! : " + error);
 			});
 		}
-		$(".placeTitle > div > svg").toggleClass("fillStar");
+		$(".place[data-placeid="+placeId+"] > div >div:nth-child(1) > div:nth-child(2) > svg").toggleClass("fillStar");
+		//$(".placeTitle > div > svg")
 		$(this).toggleClass("fillStar");
 	});
 	// 영업시간 on off
@@ -264,7 +370,7 @@ $(function() {
 	// 댓글 등록
 	$(".reviewInput>div:nth-child(3)>div:nth-child(2)").click(function() {
 		let content	= $(this).parent().parent().find("#textarea").find("textarea").val();
-		let placeId = $(".popupPlace").data("placeid");
+		let placeId = $(this).parent().parent().parent().data("placeid");
 		let rating = 0;
 		$(".reviewInput > div:nth-child(1) > svg").each(function(index, item) {
 			if($(item).hasClass("fillStar"))

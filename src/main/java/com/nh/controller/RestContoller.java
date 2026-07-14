@@ -203,6 +203,19 @@ public class RestContoller {
 		ret.put("reviews", reviews);
 		return ret;
 	}
+	// 장소 리뷰 조회 (장소 정보창 팝업)
+	@PostMapping("/getReviews")
+	public List<Map<String,Object>> getReviews(@RequestBody Map<String,Object> mapReq,HttpSession session){
+		int pageNum = (Integer)mapReq.get("pageNum");
+		String placeId = (String)mapReq.get("placeId");
+		
+		List<Map<String,Object>> reviews = pSvc.getReviews(placeId, pageNum);
+		for(int i=0; i<reviews.size();i++) {
+			reviews.get(i).put("finalDate",(reviews.get(0).get("finalDate") + "").substring(0, 16));
+		}
+		return reviews;
+	}
+	
 	// 내 게시글 조회 (마이페이지)
 	@PostMapping("/getMyBoard")
 	public List<Map<String,Object>> getMyBoard(HttpSession session, int pageNum) {
