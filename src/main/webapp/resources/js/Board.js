@@ -327,7 +327,7 @@ $(function() {
 			.catch(function(error) {
 				alert("에러! : 댓글 삭제에 문제가 발생했습니다. 다시 시도해주세요." + error);
 			});
-			}
+		}
 	});
 	// 댓글 등록
 	$(document).on("click", "#commentInput>div", function() {
