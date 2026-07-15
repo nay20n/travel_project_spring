@@ -192,28 +192,34 @@ public class RestContoller {
 	public Map<String,Object> getPlaceDetail(HttpSession session, String placeId) {
 		int loginId = (int)session.getAttribute("loginId");
 		int page = 1;
+		
+		Map<String,Object> placeDetail = pSvc.getPlaceDetail(placeId, loginId);
 		List<Map<String,Object>> reviews = pSvc.getReviews(placeId, page);
 		for(int i=0; i<reviews.size();i++) {
 			reviews.get(i).put("finalDate",(reviews.get(0).get("finalDate") + "").substring(0, 16));
 		}
-		Map<String,Object> placeDetail = pSvc.getPlaceDetail(placeId, loginId);
 		
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("placeDetail", placeDetail);
 		ret.put("reviews", reviews);
+		ret.put("loginId", loginId);
 		return ret;
 	}
-	// 장소 리뷰 조회 (장소 정보창 팝업)
+	// 장소 팝업 리뷰 조회 (장소 정보창 팝업)
 	@PostMapping("/getReviews")
-	public List<Map<String,Object>> getReviews(@RequestBody Map<String,Object> mapReq,HttpSession session){
+	public Map<String,Object> getReviews(@RequestBody Map<String,Object> mapReq,HttpSession session){
+		int loginId = (int)session.getAttribute("loginId");
 		int pageNum = (Integer)mapReq.get("pageNum");
 		String placeId = (String)mapReq.get("placeId");
-		
 		List<Map<String,Object>> reviews = pSvc.getReviews(placeId, pageNum);
 		for(int i=0; i<reviews.size();i++) {
 			reviews.get(i).put("finalDate",(reviews.get(0).get("finalDate") + "").substring(0, 16));
 		}
-		return reviews;
+		
+		Map<String, Object> ret = new HashMap<>();
+		ret.put("reviews",reviews);
+		ret.put("loginId", loginId);
+		return ret;
 	}
 	
 	// 내 게시글 조회 (마이페이지)
@@ -247,6 +253,13 @@ public class RestContoller {
 		String image = (String)mapReq.get("image");
 		pSvc.addReview(loginId, placeId, content, rating, image);
 		return "insert";
+	}
+	// 장소 댓글 삭제 
+	@PostMapping("/deleteReview")
+	public String deleteReview(HttpSession session, int reviewIdx) {
+		int loginId = (int)session.getAttribute("loginId");
+		pSvc.deleteReview(reviewIdx , loginId);
+		return "delete";
 	}
 	// 게시글 공유 링크 생성
 	@PostMapping("/createShareKey")
