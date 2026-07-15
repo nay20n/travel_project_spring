@@ -45,7 +45,7 @@ public class PlaceServiceImpl implements PlaceService {
 	public void addReview(int memberId, String placeId, String content, int rating, String image) {
 		pDao.addReview(memberId, placeId, content, rating, image);
 	}
-
+	// 댓글 수정
 	@Override
 	public void modifyReview(int reviewIdx, int memberId, String content, int rating, String image) {
 		pDao.modifyReview(reviewIdx, memberId, content, rating, image);

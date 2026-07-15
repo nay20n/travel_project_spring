@@ -44,7 +44,7 @@
 		SELECT *
 			FROM (SELECT rownum rnum, b1.*
 				  FROM (SELECT r.review_idx "reviewIdx", r.content "content", r.rating "rating", r.final_date "finalDate", 
-				  			   r.image "image", m.nick_name "nickName", m.profile_img "profileImg"
+				  			   r.image "image", m.nick_name "nickName", m.member_id "memberId", m.profile_img "profileImg"
 						FROM reviews r INNER JOIN members m ON r.user_id = m.member_id
 						WHERE place_id = #{placeId}
 						ORDER BY r.final_date DESC) b1) b2
