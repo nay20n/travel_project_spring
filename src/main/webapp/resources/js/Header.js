@@ -4,12 +4,12 @@ $(function() {
 	$("#header>div:nth-child(1)").click(function() {
 		location.href="/TravelPlanner";
 	});
-	// 로그아웃 알림
+	// 로그아웃
 	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {
-		alert("로그아웃 되었습니다!");
+		location.href="/TravelPlanner/logout";
 	});
 	// 마이페이지 이동
-	$("#header> div:nth-child(2)>div:nth-child(3)>div").click(function() {
+	$("#profileImg").click(function() {
 		location.href="/TravelPlanner/mypage";
 	});
 });
