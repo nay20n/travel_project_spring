@@ -1,5 +1,3 @@
-let popupPageNum = 1; // 댓글 페이지 
-
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
 // per : 1점의 개수 / 전체  
@@ -30,7 +28,11 @@ function setInitialColor(blockColorArr) {
 		$(this).attr("style",color);
 	});
 }
+
+// 장소 팝업 페이지 처리 필드
+let popupPageNum = 1; // 댓글 페이지 
 let reviewPageLock = false;
+let scrollLock = false;
 // 댓글 페이지 불러오는 함수 
 function reviewNewPage(pageNum, placeId) {
 	if(reviewPageLock) return;
@@ -55,6 +57,11 @@ function reviewNewPage(pageNum, placeId) {
 	.then(function(data) {
 		console.log(data);
 		let reviews = data.reviews;
+		if(data.reviews.length<1) {
+			reviewPageLock = false;
+			return;
+		}
+		if(data.reviews.length<5) popupPageNum = -1;
 		let loginId = data.loginId;
 		//$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
 		for(let i=0; i<reviews.length; i++) {
@@ -118,6 +125,7 @@ function reviewNewPage(pageNum, placeId) {
 			$(".popupPlace>div:nth-child(6)").append(reviewHtml);
 			setStar(reviews[i].rating,rnum);
 		}
+		scrollLock = false;
 		reviewPageLock = false;
 	})
 	.catch(function(error) {
@@ -125,7 +133,7 @@ function reviewNewPage(pageNum, placeId) {
 	});
 }
 
-function clickPlaceTitle(placeId, popupPageNum) {
+function clickPlaceTitle(placeId) {
 	fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
 	.then(function(response){
 		return response.json();
@@ -190,8 +198,8 @@ function clickPlaceTitle(placeId, popupPageNum) {
 		alert("에러! : " + error);
 	});
 }
+
 $(function() {
-	
 	setInitialColor(blockColorArr);
 	// ************장소검색****************
 	// 검색 엔터로 돋보기 클릭
@@ -201,7 +209,7 @@ $(function() {
 		}
 	});
 	// 장소 옆 별 on off
-	$(".placeTitle>div>svg").click(function(){
+	$(document).on("click", ".placeTitle>div>svg", function() {
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
 		//alert(placeId);
 		if($(this).hasClass("fillStar")){ // 찜 삭제
@@ -230,33 +238,27 @@ $(function() {
 		$(this).toggleClass("fillStar"); // css 꾸미기 
 	});
 	
+	// ************** 팝업 ******************
 	// 이름 클릭 시 정보창 팝업
-	$(".placeTitle>div:nth-child(1)>a").click(function(){
+	$(document).on("click", ".placeTitle>div:nth-child(1)>a", function() {
 		popupPageNum = 1; // 페이지 1로 초기화 
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
-		$(".popupPlace>div:nth-child(6)").empty(); // 원래 가져왔던 리뷰들 지우기
-		clickPlaceTitle(placeId, popupPageNum); // 정보 가져오기 
+		clickPlaceTitle(placeId); // 정보 가져오기 
 		reviewNewPage(popupPageNum++,placeId); // 리뷰 가져오기 
 	});
-	// 장소 팝업창 스크롤
-	$(".popupContainer > div:nth-child(1)").scroll(function(e){
-		var containerScrollTop = $(this).scrollTop();
-    	var containerHeight = $(this).height()
-	    var contentHeight = $(this)[0].scrollHeight;
-	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
-	    	let placeId = $(this).find("div").find(".popupPlace").attr("data-placeid");
-	    	reviewNewPage(popupPageNum++, placeId);
-		} 
-	});
-	// ************** 팝업 ******************
 	// 팝업창 닫기
-	$(".popupContent>svg:nth-child(1)").click(function() {
+	$(document).on("click", ".popupContent>svg:nth-child(1)", function() {
+		$('.popupContainer > div:first').scrollTop(0);
 		$(".popupContainer").addClass("hide");
 		$(".popupContent").addClass("hide");
+		scrollLock = true;
+		$(".popupPlace>div:nth-child(6)").empty(); // 원래 가져왔던 리뷰들 지우기
+		scrollLock = false;
 	});
+	
 	// ************** 장소 정보창 *************
 	// 장소 옆 별 on off
-	$(".popupPlace>div:nth-child(1)>div:nth-child(2)>svg").click(function(){
+	$(document).on("click", ".popupPlace>div:nth-child(1)>div:nth-child(2)>svg", function() {
 		let placeId = $(".popupPlace").data("placeid");
 		if($(this).hasClass("fillStar")){ // 찜 삭제
 			fetch("../../deleteLikedPlace?placeId="+placeId, {method:"POST"})
@@ -286,12 +288,12 @@ $(function() {
 		$(this).toggleClass("fillStar");
 	});
 	// 영업시간 on off
-	$(".placeDetail > div:nth-child(2) > svg:NOT(:first-child)").click(function(){
+	$(document).on("click", ".placeDetail > div:nth-child(2) > svg:NOT(:first-child)", function() {
 		$(".placeDetail > div:nth-child(2) > svg:NOT(:first-child)").toggleClass("hide");
 		$(".placeDetail > div:nth-child(3)").toggleClass("hide");
 	});
 	// 평점 별 on off
-	$(".reviewInput>div:nth-child(1)>svg").click(function(){
+	$(document).on("click", ".reviewInput>div:nth-child(1)>svg", function() {
 		if($(this).hasClass("fillStar")) {
 			$(".reviewInput>div:nth-child(1)>svg").removeClass("fillStar");
 		}else {
@@ -303,8 +305,21 @@ $(function() {
 		}
 	});
 	// 댓글 사진 추가
-	$(".reviewInput>div:nth-child(3)>div:nth-child(1)").click(function() {
+	$(document).on("click", ".reviewInput>div:nth-child(3)>div:nth-child(1)", function() {
 		alert("사진 삽입!");
+	});
+	// ******************* 장소 리뷰 스크롤 *****************************
+	$(".popupContainer > div:nth-child(1)").scroll(function(e){
+		if(popupPageNum == -1) return;
+		var containerScrollTop = $(this).scrollTop();
+    	var containerHeight = $(this).height()
+	    var contentHeight = $(this)[0].scrollHeight;
+	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
+	    	let placeId = $(this).find("div").find(".popupPlace").attr("data-placeid");
+	    	scrollLock = true;
+	    	reviewNewPage(popupPageNum++, placeId);
+	    	scrollLock = false;
+		} 
 	});
 	// 댓글 등록 엔터
 	$(".reviewInput > div:nth-child(2)>textarea").on('keydown', function (e) {
@@ -348,9 +363,9 @@ $(function() {
 		.then(function(data) {
 			console.log(data);
 			//alert("정상 등록");
+			popupPageNum = 1;
 			$(".popupPlace>div:nth-child(6)").empty();
-			reviewNewPage(1, placeId);
-			
+			reviewNewPage(popupPageNum, placeId);
 		})
 		.catch(function(error) {
 			alert("에러! : 댓글 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
@@ -358,6 +373,8 @@ $(function() {
 		
 		// textarea 비우기
 		$(this).parent().parent().find("#textarea").find("textarea").val("");
+		// 평점 비우기
+		$(".reviewInput>div:nth-child(1)>svg").removeClass("fillStar");
 	});
 	// 댓글 삭제
 	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)", function() {
@@ -372,8 +389,8 @@ $(function() {
 			.then(function(data) {
 				console.log(data);
 				$(".popupPlace>div:nth-child(6)").empty();
-				reviewNewPage(1, placeId);
 				popupPageNum=1;
+				reviewNewPage(popupPageNum, placeId);
 			})
 			.catch(function(error) {
 				alert("에러! : " + error);
@@ -383,16 +400,16 @@ $(function() {
 	});
 	// *************** 블럭 정보 팝업 *****************
 	// (임시) 캘린더 있는 곳 클릭 시 팝업
-	$(".calendar").click(function() {
+	$(document).on("click", ".calendar", function() {
 		$(".popupContainer").removeClass("hide");
 		$(".popupContainer>div:nth-child(2)").removeClass("hide");
 	});
 	// 블럭 색 바꾸기 창 띄우기
-	$(".setBlockColor").click(function() {
+	$(document).on("click", ".setBlockColor", function() {
 		$(".popupContainer>div:nth-child(3)").toggleClass("hide");
 	});
 	// 블럭 색 지정하기
-	$(".blockColor").click(function() {
+	$(document).on("click", ".blockColor", function() {
 		let colorIdx = $(this).index();
 		let color = "color: " + blockColorArr[colorIdx];
 		$(".setBlockColor").attr("style",color);
@@ -400,12 +417,12 @@ $(function() {
 	});
 	// *************** 교통 팝업 *****************
 	// (임시) 캘린더 클릭 시 팝업
-	$(".calendar").click(function() {
+	$(document).on(".calendar", function() {
 		$(".popupContainer").removeClass("hide");
 		$(".popupContainer>div:nth-child(4)").removeClass("hide");
 	});
 	// 교통 클릭 시 닫힘
-	$(".popupContainer>div:nth-child(4)>span").click(function() {
+	$(document).on("click", ".popupContainer>div:nth-child(4)>span", function() {
 		$(".popupContainer").addClass("hide");
 		$(".popupContainer>div:nth-child(4)").addClass("hide");
 	});

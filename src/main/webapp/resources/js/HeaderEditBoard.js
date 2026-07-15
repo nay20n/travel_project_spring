@@ -50,12 +50,12 @@ $(function() {
 			alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
 		});
 	});
-	// 로그아웃 알림
+	// 로그아웃
 	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {
-		alert("로그아웃!");
+		location.href="/TravelPlanner/logout";
 	});
 	// 마이페이지 이동
-	$("#header> div:nth-child(2)>div:nth-child(3)>div").click(function() {
+	$("#profileImg").click(function() {
 		location.href="/TravelPlanner/mypage";
 	});
 });
