@@ -8,6 +8,11 @@
 			SELECT image "image" FROM places_images WHERE place_id=#{placeId} ORDER BY image_num
 		]]>
 	</select>
+	<select id="selectPlaceImageOne" resultType="java.lang.String">
+		<![CDATA[
+			SELECT image "image" FROM places_images WHERE place_id=#{placeId} AND image_num=1
+		]]>
+	</select>
 	<select id="selectArrPlaceId" resultType="java.lang.String">
 		<![CDATA[
 			SELECT arr_place_id FROM boards WHERE bno=#{bno}
@@ -47,7 +52,7 @@
 				  			   r.image "image", m.nick_name "nickName", m.profile_img "profileImg"
 						FROM reviews r INNER JOIN members m ON r.user_id = m.member_id
 						WHERE place_id = #{placeId}
-						ORDER BY r.final_date DESC) b1) b2
+						ORDER BY r.review_idx DESC) b1) b2
 			WHERE b2.rnum BETWEEN #{start} AND #{end}
 		]]>
 	</select>

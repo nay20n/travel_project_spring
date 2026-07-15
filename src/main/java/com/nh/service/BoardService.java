@@ -34,7 +34,7 @@ public interface BoardService {
 	 * @param bno
 	 * @param memberId(찜 유무 표시를 위해 필요/공유일 경우 달라서)
 	 * @param page
-	 * @return 일정에 들어간 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, images리스트)
+	 * @return 일정에 들어간 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, image)
 	 */
 	List<Map<String, Object>> getSelectedPlaces(int bno, int memberId, int page);
 	
@@ -43,7 +43,7 @@ public interface BoardService {
 	 * @param bno(반경 20키로 이내 설정을 위해 도착 정보를 받아야하므로)
 	 * @param memberId(공유일 경우 id가 서로 다르므로)
 	 * @param page
-	 * @return 찜한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, images리스트)
+	 * @return 찜한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, image)
 	 */
 	List<Map<String, Object>> getLikedPlaces(int bno, int memberId, int page);
 	
@@ -60,7 +60,7 @@ public interface BoardService {
 	 * @param bno
 	 * @param input
 	 * @param page
-	 * @return 검색한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, images리스트)
+	 * @return 검색한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, image)
 	 */
 	List<Map<String, Object>> getSerchedPlace(int memberId, int bno, String input, int page);
 
@@ -158,7 +158,7 @@ public interface BoardService {
 	 * @param memberId
 	 * @param bno
 	 * @param page
-	 * @return 검색한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, images리스트)
+	 * @return 검색한 장소 map 리스트(placeId, name, category, address, lat, lng, avgRating, reviewCnt, isLiked, image)
 	 */
 	List<Map<String, Object>> getSerchedPlaceByCity(int memberId, int bno, int page);
 }
