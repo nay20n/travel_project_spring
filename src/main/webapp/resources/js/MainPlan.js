@@ -1,3 +1,11 @@
+// 장소 팝업 페이지 처리 필드
+let popupPageNum = 1; // 댓글 페이지 
+let reviewPageLock = false;
+let scrollLock = false;
+
+// 장소 검색 페이지 처리 필드
+let placePageNum = 1; 
+
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
 // per : 1점의 개수 / 전체  
@@ -29,10 +37,6 @@ function setInitialColor(blockColorArr) {
 	});
 }
 
-// 장소 팝업 페이지 처리 필드
-let popupPageNum = 1; // 댓글 페이지 
-let reviewPageLock = false;
-let scrollLock = false;
 // 댓글 페이지 불러오는 함수 
 function reviewNewPage(pageNum, placeId) {
 	if(reviewPageLock) return;
@@ -63,7 +67,10 @@ function reviewNewPage(pageNum, placeId) {
 		}
 		if(data.reviews.length<5) popupPageNum = -1;
 		let loginId = data.loginId;
-		//$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
+		
+		if(reviews.length<1) return; // 페이지가 1보다작으면 return 
+		if(reviews.length<5) gPageNum = -1; //불러올게 더 없다면 페이지 번호를 -1로 변경 
+		
 		for(let i=0; i<reviews.length; i++) {
 			let rnum = Number(reviews[i].RNUM);
 			
@@ -207,6 +214,31 @@ $(function() {
 		if(e.keyCode == 13){
 			$("#main > div:nth-child(1) > div:nth-child(1) > label > svg").trigger("click");
 		}
+	});
+	// 내 일정 버튼 클릭 
+	$("#main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)").click(function() {
+		let bno = 1;
+		const jsonData = {
+			"pageNum" : placePageNum,
+			"bno" : bno
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../getSelectedPlaces", initData)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
 	});
 	// 장소 옆 별 on off
 	$(document).on("click", ".placeTitle>div>svg", function() {
