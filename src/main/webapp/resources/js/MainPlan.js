@@ -1,3 +1,5 @@
+let popupPageNum = 1; // 댓글 페이지 
+
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
 // per : 1점의 개수 / 전체  
@@ -30,7 +32,7 @@ function setInitialColor(blockColorArr) {
 }
 let reviewPageLock = false;
 // 댓글 페이지 불러오는 함수 
-function newPage(pageNum, placeId) {
+function reviewNewPage(pageNum, placeId) {
 	if(reviewPageLock) return;
 	reviewPageLock = true;
 	
@@ -52,41 +54,41 @@ function newPage(pageNum, placeId) {
 	})
 	.then(function(data) {
 		console.log(data);
+		let reviews = data.reviews;
+		let loginId = data.loginId;
 		//$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
-		for(let i=0; i<data.length; i++) {
-			let rnum = Number(data[i].RNUM);
+		for(let i=0; i<reviews.length; i++) {
+			let rnum = Number(reviews[i].RNUM);
 			
 			let profile = `<img src="../../resources/img/기본 프로필.png"/>`;
-			if(data[i].profileImg!=null)
-				profile = `<img src="../../resources/img/${data[i].profileImg}"/>`;
+			if(reviews[i].profileImg!=null)
+				profile = `<img src="../../resources/img/${reviews[i].profileImg}"/>`;
 				
 			let imgHtml = `<img class="hide"/>`;
-			if(data[i].image!=null)
-				imgHtml = `<img src="../../resources/img/${data[i].image}" />`;
+			if(reviews[i].image!=null)
+				imgHtml = `<img src="../../resources/img/${reviews[i].image}" />`;
 				
 			let content = ``;
-			if(data[i].content!=null)
-				content = `<div>${data[i].content}</div>`
+			if(reviews[i].content!=null)
+				content = `<div>${reviews[i].content}</div>`
+			
+			let btnDelete = ``;
+			if(reviews[i].memberId == loginId)
+				btnDelete = `<div class="inputBdDiv">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+							</svg>
+							삭제
+						</div>`;
 				
-			let reviewHtml = `<div class="placeReview">
+			let reviewHtml = `<div class="placeReview" data-reviewIdx = "${reviews[i].reviewIdx}">
 							<div>
 								<div>
 									${profile}
-									<div>${data[i].nickName}</div> 
+									<div>${reviews[i].nickName}</div> 
 								</div>
 								<div>
-									<div class="inputBdDiv">
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  											<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-										</svg>
-										수정
-									</div>
-									<div class="inputBdDiv">
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  											<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-										</svg>
-										삭제
-									</div>
+									${btnDelete}
 								</div>
 							</div>
 							<div>
@@ -107,26 +109,89 @@ function newPage(pageNum, placeId) {
 	  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
 									</svg>
 								</div>
-								<div>${data[i].finalDate}</div>
+								<div>${reviews[i].finalDate}</div>
 							</div>
 							${imgHtml}
 							${content}
 						</div>`;
 						
 			$(".popupPlace>div:nth-child(6)").append(reviewHtml);
-			setStar(data[i].rating,rnum);
+			setStar(reviews[i].rating,rnum);
 		}
 		reviewPageLock = false;
-		
 	})
 	.catch(function(error) {
 		alert("에러! : " + error);
 	});
 }
 
+function clickPlaceTitle(placeId, popupPageNum) {
+	fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data.placeDetail);
+		console.log(data.reviews);
+		let pDetail = data.placeDetail;
+		let reviews = data.reviews;
+		let loginId = data.loginId;
+			
+		$(".popupPlace").attr("data-placeid", placeId);
+		$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(pDetail.name); 
+		let avgRating = Number(pDetail.avgRating);
+		$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(Math.round(avgRating*10)/10);
+		$(".popupPlace > div:nth-child(2) > span:nth-child(3)").text("("+pDetail.reviewCnt+")"); 
+		$(".popupPlace > div:nth-child(3)").text(pDetail.category);
+		if(pDetail.isLiked==1) $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").addClass("fillStar");
+		else $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").removeClass("fillStar");
+		
+		$(".placeDetail > div:nth-child(1)>span").text(pDetail.address);
+		
+		if(pDetail.businessHours==null || pDetail.businessHours=="(null)"){
+			$(".placeDetail > div:nth-child(2)").addClass("hide");
+			$(".placeDetail > div:nth-child(3)").addClass("hide");
+		} else {
+			$(".placeDetail > div:nth-child(2)").removeClass("hide");
+			$(".placeDetail > div:nth-child(3)").removeClass("hide");
+			$(".placeDetail > div:nth-child(3) > div").text(pDetail.businessHours);
+		}
+		
+		if(pDetail.websiteUrl==null){
+			$(".placeDetail > div:nth-child(4)").addClass("hide");
+		} else {
+			$(".placeDetail > div:nth-child(4)").removeClass("hide");
+			$(".placeDetail > div:nth-child(4)>div").text(pDetail.websiteUrl);
+		}
+		
+		if(pDetail.reviewCnt==0){
+			setGraph(5 ,0);
+			setGraph(4 ,0);
+			setGraph(3 ,0);
+			setGraph(2 ,0);
+			setGraph(1 ,0);
+			setGraph(0 ,0);
+		} else {
+			setGraph(5 ,pDetail.rating5/pDetail.reviewCnt);
+			setGraph(4 ,pDetail.rating4/pDetail.reviewCnt);
+			setGraph(3 ,pDetail.rating3/pDetail.reviewCnt);
+			setGraph(2 ,pDetail.rating2/pDetail.reviewCnt);
+			setGraph(1 ,pDetail.rating1/pDetail.reviewCnt);
+			setGraph(0 ,pDetail.rating0/pDetail.reviewCnt);
+		}
+		$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(Math.round(avgRating*10)/10);
+		setAvgStar(pDetail.avgRating);
+		$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + pDetail.reviewCnt + "개");
+		
+		$(".popupContainer").removeClass("hide");
+		$(".popupContainer>div:nth-child(1)").removeClass("hide");
+	})
+	.catch(function(error){
+		alert("에러! : " + error);
+	});
+}
 $(function() {
-
-	let popupPageNum = 1;
+	
 	setInitialColor(blockColorArr);
 	// ************장소검색****************
 	// 검색 엔터로 돋보기 클릭
@@ -167,137 +232,11 @@ $(function() {
 	
 	// 이름 클릭 시 정보창 팝업
 	$(".placeTitle>div:nth-child(1)>a").click(function(){
+		popupPageNum = 1; // 페이지 1로 초기화 
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
-		
-		fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log(data.placeDetail);
-			console.log(data.reviews);
-			let pDetail = data.placeDetail;
-			let reviews = data.reviews;
-				
-			$(".popupPlace").attr("data-placeid", placeId);
-			$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(pDetail.name); 
-			let avgRating = Number(pDetail.avgRating);
-			$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(Math.round(avgRating*10)/10);
-			$(".popupPlace > div:nth-child(2) > span:nth-child(3)").text("("+pDetail.reviewCnt+")"); 
-			$(".popupPlace > div:nth-child(3)").text(pDetail.category);
-			if(pDetail.isLiked==1) $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").addClass("fillStar");
-			else $(".popupPlace > div:nth-child(1) > div:nth-child(2) > svg").removeClass("fillStar");
-			
-			$(".placeDetail > div:nth-child(1)>span").text(pDetail.address);
-			
-			if(pDetail.businessHours==null || pDetail.businessHours=="(null)"){
-				$(".placeDetail > div:nth-child(2)").addClass("hide");
-				$(".placeDetail > div:nth-child(3)").addClass("hide");
-			}else {
-				$(".placeDetail > div:nth-child(2)").removeClass("hide");
-				$(".placeDetail > div:nth-child(3)").removeClass("hide");
-				$(".placeDetail > div:nth-child(3) > div").text(pDetail.businessHours);
-			}
-			
-			if(pDetail.websiteUrl==null){
-				$(".placeDetail > div:nth-child(4)").addClass("hide");
-			}else{
-				$(".placeDetail > div:nth-child(4)").removeClass("hide");
-				$(".placeDetail > div:nth-child(4)>div").text(pDetail.websiteUrl);
-			}
-			
-			//alert("rating5 " + pDetail.rating5 + " / " + pDetail.reviewCnt + " = " + pDetail.rating5/pDetail.reviewCnt);
-			if(pDetail.reviewCnt==0){
-				setGraph(5 ,0);
-				setGraph(4 ,0);
-				setGraph(3 ,0);
-				setGraph(2 ,0);
-				setGraph(1 ,0);
-				setGraph(0 ,0);
-			} else {
-				setGraph(5 ,pDetail.rating5/pDetail.reviewCnt);
-				setGraph(4 ,pDetail.rating4/pDetail.reviewCnt);
-				setGraph(3 ,pDetail.rating3/pDetail.reviewCnt);
-				setGraph(2 ,pDetail.rating2/pDetail.reviewCnt);
-				setGraph(1 ,pDetail.rating1/pDetail.reviewCnt);
-				setGraph(0 ,pDetail.rating0/pDetail.reviewCnt);
-			}
-			
-			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(1)").text(Math.round(avgRating*10)/10);
-			setAvgStar(pDetail.avgRating);
-			$(".placeDetail > div:nth-child(5) > div:nth-child(2) > div:nth-child(3)").text("리뷰 " + pDetail.reviewCnt + "개");
-			
-			$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
-			for(let i=0; i<reviews.length; i++) {
-				let rnum = Number(reviews[i].RNUM);
-				
-				let profile = `<img src="../../resources/img/기본 프로필.png"/>`;
-				if(reviews[i].profileImg!=null)
-					profile = `<img src="../../resources/img/${reviews[i].profileImg}"/>`;
-					
-				let imgHtml = `<img class="hide"/>`;
-				if(reviews[i].image!=null)
-					imgHtml = `<img src="../../resources/img/${reviews[i].image}" />`;
-					
-				let content = ``;
-				if(reviews[i].content!=null)
-					content = `<div>${reviews[i].content}</div>`
-					
-				let reviewHtml = `<div class="placeReview">
-								<div>
-									<div>
-										${profile}
-										<div>${reviews[i].nickName}</div> 
-									</div>
-									<div>
-										<div class="inputBdDiv">
-											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-	  											<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-											</svg>
-											수정
-										</div>
-										<div class="inputBdDiv">
-											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-	  											<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-											</svg>
-											삭제
-										</div>
-									</div>
-								</div>
-								<div>
-									<div>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-										</svg>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-										</svg>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-										</svg>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> 
-											<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-										</svg>
-										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-		  									<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-										</svg>
-									</div>
-									<div>${reviews[i].finalDate}</div>
-								</div>
-								${imgHtml}
-								${content}
-							</div>`;
-							
-				$(".popupPlace>div:nth-child(6)").append(reviewHtml);
-				setStar(reviews[i].rating,rnum);
-			}
-			
-			$(".popupContainer").removeClass("hide");
-			$(".popupContainer>div:nth-child(1)").removeClass("hide");
-		})
-		.catch(function(error){
-			alert("에러! : " + error);
-		});
+		$(".popupPlace>div:nth-child(6)").empty(); // 원래 가져왔던 리뷰들 지우기
+		clickPlaceTitle(placeId, popupPageNum); // 정보 가져오기 
+		reviewNewPage(popupPageNum++,placeId); // 리뷰 가져오기 
 	});
 	// 장소 팝업창 스크롤
 	$(".popupContainer > div:nth-child(1)").scroll(function(e){
@@ -305,8 +244,8 @@ $(function() {
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
-	    	let placeId = $(this).find('div').find(".popupPlace").data("placeid");
-	    	newPage(++popupPageNum, placeId);
+	    	let placeId = $(this).find("div").find(".popupPlace").attr("data-placeid");
+	    	reviewNewPage(popupPageNum++, placeId);
 		} 
 	});
 	// ************** 팝업 ******************
@@ -367,10 +306,16 @@ $(function() {
 	$(".reviewInput>div:nth-child(3)>div:nth-child(1)").click(function() {
 		alert("사진 삽입!");
 	});
+	// 댓글 등록 엔터
+	$(".reviewInput > div:nth-child(2)>textarea").on('keydown', function (e) {
+		if(e.keyCode === 13){
+			$(".reviewInput > div:nth-child(3) > div:nth-child(2)").click();
+		}
+	});
 	// 댓글 등록
 	$(".reviewInput>div:nth-child(3)>div:nth-child(2)").click(function() {
 		let content	= $(this).parent().parent().find("#textarea").find("textarea").val();
-		let placeId = $(this).parent().parent().parent().data("placeid");
+		let placeId = $(".popupPlace").attr("data-placeid");
 		let rating = 0;
 		$(".reviewInput > div:nth-child(1) > svg").each(function(index, item) {
 			if($(item).hasClass("fillStar"))
@@ -403,7 +348,8 @@ $(function() {
 		.then(function(data) {
 			console.log(data);
 			//alert("정상 등록");
-			
+			$(".popupPlace>div:nth-child(6)").empty();
+			reviewNewPage(1, placeId);
 			
 		})
 		.catch(function(error) {
@@ -412,15 +358,28 @@ $(function() {
 		
 		// textarea 비우기
 		$(this).parent().parent().find("#textarea").find("textarea").val("");
-		
-	});
-	// 댓글 수정
-	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)", function() {
-		alert("수정!");
 	});
 	// 댓글 삭제
-	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)", function() {
-		alert("삭제!");
+	$(document).on("click", ".placeReview > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)", function() {
+		let reviewIdx = $(this).parent().parent().parent().attr("data-reviewIdx");
+		let placeId = $(".popupPlace").attr("data-placeid");
+		
+		if(confirm("정말로 삭제하겠습니까?")){
+			fetch("../../deleteReview?reviewIdx=" + reviewIdx, {method: "post"})
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				console.log(data);
+				$(".popupPlace>div:nth-child(6)").empty();
+				reviewNewPage(1, placeId);
+				popupPageNum=1;
+			})
+			.catch(function(error) {
+				alert("에러! : " + error);
+			});
+		}
+		
 	});
 	// *************** 블럭 정보 팝업 *****************
 	// (임시) 캘린더 있는 곳 클릭 시 팝업
