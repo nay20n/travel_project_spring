@@ -1,17 +1,14 @@
 let gPageMy = 1;
 let gPageLike = 1;
 let gPageCom = 1;
-let gPageLock = false;
 
 function newPageMyBoard(pageNum, lastNum) {
-	if(gPageLock) return;
-	gPageLock = true;
+	
 	fetch("getMyBoard?pageNum=" + pageNum, {method: "post"})
 	.then(function(response) {
 		return response.json();
 	})
 	.then(function(data) {
-		if(data.length<8) pageNum = -1;
 		console.log(data);
 		
 		for(let i=0; i<data.length; i++) {
@@ -50,21 +47,16 @@ function newPageMyBoard(pageNum, lastNum) {
 	.catch(function(error) {
 		alert("에러! : " + error);
 	});
-	gPageLock = false;
 }
 function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
-	if(gPageLock) return;
-	gPageLock = true;
 	fetch(mapping + "?pageNum=" + pageNum, {method: "post"})
 	.then(function(response) {
 		return response.json();
 	})
 	.then(function(data) {
-		if(data.length<8) pageNum = -1;
 		console.log(data);
 		
 		for(let i=0; i<data.length; i++) {
-		
 			let isLiked = ``;
 			if(data[i].isLiked==1){
 				isLiked = `<svg class = "fillHeart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -75,7 +67,6 @@ function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
 								<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
 						   </svg>`;
 			}
-		
 			let html = ` <tr data-bno="${data[i].bno}">
 							<th>${++lastNum}.</th>
 							<td>${data[i].title}</td>
@@ -85,17 +76,13 @@ function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
 								️<span>${data[i].cntLike}</span>
 							</td>
 						</tr>`;
-			
 			$(`body > div:nth-child(${nthChild}) .table tbody`).append(html);
 		}
 	})
 	.catch(function(error) {
 		alert("에러! : " + error);
 	});
-	gPageLock = false;
 }
-
-
 
 $(function() {
 	/***************** 테이블 ******************/
@@ -147,10 +134,9 @@ $(function() {
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
-	    	//alert("스크롤 끝까지 내림");
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
-	    	gPageMy++;
-			newPageMyBoard(gPageMy, lastNum);
+	    	if (lastNum % 10 ==0)
+				newPageMyBoard(++gPageMy, lastNum);
 		} 
 	});
 	// 내가 찜한 게시글 스크롤
@@ -159,10 +145,9 @@ $(function() {
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
-	    	//alert("스크롤 끝까지 내림");
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
-	    	gPageLike++;
-	    	newPageLikedAndCommentBoard(gPageLike, "getLikedBoard",4, lastNum);
+	    	if (lastNum % 10 ==0)
+				newPageLikedAndCommentBoard(++gPageLike, "getLikedBoard",4, lastNum);
 		} 
 	});
 	// 내가 댓글을 단 게시글 스크롤
@@ -173,8 +158,8 @@ $(function() {
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
 	    	//alert("스크롤 끝까지 내림");
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
-	    	gPageCom++;
-	    	newPageLikedAndCommentBoard(gPageCom, "getCommentBoard",5,lastNum);
+	    	if (lastNum % 10 ==0)
+				newPageLikedAndCommentBoard(++gPageCom, "getCommentBoard",5,lastNum);
 		} 
 	});
 	
