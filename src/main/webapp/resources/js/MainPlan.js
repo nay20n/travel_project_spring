@@ -1,4 +1,5 @@
-let popupPageNum = 1; // 댓글 페이지 
+let popupPageNum = 1; // 댓글 페이지
+let placePageNum = 1; 
 
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
@@ -56,7 +57,10 @@ function reviewNewPage(pageNum, placeId) {
 		console.log(data);
 		let reviews = data.reviews;
 		let loginId = data.loginId;
-		//$(".popupPlace>div:nth-child(6)").empty(); // 리뷰 넣기 전에 비우기 
+		
+		if(reviews.length<1) return; // 페이지가 1보다작으면 return 
+		if(reviews.length<5) gPageNum = -1; //불러올게 더 없다면 페이지 번호를 -1로 변경 
+		
 		for(let i=0; i<reviews.length; i++) {
 			let rnum = Number(reviews[i].RNUM);
 			
@@ -200,6 +204,31 @@ $(function() {
 			$("#main > div:nth-child(1) > div:nth-child(1) > label > svg").trigger("click");
 		}
 	});
+	// 내 일정 버튼 클릭 
+	$("#main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)").click(function() {
+		let bno = 1;
+		const jsonData = {
+			"pageNum" : placePageNum,
+			"bno" : bno
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../getSelectedPlaces", initData)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
+	});
 	// 장소 옆 별 on off
 	$(".placeTitle>div>svg").click(function(){
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
@@ -240,6 +269,8 @@ $(function() {
 	});
 	// 장소 팝업창 스크롤
 	$(".popupContainer > div:nth-child(1)").scroll(function(e){
+		if(popupPageNum==-1) return;
+		
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;

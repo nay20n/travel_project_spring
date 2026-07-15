@@ -187,6 +187,18 @@ public class RestContoller {
 	        return false;    
 	    }
 	}
+	// 내 일정에 들어간 장소 조회 
+	@PostMapping("/getSelectedPlaces")
+	public List<Map<String,Object>> getSelectedPlaces(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int loginId = (int)session.getAttribute("loginId");
+		int bno = (Integer)mapReq.get("bno");
+		int pageNum = (Integer)mapReq.get("pageNum");
+		List<Map<String, Object>> listPlaces = bSvc.getSelectedPlaces(bno,loginId,pageNum);
+		
+		return listPlaces;
+	}
+	
+	
 	// 장소 정보 조회 (장소 정보창 팝업)
 	@PostMapping("/getPlaceDetail")
 	public Map<String,Object> getPlaceDetail(HttpSession session, String placeId) {
