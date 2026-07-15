@@ -91,6 +91,10 @@ body>* {
 	width: 16px;
 }
 
+.place > div:nth-child(1) > svg {
+	width: 20px;
+}
+
 .place > div:nth-child(1) > img {	
 	width: 350px;
 	height: 220px;
@@ -289,11 +293,28 @@ body>* {
 	margin-top: -35px;
 }
 
-.popupContainer> div:nth-child(1) > div > img {
+.popupContainer> div:nth-child(1) > div > div:nth-child(1) { /* 장소이미지 */
+	display: flex;
+	justify-content: space-between;
 	border-radius: 20px;
-	width: 450px;
 	height: 300px;
-	object-fit: cover;
+    padding: 10px;
+    background-image: url('../img/장소대체이미지.png');
+    background-size: cover;
+}
+
+.popupContainer> div:nth-child(1) > div > div:nth-child(1) > svg { /* 장소 넘김 svg */
+    margin-top: 120px;
+	border-radius: 10px;
+	background-color: white;
+    width: 20px;
+    height: 34px;
+	padding: 5px 3px;
+	cursor: pointer;
+}
+
+.popupContainer> div:nth-child(1) > div > div:nth-child(1) > svg:hover {
+    background-color: #E3D4FF;
 }
 
 .popupPlace {
@@ -312,6 +333,11 @@ body>* {
 	font-size: 24px;
 	font-weight: 500;
 	cursor: context-menu;
+}
+
+.popupPlace > div:nth-child(1) > div:nth-child(2) {
+	display: flex;
+	align-items: center;	
 }
 
 .popupPlace > div:nth-child(1) > div:nth-child(2) > svg { /* 팝업장소옆별 */

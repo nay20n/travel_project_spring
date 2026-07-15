@@ -75,10 +75,10 @@ public class BoardServiceImpl implements BoardService {
 		List<Map<String, Object>> listPlaces = bDao.getSelectedPlaces(map1);
 		
 		// 장소 이미지 추가
-		for(int i=0;i<listPlaces.size();i++) {
-			Map<String, Object> tempMap = listPlaces.get(i);
-			String placeId = (String)tempMap.get("placeId");
-			tempMap.put("images", pDao.getPlaceImages(placeId));
+		if(listPlaces.size()!=0) {			
+			Map<String, Object> tempMap = listPlaces.get(1);
+			String placeId = (String)tempMap.get("placeId");			
+			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
 		
 		return listPlaces;
@@ -101,10 +101,10 @@ public class BoardServiceImpl implements BoardService {
 		List<Map<String, Object>> listPlaces = bDao.getLikedPlaces(map1);
 		
 		// 장소 이미지 추가
-		for(int i=0;i<listPlaces.size();i++) {
-			Map<String, Object> tempMap = listPlaces.get(i);
-			String placeId = (String)tempMap.get("placeId");
-			tempMap.put("images", pDao.getPlaceImages(placeId));
+		if(listPlaces.size()!=0) {			
+			Map<String, Object> tempMap = listPlaces.get(1);
+			String placeId = (String)tempMap.get("placeId");			
+			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
 		
 		return listPlaces;
@@ -140,10 +140,10 @@ public class BoardServiceImpl implements BoardService {
 		List<Map<String, Object>> listPlaces = bDao.getSerchedPlace(map1);
 		
 		// 장소 이미지 추가
-		for(int i=0;i<listPlaces.size();i++) {
-			Map<String, Object> tempMap = listPlaces.get(i);
-			String placeId = (String)tempMap.get("placeId");
-			tempMap.put("images", pDao.getPlaceImages(placeId));
+		if(listPlaces.size()!=0) {			
+			Map<String, Object> tempMap = listPlaces.get(1);
+			String placeId = (String)tempMap.get("placeId");			
+			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
 		return listPlaces;
 	}
@@ -326,10 +326,10 @@ public class BoardServiceImpl implements BoardService {
 		List<Map<String, Object>> listPlaces = bDao.getSerchedPlace(map1);
 		
 		// 장소 이미지 추가
-		for(int i=0;i<listPlaces.size();i++) {
-			Map<String, Object> tempMap = listPlaces.get(i);
-			String placeId = (String)tempMap.get("placeId");
-			tempMap.put("images", pDao.getPlaceImages(placeId));
+		if(listPlaces.size()!=0) {			
+			Map<String, Object> tempMap = listPlaces.get(1);
+			String placeId = (String)tempMap.get("placeId");			
+			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
 		return listPlaces;
 	}

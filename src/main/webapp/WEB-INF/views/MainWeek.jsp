@@ -39,11 +39,9 @@
 			</div>
 			<c:forEach var="places" items="${placesList}">
 				<div class="place" data-placeId="${places.placeId}">
-			        <%-- <c:forEach var="imgUrl" items="${places.images}">
-			            <div>
-			                <img src="${imgUrl}"/>
-			            </div>
-			        </c:forEach>   --%>
+		            <div>
+		                <img src="../../resources/img/장소예시이미지.png"/>
+		            </div>
 					<div class="placeInfo">
 						<div class="placeTitle">
 							<div>
@@ -97,7 +95,14 @@
   				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 			</svg>
 			<div>
-				<img src="../../resources/img/장소예시이미지.png" />
+				<div>
+	                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+					</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+					</svg>
+	            </div>
 				<div class="popupPlace">
 					<div>
 						<div>

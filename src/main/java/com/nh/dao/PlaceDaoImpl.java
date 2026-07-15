@@ -25,6 +25,12 @@ public class PlaceDaoImpl implements PlaceDao {
 		return sqlSession.selectList("placeMapper.selectPlaceImages", placeId);
 	}
 	
+	// 장소 대표 이미지 조회
+	@Override
+	public String getPlaceImageOne(String placeId) {
+		return sqlSession.selectOne("placeMapper.selectPlaceImageOne", placeId);
+	}
+	
 	// 장소 정보 조회
 	@Override
 	public Map<String, Object> viewPlaceDetails(String placeId, int memberId) {

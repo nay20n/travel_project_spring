@@ -12,6 +12,13 @@ public interface PlaceDao {
 	List<String> getPlaceImages(String placeId);
 	
 	/**
+	 * 장소 대표 이미지 조회 (없을 수 있음)
+	 * @param placeId
+	 * @return 장소 대표 이미지
+	 */
+	String getPlaceImageOne(String placeId);
+	
+	/**
 	 * 도착 정보 조회
 	 * @param bno
 	 * @return arrPlaceId

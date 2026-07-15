@@ -53,6 +53,19 @@ public class PlaceDaoTest {
 		System.out.println(listimages);
 	}
 	
+	// 장소 대표이미지 조회 테스트
+	@Test
+	public void testGetPlaceImageOne() {
+		// 1) Given
+		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
+		
+		// 2) When
+		String image = pDao.getPlaceImageOne(placeId);
+		
+		// 3) Then
+		System.out.println(image);
+	}
+	
 	// 장소 정보 조회 테스트
 	@Test
 	public void testViewPlaceDetails() {
