@@ -301,6 +301,7 @@ body>* {
     padding: 10px;
     background-image: url('../img/장소대체이미지.png');
     background-size: cover;
+    border: 9px solid white;
 }
 
 .popupContainer> div:nth-child(1) > div > div:nth-child(1) > svg { /* 장소 넘김 svg */
