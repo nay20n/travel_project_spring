@@ -68,7 +68,7 @@
 				<div></div>
 				<div>
 					<span class="fl">예상 비용</span>
-					<span class="fr">200,000원</span>
+					<span class="fr">0원</span>
 				</div>
 				<div>
 					<span></span>

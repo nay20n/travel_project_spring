@@ -40,17 +40,36 @@ function newPage(pageNum,mapping,input) {
 			// 4개씩 채우기
 			for(let j=0;j<4;j++) {
 				if(dataIdx>data.length-1) break;
-				console.log(data[dataIdx]);
+				let board = data[dataIdx];
+				console.log(board);
+				
+				// 지도 중앙, 위치 쿼리 만들기
+				let mapData = board.mapData;
+				let sumLat = 0;
+				let sumLng = 0;
+				let path = "weight:2|color:0xE3D4FF|";
+				for(let k=0;k<mapData.length;k++) {
+					sumLat+=mapData[k].lat;
+					sumLng+=mapData[k].lng;
+					path += mapData[k].lat+","+mapData[k].lng;
+					if(k==mapData.length-1) break;
+					path += "|";
+				}
+				let center = sumLat/mapData.length + "," + sumLng/mapData.length;
+				console.log(center);
+				console.log(path);
+				
 				str2 = `
-					<div class="bs" data-bno="${data[dataIdx].bno}">
-						<img src="resources/img/게시글예시이미지.png"></img>
+					<div class="bs" data-bno="${board.bno}">
+						<img src="getBoardImg?center=${center}&path=${path}">
+						</img>
 						<div>
-							<span>${data[dataIdx].title}</span>
+							<span>${board.title}</span>
 							<span>
-								<svg data-bno="${data[dataIdx].bno}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+								<svg data-bno="${board.bno}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 								</svg>
-								${data[dataIdx].year}년 ${data[dataIdx].month}월
+								${board.year}년 ${board.month}월
 							</span>
 						</div>
 						<div>
@@ -58,7 +77,7 @@ function newPage(pageNum,mapping,input) {
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 								</svg>
-								${data[dataIdx].elapsedTime}
+								${board.elapsedTime}
 							</span>
 						</div>
 					</div>
