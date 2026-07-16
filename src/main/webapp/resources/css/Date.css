@@ -67,9 +67,47 @@ body > * {margin: 0px auto;}
 	padding: 0px 30px;
 	width: 763px;
 }
-#selectDate > img {
-	width: 708px;
+#selectDate > input {
+	width: 252px;
+	font-size: 16px;
+	height: 31px;
 }
+/***달력**/
+.daterangepicker:before, .daterangepicker:after {
+    display: none !important; /* 달력 화살표 지우기 */
+}
+.daterangepicker { /*사이즈 정하기*/
+    width: 720px !important;
+	height: 530px;
+	display: block !important;
+	border-radius: 12px !important;
+	bottom: 160px !important;
+	top: initial !important;
+}
+.daterangepicker .drp-calendar.right {display: none !important;} /* 오른쪽 달력 없애기*/
+.daterangepicker .drp-calendar.left { /* 왼쪽 달력 영역이 전체 너비를 가득 채우도록 설정 */
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+    max-height: 100% !important;
+}
+.calendar-table {height: 100%;} /* 테이블 감싸고 있는 div도 */
+.table-condensed {height: 100%;} /* 테이블도 */
+.table-condensed > thead > tr:nth-child(1) {
+	height: 50px;
+}
+.calendar-table th, .calendar-table td {font-size: 17px !important;}
+.daterangepicker select {
+	background-color: #F8F5FD; 
+	border-color: lightgray;
+	font-size: 17px !important;
+	font-weight: 600;
+}
+.daterangepicker select.monthselect {width: 16% !important;}
+.daterangepicker select.yearselect {width: 18% !important;}
+.daterangepicker td.in-range {background-color: #F8F5FD !important; /* 날짜 범위 */}
+.daterangepicker td.active, .daterangepicker td.active:hover{background-color: #925DE8 !important; /* 시작 끝 */}
+
 /*****다음버튼****/
 #nextBtn {
 	background-color: #F8F5FD;
