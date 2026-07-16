@@ -189,6 +189,17 @@ public class RestContoller {
 	        return false;    
 	    }
 	}
+	// 장소 검색 조회 
+	@PostMapping("/getSerchedPlace")
+	public List<Map<String,Object>> getSerchedPlace(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int loginId = (int)session.getAttribute("loginId");
+		int bno = (Integer)mapReq.get("bno");
+		int pageNum = (Integer)mapReq.get("pageNum");
+		String input = (String)mapReq.get("input");
+		List<Map<String, Object>> listPlaces = bSvc.getSerchedPlace(loginId, bno, input, pageNum);
+		
+		return listPlaces;
+	}
 	// 내 일정에 들어간 장소 조회 
 	@PostMapping("/getSelectedPlaces")
 	public List<Map<String,Object>> getSelectedPlaces(@RequestBody Map<String,Object> mapReq, HttpSession session){
@@ -196,6 +207,16 @@ public class RestContoller {
 		int bno = (Integer)mapReq.get("bno");
 		int pageNum = (Integer)mapReq.get("pageNum");
 		List<Map<String, Object>> listPlaces = bSvc.getSelectedPlaces(bno,loginId,pageNum);
+		
+		return listPlaces;
+	}
+	// 찜한 장소 조회 
+	@PostMapping("/getLikedPlaces")
+	public List<Map<String,Object>> getLikedPlaces(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int loginId = (int)session.getAttribute("loginId");
+		int bno = (Integer)mapReq.get("bno");
+		int pageNum = (Integer)mapReq.get("pageNum");
+		List<Map<String, Object>> listPlaces = bSvc.getLikedPlaces(bno, loginId, pageNum);
 		
 		return listPlaces;
 	}

@@ -1,0 +1,60 @@
+[33mde8c51b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mha20[m[33m, [m[1;31morigin/ha20[m[33m)[m 장소 비동기, 메인화면구글맵
+[33m9565cc0[m Merge branch 'main' of https://github.com/nay20n/travel_project_spring.git into main
+[33m058ca7d[m[33m ([m[1;31morigin/ha19[m[33m, [m[1;32mha19[m[33m)[m 로그아웃 추가, 리뷰 스크롤 이슈 해결
+[33m558112e[m[33m ([m[1;31morigin/ny18[m[33m)[m 마이패이지 페이징 처리
+[33mbf420b9[m css 수정
+[33m0a46377[m Merge branch 'ny17' into main
+[33mb635efe[m[33m ([m[1;31morigin/ny17[m[33m)[m 장소 댓글 추가 + 삭제, 수정 버튼 삭제
+[33m7d2d813[m[33m ([m[1;31morigin/ha18[m[33m, [m[1;32mha18[m[33m)[m 대표이미지 PlaceDao 메서드 추가, 연관된 서비스 수정
+[33m4e93b94[m Merge branch 'ny16' into main
+[33m71757ea[m[33m ([m[1;31morigin/ny16[m[33m)[m 댓글 페이징 처리
+[33m340feb5[m 헤더에 공유버튼 추가, 공유버튼 비동기
+[33mad611ea[m Merge remote-tracking branch 'origin/ha17' into main
+[33me9e8545[m[33m ([m[1;31morigin/ny15[m[33m)[m +
+[33mcec71ff[m[33m ([m[1;31morigin/ha17[m[33m, [m[1;32mha17[m[33m)[m 메인 페이지 비동기, 게시글 복제
+[33m3d7912d[m 마이페이지 페이지 처리, 장소 null 처리, 댓글 추가
+[33m5e78eff[m Merge remote-tracking branch 'origin/ha16' into main
+[33md2a5d33[m[33m ([m[1;31morigin/ha16[m[33m, [m[1;32mha16[m[33m)[m 수정: 게시글 댓글 기능 완성, 헤더 css, 게시글 복제 진행중
+[33m8ed5290[m[33m ([m[1;31morigin/ny13[m[33m)[m add: 마이페이지 내 게시글 조회 페이지 처리
+[33me009412[m Merge branch 'ny12' into main
+[33mdbe2e48[m[33m ([m[1;31morigin/ha15[m[33m, [m[1;32mha15[m[33m)[m 수정: 게시글 댓글 불러오기, 댓글 수정
+[33mf26815c[m[33m ([m[1;31morigin/ny12[m[33m)[m add: 팝업 장소 댓글 띄우기
+[33med63ad0[m Merge branch 'ny11' into main
+[33m40350f0[m[33m ([m[1;31morigin/ny11[m[33m)[m add: 장소 팝업 내용 삽입 비동
+[33m3b57d45[m[33m ([m[1;31morigin/ha14[m[33m, [m[1;32mha14[m[33m)[m 수정: 게시글에 댓글 비동기
+[33m7403b9c[m Merge branch 'ny10' into main
+[33md168cd2[m[33m ([m[1;31morigin/ny10[m[33m)[m add: 마이페이지 찜 수정, 주 장소 조회
+[33mcb91d07[m[33m ([m[1;31morigin/ha13[m[33m, [m[1;32mha13[m[33m)[m modify: css
+[33m073fa82[m[33m ([m[1;31morigin/ha12[m[33m, [m[1;32mha12[m[33m)[m modify: BoardTitle add: BoardTitle.js
+[33m1cce1e0[m Merge branch 'ny9' into main
+[33m7b386c9[m[33m ([m[1;31morigin/ny9[m[33m)[m modify : 보드 삽입하기 (ajax)
+[33m5ca034c[m[33m ([m[1;31morigin/ha11[m[33m, [m[1;32mha11[m[33m)[m add: title modify: board
+[33m38a8132[m Merge branch 'ny8' into main
+[33m349fb11[m[33m ([m[1;31morigin/ny8[m[33m)[m modify: arrPlace, Date, StartPlace
+[33m2702663[m[33m ([m[1;31morigin/ha10[m[33m, [m[1;32mha10[m[33m)[m modify: headers, location.href
+[33mc99c669[m modify: MyPage separate Header
+[33mefff49d[m Merge branch 'ny7' into main
+[33mffaa44e[m[33m ([m[1;31morigin/ny7[m[33m)[m modify: myPage.jap ArrPlace.jsp EditInfo.jsp Data.jap
+[33mcebc646[m[33m ([m[1;31morigin/ha9[m[33m, [m[1;32mha9[m[33m)[m modify: board, header, MainPage
+[33m580f111[m[33m ([m[1;31morigin/ha8[m[33m, [m[1;32mha8[m[33m)[m del: home.jsp modify: separate header
+[33me74b868[m Merge branch 'ny6' into main
+[33m45fb555[m[33m ([m[1;31morigin/ny6[m[33m)[m ADD: .jsp controller
+[33mcb56073[m[33m ([m[1;31morigin/ha7[m[33m, [m[1;32mha7[m[33m)[m add: .jsp, controller
+[33m6e290e9[m Modify: MemberService.java
+[33m9372be1[m Merge branch 'ha6' into main
+[33md6a6a28[m[33m ([m[1;31morigin/ha6[m[33m, [m[1;32mha6[m[33m)[m modify: board, comment SQL
+[33md089210[m[33m ([m[1;31morigin/ny5[m[33m)[m add: .js .css modify:comment
+[33m88f3ade[m Merge branch 'ny4' into main
+[33m040239b[m[33m ([m[1;31morigin/ny4[m[33m)[m Add: Dao,Service,Mapper,Test - comment, AIBlock
+[33m7b6993f[m[33m ([m[1;31morigin/ha5[m[33m, [m[1;32mha5[m[33m)[m add: block SQL modify: board, place SQL
+[33maf7adfc[m Merge branch 'ny3' into main
+[33m0b8614e[m[33m ([m[1;31morigin/ny3[m[33m)[m ADD: memberDao, memberMapper, memberService, memberTest
+[33m888c543[m[33m ([m[1;31morigin/ha4[m[33m, [m[1;32mha4[m[33m)[m modify: placeSQL
+[33m4a99897[m[33m ([m[1;31morigin/ha3[m[33m, [m[1;32mha3[m[33m)[m update: boardSQL, add: placeSQL
+[33m76eec18[m[33m ([m[1;31morigin/ha2[m[33m, [m[1;32mha2[m[33m)[m add: Test.java
+[33m57662b1[m add: TestTest.java
+[33me81be64[m[33m ([m[1;31morigin/ha1[m[33m, [m[1;32mha1[m[33m)[m ADD: BoardSvc
+[33m8eb0422[m add: all files
+[33m2bc9dcf[m Merge branch 'main' of https://github.com/nay20n/travel_project_spring.git into main
+[33m76214d5[m add: .gitignore
+[33m82ba8e4[m Initial commit
