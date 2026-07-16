@@ -8,12 +8,17 @@
 	<title>일정표 - 메일(월)</title>
 	<link rel="stylesheet" href="../../resources/css/MainMonth.css"/>
 	<link rel="stylesheet" href="../../resources/css/Header.css"/>
+	<link rel="stylesheet" href="../../resources/css/BoardTitle.css"/>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css">
 	<script type="text/javascript" src="../../resources/js/jquery-4.0.0.min.js"></script>
 	<script type="text/javascript" src="../../resources/js/MainMonth.js"></script>
-	<script type="text/javascript" src="../../resources/js/Header.js"></script>
+	<script type="text/javascript" src="../../resources/js/HeaderEditBoard.js"></script>
+	<script type="text/javascript" src="../../resources/js/BoardTitle.js"></script>
+	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
 </head>
 <body>
-	<%@ include file="Header.jsp"%>
+	<%@ include file="HeaderEditBoard.jsp"%>
+	<%@ include file="BoardTitle.jsp"%>
 	<div id="main">
 		<div>
 			<h2 class="date fl">2026년 5월</h2>

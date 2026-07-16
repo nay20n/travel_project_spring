@@ -5,6 +5,9 @@ let scrollLock = false;
 
 // 장소 검색 페이지 처리 필드
 let placePageNum = 1; 
+let placePageLock = false;
+let placeScrollLock = false;
+let mapping = "getSerchedPlace";
 
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
@@ -17,6 +20,88 @@ function setGraph(rate, per) {
 		}
 	});
 }
+
+// json 배열이 들어오면 사이드바 그리는 함수
+function addSideContent(data) {
+	if(data.length<1) { // 그릴 것이 없다면 종료
+		placePageNum = -1
+		return; 
+	}
+	if(data.length<10) placePageNum = -1; // 불러올 게 더 없으므로 -1 설정
+	
+	for(let i=0;i<data.length;i++) {
+		let place = data[i];  
+
+		let star = `
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+		</svg>
+		`;
+		if(`${place.isLiked}`==1)
+			star = `
+				<svg  class="fillStar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+				</svg>
+			`;
+			
+		let placeHtml = `
+			<div class="place" data-placeId="${place.placeId}">
+	            <div>
+	                <img src="../../resources/img/장소예시이미지.png"/>
+	            </div>
+				<div class="placeInfo">
+					<div class="placeTitle">
+						<div>
+							<a>${place.name}</a><span>${place.category}</span>
+						</div>
+						<div>
+							${star}
+						</div>
+					</div>
+					<div>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+							<path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+						</svg>
+						<span>${place.avgRating}</span><span>(${place.reviewCnt})</span>
+					</div>
+					<div>${place.address}</div>
+				</div>
+			</div>
+		`;
+					
+		$("#sidebar").append(placeHtml);
+	}
+}
+// 사이드바 장소 불러오기 비동기
+function placeNewPage(search, bno) {
+	const jsonData = {
+		"pageNum" : placePageNum,
+		"bno" : bno,
+		"input" : search
+	};
+	const initData = {
+		method: "post",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	};
+	fetch("../../"+mapping, initData)
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+		console.log(data);
+		addSideContent(data);
+	})
+	.catch(function(error) {
+		alert("에러! : " + error);
+	});
+	placePageLock = false;
+	placeScrollLock = false;
+	placePageNum++;
+}
+
 // 평균별점 들어오면 별점 그려주는 함수
 function setAvgStar(rate) {
 	let width = "width: " + (Number(rate)/5*100) + "%";
@@ -40,6 +125,7 @@ function setInitialColor(blockColorArr) {
 // 댓글 페이지 불러오는 함수 
 function reviewNewPage(pageNum, placeId) {
 	if(reviewPageLock) return;
+	if(popupPageNum==-1) return;
 	reviewPageLock = true;
 	
 	// 댓글 불러오기 비동기
@@ -63,6 +149,7 @@ function reviewNewPage(pageNum, placeId) {
 		let reviews = data.reviews;
 		if(data.reviews.length<1) {
 			reviewPageLock = false;
+			popupPageNum = -1;
 			return;
 		}
 		if(data.reviews.length<5) popupPageNum = -1;
@@ -140,6 +227,7 @@ function reviewNewPage(pageNum, placeId) {
 	});
 }
 
+// 장소 팝업 띄우기
 function clickPlaceTitle(placeId) {
 	fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
 	.then(function(response){
@@ -207,39 +295,81 @@ function clickPlaceTitle(placeId) {
 }
 
 $(function() {
-	setInitialColor(blockColorArr);
-	// ************장소검색****************
+	// 초기 설정
+	setInitialColor(blockColorArr); // 블럭 색
+	$(".popupContent").draggable(); // 팝업 드래그 가능
+	let bno = $("#main").data("bno");
+	let arrPlaceCity = $("#title>div:last-child>div:last-child>div:last-child>div:last-child").html();
+	placeNewPage(arrPlaceCity, bno); // 장소 검색창 채우기
+	
+	// ************ 장소 사이드바 ****************
 	// 검색 엔터로 돋보기 클릭
 	$("#main>div.bs>div.inputBdDiv>label>input").keypress(function(e) {
 		if(e.keyCode == 13){
 			$("#main > div:nth-child(1) > div:nth-child(1) > label > svg").trigger("click");
 		}
 	});
-	// 내 일정 버튼 클릭 
-	$("#main > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)").click(function() {
-		let bno = 1;
-		const jsonData = {
-			"pageNum" : placePageNum,
-			"bno" : bno
-		};
-		const initData = {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(jsonData)
-		};
-		fetch("../../getSelectedPlaces", initData)
-		.then(function(response) {
-			return response.json();
-		})
-		.then(function(data) {
-			
-		})
-		.catch(function(error) {
-			alert("에러! : " + error);
-		});
+	// 장소 검색
+	$("#main > div:nth-child(1) > div:nth-child(1) > label > svg").click(function() {
+		if(placePageLock) return;
+		placePageLock = true;
+		
+		// 초기화
+		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
+		$(".place").remove();
+		placePageNum = 1;
+		
+		let search = $(this).parent().find("input").val();
+		mapping = "getSerchedPlace";
+		
+		placeNewPage(search, bno);
 	});
+	// 내 일정 버튼 클릭 
+	$("#main>div:nth-child(1)>div:nth-child(2)>div:nth-child(1)").click(function() {
+		if(placePageLock) return;
+		if($(this).hasClass("isCheckedBtn")) return;
+		placePageLock = true;
+		
+		// 초기화
+		$(this).addClass("isCheckedBtn");
+		$("#main>div:nth-child(1)>div:nth-child(2)>div:nth-child(2)").removeClass("isCheckedBtn");
+		$(".place").remove();
+		placePageNum = 1;
+		
+		mapping = "getSelectedPlaces";
+		
+		placeNewPage("", bno);
+	});
+	// 찜한 장소 버튼 클릭 
+	$("#main>div:nth-child(1)>div:nth-child(2)>div:nth-child(2)").click(function() {
+		if(placePageLock) return;
+		if($(this).hasClass("isCheckedBtn")) return;
+		placePageLock = true;
+		
+		// 초기화
+		$(this).addClass("isCheckedBtn");
+		$("#main>div:nth-child(1)>div:nth-child(2)>div:nth-child(1)").removeClass("isCheckedBtn");
+		$(".place").remove();
+		placePageNum = 1;
+		
+		mapping = "getLikedPlaces";
+		
+		placeNewPage("", bno);
+	});
+	// 사이드바 스크롤
+	$("#sidebar").scroll(function(e){
+		if(placePageLock) return;
+		if(placePageNum==-1) return;
+		
+		var scrollTop = $(this).scrollTop();
+    	var innerHeight = $(this).innerHeight();
+	    var scrollHeight = $(this).prop('scrollHeight');
+	    if(scrollTop + innerHeight >= scrollHeight) {
+	    	placeScrollLock = true;
+	    	placeNewPage("", bno);
+		} 
+	});
+	
 	// 장소 옆 별 on off
 	$(document).on("click", ".placeTitle>div>svg", function() {
 		let placeId = $(this).parent().parent().parent().parent().data("placeid");
@@ -342,7 +472,7 @@ $(function() {
 	});
 	// ******************* 장소 리뷰 스크롤 *****************************
 	$(".popupContainer > div:nth-child(1)").scroll(function(e){
-		if(popupPageNum == -1) return;
+		if(popupPageNum==-1) return;
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
