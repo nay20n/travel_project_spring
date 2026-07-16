@@ -76,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 장소 이미지 추가
 		if(listPlaces.size()!=0) {			
-			Map<String, Object> tempMap = listPlaces.get(1);
+			Map<String, Object> tempMap = listPlaces.get(0);
 			String placeId = (String)tempMap.get("placeId");			
 			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
@@ -102,7 +102,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 장소 이미지 추가
 		if(listPlaces.size()!=0) {			
-			Map<String, Object> tempMap = listPlaces.get(1);
+			Map<String, Object> tempMap = listPlaces.get(0);
 			String placeId = (String)tempMap.get("placeId");			
 			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
@@ -141,7 +141,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 장소 이미지 추가
 		if(listPlaces.size()!=0) {			
-			Map<String, Object> tempMap = listPlaces.get(1);
+			Map<String, Object> tempMap = listPlaces.get(0);
 			String placeId = (String)tempMap.get("placeId");			
 			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}
@@ -327,7 +327,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 장소 이미지 추가
 		if(listPlaces.size()!=0) {			
-			Map<String, Object> tempMap = listPlaces.get(1);
+			Map<String, Object> tempMap = listPlaces.get(0);
 			String placeId = (String)tempMap.get("placeId");			
 			tempMap.put("image", pDao.getPlaceImageOne(placeId));
 		}

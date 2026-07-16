@@ -33,10 +33,7 @@ public class BoardController {
 	
 	@GetMapping("/plan/{bno}/week")
 	public String planDetailWeek(@PathVariable int bno, HttpSession session, Model model) {
-		int page = 1;
 		int loginId = (int)session.getAttribute("loginId");
-		List<Map<String, Object>> placesList = bSvc.getSerchedPlaceByCity(loginId, bno, page);
-		model.addAttribute("placesList",placesList);
 		model.addAllAttributes(bSvc.getBoardInfo(loginId, bno));
 		
 		return "MainWeek";

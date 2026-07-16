@@ -38,41 +38,53 @@ body>* {
 
 /* ********************검색창~장소********************** */
 
-#main > div:nth-child(1) { /* 검색창폭 */
-	height: 1400px;
+#sidebar { /* 검색창폭 */
+	height: 1000px;
 	width: 400px;
 	overflow-y: auto;
 }
 
-#main > div:nth-child(1) > div {	
+#sidebar > .inputBdDiv {
+    position: sticky;
+    top: 0;
+}
+
+#sidebar > .inputBdDiv + div {
+    position: sticky;
+    top: 50px;
+}
+
+#sidebar > div {
 	margin: 10px auto;
 	width: 350px;
 }
 
-#main > div:nth-child(1) > div:nth-child(1) > label {
+#sidebar > div:nth-child(1) > label {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+    border-radius: 8px;
+    background-color: white;
 }
 
-#main > div:nth-child(1) > div:nth-child(1) > label > input {
+#sidebar > div:nth-child(1) > label > input {
 	width: 370px;
 }
 
-#main > div:nth-child(1) > div:nth-child(1) > label > svg { /* 돋보기 */
+#sidebar > div:nth-child(1) > label > svg { /* 돋보기 */
 	margin-right: 10px;
 	height: 25px;
 	width: 25px;
 	cursor: pointer;
 }
 
-#main > div:nth-child(1) > div:nth-child(2) { /* 검색필터 */
+#sidebar > div:nth-child(2) { /* 검색필터 */
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 }
 
-#main > div:nth-child(1) > div:nth-child(2) > div {
+#sidebar > div:nth-child(2) > div {
 	background-color: #EDE8F6;
 	border-radius: 8px;
 	margin-right: 10px;
@@ -83,11 +95,11 @@ body>* {
 	cursor: pointer;
 }
 
-#main > div:nth-child(1) > div:nth-child(2) > div:hover {
+#sidebar > div:nth-child(2) > div:hover {
 	background-color: #E3D4FF;
 }
 
-#main > div:nth-child(1) > div:nth-child(2) > div > svg {
+#sidebar > div:nth-child(2) > div > svg {
 	width: 16px;
 }
 
@@ -804,6 +816,11 @@ textarea:focus {
 
 .fillStar {
 	fill: #925DE8;
+}
+
+.isCheckedBtn {
+	background-color: #E3D4FF !important;
+	border: 1px solid #925DE8;
 }
 
 .fl {

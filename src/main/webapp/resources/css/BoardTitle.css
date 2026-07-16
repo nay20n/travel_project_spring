@@ -58,6 +58,7 @@
     margin-bottom: 5px;
     border: none;
     background-color: transparent;
+    padding: 0;
 }
 
 #title > div > label {
