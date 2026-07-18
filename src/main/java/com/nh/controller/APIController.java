@@ -1,18 +1,30 @@
 package com.nh.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class APIController {
 	String GoogleApiKey = "";
 	
-	@GetMapping("/getBoardImg")
-	public String getBoardImg(String center, String path) {
+	@GetMapping(value="/getBoardImg", produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getBoardImg(@RequestParam String center, @RequestParam String path) throws MalformedURLException, IOException {
 		String url = "https://maps.googleapis.com/maps/api/staticmap?" +
-				"center=" + center +
-				"&zoom=12&size=290x220&path=" + path +
+				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) +
+				"&size=290x220&path=" + URLEncoder.encode(path, StandardCharsets.UTF_8) +
 				"&key=" + GoogleApiKey;
-		return url;
+		System.out.println(url);
+		try (InputStream is = new URL(url).openStream()) {
+	        return is.readAllBytes();
+	    }
 	}
 }

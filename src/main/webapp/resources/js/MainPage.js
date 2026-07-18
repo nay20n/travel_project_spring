@@ -47,7 +47,7 @@ function newPage(pageNum,mapping,input) {
 				let mapData = board.mapData;
 				let sumLat = 0;
 				let sumLng = 0;
-				let path = "weight:2|color:0xE3D4FF|";
+				let path = "weight:5|color:0x673AB7|";
 				for(let k=0;k<mapData.length;k++) {
 					sumLat+=mapData[k].lat;
 					sumLng+=mapData[k].lng;
@@ -56,12 +56,17 @@ function newPage(pageNum,mapping,input) {
 					path += "|";
 				}
 				let center = sumLat/mapData.length + "," + sumLng/mapData.length;
-				console.log(center);
-				console.log(path);
+				//console.log(center);
+				//console.log(path);
+				const params = new URLSearchParams({
+				    center: center,
+				    path: path
+				});
+				console.log(params.toString());
 				
 				str2 = `
 					<div class="bs" data-bno="${board.bno}">
-						<img src="getBoardImg?center=${center}&path=${path}">
+						<img src="getBoardImg?${params.toString()}">
 						</img>
 						<div>
 							<span>${board.title}</span>

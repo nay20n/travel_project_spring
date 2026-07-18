@@ -169,6 +169,10 @@ body>* {
 	align-items: center;
 }
 
+#board > div > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) {
+	width: 165px;
+}
+
 #board>div>div>div>span:nth-child(1) {
 	font-size: 18px;
 	font-weight: 500;
