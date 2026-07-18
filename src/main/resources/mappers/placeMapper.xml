@@ -13,6 +13,11 @@
 			SELECT image "image" FROM places_images WHERE place_id=#{placeId} AND image_num=1
 		]]>
 	</select>
+	<select id="selectPlaceMapData" resultType="java.util.Map">
+		<![CDATA[
+			SELECT lat "lat", lng "lng" FROM places WHERE place_id=#{placeId}
+		]]>
+	</select>
 	<select id="selectArrPlaceId" resultType="java.lang.String">
 		<![CDATA[
 			SELECT arr_place_id FROM boards WHERE bno=#{bno}

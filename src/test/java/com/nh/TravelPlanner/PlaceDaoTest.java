@@ -208,4 +208,19 @@ public class PlaceDaoTest {
 		// 3) Then
 		assertTrue("로우앤스윗은 DB에 존재해야함", bol);
 	}
+	
+	// 장소 위치 확인 테스트
+	@Test
+	@Transactional
+	public void testGetPlaceMapData() {
+		// 1) Given
+		String placeId = "ChIJofoWUQCNaDURDqIZjAjYMU8";
+		
+		// 2) When
+		Map<String, Object> map1 = pDao.getPlaceMapData(placeId);
+		
+		// 3) Then
+		assertNotNull("장소 정보는 null이 아님", map1);
+		System.out.println(map1);
+	}
 }

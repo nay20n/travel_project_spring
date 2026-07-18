@@ -19,6 +19,13 @@ public interface PlaceDao {
 	String getPlaceImageOne(String placeId);
 	
 	/**
+	 * 장소 좌표 조회
+	 * @param placeId
+	 * @return lat lng
+	 */
+	Map<String, Object> getPlaceMapData(String placeId);
+	
+	/**
 	 * 도착 정보 조회
 	 * @param bno
 	 * @return arrPlaceId

@@ -129,4 +129,10 @@ public class PlaceDaoImpl implements PlaceDao {
 		Integer cnt = sqlSession.selectOne("placeMapper.selectIsExistPlace", placeId);
 		return cnt>0;
 	}
+	
+	// 장소 lat lng 조회
+	@Override
+	public Map<String, Object> getPlaceMapData(String placeId) {
+		return sqlSession.selectOne("placeMapper.selectPlaceMapData", placeId);
+	}
 }
