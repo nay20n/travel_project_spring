@@ -7,14 +7,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@PropertySource("classpath:secret.properties")
+@Configuration
 @RestController
 public class APIController {
-	String GoogleApiKey = "";
+	@Value("${google.api.key}")
+    private String GoogleApiKey;
 	
 	@GetMapping(value="/getBoardImg", produces = MediaType.IMAGE_JPEG_VALUE)
 	public byte[] getBoardImg(@RequestParam String center, @RequestParam String path) throws MalformedURLException, IOException {
