@@ -48,5 +48,6 @@ buildNumber.properties
 
 .settings/
 .springBeans
+src/main/resources/secret.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven
