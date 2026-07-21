@@ -31,7 +31,6 @@ $(function(){
 			"yearSuffix": "년",
 			"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
 			"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-			"showMonthAfterYear": true //년도 먼저 나오고, 뒤에 월 표시
 		},
 		"autoApply": true, 
 		"showDropdowns": true, // 월/년 셀렉터 
