@@ -561,8 +561,44 @@ $(function() {
 		
 	});
 	// *************** 블럭 정보 팝업 *****************
-	// (임시) 캘린더 있는 곳 클릭 시 팝업
-	$(document).on("click", ".calendar", function() {
+	// 일정 클릭시 정보창 팝업
+	$(document).on("click", ".toastui-calendar-event-time-content", function() {
+		let blockIdx = $(this).parent().data("event-id");
+		console.log(blockIdx);
+		const jsonData = {
+			"blockIdx" : blockIdx
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../getBlockDetail", initData)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			console.log(data);
+			let center = data.lat + "," + data.lng;
+			let marker = "color:0x673AB7|" + center;
+			const params = new URLSearchParams({
+			    center: center,
+			    marker: marker
+			});
+			$("#blockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(data.startTime+"~"+data.endTime);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', data.colorCode);
+			if(data.checkedAi==1)
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', true);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(data.name);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(data.category);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(data.address);
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
 		$(".popupContainer").removeClass("hide");
 		$(".popupContainer>div:nth-child(2)").removeClass("hide");
 	});

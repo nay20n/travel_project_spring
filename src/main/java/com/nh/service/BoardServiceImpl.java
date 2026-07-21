@@ -202,7 +202,6 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("memberId", memberId);
 		
 		Map<String, Object> mapBoard = bDao.getBoardInfo(map1);
-		mapBoard.put("blocks", blDao.getAllBlocks(bno));
 		mapBoard.put("bno", bno);
 		mapBoard.put("arrMapData", pDao.getPlaceMapData((String)mapBoard.get("arrPlaceId")));
 		
