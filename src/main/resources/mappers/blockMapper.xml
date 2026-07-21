@@ -50,8 +50,8 @@
 	</update>
 	<select id="selectBlockDetail" resultType="java.util.Map">
 		<![CDATA[
-			SELECT b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi",
-				   b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.category "category", p.address "address", p.lat "lat", p.lng "lng"
+			SELECT TO_CHAR(b.start_time,'HH24:MI') "startTime", TO_CHAR(b.end_time,'HH24:MI') "endTime", 
+					b.checked_ai "checkedAi", b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.category "category", p.address "address", p.lat "lat", p.lng "lng"
 			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
 				 INNER JOIN colors c ON b.color_idx = c.color_idx
 			WHERE block_idx = #{blockIdx}
@@ -59,7 +59,7 @@
 	</select>
 	<select id="selectAllBlocks" resultType="java.util.Map">
 		<![CDATA[
-			SELECT b.block_idx "blockIdx", b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi", b.travel_time "travelTime",
+			SELECT b.block_idx "blockIdx", TO_CHAR(b.start_time,'YYYY-MM-DD HH24:MI:SS') "startTime", TO_CHAR(b.end_time,'YYYY-MM-DD HH24:MI:SS') "endTime", b.checked_ai "checkedAi", b.travel_time "travelTime",
 				   b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.lat "lat", p.lng "lng"
 			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
 				 INNER JOIN colors c ON b.color_idx = c.color_idx

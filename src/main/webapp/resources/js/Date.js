@@ -1,3 +1,41 @@
+// 날씨 세팅
+const weatherIcon = {
+    0: "☀️",
+    1: "🌤️",
+    2: "⛅",
+    3: "☁️",
+    45: "🌫️",
+    48: "🌫️",
+
+    51: "🌧️", 53: "🌧️", 55: "🌧️",
+    56: "🌧️", 57: "🌧️",
+    61: "🌧️", 63: "🌧️", 65: "🌧️",
+    66: "🌧️", 67: "🌧️",
+    80: "🌧️", 81: "🌧️", 82: "🌧️",
+
+    71: "❄️", 73: "❄️", 75: "❄️",
+    77: "❄️", 85: "❄️", 86: "❄️",
+    
+    95: "⛈️", 96: "⛈️", 99: "⛈️"
+};
+let weeklyWeather = [0,0,0,0,0,0,0];
+
+// 날씨 이모지 넣어주는 함수
+function setWeather(startr,startc){
+	for(let i=0;i<7;i++){
+		if(startc==7) {
+			startc=0;
+			startr++;
+		}
+		let target = "r" + startr + "c" + startc;
+		//console.log(target);
+		let html = $(`td[data-title=${target}]`).html();
+		if(html.includes("br")) return;
+		$(`td[data-title=${target}]`).html(weatherIcon[weeklyWeather[i]]+"<br/>"+$(`td[data-title=${target}]`).html());
+		startc++;
+	}
+}
+
 function getUrlParams() {     
     var params = {};  
     
@@ -9,6 +47,7 @@ function getUrlParams() {
     
     return params; 
 }
+
 function clickInput() {
 	$("#selectDate > input").click();
 }
@@ -17,13 +56,47 @@ let startDate;
 let endDate;
 
 $(function(){
-
 	// <-이미지 클릭하면 전 페이지로
 	$("#header > img").click(function() {
 		history.back();
 	});
 	
-	// 데이터 피커 인풋
+	// 오늘 날짜 기본 설정
+	let startrc;
+	
+	// 날씨 정보 가져오기
+	const lat = $("#banner").data("lat");
+	const lng = $("#banner").data("lng");
+	
+	const params = new URLSearchParams({
+	    "latitude": lat,
+	    "longitude": lng,
+	    "timezone": "Asia/Seoul",
+	    "daily": "weather_code"
+	});
+	
+	console.log("https://api.open-meteo.com/v1/forecast?"+params.toString());
+	
+	fetch("https://api.open-meteo.com/v1/forecast?"+params.toString())
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
+		console.log(data.daily.weather_code);
+		weeklyWeather = data.daily.weather_code;
+		startrc = $(".today").data("title");
+		//console.log(startrc);
+		//let startr = Number(startrc.substring(1,2));
+		//let startc = Number(startrc.substring(3));
+		//console.log(startr+startc);
+		//setTimeout(() => setWeather(startr,startc), 100);
+	})
+	.catch(function(error){
+		alert("에러! : " + error);
+	});
+	
+	// 데이트 피커 인풋
 	$('#selectDate > input').daterangepicker({
 		locale: {
 			"separator": " ~ ",                     
@@ -48,8 +121,10 @@ $(function(){
 			
 			isActive = true;
 			$("#nextBtn > div").addClass("coloredBtn");
+			
 		    //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 	});
+	
 	// 어플라이 버튼을 클릭 시 인풋 클릭한걸로 치기 
 	$('#selectDate > input').on('apply.daterangepicker', function(ev, picker) {
 		$("#selectDate > input").trigger("click");
@@ -97,9 +172,6 @@ $(function(){
 		});
 		
 	});
-	
-	
-	
 });
 
 
