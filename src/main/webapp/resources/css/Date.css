@@ -78,11 +78,12 @@ body > * {margin: -3px auto;}
 }
 .daterangepicker { /*사이즈 정하기*/
     width: 720px !important;
-	height: 530px;
+	height: 590px;
 	display: block !important;
 	border-radius: 12px !important;
 	bottom: 160px !important;
 	top: initial !important;
+    position: unset !important;
 }
 .daterangepicker .drp-calendar.right {display: none !important;} /* 오른쪽 달력 없애기*/
 .daterangepicker .drp-calendar.left { /* 왼쪽 달력 영역이 전체 너비를 가득 채우도록 설정 */
@@ -96,7 +97,10 @@ body > * {margin: -3px auto;}
 .table-condensed > thead > tr:nth-child(1) {
 	height: 50px;
 }
-.calendar-table th, .calendar-table td {font-size: 17px !important;}
+.calendar-table th, .calendar-table td {
+	font-size: 17px !important;
+    height: 70px !important;
+}
 .daterangepicker select {
 	background-color: #F8F5FD; 
 	border-color: lightgray;

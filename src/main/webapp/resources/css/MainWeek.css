@@ -214,8 +214,7 @@ body>* {
 	margin-right: 18px;
 }
 
-#main > div:nth-child(2)>div:nth-child(2) {
-	background-image: url("../img/일정예시이미지.png");
+#main > div:nth-child(2)>div:nth-child(2) { /* 달력 */
 	height: 500px;
 }
 
@@ -650,6 +649,7 @@ body>* {
 .popupContainer> div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(3) {
 	font-size: 12px;
 	margin-right: 5px;
+    cursor: pointer;
 }
 
 .popupContainer> div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(3):hover {
@@ -669,12 +669,13 @@ body>* {
 }
 
 .popupContainer> div:nth-child(2) > div:nth-child(3) > div:nth-child(1) { /* 좌표 */
-	background-color: peachpuff;
 	width: 145px;
     height: 135px;
     border: 1px solid #925DE8;
 	border-radius: 12px;
 	flex-shrink: 0;
+	background-size: cover;
+	background-position: center;
 }
 
 .popupContainer> div:nth-child(2) > div:nth-child(3) > div:nth-child(2) {

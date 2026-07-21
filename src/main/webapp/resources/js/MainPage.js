@@ -62,7 +62,7 @@ function newPage(pageNum,mapping,input) {
 				    center: center,
 				    path: path
 				});
-				console.log(params.toString());
+				//console.log(params.toString());
 				
 				str2 = `
 					<div class="bs" data-bno="${board.bno}">

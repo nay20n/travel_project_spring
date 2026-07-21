@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nh.service.BlockService;
 import com.nh.service.BoardService;
 import com.nh.service.CommentService;
 import com.nh.service.MemberService;
@@ -28,7 +30,30 @@ public class RestContoller {
 	PlaceService pSvc;
 	@Autowired
 	MemberService mSvc;
+	@Autowired
+	BlockService blSvc;
 	
+	// 블럭 삽입
+	@PostMapping("/addBlock")
+	public int addBlock(@RequestBody Map<String,Object> mapReq) {
+		int bno = (Integer)mapReq.get("bno");
+		String startTime = ((String)mapReq.get("startTime")).replace("T", " ").replace(".000Z", "");
+		String endTime = ((String)mapReq.get("endTime")).replace("T", " ").replace(".000Z", "");
+		return blSvc.addBlock(bno, startTime, endTime);
+	}
+	
+	// 게시글에 들어간 블럭 전체 조회
+	@PostMapping("/getAllBlocks")
+	public List<Map<String,Object>> getAllBlocks(@RequestBody Map<String,Object> mapReq) {
+		int bno = (Integer)mapReq.get("bno");
+		return blSvc.getAllBlocks(bno);
+	}
+	// 블럭 정보 팝업
+	@PostMapping("/getBlockDetail")
+	public Map<String,Object> getBlockDetail(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = (Integer)mapReq.get("blockIdx");
+		return blSvc.getBlockDetail(blockIdx);
+	}
 	// 게시글 최신순 조회
 	@PostMapping("/getBoardsLastestOrder")
 	public List<Map<String,Object>> getBoardsLastestOrder(@RequestBody Map<String,Object> mapReq, HttpSession session) {

@@ -55,12 +55,19 @@ public class PlaceServiceImpl implements PlaceService {
 	public void deleteReview(int reviewIdx, int memberId) {
 		pDao.deleteReview(reviewIdx, memberId);
 	}
-
+	
+	// 장소 삽입
 	@Override
 	public void addPlace(String placeId, String name, String category, String address, double lat, double lng,
 			String websiteUrl, String businessHours) {
 		if(pDao.isExistPlace(placeId)) return;
 		pDao.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours);
+	}
+	
+	// 장소 위도경도 조회
+	@Override
+	public Map<String, Object> getMapData(String placeId) {
+		return pDao.getPlaceMapData(placeId);
 	}
 	
 	

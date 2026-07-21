@@ -10,12 +10,14 @@
 	<link rel="stylesheet" href="../../resources/css/Header.css"/>
 	<link rel="stylesheet" href="../../resources/css/BoardTitle.css"/>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css"/>
-	<script type="text/javascript" src="../../resources/js/jquery-4.0.0.min.js"></script>
-	<script type="text/javascript" src="../../resources/js/MainPlan.js"></script>
-	<script type="text/javascript" src="../../resources/js/MainWeek.js"></script>
-	<script type="text/javascript" src="../../resources/js/HeaderEditBoard.js"></script>
-	<script type="text/javascript" src="../../resources/js/BoardTitle.js"></script>
+	<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+	<script src="../../resources/js/jquery-4.0.0.min.js"></script>
+	<script src="../../resources/js/MainPlan.js"></script>
+	<script src="../../resources/js/HeaderEditBoard.js"></script>
+	<script  src="../../resources/js/BoardTitle.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
+	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+	<script src="../../resources/js/MainWeek.js"></script>
 </head>
 <body>
 	<%@ include file="HeaderEditBoard.jsp"%>
@@ -32,7 +34,7 @@
 				<span class="fr moveDate">&lt;</span>
 				<div style="clear: both;"></div>
 			</div>
-			<div class="calendar">
+			<div id="calendar">
 				<!-- 일정표 -->
 			</div>
 			<button class="bs">일정 확정하기</button>
@@ -200,12 +202,12 @@
 					<span class="setBlockColor">●</span>
 				</div>
 				<div>
-					<input class="checkBox" type="checkbox" id="agree_check" value="0"/>
+					<input class="checkBox" type="checkbox" id="agree_check" name="checkedAi"/>
 					<span>AI 반영</span>
 				</div>
 			</div>
 			<div>
-				<div class="map">
+				<div id="blockImg">
 					<!-- 장소좌표 -->
 				</div>
 				<div>

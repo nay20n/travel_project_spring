@@ -5,6 +5,13 @@ import java.util.Map;
 
 public interface PlaceService {
 	/**
+	 * 장소 위도 경도 조회
+	 * @param placeId
+	 * @return lat lng
+	 */
+	Map<String, Object> getMapData(String placeId);
+	
+	/**
 	 * 장소 정보 조회(장소 정보창 팝업)
 	 * @param placeId
 	 * @param memberId
