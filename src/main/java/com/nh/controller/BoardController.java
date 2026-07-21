@@ -1,7 +1,5 @@
 package com.nh.controller;
 
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,6 +39,9 @@ public class BoardController {
 	
 	@GetMapping("/plan/{bno}/month")
 	public String planDetailMonth(@PathVariable int bno, HttpSession session, Model model) {
+		int loginId = (int)session.getAttribute("loginId");
+		model.addAllAttributes(bSvc.getBoardInfo(loginId, bno));
+		
 		return "MainMonth";
 	}
 	

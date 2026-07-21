@@ -24,12 +24,15 @@ body {
    background-color: #F8F5FD;
 }
 body > *:not(:first-child){margin: 20px auto 0;}
+.daterange{display: none;}
 /* ***************헤더***************** */
 #header {
 	width: 1280px;
 	margin: auto;
 }
-
+#title {
+	width: 1280px;
+}
 /***********main****************/
 #main {
 	width: 1280px;
@@ -41,6 +44,7 @@ body > *:not(:first-child){margin: 20px auto 0;}
 }
 .date { /*2026년 5월*/
    font-size: 22px;
+   margin-left: 10px;
 }
 .changeView { /*일월주담고있는 큰 div*/
 	margin-top: 12px;
@@ -55,7 +59,8 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	align-items: center;
 }
 .changeView > span { /*일월주*/
-	cursor:pointer;
+	pointer-events: auto;
+    cursor: pointer;
 	font-size : 16px;
 	font-weight: 600;
 	color: #925DE8;
@@ -73,65 +78,84 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	background-color: #925DE8;
 	color: white;
 }
-.moveDate { /* <오늘>*/
-   border: 1px solid #EDE8F6;
-   background-color: white;
-   border-radius: 20px;
-   padding: 2px 8px;
-   font-size: 12px;
-   cursor: pointer;
-}
-.moveDate:hover {
-	backgroud-color: #EDE8F6;
-}
-#main > div:nth-child(2) > img { /*달력이미지*/
-	margin:auto;
-	width: 910px;
-}
-#main > div:nth-child(2) { /*달력담고잇는 div*/
+
+/************달력div***************/
+#main > div:nth-child(2) { /* 달력 div */
 	position: relative;
+	height: 730px;
 }
-#main > div:nth-child(2) > span{ /*불투명 박스*/
+#main > div:nth-child(2) > input { 
+	display: none;
+}
+/************달력****************/
+.daterangepicker:before, .daterangepicker:after {
+    display: none !important; /* 달력 화살표 지우기 */
+}
+.daterangepicker { /*사이즈 정하기*/
+    width: 720px !important;
+	display: block !important;
+	border-radius: 12px !important;
+	left: 35% !important;
+	top: 335px !important;
+}
+.daterangepicker .drp-calendar.right {display: none !important;} /* 오른쪽 달력 없애기*/
+.daterangepicker .drp-calendar.left { /* 왼쪽 달력 영역이 전체 너비를 가득 채우도록 설정 */
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+    max-height: 100% !important;
+}
+.calendar-table {height: 100%;} /* 테이블 감싸고 있는 div도 */
+.table-condensed {height: 100%;} /* 테이블도 */
+.table-condensed > thead > tr:nth-child(1) {
+	height: 50px;
+}
+.calendar-table th, 
+.calendar-table td {
+	font-size: 17px !important;
+	height: 70px !important;
+}
+.calendar-table td {
+	pointer-events: none; 
+}
+.calendar-table td:hover {
+	background-color: white !important;
+}
+.daterangepicker td.in-range {
+	background-color: #925DE8 !important; 
+	color: #fff !important;
+}
+.daterangepicker td.active{
+	background-color: #925DE8 !important; 
+}
+.daterangepicker td > svg {
+    pointer-events: auto;
+    cursor: pointer;
+}
+.daterangepicker td > svg:hover {
+	opacity: 0.7;
+}
+/******* 달력 위에 있는 svg들 *******/
+.delete { /* 쓰레기 버튼들 */
 	position: absolute;
-	width: 128px;
-	height: 107px;
-	background-color: rgba(146, 93, 232, 0.3);
-}
-#main > div:nth-child(2) > span:nth-child(3) {/*처음꺼*/
-	top: 351px;
-	left: 137px;
-}
-#main > div:nth-child(2) > span:nth-child(4) {/*두번쨰꺼*/
-	top: 351px;
-	left: 266px;
-}
-#main > div:nth-child(2) > span > svg { /*쓰레기 버튼들 */
-	cursor:pointer;
-	margin-top: 24px;
-	width: 65px;
-	color: rgb(146, 93, 232);
+	width: 53px;
 	padding: 10px;
 	border-radius: 40px;
-	border: 3px solid rgb(146, 93, 232);
+	border: 2px solid;
+	transform: translate(-46%, -48%);
+	color: white;
 }
-#main > div:nth-child(2) > svg { /* +버튼들 */
-	cursor:pointer;
+.plus { /* + 버튼들 */
 	position: absolute;
-	width: 65px;
-	color: rgb(146, 93, 232);
+	width: 53px;
 	padding: 10px;
 	border-radius: 40px;
-	border: 3px solid rgb(146, 93, 232);
+	border: 2px solid black;
+	transform: translate(-46%, -48%);
+	color: black;
 }
-#main > div:nth-child(2) > svg:nth-child(2) {
-	top: 375px;
-	left: 39px;
-}
-#main > div:nth-child(2) > svg:nth-child(5) {
-	top: 375px;
-	left: 427px;
-}
-#main > button { /*일정확정하기버튼*/
+/* 일정확정하기버튼 */
+#main > button { 
 	cursor:pointer;
 	border-radius: 4px;
 	border: none;
