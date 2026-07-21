@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nh.service.BoardService;
+import com.nh.service.PlaceService;
 
 @Controller
 public class NewPlanController {
-	
+	@Autowired
+	PlaceService pSvc;
 	@Autowired
 	BoardService bSvc;
 	
@@ -39,7 +42,8 @@ public class NewPlanController {
 	}
 	
 	@RequestMapping("/newplan/date")
-	public String date() {
+	public String date(@RequestParam String arrId, Model model) {
+		model.addAllAttributes(pSvc.getMapData(arrId));
 		return "Date";
 	}
 	
