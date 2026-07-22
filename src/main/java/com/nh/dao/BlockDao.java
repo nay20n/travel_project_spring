@@ -96,7 +96,7 @@ public interface BlockDao {
 	 * 블럭 색 조회(색 변경 팝업)
 	 * @return
 	 */
-	List<Map<String,Object>> getColors();
+	List<Map<String, Object>> getColors();
 	
 	/**
 	 * 게시글 전체 블럭 복사

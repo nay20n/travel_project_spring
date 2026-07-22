@@ -26,18 +26,25 @@
 		<%@ include file="Sidebar.jsp"%>
 		<div>
 			<div>
-				<h2 class="date fl">2026년 5월</h2>
+				<h2 class="date fl">${startDate.substring(0,4)}년 ${startDate.substring(5,7)}월</h2>
 				<div class="changeView fl bs" >
-					<span>일</span><span>주</span><span>월</span>
+					<span>일</span><span class="selectedView">주</span><span>월</span>
 				</div>
-				<span class="fr moveDate">></span> <span class="fr moveDate">오늘</span>
-				<span class="fr moveDate">&lt;</span>
+				<span class="fr moveDate" id="moveNext">></span>
+				<span class="fr moveDate" id="today">오늘</span>
+				<span class="fr moveDate" id="movePast">&lt;</span>
 				<div style="clear: both;"></div>
 			</div>
-			<div id="calendar">
-				<!-- 일정표 -->
+			<div>
+				<div id="calendar" data-start-date="${startDate}" data-end-date="${endDate}">
+					<!-- 일정표 -->
+				</div>
+				<div id="aiCalendar" class="changeToDay" data-bno="${bno}">
+					<!-- 일정표 -->
+				</div>
 			</div>
-			<button class="bs">일정 확정하기</button>
+			<button class="bs" id="goNext">일정 확정하기</button>
+			<button class="bs hide" id="makeAiBlock">AI 추천 일정</button>
 		</div>
 	</div>
 	<div class="popupContainer hide">
@@ -198,22 +205,23 @@
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 					</svg>
-					<span>16:00 ~ 18:00</span>
+					<span>00:00 ~ 00:00</span>
 					<span class="setBlockColor">●</span>
 				</div>
 				<div>
 					<input class="checkBox" type="checkbox" id="agree_check" name="checkedAi"/>
 					<span>AI 반영</span>
 				</div>
+				<div>일정 삭제</div>
 			</div>
 			<div>
 				<div id="blockImg">
 					<!-- 장소좌표 -->
 				</div>
 				<div>
-					<div>로우앤스윗 로스터리 (Raw&Sweet Roastery Cafe)</div>
+					<div>아나키아</div>
 					<div>카페</div>
-					<div>대한민국 부산광역시 해운대구 우동1로20번길 19 1층</div>
+					<div>의정부 어딘가. 가끔 피아노 연주도 와요.</div>
 				</div>
 			</div>
 		</div>

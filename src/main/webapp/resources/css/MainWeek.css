@@ -103,6 +103,11 @@ body>* {
 	width: 16px;
 }
 
+.place {
+	z-index: 5;
+	background-color: white;
+}
+
 .place > div:nth-child(1) > svg {
 	width: 20px;
 }
@@ -205,20 +210,31 @@ body>* {
 	color: white;
 	opacity: 50%;
 }
-.changeView > span:nth-child(2) { /*주*/
+.selectedView { /*선택중*/
 	background-color: #925DE8;
-	color: white;
+	color: white !important;
 }
 
 #main > div:nth-child(2)>div:nth-child(1)>span:nth-child(2) {
 	margin-right: 18px;
 }
 
-#main > div:nth-child(2)>div:nth-child(2) { /* 달력 */
-	height: 500px;
+#main > div:nth-child(2)>div:nth-child(2) {
+	display: flex;
+	justify-content: flex-start;
 }
 
-#main > div:nth-child(2)>button:nth-child(3) { /* 일정 확정하기 */
+#main > div:nth-child(2)>div:nth-child(2)>div { /* 달력 */
+	height: 925px;
+    width: 1000px;
+}
+
+.changeToDay {
+	height: 925px;
+	width: 185px !important;
+}
+
+#main > div:nth-child(2)>button { /* 확정, ai 버튼 */
 	cursor: pointer;
 	border-radius: 4px;
 	border: none;
@@ -294,6 +310,7 @@ body>* {
 	padding: 5px;
 	border-radius: 10px;
 	background-color: white;
+	border: 1px solid #E3D4FF;
 }
 
 .popupContainer> div > svg:nth-child(1):hover {
@@ -614,6 +631,7 @@ body>* {
 	cursor: pointer;
 	padding: 5px;
 	background-color: white;
+	border: 1px solid #E3D4FF;
 }
 
 .popupContainer> div:nth-child(2) > svg:nth-child(1):hover {
@@ -656,8 +674,19 @@ body>* {
 	opacity: 50%;
 }
 
-.popupContainer> div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > span:nth-child(2) {
+.popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) {	/* 일정 삭제 */
+	font-size: 14px;
+    padding: 1px 4px;
+    font-weight: 500;
+    border-radius: 7px;
+    color: #4B4C56;
 	cursor: pointer;
+	background-color: #E3D4FF;
+    border: 1px solid white;
+}
+
+.popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3):hover {
+    border: 1px solid #925DE8;
 }
 
 .popupContainer> div:nth-child(2) > div:nth-child(3) { /* 장소정보 */

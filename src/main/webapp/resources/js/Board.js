@@ -1,3 +1,61 @@
+// 캘린더 객체
+let calendar;
+let calendarM;
+
+// 일정 삽입 함수
+function setBlocks(calendar) {
+	let eventList = [];
+	let bno = $(".fee").data("bno");
+	
+	const jsonData = {
+		"bno" : bno
+	};
+	const initData = {
+		method: "post",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(jsonData)
+	};
+	fetch("../getAllBlocks", initData)
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		for(let i=0;i<data.length;i++) {
+			let block = data[i];
+			
+			let id = block.blockIdx;
+	        let title = block.name;
+	        let start = block.startTime;
+	        let end = block.endTime;
+	        let colorCode = block.colorCode;
+	        
+	        // 캘린더 데이터
+	        eventList.push({
+	            id: id,
+	            title: title,
+	            start: start,
+	            end: end,
+	            backgroundColor: colorCode,
+	            color: '#000000'
+	        });
+	        
+	        // 캘린더 비우기
+	        calendar.clear();
+	        
+	        // 데이터 삽입
+	        if (eventList.length > 0) {
+		        calendar.createEvents(eventList);
+		    }
+		}
+		console.log(eventList);
+	})
+	.catch(function(error){
+		alert("에러! : " + error);
+	})
+}
+
 // 댓글 페이지 처리 필드
 let gPageLock = false; // 페이지 불러오는 중에는 작동하지 않도록 막아둠
 let gPageNum = 1;
@@ -125,6 +183,55 @@ function getSum() {
 $(function() {
 	// ************* 공통으로 쓸 필드 *************
 	let bno = $(".fee").attr('data-bno');
+	
+	// **************캘린더********************
+	const Calendar = tui.Calendar;
+	calendar = new Calendar("#calendar", {
+	  defaultView: 'week',
+	  isReadOnly: true,
+	  week: {
+	    showMilestone: false,
+        showTask: false,
+        taskView: false,
+        enableDblClick: false,
+  		enableClick: false,
+        eventView: ['time'] 
+	  }
+	});
+	calendarM = new Calendar("#calendarM", {
+	  defaultView: 'month',
+	  isReadOnly: true,
+	  month: {
+	    visibleEventCount: 10,
+	    enableDblClick: false,
+  		enableClick: false
+	  }
+	});
+	// 기존 블럭 생성
+	setBlocks(calendar);
+	setBlocks(calendarM);
+	// 날짜 설정
+	calendar.setDate($("#calendar").data("start-date"));
+	calendarM.setDate($("#calendar").data("start-date"));
+	// 기본 날짜 이동
+	$("#moveNextM").click(function(){
+		calendarM.move(1);
+	});
+	$("#todayM").click(function(){
+		calendarM.today();
+	});
+	$("#movePastM").click(function(){
+		calendarM.move(-1);
+	});
+	$("#moveNext").click(function(){
+		calendar.move(1);
+	});
+	$("#today").click(function(){
+		calendar.today();
+	});
+	$("#movePast").click(function(){
+		calendar.move(-1);
+	});
 	
 	// ************ 첫 화면 불러올 때 초기화 ********
 	// 댓글
