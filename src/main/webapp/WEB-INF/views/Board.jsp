@@ -9,7 +9,9 @@
 	<link rel="stylesheet" href="../resources/css/Board.css"/>
 	<link rel="stylesheet" href="../resources/css/Header.css"/>
 	<link rel="stylesheet" href="../resources/css/BoardTitle.css"/>
+	<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
 	<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
+	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
 	<script type="text/javascript" src="../resources/js/Board.js"></script>
 	<script type="text/javascript" src="../resources/js/Header.js"></script>
 	<c:if test="${sessionScope.loginId==writerId}">
@@ -22,13 +24,13 @@
 	<div id="content1">
 		<div class="fl">
 			<div>
-				<h2 class="date fl">2026년 5월</h2>
-				<span class="fr moveDate">></span>
-				<span class="fr moveDate">오늘</span>
-				<span class="fr moveDate">&lt;</span>
+				<h2 class="date fl">${startDate.substring(0,4)}년 ${startDate.substring(5,7)}월</h2>
+				<span class="fr moveDate" id="moveNextM">></span>
+				<span class="fr moveDate" id="todayM">오늘</span>
+				<span class="fr moveDate" id="movePastM">&lt;</span>
 				<div style="clear:both;"></div>
 			</div>
-			<div class="bs">
+			<div class="bs" id="calendarM">
 				<!-- 캘린더 -->
 			</div>
 		</div>
@@ -43,7 +45,9 @@
 				</h5>
 				<div>
 					<span>교통</span>
-					<div>
+					<c:choose>
+						<c:when test="${sessionScope.loginId==writerId}">
+							<div>
 						<input data-bno="${bno}" data-field="transportCost" class="fee" type="text" value="${transportCost}"/><span>원</span>
 					</div>
 				</div>
@@ -63,6 +67,30 @@
 					<span>기타</span>
 					<div>
 						<input data-bno="${bno}" data-field="etcCost" class="fee" type="text" value="${etcCost}"/><span>원</span>
+						</c:when>
+						<c:otherwise>
+							<div>
+						<span>${transportCost}원</span>
+					</div>
+				</div>
+				<div>
+					<span>식사</span>
+					<div>
+						<span class="fee" data-bno="${bno}">${foodCost}원</span>
+					</div>
+				</div>
+				<div>
+					<span>숙소</span>
+					<div>
+						<span>${roomCost}원</span>
+					</div>
+				</div>
+				<div>
+					<span>기타</span>
+					<div>
+						<span>${etcCost}원</span>
+						</c:otherwise>
+					</c:choose>
 					</div>
 				</div>
 				<div></div>
@@ -120,13 +148,12 @@
 	</div>
 	<div id="content2" class="bs">
 		<div>
-			<h2 class="date fl">2026년 5월</h2>
-			<span class="fr moveDate">></span>
-			<span class="fr moveDate">오늘</span>
-			<span class="fr moveDate">&lt;</span>
+			<span class="fr moveDate" id="moveNext">></span>
+			<span class="fr moveDate" id="today">오늘</span>
+			<span class="fr moveDate" id="movePast">&lt;</span>
 			<div style="clear:both;"></div>
 		</div>
-		<div>
+		<div id="calendar" data-start-date="${startDate}">
 			<!-- 일정표 -->
 		</div>
 	</div>
