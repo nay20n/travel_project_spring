@@ -127,7 +127,7 @@ public class BlockDaoImpl implements BlockDao {
 
 	// 블럭 색 조회
 	@Override
-	public List<Map<String,Object>> getColors() {
+	public List<Map<String, Object>> getColors() {
 		return sqlSession.selectList("blockMapper.selectColors");
 	}
 	
