@@ -28,7 +28,7 @@
 	<%@ include file="HeaderEditBoard.jsp"%>
 	<%@ include file="BoardTitle.jsp"%>
 	<div id="daterange" data-start="${startDate}" data-end="${endDate}"></div>
-	<div id="main">
+	<div id="main" data-bno="${bno}">
 		<div>
 			<h2 class="date fl">2026년 5월</h2>
 			<div class="changeView fl bs" >
