@@ -45,7 +45,7 @@ function addSideContent(data) {
 			`;
 			
 		let placeHtml = `
-			<div class="place" data-placeId="${place.placeId}">
+			<div class="place" data-place-id="${place.placeId}">
 	            <div>
 	                <img src="../../resources/img/장소예시이미지.png"/>
 	            </div>
@@ -68,8 +68,14 @@ function addSideContent(data) {
 				</div>
 			</div>
 		`;
-					
-		$("#sidebar").append(placeHtml);
+		
+		const $newPlace = $(placeHtml);
+		$("#sidebar").append($newPlace);
+		// 생성에 드래그 기능 넣기
+		$newPlace.draggable({
+			helper: function() { return $(this).clone().css({ "opacity": "0.3" }) },
+			cursor: "move"
+		});
 	}
 }
 // 사이드바 장소 불러오기 비동기
@@ -296,7 +302,21 @@ function clickPlaceTitle(placeId) {
 
 $(function() {
 	// 초기 설정
-	setInitialColor(blockColorArr); // 블럭 색
+	// 블럭 색 가져오기
+	fetch("../../getColors", {method:"POST"})
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
+		for(let i=0;i<data.length;i++){
+			blockColorArr[i] = data[i].colorCode;
+		}
+		setInitialColor(blockColorArr);
+	})
+	.catch(function(error){
+		alert("에러! : " + error);
+	});
 	$(".popupContent").draggable(); // 팝업 드래그 가능
 	let bno = $("#main").data("bno");
 	let arrPlaceCity = $("#title>div:last-child>div:last-child>div:last-child>div:last-child").html();
@@ -404,7 +424,7 @@ $(function() {
 	// 이름 클릭 시 정보창 팝업
 	$(document).on("click", ".placeTitle>div:nth-child(1)>a", function() {
 		popupPageNum = 1; // 페이지 1로 초기화 
-		let placeId = $(this).parent().parent().parent().parent().data("placeid");
+		let placeId = $(this).parent().parent().parent().parent().data("place-id");
 		clickPlaceTitle(placeId); // 정보 가져오기 
 		reviewNewPage(popupPageNum++,placeId); // 리뷰 가져오기 
 	});
@@ -492,7 +512,7 @@ $(function() {
 	// 댓글 등록
 	$(".reviewInput>div:nth-child(3)>div:nth-child(2)").click(function() {
 		let content	= $(this).parent().parent().find("#textarea").find("textarea").val();
-		let placeId = $(".popupPlace").attr("data-placeid");
+		let placeId = $(".popupPlace").attr("data-place-id");
 		let rating = 0;
 		$(".reviewInput > div:nth-child(1) > svg").each(function(index, item) {
 			if($(item).hasClass("fillStar"))
@@ -564,6 +584,7 @@ $(function() {
 	// 일정 클릭시 정보창 팝업
 	$(document).on("click", ".toastui-calendar-event-time-content", function() {
 		let blockIdx = $(this).parent().data("event-id");
+		$(".popupContainer > div:nth-child(2)").attr("data-block-index",blockIdx);
 		console.log(blockIdx);
 		const jsonData = {
 			"blockIdx" : blockIdx
@@ -581,6 +602,15 @@ $(function() {
 		})
 		.then(function(data) {
 			console.log(data);
+			$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").data("blockIdx",data.blockIdx);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', blockColorArr[data.colorIdx]);
+			if(data.name==null) {
+				$(".popupContainer>div:nth-child(2)>div:nth-child(3)").addClass("hide");
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").addClass("hide");
+				$(".popupContainer").removeClass("hide");
+				$(".popupContainer>div:nth-child(2)").removeClass("hide");
+				return;
+			}
 			let center = data.lat + "," + data.lng;
 			let marker = "color:0x673AB7|" + center;
 			const params = new URLSearchParams({
@@ -589,29 +619,57 @@ $(function() {
 			});
 			$("#blockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
 			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(data.startTime+"~"+data.endTime);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', data.colorCode);
 			if(data.checkedAi==1)
 				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', true);
 			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(data.name);
 			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(data.category);
 			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(data.address);
+			$(".popupContainer>div:nth-child(2)>div:nth-child(3)").removeClass("hide");
+			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").removeClass("hide");
+			$(".popupContainer").removeClass("hide");
+			$(".popupContainer>div:nth-child(2)").removeClass("hide");
 		})
 		.catch(function(error) {
 			alert("에러! : " + error);
 		});
-		$(".popupContainer").removeClass("hide");
-		$(".popupContainer>div:nth-child(2)").removeClass("hide");
 	});
 	// 블럭 색 바꾸기 창 띄우기
 	$(document).on("click", ".setBlockColor", function() {
-		$(".popupContainer>div:nth-child(3)").toggleClass("hide");
+		$(".popupContainer>div:nth-child(3)").removeClass("hide");
 	});
 	// 블럭 색 지정하기
 	$(document).on("click", ".blockColor", function() {
 		let colorIdx = $(this).index();
-		let color = "color: " + blockColorArr[colorIdx];
-		$(".setBlockColor").attr("style",color);
-		$(".popupContainer>div:nth-child(3)").addClass("hide");
+		let blockIdx = $(".popupContainer>div:nth-child(2)").data("block-index");
+		
+		//alert(colorIdx);
+		//alert(blockIdx);
+		
+		const jsonData = {
+			"blockIdx" : blockIdx,
+			"colorIdx" : colorIdx
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../modifyBlockColor", initData)
+		.then(function(response) {
+			return response.text();
+		})
+		.then(function(data) {
+			//console.log(data);
+			let color = "color: " + blockColorArr[colorIdx];
+			$(".setBlockColor").attr("style",color);
+			$(".popupContainer>div:nth-child(3)").addClass("hide");
+			setBlocks(calendar);
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
 	});
 	// *************** 교통 팝업 *****************
 	// (임시) 캘린더 클릭 시 팝업

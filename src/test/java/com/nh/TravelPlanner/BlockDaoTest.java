@@ -204,13 +204,10 @@ public class BlockDaoTest {
 		// 1) Given
 		
 		// 2) When
-		List<Map<String,Object>> listColor = blDao.getColors();
+		List<Map<String, Object>> listColor = blDao.getColors();
 		
 		// 3) Then
 		assertNotNull("리스트는 널이 아님", listColor);
-		for(int i=0;i<listColor.size();i++) {
-			System.out.println(listColor.get(i));
-		}
 	}
 	
 	// 블럭 복제 테스트

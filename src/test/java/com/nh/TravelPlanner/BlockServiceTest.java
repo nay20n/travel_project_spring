@@ -177,13 +177,10 @@ public class BlockServiceTest {
 		// 1) Given
 		
 		// 2) When
-		List<Map<String,Object>> listColor = blSvc.getColors();
+		List<Map<String, Object>> listColor = blSvc.getColors();
 		
 		// 3) Then
 		assertNotNull("리스트는 널이 아님", listColor);
-		for(int i=0;i<listColor.size();i++) {
-			System.out.println(listColor.get(i));
-		}
 	}
 
 }

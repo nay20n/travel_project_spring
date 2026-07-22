@@ -51,7 +51,8 @@
 	<select id="selectBlockDetail" resultType="java.util.Map">
 		<![CDATA[
 			SELECT TO_CHAR(b.start_time,'HH24:MI') "startTime", TO_CHAR(b.end_time,'HH24:MI') "endTime", 
-					b.checked_ai "checkedAi", b.color_idx "colorIdx", c.color_code "colorCode", p.name "name", p.category "category", p.address "address", p.lat "lat", p.lng "lng"
+				   b.block_idx "blockIdx", b.checked_ai "checkedAi", b.color_idx "colorIdx", c.color_code "colorCode", 
+				   p.name "name", p.category "category", p.address "address", p.lat "lat", p.lng "lng"
 			FROM blocks b LEFT OUTER JOIN places p ON b.place_id = p.place_id
 				 INNER JOIN colors c ON b.color_idx = c.color_idx
 			WHERE block_idx = #{blockIdx}
@@ -87,7 +88,7 @@
 	</delete>
 	<select id="selectColors" resultType="java.util.Map">
 		<![CDATA[
-			SELECT color_idx "colorIdx", color_code "colorCode" FROM colors ORDER BY color_idx
+			SELECT color_code "colorCode" FROM colors ORDER BY color_idx
 		]]>
 	</select>
 	<insert id="insertCopyBlock">

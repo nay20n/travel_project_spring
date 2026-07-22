@@ -1,5 +1,9 @@
 package com.nh.controller;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +37,55 @@ public class RestContoller {
 	@Autowired
 	BlockService blSvc;
 	
+	// 시간 형식 변환 메서드
+	public static String changeDateFormat(String input) {
+		OffsetDateTime odt = OffsetDateTime.parse(input);
+        ZonedDateTime kstDateTime = odt.atZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    
+	    return kstDateTime.format(formatter);
+	}
+	// 블럭 장소 변경
+	@PostMapping("/modifyBlockPlace")
+	public String modifyBlockPlace(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = (Integer)mapReq.get("blockIdx");
+		String placeId = (String)mapReq.get("placeId");
+		blSvc.modifyBlockPlace(blockIdx, placeId);
+		return "블럭 변경";
+	}
+	// 블럭 색 변경
+	@PostMapping("/modifyBlockColor")
+	public String modifyBlockColor(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = (Integer)mapReq.get("blockIdx");
+		int colorIdx = (Integer)mapReq.get("colorIdx");
+		blSvc.modifyBlockColor(blockIdx, colorIdx);
+		return "블럭 색 변경";
+	}
+	// 블럭 시간 변경
+	@PostMapping("/modifyBlockTime")
+	public String modifyBlockTime(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = (Integer)mapReq.get("blockIdx");
+		String startTime = changeDateFormat((String)mapReq.get("startTime"));
+		String endTime = changeDateFormat((String)mapReq.get("endTime"));
+		blSvc.modifyBlockTime(blockIdx, startTime, endTime);
+		return "블럭 변경";
+	}
+	// 블럭 삭제
+	@PostMapping("/deleteBlock")
+	public String deleteBlock(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = (Integer)mapReq.get("blockIdx");
+		blSvc.deleteBlock(blockIdx);
+		return "블럭 삭제";
+	}
 	// 블럭 삽입
 	@PostMapping("/addBlock")
 	public int addBlock(@RequestBody Map<String,Object> mapReq) {
 		int bno = (Integer)mapReq.get("bno");
-		String startTime = ((String)mapReq.get("startTime")).replace("T", " ").replace(".000Z", "");
-		String endTime = ((String)mapReq.get("endTime")).replace("T", " ").replace(".000Z", "");
+		String startTime = changeDateFormat((String)mapReq.get("startTime"));
+		String endTime = changeDateFormat((String)mapReq.get("endTime"));
+		System.out.println(startTime+","+endTime);
 		return blSvc.addBlock(bno, startTime, endTime);
 	}
-	
 	// 게시글에 들어간 블럭 전체 조회
 	@PostMapping("/getAllBlocks")
 	public List<Map<String,Object>> getAllBlocks(@RequestBody Map<String,Object> mapReq) {
@@ -53,6 +97,11 @@ public class RestContoller {
 	public Map<String,Object> getBlockDetail(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = (Integer)mapReq.get("blockIdx");
 		return blSvc.getBlockDetail(blockIdx);
+	}
+	// 블럭 색 가져오기
+	@PostMapping("/getColors")
+	public List<Map<String,Object>> getColors() {
+		return blSvc.getColors();
 	}
 	// 게시글 최신순 조회
 	@PostMapping("/getBoardsLastestOrder")

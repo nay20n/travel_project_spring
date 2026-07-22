@@ -82,5 +82,5 @@ public interface BlockService {
 	 * 블럭 색 조회(색 변경 팝업)
 	 * @return
 	 */
-	List<Map<String,Object>> getColors();
+	List<Map<String, Object>> getColors();
 }
