@@ -33,4 +33,24 @@ public class APIController {
 	        return is.readAllBytes();
 	    }
 	}
+	
+	@GetMapping(value="/getBlockImg", produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getBlockImg(@RequestParam String center, @RequestParam String marker) throws MalformedURLException, IOException {
+		String url = "https://maps.googleapis.com/maps/api/staticmap?" +
+				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) + "&markers=" + URLEncoder.encode(marker, StandardCharsets.UTF_8) +
+				"&size=145x145&zoom=18&key=" + GoogleApiKey;
+		System.out.println(url);
+		try (InputStream is = new URL(url).openStream()) {
+			return is.readAllBytes();
+		}
+	}
+	
+	@GetMapping("/getPlaceDetail")
+	public void getPlaceDetail(@RequestParam String placeId) {
+		String url = "https://maps.googleapis.com/maps/api/place/details/json?" +
+					"place_id=" + placeId +  
+					"&key=" + GoogleApiKey;
+		System.out.println(url);
+	}
+	
 }
