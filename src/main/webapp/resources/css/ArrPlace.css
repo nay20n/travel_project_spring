@@ -110,9 +110,6 @@ body > * {margin: 0px auto;}
 	font-weight: 700;
 	color: rgb(58, 58, 58);
 }
-#searchPlace > img {
-	width: 763px;
-}
 /************사진으로 여행지  찾기************/
 #aiPlace {
 	margin-top: 50px;

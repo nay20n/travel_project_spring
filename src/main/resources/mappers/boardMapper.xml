@@ -238,8 +238,9 @@
 	</update>
 	<select id="selectRecommendedPlace" resultType="java.util.Map">
 		<![CDATA[
-			SELECT spot "spot", place_id "arrPlaceId"
-			FROM recommended_places r
+			SELECT spot "spot", r.place_id "arrPlaceId", p.lat, p.lng
+			FROM recommended_places r INNER JOIN places p
+			ON r.place_id = p.place_id
 			ORDER BY num
 		]]>
 	</select>

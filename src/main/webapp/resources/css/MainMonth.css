@@ -59,7 +59,6 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	align-items: center;
 }
 .changeView > span { /*일월주*/
-	pointer-events: auto;
     cursor: pointer;
 	font-size : 16px;
 	font-weight: 600;
@@ -68,6 +67,7 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	margin: 3px;
 	padding: 6px 20px; 
 	border-radius: 12px;
+	z-index: 11;
 }
 .changeView > span:hover {
 	background-color: #925DE8;
@@ -80,6 +80,11 @@ body > *:not(:first-child){margin: 20px auto 0;}
 }
 
 /************달력div***************/
+#main > div:nth-child(1) {
+    position: relative;
+    z-index: 10;       
+    height: 45px;      
+}
 #main > div:nth-child(2) { /* 달력 div */
 	position: relative;
 	height: 730px;
@@ -95,7 +100,7 @@ body > *:not(:first-child){margin: 20px auto 0;}
     width: 720px !important;
 	display: block !important;
 	border-radius: 12px !important;
-	left: 35% !important;
+	left: 420px !important;
 	top: 335px !important;
 }
 .daterangepicker .drp-calendar.right {display: none !important;} /* 오른쪽 달력 없애기*/

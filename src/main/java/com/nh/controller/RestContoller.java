@@ -7,12 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
@@ -325,5 +322,20 @@ public class RestContoller {
 	@PostMapping("/createShareKey")
 	public String createShareKey() {
 		return bSvc.createShareKey(0);
+	}
+	// 일정 날짜 추가 및 삭제 (main/month)
+	@PostMapping("/modifyTravelDate")
+	public Map<String,String> modifyTravelDate(@RequestBody Map<String,Object> mapReq) {
+		int bno = (Integer)mapReq.get("bno");
+		String startDate = (String)mapReq.get("startDate");
+		String endDate = (String)mapReq.get("endDate");
+		
+		bSvc.modifyTravelDate(bno, startDate, endDate);
+		
+		Map<String, String> ret = new HashMap<>();
+		ret.put("startDate", startDate);
+		ret.put("endDate", endDate);
+		
+		return ret;
 	}
 }
