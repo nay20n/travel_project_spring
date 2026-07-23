@@ -539,6 +539,7 @@
             this.updateFormInputs();
 
 /********************************************/
+/*
 setTimeout(function() {            
 	let startrc;
 	startrc = $(".today").data("title");
@@ -551,8 +552,9 @@ setTimeout(function() {
 	setTimeout(() => setWeather(startr,startc));
 	
 }, 200);          
-        },
+*/
 /********************************************/
+        },
 
         updateMonthsInView: function() {
             if (this.endDate) {

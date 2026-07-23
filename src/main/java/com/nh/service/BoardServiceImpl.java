@@ -29,13 +29,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시글 삽입
 	@Override
-	public int insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate, String arrPlaceCity) {
+	public int insertBoard(int writerId, String startPlaceId, String arrPlaceId, String startDate, String endDate) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("writerId", writerId);
 		map1.put("startPlaceId", startPlaceId);
 		map1.put("arrPlaceId", arrPlaceId);
 		map1.put("startDate", startDate);
 		map1.put("endDate", endDate);
+		
+		String arrAddress = pDao.getAddressByPlaceId(arrPlaceId);
+		String arrPlaceCity =  arrAddress.split(" ")[1];
 		map1.put("arrPlaceCity", arrPlaceCity);
 		
 		return bDao.insertBoard(map1);
