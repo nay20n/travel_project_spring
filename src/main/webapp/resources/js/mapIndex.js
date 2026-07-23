@@ -39,7 +39,7 @@ async function init() {
 	      	"id",
 	      	"displayName", 
 	      	"formattedAddress",
-	      	"types",               // 카테고리
+	      	"primaryTypeDisplayName",
 			"location",            // 위도, 경도
 			"regularOpeningHours", // 영업시간
 			"websiteURI",          // 웹사이트 URL
@@ -48,19 +48,19 @@ async function init() {
 	    });
 	    let businessHoursList = place.regularOpeningHours ? place.regularOpeningHours.weekdayDescriptions : [];
 		let businessHours = businessHoursList.join('<br/>'); 
-		console.log(businessHours);
+		//console.log(businessHours);
 	    let photoList = place.photos ? place.photos.slice(0, 5).map(photo => photo.getURI())  : [];
 	    let photos = photoList.join(' ');
-	    console.log(photos);
+	    //console.log(photos);
 	    
 	    // 데이터 추출 및 매핑
 		const jsonData = {
 			"placeId": place.id,
 			"name": place.displayName,
 			"address": place.formattedAddress,
-			"category": place.types ? place.types[0] : null,
-			"lat": place.location ? place.location.lat() : null,
-			"lng": place.location ? place.location.lng() : null,
+			"category":  place.primaryTypeDisplayName,
+			"lat": place.location.lat(),
+			"lng": place.location.lng(),
 			"businessHours": businessHours,
 			"websiteUrl": place.websiteURI || null,
 			"photos": photos

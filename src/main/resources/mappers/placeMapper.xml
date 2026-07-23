@@ -79,8 +79,8 @@
 	</delete>
 	<insert id="insertPlace">
 		<![CDATA[
-			INSERT INTO places (place_id, name, category, address, lat, lng, website_url)
-			VALUES (#{placeId},#{name},#{category},#{address},#{lat},#{lng},#{websiteUrl})
+			INSERT INTO places (place_id, name, category, address, lat, lng, website_url, business_hours)
+			VALUES (#{placeId},#{name},#{category},#{address},#{lat},#{lng},#{websiteUrl}, #{businessHours})
 		]]>
 	</insert>
 	<insert id="insertPlaceImg">
@@ -88,8 +88,12 @@
 			INSERT INTO places_images (place_id, image, image_num) 
 			VALUES (#{placeId}, #{img}, #{imageNum})
 		]]>
-	
 	</insert>
+	<select id="selectAddress" resultType="java.lang.String">
+		<![CDATA[
+			SELECT address FROM places WHERE place_id = #{placeId}
+		]]>
+	</select>
 	<select id="selectIsExistPlace" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) FROM places WHERE place_id = #{placeId}
