@@ -116,4 +116,11 @@ public interface PlaceDao {
 	 * @param img
 	 */
 	void addPlaceImg(String placeId, String img, int imageNum);
+	
+	/**
+	 * placeId로 장소 주소 뽑기
+	 * @param placeId
+	 * @return 장소 주소
+	 */
+	String getAddressByPlaceId(String placeId);
 }

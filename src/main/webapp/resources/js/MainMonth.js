@@ -6,6 +6,8 @@ let del= `<svg class="bs delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0
 		</svg>`;
 
 let gDrp;   // DateRangePicker
+let gYear;
+let gMonth;
 		
 // 달력 띄우는 함수
 function clickInput() {
@@ -65,6 +67,13 @@ $(function() {
 	let sDate = $('#daterange').attr('data-start'); 
     let eDate = $('#daterange').attr('data-end');  
     let bno = Number($("#main").attr("data-bno"));
+
+    //alert(sDate.substring(0, sDate.indexOf(".")));
+	gYear = sDate.substring(0, sDate.indexOf("."));
+	//alert(sDate.substr(sDate.indexOf(".")+1, 2));
+	gMonth = sDate.substr(sDate.indexOf(".")+1, 2);
+	//alert(gYear + " / " + gMonth);
+
 	// **************캘린더********************
 	// 일 단위로 이동
 	$(".changeView > span:nth-child(1)").click(function() {
@@ -90,20 +99,42 @@ $(function() {
 		"autoUpdateInput": false,
 		"autoApply": true
 		}, function(start, end, label) {
-		console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-	});
+			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+		}
+	);
 
 	gDrp = $("#calender").data("daterangepicker");
 
 	// 이전 달, 다음 달 클릭 시 -> (+),(쓰레기통) 다시 그림.
-	$('#calender').on('showCalendar.daterangepicker', function (ev, picker) {
+	$('#calender').on('showCalendar.daterangepicker', function (ev, picker) {	
 		//alert("show");
 	    picker.container
         .find('.prev, .next')
         .off('click.custom')
-        .on('click.custom', function () {
-        	setTimeout(drawPlus, 100);
-			setTimeout(drawDel, 100);
+        .on('click.custom', function (ev) {
+			ev.preventDefault();
+	        ev.stopPropagation();
+	        ev.stopImmediatePropagation();
+
+			let targetMonth;
+			//alert("length : " + $(".daterangepicker .left .month").length);
+			let year = $(".daterangepicker .left .month").text().split(" ")[1];
+			let month = $(".daterangepicker .left .month").text().split(" ")[0].replace("월", "");
+			let myMonth = moment([year, month-1, 1]);
+			console.log(myMonth);
+			if($(this).hasClass("prev")) {
+				// 한달 전으로 이동.
+//		        targetMonth = picker.leftCalendar.month.clone().subtract(1, 'month');
+				targetMonth = myMonth.subtract(1, 'month');
+			} else if($(this).hasClass("next")) {
+				// 한달 후로 이동.
+//		        targetMonth = picker.leftCalendar.month.clone().add(1, 'month');
+				targetMonth = myMonth.add(1, 'month');
+			}
+	        picker.leftCalendar.month = targetMonth;
+	       	picker.rightCalendar.month = targetMonth.clone().add(1, 'month'); // 2개 달력 구성 시
+	       	picker.updateCalendars();
+
 			const jsonData = {
 				bno : bno,
 				startDate : sDate,
@@ -244,6 +275,7 @@ $(function() {
 			$(`.left td[data-title=${target}]`).addClass("in-range");
 			
 			sDate = calDate(sDate,-1);
+			gDrp.setStartDate(sDate);
 		} 
 		else if(index == 1){  // 끝날짜인 경우
 			// 1. (+)버튼 오른쪽으로 옮기기  
@@ -273,6 +305,7 @@ $(function() {
 			$(`.left td[data-title=${target}]`).addClass("in-range");
 			
 			eDate = calDate(eDate,+1);
+			gDrp.setEndDate(eDate);
 		}
 		
 	});
@@ -295,7 +328,7 @@ $(function() {
 		})
 		.then(function(data){
 			console.log(data);
-			$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate} ~ ${data.endDate}`);
+			$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
 		})
 		.catch(function(error){
 			alert("에러! : " + error);

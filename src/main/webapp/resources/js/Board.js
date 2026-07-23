@@ -328,7 +328,7 @@ $(function() {
 	$(document).on("click", ".my>div:nth-child(2)", function() {
 		location.href = $(location).attr('pathname') + "/week";
 	});
-	// AI 비용
+	//  *************************************** AI 비용
 	$(document).on("click", ".my>div:nth-child(3)", function() {
 		alert("계산해드립니당");
 	});

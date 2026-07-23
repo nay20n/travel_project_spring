@@ -107,7 +107,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		sqlSession.delete("placeMapper.deleteReview", map1);
 	}
 	
-	// 장소 삽입
+	// DB에 장소 삽입
 	@Override
 	public void addPlace(String placeId, String name, String category, String address, double lat, double lng, String websiteUrl, String businessHours) {
 		Map<String, Object> map1 = new HashMap<>();
@@ -135,7 +135,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		return sqlSession.selectOne("placeMapper.selectPlaceMapData", placeId);
 	}
 
-	// DB에 장소 삽입
+	// DB에 장소 이미지 삽입
 	@Override
 	public void addPlaceImg(String placeId, String img, int imageNum) {
 		Map<String, Object> map = new HashMap<>();
@@ -143,5 +143,11 @@ public class PlaceDaoImpl implements PlaceDao {
 		map.put("img",img);
 		map.put("imageNum", imageNum);
 		sqlSession.insert("placeMapper.insertPlaceImg", map);
+	}
+
+	// 장소 주소 리턴
+	@Override
+	public String getAddressByPlaceId(String placeId) {
+		return sqlSession.selectOne("placeMapper.selectAddress", placeId);
 	}
 }

@@ -239,4 +239,18 @@ public class PlaceDaoTest {
 		assertNotNull("장소 정보는 null이 아님", map1);
 		System.out.println(map1);
 	}
+	
+	//장소 주소 뽑는 테스트
+	@Test
+	public void testGetAddressByPlaceId() {
+		// 1) Given
+		String placeId = "ChIJ_ZIhB3S82F8RL-P-9mkcqq0";
+		
+		// 2) When
+		String address = pDao.getAddressByPlaceId(placeId);
+		
+		// 3) Then
+		assertNotNull("장소 주소가 널임", address);
+		System.out.println(address);
+	}
 }
