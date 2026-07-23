@@ -22,7 +22,7 @@ import com.nh.service.MemberService;
 import com.nh.service.PlaceService;
 
 @RestController
-public class RestContoller {
+public class TravelRestController {
 	@Autowired
 	CommentService cSvc;
 	@Autowired
