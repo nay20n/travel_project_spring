@@ -1,5 +1,6 @@
 package com.nh.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,5 +79,20 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public List<Map<String, Object>> getColors() {
 		return blDao.getColors();
+	}
+	
+	// ai 견적용 블럭 조회
+	@Override
+	public List<Map<String, Object>> getBlocksForAiCount(int bno) {
+		return blDao.getBlocksForAiCount(bno);
+	}
+
+	// 구글 Routes용 블럭 조회
+	@Override
+	public List<String> getBlocksForRoutes(int bno, String inputTime) {
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("bno", bno);
+		map1.put("inputTime", inputTime);
+		return blDao.getBlocksForRoutes(bno, inputTime);
 	}
 }

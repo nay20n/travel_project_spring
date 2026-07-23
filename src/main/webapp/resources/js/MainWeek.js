@@ -1,24 +1,34 @@
 // 캘린더 객체
 let calendar;
 let aiCalendar;
+// 일정에 들어간 이벤트들
+let eventList;
 
 // 지도
-let marker;  // 전역변수. 지도에서 클릭해서 선택한 위치(위도/경도).
+let routeLine=null; // 경로
+let mapElement;
+let encoding; // 구글맵의 geometryLib.encoding 클래스
 let AdvancedMarkerElementObject;  // 전역변수. 마커.
 
-// 지도 이동 (파라미터 - 위도&경도)
-function moveCameraInTheMap(lat, lng) {
-    const mapElement = document.querySelector('gmp-map');
-
-	mapElement.innerMap.moveCamera({
-		center: {lat, lng},
-		zoom: 11
-	});
+// 지도에 경로 그리기
+function drawRoute(encodedPolyline) {
+    // 기존 경로가 있다면 제거
+    if (routeLine!=null) { routeLine.setMap(null); }
+    // encodedPolyline → 좌표 배열
+    const path = encoding.decodePath(encodedPolyline);
+    // 지도에 경로 그리기
+    routeLine = new google.maps.Polyline({
+        path: path,
+        map: mapElement.innerMap,
+        strokeColor: "#ff0000",
+        strokeOpacity: 1,
+        strokeWeight: 5
+    });
 }
 
 // 일정 삽입 함수
 function setBlocks(calendar) {
-	let eventList = [];
+	eventList = [];
 	let bno = $("#main").data("bno");
 	
 	const jsonData = {
@@ -44,6 +54,7 @@ function setBlocks(calendar) {
 	        let start = block.startTime;
 	        let end = block.endTime;
 	        let colorCode = block.colorCode;
+	        let placeId = block.placeId;
 	        
 	        // 캘린더 데이터
 	        eventList.push({
@@ -52,7 +63,8 @@ function setBlocks(calendar) {
 	            start: start,
 	            end: end,
 	            backgroundColor: colorCode,
-	            color: '#000000'
+	            color: '#000000',
+	            body: placeId
 	        });
 	        
 	        // 캘린더 비우기
@@ -112,6 +124,7 @@ $(function() {
 	const Calendar = tui.Calendar;
 	calendar = new Calendar("#calendar", {
 	  defaultView: 'week',
+	  id: 'calendar',
 	  week: {
 	    showMilestone: false,
         showTask: false,
@@ -122,6 +135,7 @@ $(function() {
 	aiCalendar = new Calendar("#aiCalendar", {
 	  defaultView: 'day',
 	  isReadOnly: true,
+	  id: 'aiCalendar',
 	  width: "1000px",
 	  week: {
 	    showMilestone: false,
@@ -319,30 +333,54 @@ $(function() {
 		$(".popupContainer>div:nth-child(4)").addClass("hide");
 		if($(".dayView").hasClass("selectedView")&&$(this).index()==0){
 			//alert(calendar.getDate().toDate().toISOString());
-			const jsonData = {
-				"bno" : bno,
-				"inputTime": calendar.getDate().toDate().toISOString()
-			};
+			let date = calendar.getDate().toDate();
+			let yyyy = date.getFullYear();
+			let mm = String(date.getMonth() + 1).padStart(2, "0");	
+			let dd = String(date.getDate()).padStart(2, "0");
+			date = `${yyyy}-${mm}-${dd}`;
+			console.log(date);
 			
-			console.log(jsonData.startTime);
-			const initData = {
-				method: "post",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(jsonData)
-			};
-			fetch("../../modifyBlockTime", initData)
-			.then(function(response){
-				return response.text();
+			//해당 날짜에서 장소가 들어간 블럭만 추출
+			let events = eventList
+			.filter(event => {
+		        const temp = event.start.slice(0, 10);
+		        return (temp == date) && (event.body != null);
+		    })
+		    .sort((a, b) => {
+		        return a.start - b.start
+		    });
+		    
+		    // 장소가 들어간 일정이 하나거나 없다면 종료
+		    if(events.length<2) return;
+		    
+		    // 장소가 들어있다면 경로 그리기
+		    let placeIds = [];
+		    for(let i=0;i<events.length;i++){
+		    	let place = events[i];
+		    	placeIds.push(place.body);
+		    }
+		    //console.log(placeIds);
+		    fetch("../../getRoute", {
+			    method: "POST",
+			    headers: {
+			        "Content-Type": "application/json"
+			    },
+			    body: JSON.stringify({
+			        placeIds: placeIds,
+			        travelMode: travelModeArr[travelModeIdx]
+			    })
 			})
-			.then(function(data){
-				console.log(data);
-			  	setBlocks(calendar);
+			.then(function(response) {
+			    return response.json();
 			})
-			.catch(function(error){
-				alert("에러! : " + error);
+			.then(function(data) {
+			    encodedPolyline = data.routes[0].polyline.encodedPolyline;
+        		//console.log(encodedPolyline);
+        		drawRoute(encodedPolyline);
 			})
-		}		
+			.catch(function(error) {
+			    alert("에러! : " + error);
+			});
+		}
 	});
 });

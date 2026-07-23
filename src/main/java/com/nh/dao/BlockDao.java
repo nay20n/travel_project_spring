@@ -72,7 +72,7 @@ public interface BlockDao {
 	/**
 	 * 게시글 블럭 전체 조회
 	 * @param bno
-	 * @return (blockIdx, startTime, endTime, checkedAi, travelTime, colorIdx, colorCode, name, lat, lng)
+	 * @return (blockIdx, startTime, placeId, endTime, checkedAi, travelTime, colorIdx, colorCode, name, lat, lng)
 	 */
 	List<Map<String, Object>> getAllBlocks(int bno);
 	
