@@ -68,6 +68,20 @@
 			ORDER BY start_time
 		]]>
 	</select>
+	<select id="selectBlocksForAiCount" resultType="java.util.Map">
+		<![CDATA[
+			SELECT p.name "name", p.address "address"
+			FROM blocks b INNER JOIN places p ON b.place_id = p.place_id
+			WHERE b.bno = #{bno}
+		]]>
+	</select>
+	<select id="selectBlocksForRoutes" resultType="java.lang.String">
+		<![CDATA[
+			SELECT b.place_id "placeId"
+			FROM blocks b INNER JOIN places p ON b.place_id = p.place_id
+			WHERE b.bno = #{bno} AND TO_CHAR(b.start_time,'YYYY-MM-DD') = #{inputTime}
+		]]>
+	</select>
 	<select id="selectBlocksBetween" resultType="java.util.Map">
 		<![CDATA[
 			SELECT b.block_idx "blockIdx", b.start_time "startTime", b.end_time "endTime", b.checked_ai "checkedAi", b.travel_time "travelTime",

@@ -2,6 +2,20 @@
 let calendar;
 let aiCalendar;
 
+// 지도
+let marker;  // 전역변수. 지도에서 클릭해서 선택한 위치(위도/경도).
+let AdvancedMarkerElementObject;  // 전역변수. 마커.
+
+// 지도 이동 (파라미터 - 위도&경도)
+function moveCameraInTheMap(lat, lng) {
+    const mapElement = document.querySelector('gmp-map');
+
+	mapElement.innerMap.moveCamera({
+		center: {lat, lng},
+		zoom: 11
+	});
+}
+
 // 일정 삽입 함수
 function setBlocks(calendar) {
 	let eventList = [];
@@ -253,6 +267,7 @@ $(function() {
 		$(this).addClass("selectedView");
 		$("#goNext").addClass("hide");
 		$("#makeAiBlock").removeClass("hide");
+		$("#map").removeClass("hide");
 	});
 	
 	// 주 단위로 이동
@@ -264,6 +279,9 @@ $(function() {
 		$("#aiCalendar").addClass("hide");
 		$("#goNext").removeClass("hide");
 		$("#makeAiBlock").addClass("hide");
+		$("#toPlan").addClass("hide");
+		$("#closeAi").addClass("hide");
+		$("#map").addClass("hide");
 	});
 	
 	// 월 단위로 이동
@@ -281,5 +299,50 @@ $(function() {
 	// ai 추천
 	$("#main > div:nth-child(2)>button:nth-child(4)").click(function() {
 		$("#aiCalendar").removeClass("hide");
+		$("#toPlan").removeClass("hide");
+		$("#closeAi").removeClass("hide");
+	});
+	// ai 추천 반영버튼
+	$("#toPlan").click(function() {
+		alert("반영하기!");
+	});
+	// ai 추천 닫기
+	$("#closeAi").click(function() {
+		$("#aiCalendar").addClass("hide");
+		$("#toPlan").addClass("hide");
+		$("#closeAi").addClass("hide");
+	});
+	// 내 일정 경로 표시(이동수단의 첫번째 버튼 클릭 시 경로 보여줌/그 외>이동수단만 변경)
+	$(".popupContainer>div:nth-child(4)>span").click(function() {
+		travelModeIdx = $(this).index();
+		$(".popupContainer").addClass("hide");
+		$(".popupContainer>div:nth-child(4)").addClass("hide");
+		if($(".dayView").hasClass("selectedView")&&$(this).index()==0){
+			//alert(calendar.getDate().toDate().toISOString());
+			const jsonData = {
+				"bno" : bno,
+				"inputTime": calendar.getDate().toDate().toISOString()
+			};
+			
+			console.log(jsonData.startTime);
+			const initData = {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(jsonData)
+			};
+			fetch("../../modifyBlockTime", initData)
+			.then(function(response){
+				return response.text();
+			})
+			.then(function(data){
+				console.log(data);
+			  	setBlocks(calendar);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		}		
 	});
 });

@@ -215,6 +215,19 @@ body>* {
 	color: white !important;
 }
 
+.transportation {
+	font-size : 16px;
+	font-weight: 600;
+	color: #925DE8;
+	margin-top: 12px;
+	margin-left: 30px;
+	background-color: #E7DEF9;
+	cursor: pointer;
+	border-radius: 12px;
+	border: 1.3px solid rgba(58, 58, 58, 0.2);
+	padding: 5px;
+}
+
 #main > div:nth-child(2)>div:nth-child(1)>span:nth-child(2) {
 	margin-right: 18px;
 }
@@ -226,7 +239,18 @@ body>* {
 
 #main > div:nth-child(2)>div:nth-child(2)>div { /* 달력 */
 	height: 925px;
-    width: 1000px;
+}
+
+#calendar {
+	position: absolute;
+    width: 875px;
+    z-index: 4;
+}
+
+#aiCalendar {
+	position: absolute;
+	margin-left: 185px;
+    z-index: 4;
 }
 
 .changeToDay {
@@ -234,11 +258,55 @@ body>* {
 	width: 185px !important;
 }
 
+#map { /* 지도 */
+	height: 925px;
+    width: 875px;
+    position: absolute;
+}
+
+#map > gmp-map {
+	position: relative;
+}
+
+#autocomplete {
+	position: absolute;
+	z-index:3;
+	width: 370px;
+	margin-left: 447px;
+	margin-top: -918px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    border: none;
+    border-radius: 16px;
+}
+
+#main > div:nth-child(2)>div:nth-child(2)>svg { /* AI달력 버튼 */
+    width: 20px;
+    position: absolute;
+    margin: 11px;
+    border-radius: 15px;
+    border: 1px solid;
+    background-color: white;
+	cursor: pointer;
+	z-index: 5;
+}
+
+#main > div:nth-child(2)>div:nth-child(2)>svg:hover {
+	background-color: #E3D4FF;
+}
+
+#toPlan {
+	margin-left: 195px !important;
+}
+
+#closeAi {
+    margin-left: 332px !important;
+}
+
 #main > div:nth-child(2)>button { /* 확정, ai 버튼 */
+	position: fixed;
 	cursor: pointer;
 	border-radius: 4px;
 	border: none;
-	position: fixed;
 	bottom: 50px;
 	right: 132px;
 	width: 170px;
@@ -247,9 +315,11 @@ body>* {
 	font-weight: 700;
 	background-color: #925DE8;
 	color: white;
+	z-index: 17;
 }
 
-#main > div:nth-child(2)>button:nth-child(3):hover {
+
+#main > div:nth-child(2)>button:hover {
 	opacity: 30%;
 }
 
@@ -280,6 +350,7 @@ body>* {
 	top: 0;
 	left: 0;
 	background-color: rgb(0, 0, 0, 0.05);
+	z-index: 18;
 }
 
 .popupContainer > div:nth-child(1) {
@@ -292,6 +363,7 @@ body>* {
 	position: fixed;
 	margin: 5% 30%;
 	border-radius: 20px;
+	z-index: 19;
 }
 
 .popupContainer> div {

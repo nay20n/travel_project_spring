@@ -18,6 +18,13 @@
 	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
 	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
 	<script src="../../resources/js/MainWeek.js"></script>
+	<script type="module" src="../../resources/js/mapIndexForPlan.js"></script>
+	<script>
+        // prettier-ignore
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.\${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "AIzaSyBx9IQzNDjjPn0F7tbmM7FLQ9CC9U0ieK0"
+        });
+    </script>
 </head>
 <body>
 	<%@ include file="HeaderEditBoard.jsp"%>
@@ -28,8 +35,9 @@
 			<div>
 				<h2 class="date fl">${startDate.substring(0,4)}년 ${startDate.substring(5,7)}월</h2>
 				<div class="changeView fl bs" >
-					<span>일</span><span class="selectedView">주</span><span>월</span>
+					<span class="dayView">일</span><span class="selectedView">주</span><span>월</span>
 				</div>
+				<div class="transportation fl bs">이동수단</div>
 				<span class="fr moveDate" id="moveNext">></span>
 				<span class="fr moveDate" id="today">오늘</span>
 				<span class="fr moveDate" id="movePast">&lt;</span>
@@ -42,6 +50,37 @@
 				<div id="aiCalendar" class="changeToDay" data-bno="${bno}">
 					<!-- 일정표 -->
 				</div>
+				<svg id="toPlan" class="hide" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+				</svg>
+				<svg id="closeAi" class="hide" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+				</svg>
+				<!-- <style>
+					#map gmp-map {
+						height:600px; 
+						position: absolute; 
+						top:0; 
+						left:0; 
+						bottom:0; 
+						right:0;
+					}
+					#map > div {
+						position: absolute; 
+						top: 10px; 
+						left: 10px; 
+					}
+				</style> -->
+				<div id="map" class="hide">
+					<gmp-map
+					    center="${arrMapData.lat}, ${arrMapData.lng}"
+					    zoom="13"
+					    map-id="MAP_1_ID">
+					</gmp-map>
+				    <div>
+					    <gmp-place-autocomplete id="autocomplete" placeholder="장소 검색"></gmp-place-autocomplete>
+		            </div>
+	            </div>
 			</div>
 			<button class="bs" id="goNext">일정 확정하기</button>
 			<button class="bs hide" id="makeAiBlock">AI 추천 일정</button>
