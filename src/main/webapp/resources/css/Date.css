@@ -71,6 +71,8 @@ body > * {margin: -3px auto;}
 	width: 252px;
 	font-size: 16px;
 	height: 31px;
+    outline: none;
+    text-align: center;
 }
 /***달력**/
 .daterangepicker:before, .daterangepicker:after {
@@ -109,8 +111,12 @@ body > * {margin: -3px auto;}
 }
 .daterangepicker select.monthselect {width: 16% !important;}
 .daterangepicker select.yearselect {width: 18% !important;}
-.daterangepicker td.in-range {background-color: #F8F5FD !important; /* 날짜 범위 */}
+.daterangepicker td.in-range {background-color: #E7DEF9  !important; /* 날짜 범위 */}
 .daterangepicker td.active, .daterangepicker td.active:hover{background-color: #925DE8 !important; /* 시작 끝 */}
+
+
+
+
 
 /*****다음버튼****/
 #nextBtn {
