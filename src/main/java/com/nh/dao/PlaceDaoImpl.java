@@ -109,8 +109,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	
 	// 장소 삽입
 	@Override
-	public void addPlace(String placeId, String name, String category, String address, double lat, double lng,
-			String websiteUrl, String businessHours) {
+	public void addPlace(String placeId, String name, String category, String address, double lat, double lng, String websiteUrl, String businessHours) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("placeId", placeId);
 		map1.put("name", name);
@@ -134,5 +133,15 @@ public class PlaceDaoImpl implements PlaceDao {
 	@Override
 	public Map<String, Object> getPlaceMapData(String placeId) {
 		return sqlSession.selectOne("placeMapper.selectPlaceMapData", placeId);
+	}
+
+	// DB에 장소 삽입
+	@Override
+	public void addPlaceImg(String placeId, String img, int imageNum) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("placeId", placeId);
+		map.put("img",img);
+		map.put("imageNum", imageNum);
+		sqlSession.insert("placeMapper.insertPlaceImg", map);
 	}
 }

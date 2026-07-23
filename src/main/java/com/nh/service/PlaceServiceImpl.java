@@ -1,5 +1,6 @@
 package com.nh.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -59,9 +60,15 @@ public class PlaceServiceImpl implements PlaceService {
 	// 장소 삽입
 	@Override
 	public void addPlace(String placeId, String name, String category, String address, double lat, double lng,
-			String websiteUrl, String businessHours) {
+			String websiteUrl, String businessHours, String imgs) {
 		if(pDao.isExistPlace(placeId)) return;
 		pDao.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours);
+		List<String> imgsList = Arrays.asList(imgs.split(" "));
+		// 장소 이미지 삽입
+		for(int i=0; i<imgsList.size(); i++) {
+			pDao.addPlaceImg(placeId, imgsList.get(i), i+1);
+		}
+		
 	}
 	
 	// 장소 위도경도 조회

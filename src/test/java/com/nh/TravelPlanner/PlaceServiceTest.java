@@ -145,9 +145,9 @@ public class PlaceServiceTest {
 		Double lng = 10.001;
 		String websiteUrl = "테스트 링크";
 		String businessHours = "테스트 영업시간";
-		
+		String imgs = "테스트이미지 하나 둘 셋";
 		// 2) When
-		pSvc.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours);
+		pSvc.addPlace(placeId, name, category, address, lat, lng, websiteUrl, businessHours, imgs);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}

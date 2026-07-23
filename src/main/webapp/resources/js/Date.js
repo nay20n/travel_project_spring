@@ -46,7 +46,6 @@ function getUrlParams() {
         	params[key] = value; 
         }
     );     
-    
     return params; 
 }
 
@@ -124,12 +123,12 @@ $(function(){
 			isActive = true;
 			$("#nextBtn > div").addClass("coloredBtn");
 			
-		    //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 	});
 	
 	// 어플라이 버튼을 클릭 시 인풋 클릭한걸로 치기 
 	$('#selectDate > input').on('apply.daterangepicker', function(ev, picker) {
 		$("#selectDate > input").trigger("click");
+		//$('#selectDate > input').val(startDate + ' ~ ' + endDate);
 	});
 	
 	
@@ -160,7 +159,7 @@ $(function(){
 		
 		fetch("../insertBoard", initData)
 		.then(function(response){
-			return response.json();
+			return response.text();
 		})
 		.then(function(data){
 			//console.log(data);
