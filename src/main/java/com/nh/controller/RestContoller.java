@@ -120,14 +120,14 @@ public class RestContoller {
 		String startId = (String)mapReq.get("startId");
 		String startDate = (String)mapReq.get("startDate");
 		String endDate = (String)mapReq.get("endDate");
-		String arrCity = (String)mapReq.get("arrCity");
+		
 		int loginId = (int)session.getAttribute("loginId");;
 		String tempBno = (String)mapReq.get("bno");
 		
 		int bno;
 		
 		if(tempBno.equals("undefined")) {
-			bno = bSvc.insertBoard(loginId, startId, arrId, startDate, endDate, arrCity);
+			bno = bSvc.insertBoard(loginId, startId, arrId, startDate, endDate);
 		} else {
 			int copyBno = Integer.parseInt(tempBno);
 			bno = bSvc.copyBoard(loginId, startId, startDate, copyBno);

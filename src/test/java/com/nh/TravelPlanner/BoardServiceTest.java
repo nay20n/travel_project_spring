@@ -32,10 +32,9 @@ public class BoardServiceTest {
 		String arrPlaceId = "ChIJFaft2p-NaDURpWUIUUDNxCE";
 		String startDate = "20240404";
 		String endDate = "20240406";
-		String arrPlaceCity = "부산";
 		
 		// 2) When
-		int bno = bSvc.insertBoard(writerId, startPlaceId, arrPlaceId, startDate, endDate, arrPlaceCity);
+		int bno = bSvc.insertBoard(writerId, startPlaceId, arrPlaceId, startDate, endDate);
 		
 		// 3) Then : sql 오류가 없다면 성공
 		System.out.println(bno);
