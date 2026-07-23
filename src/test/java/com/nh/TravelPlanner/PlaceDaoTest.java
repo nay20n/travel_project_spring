@@ -195,6 +195,22 @@ public class PlaceDaoTest {
 		// 3) Then : sql 오류가 없다면 성공
 	}
 	
+	//장소 이미지 삽입 테스트
+	@Test
+	@Transactional
+	public void testAddPlaceImg() {
+		// 1) Given
+		String placeId = "ChIJdZBeT5ijfDURI7ds1t76qBs";
+		String img = "https://places.googleapis.com/v1/places/ChIJdZBeT5ijfDURI7ds1t76qBs/photos/AWCwydiBJNl7cpq7FwmyhqxpHJMVlzOHA66xS8dFBL373L-Qq6cMzxenosUakLkBLhJI-iAMaVbQL8kadMsrXuVOGbmeajTWnRbwr_BEQAxics0qW7MRcM8T4mcog-8gSgI7f3GKr8s1ojqpEcumelGw5gYizvUlcgQh8wiWsRbDYgQtaWZobD4R-6ZNPRIexgvjyxOKv3s3D-n2dayWIOI3AUPXQODsWIguh6ybRvEm-9eo6ebEWg7K72n5cnpIDTEDt3YVAhdQrW5ZOfRT6Zf1WmKcd9IjvwYZ8FAZetUCgdXlkx2tPDD1QUcyN0YJ9qJhrhiHJlFappT7_j5nSLfD8MCwCpzPDkxyZWIAV5xD0rfem8bjoxFPCkXVAwLnEJh1tD012TiP5e0t6QbNoelie7sIynSEkKAfbvnWyFp8KZPjcw/media?maxWidthPx=4032&key=mykey";
+		int imageNum = 1;
+		// 2) When
+		pDao.addPlaceImg(placeId, img, imageNum);
+		
+		// 3) Then :  : sql 오류가 없다면 성공
+		
+	}
+	
+	
 	// 장소 확인 테스트
 	@Test
 	@Transactional

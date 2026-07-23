@@ -11,6 +11,8 @@ function getUrlParams() {
 }
 
 let isActive = false;
+let AdvancedMarkerElementObject;  // 전역변수. 마커.
+let marker; 
 
 $(function() {
 	// <-이미지 클릭하면 전 페이지로
@@ -29,10 +31,10 @@ $(function() {
 		
 		// 도착 아이디 얻어오기
 		let arrId = getUrlParams().arrId;
-		// bno 얻어오기
-		let bno = getUrlParams().bno;
 		// 출발 아이디 (일단 서울역)
-		let startId = "ChIJzzlcLQGifDURm_JbQKHsEX4"
+		let startId = $(this).parent().attr("data-placeid");
+		// bno 가져오기 
+		let bno = getUrlParams().bno;
 		
 		if(isActive) // 활성화 됐을때만 이동 가능 
 			location.href="date?arrId=" + arrId + "&startId=" + startId + "&bno=" + bno;

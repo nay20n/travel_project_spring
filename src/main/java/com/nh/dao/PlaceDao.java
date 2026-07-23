@@ -109,4 +109,11 @@ public interface PlaceDao {
 	 * @return true=존재함
 	 */
 	boolean isExistPlace(String placeId);
+	
+	/**
+	 * DB에 장소 이미지 삽입 (Place API)
+	 * @param placeId
+	 * @param img
+	 */
+	void addPlaceImg(String placeId, String img, int imageNum);
 }
