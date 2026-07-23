@@ -6,17 +6,24 @@
  */
 
 async function init() {
-    // Request the needed libraries.
-    let [{ AdvancedMarkerElement }] = await Promise.all([
+    const [
+        markerLib,
+        mapsLib,
+        placesLib,
+        geometryLib
+    ] = await Promise.all([
         google.maps.importLibrary('marker'),
         google.maps.importLibrary('maps'),
         google.maps.importLibrary('places'),
-        google.maps.importLibrary("geometry")
+        google.maps.importLibrary('geometry')
     ]);
+    const { AdvancedMarkerElement } = markerLib;
+    encoding = geometryLib.encoding;
+
     AdvancedMarkerElementObject = AdvancedMarkerElement;
 
     // Get the gmp-map element.
-    const mapElement = document.querySelector('gmp-map');
+    mapElement = document.querySelector('gmp-map');
 	const autocomplete = document.getElementById('autocomplete');
 
     // Get the inner map.
