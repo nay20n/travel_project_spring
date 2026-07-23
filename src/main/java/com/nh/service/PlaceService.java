@@ -79,5 +79,5 @@ public interface PlaceService {
 	 * @param websiteUrl(null 가능)
 	 * @param businessHours(null 가능)
 	 */
-	void addPlace(String placeId, String name, String category, String address, double lat, double lng, String websiteUrl, String businessHours);
+	void addPlace(String placeId, String name, String category, String address, double lat, double lng, String websiteUrl, String businessHours, String imgs);
 }

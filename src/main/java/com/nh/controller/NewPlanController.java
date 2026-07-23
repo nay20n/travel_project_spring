@@ -36,9 +36,6 @@ public class NewPlanController {
 	@RequestMapping("/newplan/arr")
 	public String arr(Model model, HttpSession session) {
 		
-		//임시 로그인
-		session.setAttribute("loginId", 1);
-		
 		List<Map<String, Object>> recommendedPlace = bSvc.viewRecommendedPlace();
 		model.addAttribute("recommendedPlace",recommendedPlace);
 		model.addAttribute("googleApiKey", googleApiKey);
@@ -48,7 +45,8 @@ public class NewPlanController {
 	}
 	
 	@RequestMapping("/newplan/start")
-	public String start() {
+	public String start(Model model) {
+		model.addAttribute("googleApiKey", googleApiKey);
 		return "StartPlace";
 	}
 	

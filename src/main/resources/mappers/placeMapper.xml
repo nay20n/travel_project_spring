@@ -83,6 +83,13 @@
 			VALUES (#{placeId},#{name},#{category},#{address},#{lat},#{lng},#{websiteUrl})
 		]]>
 	</insert>
+	<insert id="insertPlaceImg">
+		<![CDATA[
+			INSERT INTO places_images (place_id, image, image_num) 
+			VALUES (#{placeId}, #{img}, #{imageNum})
+		]]>
+	
+	</insert>
 	<select id="selectIsExistPlace" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) FROM places WHERE place_id = #{placeId}
