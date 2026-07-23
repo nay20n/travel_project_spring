@@ -22,48 +22,53 @@ $(function(){
 	
 	// 도시들 span 클릭 시
 	$("#recomendPlace > div:nth-child(2) > span").click(function() {
-		if($(this).hasClass("coloredPlace")){ // 선택한 span이라면 
+		// 선택한 span이라면 선택 취소 
+		if($(this).hasClass("coloredPlace")){ 
 			$(this).removeClass("coloredPlace");
 			$("#nextBtn > div").removeClass("coloredBtn");
 			isActive = false;
-			
 			// Remove a marker
 			if(marker != undefined) {
 				marker.map = null;
 				marker = undefined;
 			}
-			
 			return;
 		}
 		$(this).parent().find("span").removeClass("coloredPlace");
 		$(this).addClass("coloredPlace");
-		$("#nextBtn > div").addClass("coloredBtn");
-		isActive = true;
-
-		// 만약에 마커가 있다면 마커 삭제.
+		
+		// // 지도 이동 
+		const lat = Number($(this).attr("DATA-LAT"));
+		const lng = Number($(this).attr("DATA-LNG"));
+		moveCameraInTheMap(lat, lng);
+		
+		// 마커 그리기 전 선택 된 것들 삭제
 		if(marker != undefined) {
 			marker.map = null;
 			marker = undefined;
 		}
 		
-		// Move Camera Object (Map)
-		const lat = Number($(this).attr("DATA-LAT"));
-		const lng = Number($(this).attr("DATA-LNG"));
-		moveCameraInTheMap(lat, lng);
-		
-		// Add a marker
+		// 마커 그리기
 	    const mapElement = document.querySelector('gmp-map');
 		marker = new AdvancedMarkerElementObject({
 			position: { lat, lng },   // event.latLng 객체도 가능
 		    map: mapElement.innerMap,
-		});		
-		marker.addListener("click", (event) => {
-			marker.map = null;
-			marker = undefined;
-		});
+		});	
 		
 		// Set the placeid of '#nextBtn'
 		$("#nextBtn").attr("data-placeid", $(this).attr("data-placeid"));
+		
+		// Activate '다음' 버튼.
+		$("#nextBtn > div").addClass("coloredBtn");
+		isActive = true;
+		
+		// 마커를 클릭 했을때 (버튼 비활성화, 마커 삭제)	
+		marker.addListener("gmp-click", (event) => {
+			$("#nextBtn > div").removeClass("coloredBtn");
+			isActive = false;
+			marker.map = null;
+			marker = undefined;
+		});
 	});
 	
 	
@@ -71,10 +76,6 @@ $(function(){
 	$("#nextBtn > div").click(function(){
 	
 		let arrId = $(this).parent().attr("data-placeid");
-/*		$("#recomendPlace > div:nth-child(2) > span").each(function(idx,item){
-			if($(item).hasClass("coloredPlace"))
-				arrId = $(item).data("placeid");
-		}); */
 		
 		if(isActive) // 활성화 됐을때만 이동 가능 
 			location.href="start?arrId=" + arrId;

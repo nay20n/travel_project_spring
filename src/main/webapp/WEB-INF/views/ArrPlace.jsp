@@ -24,7 +24,7 @@
 		<div id="banner">
 			<img src="https://triple.guide/trips/static/icons/ico_earth-emoji.svg"/>
 			<div>떠나고 싶은 도시는?</div>
-			<div>도시 1곳을 선택해 주세요.</div>
+			<div>도시 1곳을 선택해 주세요.<br/>빨간 마커를 클릭 시 지워집니다.</div>
 		</div>
 		<div id="recomendPlace">
 			<div>추천 여행지</div>
@@ -34,32 +34,6 @@
 				</c:forEach>
 			</div>
 		</div>
-<style>
-	#map {
-		position:relative; 
-		height: 600px; 
-		width: 100%;
-	}
-	#map gmp-map {
-		height:600px; 
-		position: absolute; 
-		top:0; 
-		left:0; 
-		bottom:0; 
-		right:0;
-	}
-	#map > div {
-		position: absolute; 
-		top: 10px; 
-		left: 10px; 
-		z-index:1;
-	}
-	#map gmp-place-autocomplete{
-	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-	    border: none;
-	    border-radius: 16px;
-	}
-</style>		
 		<div id="searchPlace">
 			<div>직접 여행지 찾기</div>
 			

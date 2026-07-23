@@ -110,6 +110,30 @@ body > * {margin: 0px auto;}
 	font-weight: 700;
 	color: rgb(58, 58, 58);
 }
+#map {
+	position:relative; 
+	height: 600px; 
+	width: 100%;
+}
+#map gmp-map {
+	height:600px; 
+	position: absolute; 
+	top:0; 
+	left:0; 
+	bottom:0; 
+	right:0;
+}
+#map > div {
+	position: absolute; 
+	top: 10px; 
+	left: 10px; 
+	z-index:1;
+}
+#map gmp-place-autocomplete{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    border: none;
+    border-radius: 16px;
+}
 /************사진으로 여행지  찾기************/
 #aiPlace {
 	margin-top: 50px;
