@@ -141,4 +141,19 @@ public class BlockDaoImpl implements BlockDao {
 		
 		sqlSession.insert("blockMapper.insertCopyBlock", map1);
 	}
+	
+	// ai 견적용 블럭 조회
+	@Override
+	public List<Map<String, Object>> getBlocksForAiCount(int bno) {
+		return sqlSession.selectList("blockMapper.selectBlocksForAiCount", bno);
+	}
+
+	// 구글 Routes용 블럭 조회
+	@Override
+	public List<String> getBlocksForRoutes(int bno, String inputTime) {
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("bno", bno);
+		map1.put("inputTime", inputTime);
+		return sqlSession.selectList("blockMapper.selectBlocksForRoutes", map1);
+	}
 }

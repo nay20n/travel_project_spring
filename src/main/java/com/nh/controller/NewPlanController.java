@@ -43,8 +43,6 @@ public class NewPlanController {
 		model.addAttribute("recommendedPlace",recommendedPlace);
 		model.addAttribute("googleApiKey", googleApiKey);
 		return "ArrPlace";
-		
-		
 	}
 	
 	@RequestMapping("/newplan/start")

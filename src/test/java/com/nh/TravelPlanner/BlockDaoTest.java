@@ -226,4 +226,33 @@ public class BlockDaoTest {
 		List<Map<String,Object>> listBlocks = blDao.getAllBlocks(newBno);
 		assertNotNull("복제한 블럭은 조회되어야함", listBlocks);
 	}
+	
+	// ai 견적용 블럭 조회 테스트
+	@Test
+	public void testGetBlocksForAiCount() {
+		// 1) Given
+		int bno = 1;
+		
+		// 2) When
+		List<Map<String, Object>> list1 = blDao.getBlocksForAiCount(bno);
+		
+		// 3) Then
+		assertNotNull("리스트는 널이 아님", list1);
+		System.out.println(list1);
+	}
+	
+	// 구글 Routes용 블럭 조회 테스트
+	@Test
+	public void testGetBlocksForRoutes() {
+		// 1) Given
+		int bno = 1;
+		String inputTime = "2026-05-07";
+		
+		// 2) When
+		List<String> list1 = blDao.getBlocksForRoutes(bno, inputTime);
+		
+		// 3) Then
+		assertNotNull("리스트는 널이 아님", list1);
+		System.out.println(list1);
+	}
 }

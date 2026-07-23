@@ -9,6 +9,10 @@ let placePageLock = false;
 let placeScrollLock = false;
 let mapping = "getSerchedPlace";
 
+// 이동 수단 필드
+let travelModeArr = ["TRANSIT","DRIVE","TRANSIT","WALK","BICYCLE"];
+let travelModeIdx = 0;
+
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
 // per : 1점의 개수 / 전체  
@@ -673,13 +677,8 @@ $(function() {
 	});
 	// *************** 교통 팝업 *****************
 	// (임시) 캘린더 클릭 시 팝업
-	$(document).on(".calendar", function() {
+	$(document).on("click", ".transportation", function() {
 		$(".popupContainer").removeClass("hide");
 		$(".popupContainer>div:nth-child(4)").removeClass("hide");
-	});
-	// 교통 클릭 시 닫힘
-	$(document).on("click", ".popupContainer>div:nth-child(4)>span", function() {
-		$(".popupContainer").addClass("hide");
-		$(".popupContainer>div:nth-child(4)").addClass("hide");
 	});
 });
