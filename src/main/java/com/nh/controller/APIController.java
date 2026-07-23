@@ -61,6 +61,7 @@ public class APIController {
 			return is.readAllBytes();
 		}
 	}
+	
 	// 장소 삽입 
 	@PostMapping("/addPlace")
 	public String addPlace(@RequestBody Map<String,Object> mapReq) throws MalformedURLException, IOException {
