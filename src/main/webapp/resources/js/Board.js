@@ -208,8 +208,8 @@ $(function() {
 	  }
 	});
 	// 기존 블럭 생성
-	setBlocks(calendar);
-	setBlocks(calendarM);
+	setBlocks(calendar,bno);
+	setBlocks(calendarM,bno);
 	// 날짜 설정
 	calendar.setDate($("#calendar").data("start-date"));
 	calendarM.setDate($("#calendar").data("start-date"));
@@ -328,9 +328,22 @@ $(function() {
 	$(document).on("click", ".my>div:nth-child(2)", function() {
 		location.href = $(location).attr('pathname') + "/week";
 	});
-	//  *************************************** AI 비용
+	//  AI 비용
 	$(document).on("click", ".my>div:nth-child(3)", function() {
-		alert("계산해드립니당");
+		
+		
+		fetch("../searchCost?bno=" + bno, {method: "post"})
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log("받은 예상 경비 : "+data);	
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		});
+		
+		
 	});
 	// 캘린더 동기화
 	$(document).on("click", ".my>div:nth-child(4)", function() {
@@ -479,7 +492,6 @@ $(function() {
 	// ****************** 게시글 찜 ************************8
 	// 찜 색칠
 	$("#content3 > div:nth-child(1) > div > div:nth-child(1)").on('click', function () {
-		let bno = $(this).data("bno");
 		let cntLike = Number($(this).find("span").html());
 		//alert(bno);
 		

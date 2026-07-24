@@ -75,12 +75,8 @@ $(function() {
 	//alert(gYear + " / " + gMonth);
 
 	// **************캘린더********************
-	// 일 단위로 이동
-	$(".changeView > span:nth-child(1)").click(function() {
-		location.href="day";
-	});
 	// 주 단위로 이동
-	$(".changeView > span:nth-child(2)").click(function() {
+	$(".changeView > span:nth-child(1)").click(function() {
 		location.href="week";
 	});
 	/*************달력*****************/

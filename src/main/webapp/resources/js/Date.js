@@ -20,7 +20,7 @@ const weatherIcon = {
     
     100: "⛓️‍💥", 101:" "
 };
-let weeklyWeather = [101,101,101,101,101,101,101];
+let weeklyWeather = [100,100,100,100,100,100,100];
 let isActive = false;
 let startDate;
 let endDate;
@@ -63,7 +63,7 @@ $(function(){
 	
 	// 오늘 날짜 기본 설정
 	let startrc;
-/*	
+	
 	// 날씨 정보 가져오기
 	const lat = $("#banner").data("lat");
 	const lng = $("#banner").data("lng");
@@ -86,11 +86,11 @@ $(function(){
 		console.log(data.daily.weather_code);
 		weeklyWeather = data.daily.weather_code;
 		startrc = $(".today").data("title");
-		//console.log(startrc);
-		//let startr = Number(startrc.substring(1,2));
-		//let startc = Number(startrc.substring(3));
-		//console.log(startr+startc);
-		//setTimeout(() => setWeather(startr,startc), 100);
+		//console.log(startrc);  // r3c5
+		let startr = Number(startrc.substring(1,2));
+		let startc = Number(startrc.substring(3));
+		//console.log(startr+","+startc);  // 3,5
+		setTimeout(() => setWeather(startr,startc), 0);
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
@@ -98,7 +98,7 @@ $(function(){
 	
 	//$('#selectDate > input').val('');
 	
-*/
+
 	// 데이트 피커 인풋
 	$('#selectDate > input').daterangepicker({
 		locale: {
@@ -135,8 +135,7 @@ $(function(){
 		$("#selectDate > input").trigger("click");
 		console.log("현재 isActive 상태:", isActive);
 	});
-	
-	
+
 	// 다음 페이지 클릭하면 도착지 페이지로 이동
 	$("#nextBtn > div").click(function(){
 		
