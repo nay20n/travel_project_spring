@@ -76,7 +76,7 @@
 							(SELECT COUNT(*) FROM like_places lp WHERE member_id = #{memberId} AND lp.place_id = p.place_id) "isLiked"
 						FROM places p
 							LEFT OUTER JOIN reviews r ON p.place_id = r.place_id
-						WHERE ( name LIKE #{input} OR category LIKE #{input} OR address LIKE #{input} )
+						WHERE ( name LIKE #{input} OR category LIKE #{input} OR address LIKE #{input} OR p.place_id LIKE #{input})
 							AND (6371 * ACOS( 
 							COS( (SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180) ) * COS( p.lat * (ACOS(-1)/180) )
 							* COS( (p.lng * (ACOS(-1)/180)) - (SELECT lng FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1)/180))
