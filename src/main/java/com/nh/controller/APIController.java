@@ -62,7 +62,7 @@ public class APIController {
 				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) +
 				"&size=290x220&path=" + URLEncoder.encode(path, StandardCharsets.UTF_8) +
 				"&key=" + GoogleRKey;
-		System.out.println(url);
+		//System.out.println(url);
 		try (InputStream is = new URL(url).openStream()) {
 	        return is.readAllBytes();
 	    }
@@ -74,7 +74,7 @@ public class APIController {
 		String url = "https://maps.googleapis.com/maps/api/staticmap?" +
 				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) + "&markers=" + URLEncoder.encode(marker, StandardCharsets.UTF_8) +
 				"&size=145x145&zoom=18&key=" + GoogleRKey;
-		System.out.println(url);
+		//System.out.println(url);
 		try (InputStream is = new URL(url).openStream()) {
 			return is.readAllBytes();
 		}

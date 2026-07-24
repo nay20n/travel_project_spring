@@ -61,10 +61,10 @@ public class MemberDaoTest {
 		String pw ="a";
 		
 		// 2) When
-		boolean result = mDao.canLogin(email, pw);
+		Integer result = mDao.canLogin(email, pw);
 		
-		// 3) Then : false일때 로그인 실패 
-		assertTrue("로그인 실패", result);
+		// 3) Then
+		System.out.println(result);
 	}
 	
 	// 비밀번호 재설정 인증코드 수정

@@ -19,7 +19,7 @@
 	</select>
 	<select id="canLogin" resultType="java.lang.Integer">
 		<![CDATA[
-			SELECT COUNT(*) 
+			SELECT member_id "memberId" 
 			FROM members 
 			WHERE email = #{email} AND pw = #{pw}
 		]]>
