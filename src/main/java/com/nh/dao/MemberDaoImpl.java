@@ -26,12 +26,11 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public boolean canLogin(String email, String pw) {
+	public Integer canLogin(String email, String pw) {
 		Map<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("pw", pw);
-		int cnt = sqlSession.selectOne("memberMapper.canLogin", map);
-		return cnt > 0;
+		return sqlSession.selectOne("memberMapper.canLogin", map);
 	}
 
 	@Override

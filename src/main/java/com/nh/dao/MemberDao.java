@@ -24,7 +24,7 @@ public interface MemberDao {
 	 * @param pw
 	 * @return 둘다 존재하면(true), 둘 중 하나라도 존재하지 않으면 (false)
 	 */
-	boolean canLogin(String email, String pw);
+	Integer canLogin(String email, String pw);
 	
 	/**
 	 * 비밀번호 재설정 인증코드 수정
