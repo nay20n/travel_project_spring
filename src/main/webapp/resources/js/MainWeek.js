@@ -8,7 +8,11 @@ let eventList;
 let routeLine=null; // 경로
 let mapElement;
 let encoding; // 구글맵의 geometryLib.encoding 클래스
-let AdvancedMarkerElementObject;  // 전역변수. 마커.
+let AdvancedMarkerElement;  // 구글맵의 마커 클래스
+let PinElement; // 구글맵의 핀 클래스
+let mapReady; // 준비 된 mapElement.innerMap
+let markers = []; // 마커 배열
+let myPlaceMarkers = []; // 내 일정에 있는 장소 마커 배열
 
 // 지도에 경로 그리기
 function drawRoute(encodedPolyline) {
@@ -24,6 +28,69 @@ function drawRoute(encodedPolyline) {
         strokeOpacity: 1,
         strokeWeight: 5
     });
+}
+
+// 지도에 마커 그리기
+async function drawMarker(lat, lng, placeId) {
+	// 지도가 준비될 때까지 기다림
+    const map = await mapReady;
+    let bno = $("#main").data("bno");
+    
+	let marker = new AdvancedMarkerElement({
+		position: { lat, lng },   // event.latLng 객체도 가능
+	    map: map,
+	    zIndex: 1
+	});
+	
+	marker.placeId = placeId;
+	
+    marker.addListener("gmp-click", function() {
+    	// 정보창 팝업
+		clickPlaceTitle(placeId);
+		// 초기화 후 해당 장소로 검색
+		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
+		$(".place").remove();
+		placePageNum = 1;
+		
+		mapping = "getSerchedPlace";
+		placeNewPage(placeId, bno);
+    });
+    
+	markers.push(marker);
+}
+
+// 지도에 내 일정 마커 그리기
+async function drawMyMarker(lat, lng) {
+	// 지도가 준비될 때까지 기다림
+    const map = await mapReady;
+    
+    // 마커 디자인
+    const myPin = new PinElement({
+	    background: "#0000FF",
+	    borderColor: "#FFFFFF",
+	    glyphColor: "#FFFFFF"
+	});
+    
+	let marker = new AdvancedMarkerElement({
+		position: { lat, lng },
+	    map: map,
+	    content: myPin,
+	    zIndex: 3
+	});
+
+    marker.addListener("gmp-click", function() {
+        console.log("내 일정 마크이다.");
+    });
+    
+	myPlaceMarkers.push(marker);
+}
+
+// 마커 삭제하기
+function removeMarker(markerArr) {
+	for (let i=0;i<markerArr.length;i++) {
+		markerArr[i].setMap(null);
+	}
+	markerArr = [];
 }
 
 // 일정 삽입 함수
@@ -46,6 +113,9 @@ function setBlocks(calendar) {
 		return response.json();
 	})
 	.then(function(data){
+		// 내 일정 마커를 지우고 다시 생성
+		removeMarker(myPlaceMarkers);
+		
 		for(let i=0;i<data.length;i++) {
 			let block = data[i];
 			
@@ -55,6 +125,10 @@ function setBlocks(calendar) {
 	        let end = block.endTime;
 	        let colorCode = block.colorCode;
 	        let placeId = block.placeId;
+	        let lat = block.lat;
+	        let lng = block.lng;
+	        
+	        drawMyMarker(lat, lng);
 	        
 	        // 캘린더 데이터
 	        eventList.push({
@@ -82,7 +156,7 @@ function setBlocks(calendar) {
 		        drop: handleDropEvent
 		    });
 		}, 100);
-		console.log(eventList);
+		//console.log(eventList);
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
@@ -94,6 +168,7 @@ function handleDropEvent(event, ui) {
 	const $droppable = $(event.target);
 	//alert(ui.draggable.data("place-id"));
 	//alert($droppable.data("event-id"));
+	console.log("장소 삽입");
 	
 	const jsonData = {
 		"placeId" : ui.draggable.data("place-id"),
@@ -111,7 +186,7 @@ function handleDropEvent(event, ui) {
 		return response.text();
 	})
 	.then(function(data){
-		console.log(data);
+		//console.log(data);
 	  	setBlocks(calendar);
 	})
 	.catch(function(error){
@@ -276,6 +351,7 @@ $(function() {
 	// 일 단위로 이동
 	$(".changeView > span:nth-child(1)").click(function() {
 		calendar.changeView('day');
+		setBlocks(calendar);
 		$("#calendar").addClass("changeToDay");
 		$(this).parent().find("span").removeClass("selectedView");
 		$(this).addClass("selectedView");

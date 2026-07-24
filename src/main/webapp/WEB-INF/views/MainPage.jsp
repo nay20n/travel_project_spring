@@ -31,7 +31,7 @@
 	<div id="main">
 		<video autoplay="" muted="" loop="" playsinline="" class="w-full h-full object-cover" poster="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/4b5d6a91ec066b46ff31542b2667c21e_l.jpg"><source src="https://stubbyseoul.s3.ap-northeast-2.amazonaws.com/intro.webm" type="video/webm">
 		</video>
-        <div>상상 속 국내 여행을</div>
+        <div>상상 속 여행을</div>
         <div>현실로 만드세요</div>
         <div>루트의 큰 그림부터, AI 예상 견적까지..</div>
         <div>

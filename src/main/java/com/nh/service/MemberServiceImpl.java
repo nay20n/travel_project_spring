@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean canLogin(String email, String pw) {
+	public Integer canLogin(String email, String pw) {
 		return mDao.canLogin(email,pw);
 	}
 

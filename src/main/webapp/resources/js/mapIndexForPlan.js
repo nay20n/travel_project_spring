@@ -17,10 +17,9 @@ async function init() {
         google.maps.importLibrary('places'),
         google.maps.importLibrary('geometry')
     ]);
-    const { AdvancedMarkerElement } = markerLib;
     encoding = geometryLib.encoding;
-
-    AdvancedMarkerElementObject = AdvancedMarkerElement;
+    AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
+    PinElement = markerLib.PinElement;
 
     // Get the gmp-map element.
     mapElement = document.querySelector('gmp-map');
@@ -35,79 +34,87 @@ async function init() {
 		streetViewControl: false
     });
     
-	
+	// 장소를 선택했을때 DB에 장소 저장
 	autocomplete.addEventListener("gmp-select", async (event) => {
-		//console.log(event);
 		const prediction = event.prediction || event.placePrediction;
 		const place = prediction.toPlace();
-		console.log(prediction);
-	   	//alert(prediction.placeId);
+		//console.log(place);
 	
 	    if (!place) return;  // 장소 정보가 없으면 리턴
 	
-	    // 최신 Places API는 필요한 데이터 필드를 명시적으로 요청(fetchFields)해야 합니다.
 	    await place.fetchFields({
-	      fields: ["displayName", "location", "formattedAddress"]
+	      fields: [
+	      	"id",
+	      	"displayName", 
+	      	"formattedAddress",
+	      	"primaryTypeDisplayName",
+			"location",            // 위도, 경도
+			"regularOpeningHours", // 영업시간
+			"websiteURI",          // 웹사이트 URL
+			"photos",              //  장소 사진 목록
+	      	]
 	    });
+	    let businessHoursList = place.regularOpeningHours ? place.regularOpeningHours.weekdayDescriptions : [];
+		let businessHours = businessHoursList.join('<br/>'); 
+		//console.log(businessHours);
+	    let photoList = place.photos ? place.photos.slice(0, 5).map(photo => photo.getURI())  : [];
+	    let photos = photoList.join(' ');
+	    //console.log(photos);
+	    
+	    // 데이터 추출 및 매핑
+		const jsonData = {
+			"placeId": place.id,
+			"name": place.displayName,
+			"address": place.formattedAddress,
+			"category":  place.primaryTypeDisplayName,
+			"lat": place.location.lat(),
+			"lng": place.location.lng(),
+			"businessHours": businessHours,
+			"websiteUrl": place.websiteURI || null,
+			"photos": photos
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../addPlace", initData)
+		.then(function(response){
+			return response.text();
+		})
+		.then(function(data){
+			console.log(data);
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		})
 	
-	    console.log("선택한 장소 이름:", place.displayName);
-	    console.log("선택한 장소 주소:", place.formattedAddress);
-	    console.log("선택한 장소 좌표:", place.location.lat(), place.location.lng());
-	
+		console.log("전체 장소 데이터:", jsonData);
+		
 	    // 검색된 장소로 지도 이동
 	    if (place.location) {
-			// innerMap을 통해 지도 중심 변경 및 줌인
-			//mapElement.innerMap.panTo(place.location);
-			//mapElement.innerMap.setZoom(15);
-			console.log(place.location);
+			//console.log(place.location);
+			// 지도 이동 
 			const lat = place.location.lat();
 			const lng = place.location.lng();
-	      
 			mapElement.innerMap.moveCamera({
 				center: place.location,
 				zoom: 15
 			});
-			
-			// DB에 장소 추가
-			
-			// Add Marker. (AdvancedMarkerElement로 마커 생성)
-			if(marker != undefined) {
-				marker.map = null;
-				marker = undefined;
-			}
-			marker = new AdvancedMarkerElement({
-				position: { lat, lng },   // event.latLng 객체도 가능
-			    map: mapElement.innerMap
-			});
-			marker.addListener("click", (event) => {
-				// 맨 상단에 해당 장소 삽입
-				marker.map = null;
-				marker = undefined;
-			});
 	    } else {
 	      alert("선택한 장소의 위치 정보가 없습니다.");
 	    }
+	    
+	    // 지도에 마커 추가
+	    drawMarker(place.location.lat(), place.location.lng(), place.id);
   	});
-
-	// map 변수는 이미 생성된 지도 인스턴스라고 가정합니다.
-	google.maps.event.addListener(mapElement.innerMap, 'click', function(event) {
-	    console.log(event);
-	    const latLng = event.latLng;
-	    console.log(latLng);
-	    
-	    // 클릭한 지점의 위도와 경도 추출
-	    const lat = event.latLng.lat();
-	    const lng = event.latLng.lng();
-	    
-	    console.log(`클릭한 위치의 위도: ${lat}, 경도: ${lng}`);
-	    
-	    // 클릭한 위치에 마커 생성 등 추가 작업 수행
-		// click! ---> 마커 추가가 아닌 걸로. / 마커를 클릭하면 ->마커 취소 / 마커 아닌 곳을 클릭하면? --> 그건 아직 모르겠음.
-		  
-	});
-    
+  	
+  	return mapElement.innerMap;
 }
-void init();
+
+mapReady = init();
 
 
 

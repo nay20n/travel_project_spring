@@ -199,24 +199,38 @@ $(function() {
 	});
 	// 비밀번호 재설정 페이지로 이동
 	$(".popupContainer>div:nth-child(1)>div:nth-child(3)>div:nth-child(4)>span:nth-child(2)").click(function() {
-		location.href="ResetPw.html";
+		location.href="forget";
 	});
-	// 로그인 알림
+	// 로그인
 	$(".userPw, .userEmail").keypress(function(e) {
 		if(e.keyCode == 13){
 			$(".login").trigger("click");
 		}
 	});
 	$(".login").click(function() {
-		if($(this).parent().find(".userEmail").val()=="a"&&$(this).parent().find(".userPw").val()=="a") {
-			$(this).parent().find(".hide").addClass("hide");
-			alert("로그인 되었습니다!");
-			$(".popupContainer").attr("style","display: none");
-			$(".popupContent").attr("style","display: none");
-		}else {
-			$(this).parent().find(".hide").removeClass("hide");
-			alert("불일치!");
-		}
+		let inputId = $(this).parent().find(".userEmail").val();
+		let inputPw = $(this).parent().find(".userPw").val();
+		
+		let form = document.createElement('form');
+	    form.setAttribute('method', 'post');
+	    form.setAttribute('action', "login");
+	    document.charset = "UTF-8";
+	
+		let hiddenField1 = document.createElement('input');
+		hiddenField1.setAttribute('type', 'hidden');
+		hiddenField1.setAttribute('name', "inputId");
+		hiddenField1.setAttribute('value', inputId);
+		
+		let hiddenField2 = document.createElement('input');
+		hiddenField2.setAttribute('type', 'hidden');
+		hiddenField2.setAttribute('name', "inputPw");
+		hiddenField2.setAttribute('value', inputPw);
+		
+		form.appendChild(hiddenField1);
+		form.appendChild(hiddenField2);
+	
+	    document.body.appendChild(form);
+	    form.submit();
 	});
 	// 이메일로 가입하기
 	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(3)").click(function() {
