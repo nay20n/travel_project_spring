@@ -5,6 +5,14 @@
 * @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
 * @website: http://www.daterangepicker.com/
 */
+
+/*****************************/
+function confirmWeather() {
+	setTimeout({ }, 100);
+}
+
+/*****************************/
+
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -537,23 +545,6 @@
             this.updateMonthsInView();
             this.updateCalendars();
             this.updateFormInputs();
-
-/********************************************/
-/*
-setTimeout(function() {            
-	let startrc;
-	startrc = $(".today").data("title");
-
-	// alert("!!");               
-	// 날씨 그리기
-	let startr = Number(startrc.substring(1,2));
-	let startc = Number(startrc.substring(3));
-	//console.log(startr+startc);
-	setTimeout(() => setWeather(startr,startc));
-	
-}, 200);          
-*/
-/********************************************/
         },
 
         updateMonthsInView: function() {
@@ -588,8 +579,7 @@ setTimeout(function() {
         },
 
         updateCalendars: function() {
-
-            if (this.timePicker) {
+                if (this.timePicker) {
                 var hour, minute, second;
                 if (this.endDate) {
                     hour = parseInt(this.container.find('.left .hourselect').val(), 10);
@@ -626,6 +616,19 @@ setTimeout(function() {
 
             this.renderCalendar('left');
             this.renderCalendar('right');
+/********************************************/
+
+let startrc = $(".today").data("title");
+if(startrc != undefined) {
+	let startr = Number(startrc.substring(1,2));
+	let startc = Number(startrc.substring(3));
+	// 날씨 그리기
+	if(weeklyWeather[0]!=100) {
+		setWeather(startr,startc);	
+	}
+}
+
+/********************************************/
 
             //highlight any predefined range matching the current start and end dates
             this.container.find('.ranges li').removeClass('active');
@@ -1378,7 +1381,7 @@ setTimeout(function() {
             this.updateView();
 
             //This is to cancel the blur event handler if the mouse was in one of the inputs
-            //e.stopPropagation(); ㅎㅎㅎ
+            e.stopPropagation(); //ㅎㅎㅎ
 
         },
 

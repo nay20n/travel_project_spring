@@ -32,7 +32,7 @@
 		<div>
 			<h2 class="date fl">2026년 5월</h2>
 			<div class="changeView fl bs" >
-				<span>일</span><span>주</span><span>월</span>
+				<span>주</span><span>월</span>
 			</div>
          </div>
          <div class="bs"> 

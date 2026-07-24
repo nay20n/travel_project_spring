@@ -70,9 +70,13 @@
 	</select>
 	<select id="selectBlocksForAiCount" resultType="java.util.Map">
 		<![CDATA[
-			SELECT p.name "name", p.address "address"
+			(SELECT b.block_idx "idx", p.name "name", p.address "address"
 			FROM blocks b INNER JOIN places p ON b.place_id = p.place_id
-			WHERE b.bno = #{bno}
+			WHERE b.bno = #{bno})
+			UNION
+			(SELECT 0, p.name, p.address
+			FROM boards b INNER JOIN places p ON b.start_place_id=p.place_id
+			WHERE b.bno = #{bno})			
 		]]>
 	</select>
 	<select id="selectBlocksForRoutes" resultType="java.lang.String">
