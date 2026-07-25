@@ -96,11 +96,11 @@
 				<div></div>
 				<div>
 					<span class="fl">예상 비용</span>
-					<span class="fr">0원</span>
+					<span class="fr" data-field="totalCost" >0원</span>
 				</div>
 				<div>
 					<span></span>
-					<span class="fr">~ ${maxCost}원 (AI 예상 최대 견적)</span>
+					<span class="fr" data-field="maxCost">~ ${maxCost}원 (AI 예상 최대 견적)</span>
 				</div>
 				<div style="clear:both;"></div>
 			</div>

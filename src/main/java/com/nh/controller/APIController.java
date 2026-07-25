@@ -62,7 +62,7 @@ public class APIController {
 				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) +
 				"&size=290x220&path=" + URLEncoder.encode(path, StandardCharsets.UTF_8) +
 				"&key=" + GoogleRKey;
-		//System.out.println(url);
+		System.out.println(url);
 		try (InputStream is = new URL(url).openStream()) {
 	        return is.readAllBytes();
 	    }
@@ -74,7 +74,7 @@ public class APIController {
 		String url = "https://maps.googleapis.com/maps/api/staticmap?" +
 				"center=" + URLEncoder.encode(center, StandardCharsets.UTF_8) + "&markers=" + URLEncoder.encode(marker, StandardCharsets.UTF_8) +
 				"&size=145x145&zoom=18&key=" + GoogleRKey;
-		//System.out.println(url);
+		System.out.println(url);
 		try (InputStream is = new URL(url).openStream()) {
 			return is.readAllBytes();
 		}
@@ -214,7 +214,8 @@ public class APIController {
 	    		+ "2. foodCost : 일정 동안 필요한 식사 횟수를 고려하여 추정한다.\n"
 	    		+ "3. roomCost : 숙박이 필요한 일정이면 적절한 숙박비를 추정하고, 당일치기라면 0으로 한다.\n"
 	    		+ "4. etcCost : 카페, 입장료, 주차비, 간식 등 기타 비용을 평균을 뽑아서 추정한다.\n"
-	    		+ "5. maxCost : 위 항목들의 합보다 더 비싸게 간 경우, 약 10~20% 여유를 둔 최대 예상 비용으로 계산한다.\n"
+	    		+ "2. maxCost는 위 4개 항목의 합계(기본 총액)가 절대 아니야!\n"
+	            + "5. maxCost는 현지 돌발 상황, 택시/쇼핑/비상금 등 예기치 못한 지출 오차범위를 고려해서 '4개 항목 합계 금액의 약 110%~125% 수준(더 여유 있는 최대 견적 금액)'으로 반드시 계산해서 제시해줘.\n\n"
 	    		+ "[규칙]\n"
 	    		+ "- 모든 금액은 KRW 기준의 정수(integer)이다.\n"
 	    		+ "- 확실하지 않은 경우 일반적인 국내 여행 평균 비용을 사용한다.\n"
