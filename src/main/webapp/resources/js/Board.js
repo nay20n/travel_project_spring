@@ -331,17 +331,25 @@ $(function() {
 	//  AI 비용
 	$(document).on("click", ".my>div:nth-child(3)", function() {
 		
-		
-		fetch("../searchCost?bno=" + bno, {method: "post"})
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log("받은 예상 경비 : "+data);	
-		})
-		.catch(function(error){
-			alert("에러! : " + error);
-		});
+		if(confirm("비용을 변경하겠습니까?")){
+			fetch("../searchCost?bno=" + bno, {method: "post"})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log("받은 예상 경비 :", data); 
+				$('input[data-field="transportCost"]').val(data.transportCost);
+				
+				$('input[data-field="foodCost"]').val(data.foodCost);
+				$('input[data-field="roomCost"]').val(data.roomCost);
+				$('input[data-field="etcCost"]').val(data.etcCost);
+				$('span[data-field="totalCost"]').text((data.foodCost+data.roomCost+data.etcCost)+ "원");
+				$('span[data-field="maxCost"]').text("~ " +  data.maxCost + "원 (AI 예상 최대 견적)");
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			});
+		}
 		
 		
 	});

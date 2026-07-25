@@ -308,27 +308,30 @@ $(function() {
 	
 	$(document).on("click", ".table-condensed svg", function() {
 		
-		const jsonData = {
-			bno : bno,
-			startDate : sDate,
-			endDate : eDate	
-		};
-		const initData = {
-			method: "post",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(jsonData)
-		};
-		fetch("../../modifyTravelDate", initData)
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log(data);
-			$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
-		})
-		.catch(function(error){
-			alert("에러! : " + error);
-		});
+		if(confirm("날짜를 변경하겠습니까?")){
+			const jsonData = {
+				bno : bno,
+				startDate : sDate,
+				endDate : eDate	
+			};
+			const initData = {
+				method: "post",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(jsonData)
+			};
+			fetch("../../modifyTravelDate", initData)
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			});
+		}
+		
 	});
 	
 	// 일정확정하기
