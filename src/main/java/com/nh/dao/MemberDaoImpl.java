@@ -126,5 +126,10 @@ public class MemberDaoImpl implements MemberDao{
 	public String getEmail(int memberId) {
 		return sqlSession.selectOne("memberMapper.getEmail", memberId);
 	}
+
+	@Override
+	public String getpw(int memberId) {
+		return sqlSession.selectOne("memberMapper.getPw", memberId);
+	}
 	
 }
