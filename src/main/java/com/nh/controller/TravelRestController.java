@@ -82,7 +82,7 @@ public class TravelRestController {
 		int bno = (Integer)mapReq.get("bno");
 		String startTime = changeDateFormat((String)mapReq.get("startTime"));
 		String endTime = changeDateFormat((String)mapReq.get("endTime"));
-		System.out.println(startTime+","+endTime);
+		//System.out.println(startTime+","+endTime);
 		return blSvc.addBlock(bno, startTime, endTime);
 	}
 	// 게시글에 들어간 블럭 전체 조회
