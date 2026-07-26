@@ -172,16 +172,38 @@ $(function() {
 	$("#popupHeader > svg").click(function() {
 		$("#popupEditInfo").hide();
 	});
+	// 정보수정팝업 확인 버튼 엔터처리
+	$('#popupPw > div > input').on('keydown', function(key) {
+	    if (key.keyCode == 13) {
+	       $("#popupPw > div > span").click();
+	    }
+	});
 	// 정보수정팝업 확인 버튼 클릭(정보수정창으로 이동)
 	$("#popupPw > div > span").click(function() {
 	
-		if($("#popupPw > div > input").val()==""){ //비밀번호가 비어잇으면
-			$("#popupContent > div:nth-child(3)").show();
-			$("#popupPw > div > input").addClass("borderWraning");
-		}else {
-			$("#popupContent > div:nth-child(3)").hide();
-			location.href="mypage/edit";
-		}
+		let input = $("#popupPw > div > input").val();	
+		//alert(input);
+		let checkPW;
+		
+		fetch("checkPW?input="+input, {method:"POST"})
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data);
+			checkPW = data;
+			if(!checkPW){ // 비밀번호가 일치하지 않았을 떄 
+				$("#popupContent > div:nth-child(3)").show();
+				$("#popupPw > div > input").addClass("borderWraning");
+			} else { // 비밀번호가 일치했을 떄
+				$("#popupContent > div:nth-child(3)").hide();
+				location.href="mypage/edit";
+			}
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		});
+		
 	});
 	// 비밀번호 재설정 링크 클릭 
 	$("#popupContent > div:nth-child(4) > a").click(function() {

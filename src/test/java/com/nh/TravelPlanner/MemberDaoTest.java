@@ -67,6 +67,18 @@ public class MemberDaoTest {
 		System.out.println(result);
 	}
 	
+	@Test 
+	public void testGetpw() {
+		// 1) Given
+		int memberId = 1;
+		
+		// 2) When
+		String pw = mDao.getpw(memberId);
+		
+		// 3) Then
+		System.out.println(pw);
+	}
+	
 	// 비밀번호 재설정 인증코드 수정
 	@Test
 	@Transactional

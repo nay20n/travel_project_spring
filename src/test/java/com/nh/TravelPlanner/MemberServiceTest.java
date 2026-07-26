@@ -63,6 +63,20 @@ public class MemberServiceTest {
 		assertTrue("로그인 실패", result);
 	}
 	
+	// 로그인한 아이디의 비밀번호 조회
+	@Test
+	public void testGetPw() {
+		// 1) Given
+		int memberId = 1;
+		
+		// 2) When
+		String pw = mSvc.getPw(memberId);
+		
+		// 3) Then
+		System.out.println(pw);
+		
+	}
+	
 	// 비밀번호 재설정 인증코드 수정
 	@Test
 	@Transactional
