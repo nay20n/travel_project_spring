@@ -13,7 +13,6 @@
 	</head>
 	<body>
 		<%@ include file="HeaderPlain.jsp"%>
-		<div>계정관리</div>
 		<div id="basicInfo" class="bs">
 			<div>기본정보</div>
 			<div>

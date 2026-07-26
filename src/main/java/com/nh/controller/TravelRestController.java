@@ -389,4 +389,17 @@ public class TravelRestController {
 		
 		return ret;
 	}
+	
+	// 비밀번호가 로그인한 사람의 비밀번호와 일치한지
+	@PostMapping("/checkPW")
+	public boolean checkPW(HttpSession session,String input) {
+		int loginId = (int)session.getAttribute("loginId");
+		
+		String pw = mSvc.getPw(loginId);
+		System.out.println(loginId + "의 비밀번호 : " + pw);
+		System.out.println("입력값 : " + input);
+		if(pw.equals(input)) return true;
+		else return false;
+		
+	}
 }
