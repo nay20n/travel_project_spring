@@ -9,10 +9,6 @@ let placePageLock = false;
 let placeScrollLock = false;
 let mapping = "getSerchedPlace";
 
-// 이동 수단 필드
-let travelModeArr = ["TRANSIT","DRIVE","TRANSIT","WALK","BICYCLE"];
-let travelModeIdx = 0;
-
 // 별점(1), 퍼센트(50%) 들어오면 그래프 그려주는 함수
 // rate : 점수 1, 2, 3점 
 // per : 1점의 개수 / 전체  
@@ -37,7 +33,14 @@ function addSideContent(data) {
 		let place = data[i];  
 		
 		// 지도에 마커 추가
+		//console.log(typeof place.lat);
+		//console.log(typeof place.lng);
+		//console.log(typeof place.placeId);
 		drawMarker(place.lat, place.lng, place.placeId);
+				
+		let placeImage = `<img class="hide"/>`;
+		if(place.image!=null)
+			placeImage = `<img src="${place.image}" onerror="this.style.display='none';"/>`;
 		
 		let star = `
 		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -54,7 +57,7 @@ function addSideContent(data) {
 		let placeHtml = `
 			<div class="place" data-place-id="${place.placeId}" data-lat="${place.lat}" data-lat="${place.lng}">
 	            <div>
-	                <img src="/${place.image}"/>
+	                ${placeImage}
 	            </div>
 				<div class="placeInfo">
 					<div class="placeTitle">

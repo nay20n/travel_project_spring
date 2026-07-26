@@ -14,6 +14,10 @@ let mapReady; // 준비 된 mapElement.innerMap
 let markers = []; // 마커 배열
 let myPlaceMarkers = []; // 내 일정에 있는 장소 마커 배열
 
+// 이동 수단 필드
+let travelModeArr = ["DRIVE","DRIVE","TRANSIT","WALK","BICYCLE"];
+let travelModeIdx = 0;
+
 // 지도에 경로 그리기
 function drawRoute(encodedPolyline) {
     // 기존 경로가 있다면 제거
@@ -128,7 +132,9 @@ function setBlocks(calendar) {
 	        let lat = block.lat;
 	        let lng = block.lng;
 	        
-	        drawMyMarker(lat, lng);
+	        // 만약 장소 데이터가 있다면 내 일정 마커를 추가
+	        if(lat!=null)
+	        	drawMyMarker(lat, lng);
 	        
 	        // 캘린더 데이터
 	        eventList.push({
@@ -297,12 +303,12 @@ $(function() {
 		.then(function(data){
 			console.log(data);
 		  	setBlocks(calendar);
-		  	$(".popupContainer").addClass("hide");
-			$(".popupContainer>div:nth-child(4)").addClass("hide");
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
 		})
+	  	$(".popupContainer").addClass("hide");
+		$(".popupContainer>div:nth-child(2)").addClass("hide");
 	});
 	
 	// 일정 이동 및 시간 변경
@@ -414,7 +420,7 @@ $(function() {
 			let mm = String(date.getMonth() + 1).padStart(2, "0");	
 			let dd = String(date.getDate()).padStart(2, "0");
 			date = `${yyyy}-${mm}-${dd}`;
-			console.log(date);
+			//console.log(date);
 			
 			//해당 날짜에서 장소가 들어간 블럭만 추출
 			let events = eventList
@@ -435,7 +441,7 @@ $(function() {
 		    	let place = events[i];
 		    	placeIds.push(place.body);
 		    }
-		    //console.log(placeIds);
+		    console.log(placeIds);
 		    fetch("../../getRoute", {
 			    method: "POST",
 			    headers: {
@@ -450,8 +456,24 @@ $(function() {
 			    return response.json();
 			})
 			.then(function(data) {
+        		if (!data.routes || data.routes.length == 0) {
+        			Toastify({
+					  text: "경로를 찾을 수 없습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+			        console.error("경로 데이터가 없습니다.", data);
+			        return;
+			    }
 			    encodedPolyline = data.routes[0].polyline.encodedPolyline;
-        		//console.log(encodedPolyline);
+        		console.log(encodedPolyline);
         		drawRoute(encodedPolyline);
 			})
 			.catch(function(error) {
