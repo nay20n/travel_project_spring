@@ -10,6 +10,13 @@
 			WHERE member_id = #{memberID}
 		]]>
 	</select>
+	<select id="getPw" resultType="java.lang.String">
+		<![CDATA[
+			SELECT pw 
+			FROM members
+			WHERE member_id = #{memberID}
+		]]>
+	</select>
 	<select id="isExistEmail" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) 

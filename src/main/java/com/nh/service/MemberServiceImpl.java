@@ -102,5 +102,10 @@ public class MemberServiceImpl implements MemberService {
 	public String getEmail(int memberId) {
 		return mDao.getEmail(memberId);
 	}
+
+	@Override
+	public String getPw(int memberId) {
+		return mDao.getpw(memberId);
+	}
 	
 }

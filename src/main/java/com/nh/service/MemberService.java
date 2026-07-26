@@ -113,4 +113,11 @@ public interface MemberService {
 	 * @return 조회된 닉네임
 	 */
 	String getEmail(int memberId);
+	
+	/**
+	 * 로그인한 사람의 비밀번호 조회
+	 * @param memberId : 조회할 사람의 아이디 
+	 * @return 조회된 비밀번호
+	 */
+	String getPw (int memberId);
 }
