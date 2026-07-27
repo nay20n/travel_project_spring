@@ -1,5 +1,6 @@
 package com.nh.controller;
 
+import java.io.File;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -7,15 +8,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
@@ -35,6 +40,9 @@ public class TravelRestController {
 	MemberService mSvc;
 	@Autowired
 	BlockService blSvc;
+	
+	@Autowired
+	private ServletContext application; // 절대경로
 	
 	// 시간 형식 변환 메서드
 	public static String changeDateFormat(String input) {
@@ -392,14 +400,80 @@ public class TravelRestController {
 	
 	// 비밀번호가 로그인한 사람의 비밀번호와 일치한지
 	@PostMapping("/checkPW")
-	public boolean checkPW(HttpSession session,String input) {
+	public boolean checkPW(HttpSession session, String input) {
 		int loginId = (int)session.getAttribute("loginId");
 		
 		String pw = mSvc.getPw(loginId);
-		System.out.println(loginId + "의 비밀번호 : " + pw);
-		System.out.println("입력값 : " + input);
+		//System.out.println(loginId + "의 비밀번호 : " + pw);
+		//System.out.println("입력값 : " + input);
 		if(pw.equals(input)) return true;
 		else return false;
 		
+	}
+	
+	// 비밀번호 재설정 링크 생성
+	@PostMapping("/createResetKey")
+	public String createResetKey(HttpSession session, String email) {
+		String key = mSvc.updateKey(email);
+		session.setAttribute("key", key);
+		return key;
+	}
+	
+	//비밀번호 재 설정
+	@PostMapping("/modifyPw")
+	public boolean modifyPw(HttpSession session, String pw) {
+		int loginId = (int)session.getAttribute("loginId");
+		//System.out.println(pw);
+		try{mSvc.modifyPw(loginId, pw); return true;}
+		catch(Exception e) {e.printStackTrace(); return false;}
+	}
+	
+	// 정보 수정 저장 버튼
+	@PostMapping("/updateprofile")
+	public String updateInfo(HttpSession session, Model model,@RequestParam("file") MultipartFile file) {
+		int loginId = (int)session.getAttribute("loginId");
+		
+		String path = application.getRealPath("resources/upload"); // upload 폴더의 절대경로(C:\로 시작) 얻기. 
+		System.out.println("절대경로 : " + path);
+		
+		File f= new File(path);
+		if(!f.exists()) 
+			f.mkdir();// 해당 폴더 생성
+		
+		String filename = "";
+		String filenameUUID = "";
+		if(!file.isEmpty()) {
+			filename = file.getOriginalFilename();
+			int dotIdx = filename.lastIndexOf(".");
+			filenameUUID = UUID.randomUUID().toString() + filename.substring(dotIdx);
+			// 파일명 중복 방지
+			File saveFile = new File(path, filenameUUID);
+			
+			try {
+				file.transferTo(saveFile); // 파일 저장
+			} catch(Exception e) {e.printStackTrace();}
+		}
+		System.out.println("저장된 파일명 : " + filenameUUID);
+		mSvc.modifyProfileImg(loginId, filenameUUID);
+		
+		model.addAttribute("filenameUUID",filenameUUID);
+		
+		return "update";
+	}
+	
+	// 정보 수정 (이름, 이메일)
+	@PostMapping("/updateInfo")
+	public Map<String, String> updateInfo(@RequestBody Map<String,Object> mapReq, HttpSession session){
+		int loginId = (int)session.getAttribute("loginId");
+		String nickName = (String)mapReq.get("nickName");
+		String email = (String)mapReq.get("email");
+		
+		mSvc.modifyInfo(loginId, email, nickName);
+		
+		Map<String, String> ret = new HashMap<>();
+		ret.put("nickName", nickName);
+		ret.put("email", email);
+		
+		return ret;
 	}
 }

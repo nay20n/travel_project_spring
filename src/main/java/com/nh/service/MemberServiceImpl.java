@@ -19,7 +19,31 @@ public class MemberServiceImpl implements MemberService {
 	public String getProfileImage(int memberId) {
 		return mDao.getProfileImage(memberId);
 	}
+	
+	@Override
+	public String getNickName(int memberId) {
+		return mDao.getNickName(memberId);
+	}
 
+	@Override
+	public String getEmail(int memberId) {
+		return mDao.getEmail(memberId);
+	}
+
+	@Override
+	public Map<String, String> getEditPage(int memberId) {
+		String profileImg = mDao.getProfileImage(memberId);
+		String nickName = mDao.getNickName(memberId);
+		String email = mDao.getEmail(memberId);
+		
+		Map<String,String> ret = new HashMap<>();
+		ret.put("profile", profileImg);
+		ret.put("nickName", nickName);
+		ret.put("email", email);
+		
+		return ret;
+	}
+	
 	@Override
 	public boolean isExistEmail(String email) {
 		return mDao.isExistEmail(email);
@@ -31,8 +55,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateKey(String key, String email) {
-		mDao.updateKey(key, email);
+	public String updateKey(String email) {
+		
+		// 랜덤키
+		StringBuffer sb = new StringBuffer();
+		while(sb.length()<6) {
+			int temp = (int)(Math.random()*75) + 48;
+			if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
+		}
+		mDao.updateKey(sb.toString(), email);
+		return (String)sb.toString(); 
 	}
 	
 	@Override
@@ -50,16 +82,18 @@ public class MemberServiceImpl implements MemberService {
 		mDao.modifyProfileImg(memberId, profileImg);
 	}
 
-	@Override
-	public void modifyEmail(int memberId, String email) {
-		mDao.modifyEmail(memberId, email);
-	}
 
 	@Override
 	public void modifyPw(int memberId, String pw) {
 		mDao.modifyPw(memberId, pw);
 	}
-
+	
+	@Override
+	public void modifyInfo(int memberId, String email, String nickName) {
+		mDao.modifyEmail(memberId, email);
+		mDao.modifyNickName(memberId, nickName);
+	}
+	
 	@Override
 	public List<Map<String, Object>> getMyBoard(int memberId, int page) {
 		int end = 10 * page;
@@ -94,18 +128,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String getNickName(int memberId) {
-		return mDao.getNickName(memberId);
-	}
-
-	@Override
-	public String getEmail(int memberId) {
-		return mDao.getEmail(memberId);
-	}
-
-	@Override
 	public String getPw(int memberId) {
 		return mDao.getpw(memberId);
 	}
+
 	
 }

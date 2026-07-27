@@ -78,6 +78,13 @@ public class MemberDaoImpl implements MemberDao{
 		map.put("pw", pw);
 		sqlSession.update("memberMapper.modifyPw", map);
 	}
+	@Override
+	public void modifyNickName(int memberId, String nickName) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("nickName", nickName);
+		sqlSession.update("memberMapper.modifyNickName", map);
+	}
 
 	@Override
 	public List<Map<String, Object>> getMyBoard(int memberId, int start, int end) {
@@ -131,5 +138,7 @@ public class MemberDaoImpl implements MemberDao{
 	public String getpw(int memberId) {
 		return sqlSession.selectOne("memberMapper.getPw", memberId);
 	}
+
+	
 	
 }

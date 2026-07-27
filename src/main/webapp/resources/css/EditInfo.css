@@ -29,17 +29,10 @@ body {
 	margin: auto;
 }
 /*****메인부분 시작*****/
-body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 비밀번호, 계정연동 텍스트*/
+body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 계정연동 텍스트*/
 	padding: 14px;
 	font-size: 14px;
 	font-weight: 700;
-}
-body > div:nth-child(2) { /*계정관리*/
-	margin: 40px auto 0; 
-	width: 850px;
-	font-size: 25px;
-	font-weight: 700;
-	color: rgb(38, 55, 71);
 }
 /*******기본정보*******/ 
 #basicInfo {
@@ -60,6 +53,9 @@ body > div:nth-child(2) { /*계정관리*/
 	margin-left: 334px;
 	width: 123px;
 	border-radius: 50%;
+}
+#basicInfo > div:nth-child(2) > input { /*프로필 파일 업로드*/
+	display: none;
 }
 #basicInfo > div:nth-child(2) > svg { /*수정하기 연필 버튼*/
 	cursor: pointer;
@@ -87,13 +83,13 @@ body > div:nth-child(2) { /*계정관리*/
 	border-radius: 5px;
 	font-size: 16px;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(4) { /*이메일 입력 div*/
+#basicInfo > div:nth-child(2) > div:nth-child(5) { /*이메일 입력 div*/
 	height: 166px;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(4) > input { /*이메일 입력칸만*/
+#basicInfo > div:nth-child(2) > div:nth-child(5) > input { /*이메일 입력칸만*/
 	margin-bottom: 12px;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(4) > button { /*이메일변경, 비밀번호변경 버튼*/
+#basicInfo > div:nth-child(2) > div:nth-child(5) > button { /*이메일변경, 비밀번호변경 버튼*/
 	margin-left: 10px;
 	cursor: pointer;
 	border-radius: 4px;
@@ -105,20 +101,20 @@ body > div:nth-child(2) { /*계정관리*/
 	color: #925DE8;
 	background-color: #EDE8F6;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(4) > button:hover {
+#basicInfo > div:nth-child(2) > div:nth-child(5) > button:hover {
 	background: #E3D4FF;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) { /*기존이메일과동일하다느 ㄴ경고창*/
+#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3) { /*기존이메일과동일하다느 ㄴ경고창*/
 	display:none;
 	font-size: 12px;
 	font-weight: 400;
 	line-height: 16.8px;
 	color: rgb(255,0,0);
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) { /* 취소, 저장 버튼 감싸고 있는 div */
+#basicInfo > div:nth-child(2) > div:nth-child(6) { /* 취소, 저장 버튼 감싸고 있는 div */
 	margin-top: 20px;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) > button { /* 취소, 저장 버튼들 */
+#basicInfo > div:nth-child(2) > div:nth-child(6) > button { /* 취소, 저장 버튼들 */
 	cursor: pointer;
 	width: 80px;
 	height: 43px;
@@ -127,56 +123,20 @@ body > div:nth-child(2) { /*계정관리*/
 	font-size: 14px;
 	font-weight: 700;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) > button:nth-child(1) { /* 취소 버튼 */
+#basicInfo > div:nth-child(2) > div:nth-child(6) > button:nth-child(1) { /* 취소 버튼 */
 	color: #4B4C56;
 	background-color: #fbfbfd;
 	border: #e0e0e0 solid 1px;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) > button:nth-child(1):hover {
+#basicInfo > div:nth-child(2) > div:nth-child(6) > button:nth-child(1):hover {
 	background-color: #E3D4FF;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) > button:nth-child(2) { /* 저장 버튼 */
+#basicInfo > div:nth-child(2) > div:nth-child(6) > button:nth-child(2) { /* 저장 버튼 */
 	color: white;
 	background-color: #925DE8;
 }
-#basicInfo > div:nth-child(2) > div:nth-child(5) > button:nth-child(2):hover {
+#basicInfo > div:nth-child(2) > div:nth-child(6) > button:nth-child(2):hover {
 	opacity: 0.3;
-}
-/*************비밀번호*****************/
-#pw {
-	background-color: white;
-	border-radius: 15px;
-	height: 144px;
-	margin: 40px auto 0; 
-	width: 850px;
-}
-#pw > div:nth-child(2) { /*content 감싸고 있는 div */
-	position: relative;
-	height: 97px;
-	padding: 14px 40px 24px;
-}
-#pw > div:nth-child(2) > div { /*비밀번호*/
-	font-size: 15px;
-	font-weight: 500;
-	line-height: 24px;
-	color: rgb(66, 66, 96);
-}
-#pw > div:nth-child(2) > button { /*비밀번호 변경 버튼*/
-	cursor: pointer;
-	position: absolute;
-	bottom: 40px;
-	right: 40px;
-	width: 132px;
-	height: 43px;
-	border-radius: 4px;
-	border: none;
-	font-size: 14px;
-	font-weight: 700;
-	color: #925DE8;
-	background-color: #EDE8F6;
-}
-#pw > div:nth-child(2) > button:hover {
-	background: #E3D4FF;
 }
 /*****************계정연동****************/
 #connect {

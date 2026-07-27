@@ -69,6 +69,12 @@ public interface MemberDao {
 	void modifyPw(int memberId, String pw);
 	
 	/**
+	 * 닉네임 수정
+	 * @param memberId : 수정할 회원의 아이
+	 * @param nickName : 새로운 닉네임
+	 */
+	void modifyNickName(int memberId, String nickName);
+	/**
 	 * 내 게시글들 조회
 	 * @param memberId : 로그인한 사람의 아이디
 	 * @param start: 보이는 게시글 시작

@@ -33,14 +33,14 @@
 	</select>
 	<update id="updateKey">
 		<![CDATA[
-			UPDATE members SET key =#{key}, ex_date = SYSDATE+1/24/6 
+			UPDATE members SET key = #{key}, ex_date = SYSDATE+1/24/6 
 			WHERE email = #{email}
 		]]>
 	</update>
 	<select id="isValidCode" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) FROM members 
-			WHERE key = #{key} AND ex_date > CURRENT_DATE
+			WHERE key = #{key} AND ex_date > SYSDATE 
 		]]>
 	</select>
 	<insert id="addMember">
@@ -64,6 +64,12 @@
 	<update id="modifyPw">
 		<![CDATA[
 			UPDATE members SET pw = #{pw}
+			WHERE member_id = #{memberId}
+		]]>
+	</update>
+	<update id="modifyNickName">
+		<![CDATA[
+			UPDATE members SET nick_name = #{nickName}
 			WHERE member_id = #{memberId}
 		]]>
 	</update>

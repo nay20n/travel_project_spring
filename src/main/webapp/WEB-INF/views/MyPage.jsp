@@ -20,7 +20,8 @@
 			<img src="resources/img/defaultImg.png"/>
 		</c:when>
 		<c:otherwise>
-			<img src="resources/img/${getMyPage.getMemberProfile.profileImg}"/>
+			<%-- <img src="resources/img/${getMyPage.getMemberProfile.profileImg}"/> --%>
+			<img src="${pageContext.request.contextPath}/resources/upload/${getMyPage.getMemberProfile.profileImg}" />
 		</c:otherwise>
 	</c:choose>
 	
