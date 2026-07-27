@@ -7,18 +7,24 @@
 		<![CDATA[
 			SELECT
 				ab.ai_block_idx "idx", 
-				ab.bno "bno", 
 				ab.place_id "placeId", 
-				ab.ai_start_time "startTime", 
-				ab.ai_end_time "endTime", 
+				TO_CHAR(ab.ai_start_time,'YYYY-MM-DD HH24:MI:SS') "startTime", 
+				TO_CHAR(ab.ai_end_time,'YYYY-MM-DD HH24:MI:SS') "endTime", 
 				ab.ai_travel_time "travelTime", 
-				p.name "placeName", 
+				p.name "name", 
 				p.lat "lat", 
 				p.lng "lng" 
 			FROM ai_blocks ab 
 			    INNER JOIN places p ON p.place_id = ab.place_id 
 			WHERE bno = #{bno}
 			ORDER BY ai_start_time
+		]]>
+	</select>
+	<select id="getAiChecked" resultType="java.util.Map">
+		<![CDATA[
+			SELECT b.place_id "placeId", p.name "placeName"
+			FROM blocks b INNER JOIN places p ON p.place_id = b.place_id 
+			WHERE bno = #{bno} AND b.checked_ai = 1
 		]]>
 	</select>
 	<delete id="deleteAiBlock">
