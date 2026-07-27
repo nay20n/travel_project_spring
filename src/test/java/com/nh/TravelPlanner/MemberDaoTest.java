@@ -176,7 +176,21 @@ public class MemberDaoTest {
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
-	
+
+	// 닉네임 수정
+	@Test 
+	@Transactional
+	public void testModifyNickName() {
+		// 1) Given
+		int memberId = 102;
+		String nickName = "테스트"; // 바꿀 비밀번호
+		
+		// 2) When
+		mDao.modifyNickName(memberId, nickName);
+		
+		// 3) Then : sql 오류가 없다면 성공
+	}
+		
 	// 내 게시글 조회 (마이페이지)
 	@Test
 	public void testGetMyBoard() {

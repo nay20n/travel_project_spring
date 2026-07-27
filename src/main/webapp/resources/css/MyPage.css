@@ -335,6 +335,7 @@ body > div:nth-child(5) {
 #popupContent > div:nth-child(4) > a { /*비밀번호 재설정*/
 	cursor: pointer;
 	color: #0078ff;
+	text-decoration: underline #0078ff 1px;
 }
 #popupEditInfo > div {
 	position: relative;

@@ -12,6 +12,27 @@ public interface MemberService {
 	String getProfileImage(int memberId);
 	
 	/**
+	 * 로그인한 사람의 닉네임 조회
+	 * @param memberId : 조회할 사람의 아이디
+	 * @return 조회된 닉네임
+	 */
+	String getNickName(int memberId); 
+	
+	/**
+	 * 로그인한 사람의 이메일 조회
+	 * @param memberId : 조회할 사람의 아이디 
+	 * @return 조회된 닉네임
+	 */
+	String getEmail(int memberId);
+	
+	/**
+	 * 정보 수정 페이지에 필요한 정보(프로필 사진 조회, 닉네임, 이메일) 한번에 조회
+	 * @param memberId : 조회할 사람의 아이디 
+	 * @return 조회된 닉네임, 프로필 사진, 이메일
+	 */
+	Map<String, String> getEditPage(int memberId);
+	
+	/**
 	 * 이메일 조회 HA-4
 	 * @param email 비교할 이메일
 	 * @return 이메일이 존재(true) 존재안하면(false)
@@ -29,9 +50,9 @@ public interface MemberService {
 	/**
 	 * 비밀번호 재설정 인증코드 수정
 	 * @param email : 비밀번호 재설정할 이메일 이름
-	 * @param key : 재설정할 인증코드
+	 * @return 
 	 */
-	void updateKey(String key, String email);
+	String updateKey(String email);
 	
 	/**
 	 * 인증코드, 만료일시 조회
@@ -55,18 +76,19 @@ public interface MemberService {
 	void modifyProfileImg(int memberId, String profileImg);
 	
 	/**
-	 * 이메일 수정
-	 * @param memberId : 수정할 회원의 아이디
-	 * @param email : 수정될 이메일
-	 */
-	void modifyEmail(int memberId, String email);
-	
-	/**
 	 * 비밀번호 수정
 	 * @param memberId : 수정할 회원의 아이디
 	 * @param pw : 새로운 비밀번호
 	 */
 	void modifyPw(int memberId, String pw);
+	
+	/**
+	 * 이메일 수정
+	 * @param memberId : 수정할 회원의 아이디
+	 * @param email : 수정될 이메일
+	 * @param nickName : 새로운 닉네임
+	 */
+	void modifyInfo(int memberId, String email, String nickName);
 	
 	/**
 	 * 내 게시글들 조회 (마이페이지)
@@ -100,19 +122,6 @@ public interface MemberService {
 	 */
 	Map<String,Object> getMyPage(int memberId);
 	
-	/**
-	 * 로그인한 사람의 닉네임 조회
-	 * @param memberId : 조회할 사람의 아이디
-	 * @return 조회된 닉네임
-	 */
-	String getNickName(int memberId); 
-	
-	/**
-	 * 로그인한 사람의 이메일 조회
-	 * @param memberId : 조회할 사람의 아이디 
-	 * @return 조회된 닉네임
-	 */
-	String getEmail(int memberId);
 	
 	/**
 	 * 로그인한 사람의 비밀번호 조회

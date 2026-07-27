@@ -83,20 +83,11 @@ public class MemberServiceTest {
 	public void testUpdateKey() {
 		// 1) Given
 		String email = "b";
-		// 랜덤키 
-		StringBuffer sb = new StringBuffer();
-		while(sb.length()<6) {
-			int temp = (int)(Math.random()*75) + 48;
-			if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
-		}
-		
-		String key = sb.toString();
 		
 		// 2) When
-		mSvc.updateKey(key,email);
+		mSvc.updateKey(email);
 		
-		// 3) Then : 인증코드 란이 비워져 있으면 오류
-		assertNotNull("인증코드가 null이면 안됨.", key);
+		// 3) Then : 오류없으면 
 	}
 	
 	// 인증코드, 만료일시 조회
@@ -146,16 +137,17 @@ public class MemberServiceTest {
 		// 3) Then : sql 오류가 업다면 성공
 	}
 	
-	// 이메일 수정
+	// 정보 수정 (닉네임, 이메일)
 	@Test
 	@Transactional
-	public void testModifyEmail() {
+	public void testModifyInfo() {
 		// 1) Given
 		int memberId = 102;
 		String email = "gmail";
+		String nickName = "테스트";
 		
 		// 2) When
-		mSvc.modifyEmail(memberId, email);
+		mSvc.modifyInfo(memberId, email, nickName);
 		
 		// 3) Then : sql 오류가 업다면 성공
 	}
@@ -270,4 +262,20 @@ public class MemberServiceTest {
 		assertNotNull("email은 null이면 안됨.", email);
 		System.out.println("email : " + email);
 	}
+	@Test
+	// 정보 수정 페이지 한번에 불러오기 
+	public void testGetEditPage() {
+		// 1)Given
+		int memberId = 1;
+		
+		// 2) When
+		Map<String, String> map = mSvc.getEditPage(memberId);
+		
+		// 3) Then
+		assertNotNull("map은 null이면 안됨.", map);
+		System.out.println("프로필 사진 : " + map.get("profile"));
+		System.out.println("닉네임 : " + map.get("nickName"));
+		System.out.println("이메일 : " + map.get("email"));
+	}
+	
 }

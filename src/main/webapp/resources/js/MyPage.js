@@ -167,6 +167,7 @@ $(function() {
 	// 정보수정 버튼 클릭
 	$("#profile > div:nth-child(6)").click(function() { 
 		$("#popupEditInfo").show();
+		$("#popupPw > div > input").focus();
 	});
 	// 정보창 닫기 버튼 클릭
 	$("#popupHeader > svg").click(function() {
@@ -190,7 +191,7 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log(data);
 			checkPW = data;
 			if(!checkPW){ // 비밀번호가 일치하지 않았을 떄 
 				$("#popupContent > div:nth-child(3)").show();

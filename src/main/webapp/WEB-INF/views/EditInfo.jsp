@@ -13,18 +13,28 @@
 	</head>
 	<body>
 		<%@ include file="HeaderPlain.jsp"%>
+		<input type="hidden" id="serverMsg" value="${rttrMsg}">
 		<div id="basicInfo" class="bs">
 			<div>기본정보</div>
 			<div>
-				<img class="bs" src="https://programmers.co.kr/assets/profiles/img-profile-default-0-2b5f71cab782bc04ba248a9739013724dd9e36fbf882e5622ab4ea0cdc7f57e6.png"/>
+				<c:choose>
+					<c:when test="${empty editPage.profile}">
+						<img src="../resources/img/defaultImg.png"/>
+					</c:when>
+					<c:otherwise>
+						<%-- <img src="../resources/img/${editPage.profile}"/> --%>
+						<img src="${pageContext.request.contextPath}/resources/upload/${editPage.profile}" /> <%-- 파일 업로드 버전 --%>
+					</c:otherwise>
+				</c:choose>
+				<input type="file" name="profile"/>
 				<svg class="bs" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 36 36" class="g_js3qful0GWzHh6xoQP"><circle cx="18" cy="18" r="18" fill="#000"></circle><path fill="#fff" d="M11.375 22.658v2.969h2.969l8.756-8.756-2.97-2.969zm14.02-8.083a.79.79 0 0 0 0-1.116l-1.852-1.852a.79.79 0 0 0-1.116 0l-1.45 1.448 2.97 2.97z"></path></svg>
 				<div>
-					<div>이름</div> 
-					<input class="bs" type="text" value="${nickName}"/>
+					<div>닉네임</div> 
+					<input class="bs" type="text" value="${editPage.nickName}"/>
 				</div>
 				<div>
 					<div>이메일</div> 
-					<input class="bs" type="email" value="${email}"/>
+					<input class="bs" type="email" value="${editPage.email}"/>
 					<div>기존 이메일과 동일합니다. 새 이메일 주소를 입력하세요.</div>
 					<button class="fr bs">이메일 변경</button>
 					<button class="fr bs">비밀번호 변경</button>
@@ -35,13 +45,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div id="pw" class="bs">
-			<div>비밀번호</div>
-			<div>
-				<div>비밀번호</div>
-				<button class="bs">비밀번호 변경</button>
-			</div>
-		</div> -->
 		<div id="connect" class="bs">
 			<div>계정연동</div>
 			<div>
@@ -66,7 +69,7 @@
 				<div>
 					<div class="popupBigTitle">인증번호 입력</div>
 					<div class="popupSmallTitle">
-						<span>zxton@naver.com</span><span>(으)로</span>
+						<span>${editPage.email}</span><span>(으)로</span>
 					</div>
 					<div class="popupSmallTitle">
 						<span>전송된 4자리 숫자를 입력하세요.</span>
