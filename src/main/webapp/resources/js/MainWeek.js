@@ -3,16 +3,19 @@ let calendar;
 let aiCalendar;
 // 일정에 들어간 이벤트들
 let eventList;
+let aiEventList;
 
 // 지도
 let routeLine=null; // 경로
+let aiRouteLine=null; // ai경로
 let mapElement;
 let encoding; // 구글맵의 geometryLib.encoding 클래스
 let AdvancedMarkerElement;  // 구글맵의 마커 클래스
 let PinElement; // 구글맵의 핀 클래스
 let mapReady; // 준비 된 mapElement.innerMap
-let markers = []; // 마커 배열
+let markers = []; // 전체 마커 배열
 let myPlaceMarkers = []; // 내 일정에 있는 장소 마커 배열
+let aiPlaceMarkers = []; // ai에 있는 장소 마커 배열
 
 // 이동 수단 필드
 let travelModeArr = ["DRIVE","DRIVE","TRANSIT","WALK","BICYCLE"];
@@ -26,6 +29,22 @@ function drawRoute(encodedPolyline) {
     const path = encoding.decodePath(encodedPolyline);
     // 지도에 경로 그리기
     routeLine = new google.maps.Polyline({
+        path: path,
+        map: mapElement.innerMap,
+        strokeColor: "#ff0000",
+        strokeOpacity: 1,
+        strokeWeight: 5
+    });
+}
+
+// 지도에 ai경로 그리기
+function drawAiRoute(encodedPolyline) {
+    // 기존 경로가 있다면 제거
+    if (routeLine!=null) { routeLine.setMap(null); }
+    // encodedPolyline → 좌표 배열
+    const path = encoding.decodePath(encodedPolyline);
+    // 지도에 경로 그리기
+    aiRouteLine = new google.maps.Polyline({
         path: path,
         map: mapElement.innerMap,
         strokeColor: "#ff0000",
@@ -70,7 +89,7 @@ async function drawMyMarker(lat, lng) {
     
     // 마커 디자인
     const myPin = new PinElement({
-	    background: "#0000FF",
+	    background: "#ff0000",
 	    borderColor: "#FFFFFF",
 	    glyphColor: "#FFFFFF"
 	});
@@ -87,6 +106,32 @@ async function drawMyMarker(lat, lng) {
     });
     
 	myPlaceMarkers.push(marker);
+}
+
+// 지도에 ai 마커 그리기
+async function drawAiMarker(lat, lng) {
+	// 지도가 준비될 때까지 기다림
+    const map = await mapReady;
+    
+    // 마커 디자인
+    const aiPin = new PinElement({
+	    background: "#0000FF",
+	    borderColor: "#FFFFFF",
+	    glyphColor: "#FFFFFF"
+	});
+    
+	let marker = new AdvancedMarkerElement({
+		position: { lat, lng },
+	    map: map,
+	    content: aiPin,
+	    zIndex: 3
+	});
+
+    marker.addListener("gmp-click", function() {
+        console.log("ai 마크이다.");
+    });
+    
+	aiPlaceMarkers.push(marker);
 }
 
 // 마커 삭제하기
@@ -201,6 +246,10 @@ function handleDropEvent(event, ui) {
 }
 
 $(function() {
+	// ************** 공동 필드 *****************
+	let bno = $("#main").data("bno");
+	let arrPlaceCity = $("#main").data("arr-place-city");
+	
 	// **************캘린더********************
 	const Calendar = tui.Calendar;
 	calendar = new Calendar("#calendar", {
@@ -393,10 +442,160 @@ $(function() {
 		location.href = url.pathname.substr(0, endIdx);
 	});
 	// ai 추천
+	let aiLock = false; // 실행 중이라면 막아줄 전역 변수
 	$("#main > div:nth-child(2)>button:nth-child(4)").click(function() {
-		$("#aiCalendar").removeClass("hide");
-		$("#toPlan").removeClass("hide");
-		$("#closeAi").removeClass("hide");
+		Toastify({
+		  text: "AI 추천 일정을 확인합니다. 잠시만 기다려주세요.",
+		  duration: 3000,
+		  newWindow: true,
+		  close: true,
+		  gravity: "top",
+		  position: "center",
+		  stopOnFocus: true,
+		  style: {
+		    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+		  }
+		}).showToast();
+		if(aiLock) return;
+		auLock = true;
+		let date = calendar.getDate().toDate();
+		let yyyy = date.getFullYear();
+		let mm = String(date.getMonth() + 1).padStart(2, "0");	
+		let dd = String(date.getDate()).padStart(2, "0");
+		date = `${yyyy}-${mm}-${dd}`;
+		//console.log(date);
+		
+		//해당 날짜에서 장소가 들어간 블럭만 추출
+		let events = eventList
+		.filter(event => {
+	        const temp = event.start.slice(0, 10);
+	        return (temp == date) && (event.body != null);
+	    })
+	    .sort((a, b) => {
+	        return a.start - b.start
+	    });
+	    
+	    let userBlocks = events.map(event => ({
+		    placeId: event.body,
+		    placeName: event.title,
+		    start: event.start,
+		    end: event.end
+		}));
+	    
+	    const jsonData = {
+			"userBlocks" : userBlocks,
+			"bno" : bno,
+			"arrPlaceCity" : arrPlaceCity
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../searchAiRecommend", initData)
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data);
+			// ai 마커와 캘린더 데이터를 지우고 다시 생성
+			removeMarker(aiPlaceMarkers);
+			aiEventList = [];
+			
+			for(let i=0;i<data.length;i++) {
+				let block = data[i];
+				
+				let id = block.idx;
+		        let placeId = block.placeId;
+		        let start = block.startTime;
+		        let end = block.endTime;
+		        let title = block.name;
+		        let lat = block.lat;
+		        let lng = block.lng;
+		        
+		        // 만약 장소 데이터가 있다면 ai 마커를 추가
+		        if(lat!=null)
+		        	drawAiMarker(lat, lng);
+		        
+		        // 캘린더 데이터
+		        aiEventList.push({
+		            id: id,
+		            title: title,
+		            start: start,
+		            end: end,
+		            backgroundColor: '#EDE8F6',
+		            color: '#000000',
+		            body: placeId
+		        });
+		    }
+	        
+	        // 캘린더 비우기
+	        aiCalendar.clear();
+	        
+	        // 데이터 삽입
+	        if (aiEventList.length > 0) {
+		        aiCalendar.createEvents(aiEventList);
+		    }
+		    
+		    // 보여주기
+			$("#aiCalendar").removeClass("hide");
+			$("#toPlan").removeClass("hide");
+			$("#closeAi").removeClass("hide");
+			
+			// 장소가 들어간 일정이 하나거나 없다면 종료
+		    if(aiEventList.length<2) return;
+		    
+		    // 장소가 들어있다면 경로 그리기
+		    let placeIds = [];
+		    for(let i=0;i<aiEventList.length;i++){
+		    	let place = aiEventList[i];
+		    	placeIds.push(place.body);
+		    }
+		    console.log(placeIds);
+		    fetch("../../getRoute", {
+			    method: "POST",
+			    headers: {
+			        "Content-Type": "application/json"
+			    },
+			    body: JSON.stringify({
+			        placeIds: placeIds,
+			        travelMode: travelModeArr[travelModeIdx]
+			    })
+			})
+			.then(function(response) {
+			    return response.json();
+			})
+			.then(function(data) {
+        		if (!data.routes || data.routes.length == 0) {
+        			Toastify({
+					  text: "경로를 찾을 수 없습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+			        console.error("경로 데이터가 없습니다.", data);
+			        return;
+			    }
+			    encodedPolyline = data.routes[0].polyline.encodedPolyline;
+        		console.log(encodedPolyline);
+        		drawAiRoute(encodedPolyline);
+        		aiLock = false;
+			})
+			.catch(function(error) {
+			    alert("에러! : " + error);
+			});
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		})
 	});
 	// ai 추천 반영버튼
 	$("#toPlan").click(function() {
@@ -422,7 +621,7 @@ $(function() {
 			date = `${yyyy}-${mm}-${dd}`;
 			//console.log(date);
 			
-			//해당 날짜에서 장소가 들어간 블럭만 추출
+			// 해당 날짜에서 장소가 들어간 블럭만 추출
 			let events = eventList
 			.filter(event => {
 		        const temp = event.start.slice(0, 10);

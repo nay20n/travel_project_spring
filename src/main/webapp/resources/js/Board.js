@@ -179,7 +179,6 @@ function getSum() {
 	$("#content1>div:nth-child(2)>div:nth-child(2)>div:nth-child(7)>span:nth-child(2)").html(sum+"원");
 }
 
-
 $(function() {
 	// ************* 공통으로 쓸 필드 *************
 	let bno = $(".fee").attr('data-bno');

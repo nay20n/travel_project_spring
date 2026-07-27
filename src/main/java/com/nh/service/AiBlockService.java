@@ -13,6 +13,13 @@ public interface AiBlockService {
 	List<Map<String,Object>> getAiBlock(int bno);
 	
 	/**
+	 * AI추천 블록 조회
+	 * @param bno : 조회할 게시글 번호
+	 * @return : AI 블럭들 조회
+	 */
+	List<Map<String,Object>> getAiChecked(int bno);
+	
+	/**
 	 * AI 블럭 삭제
 	 * @param bno : 게시글의 인덱스 
 	 */
