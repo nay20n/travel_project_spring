@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nh.service.AiBlockService;
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
 import com.nh.service.PlaceService;
@@ -54,6 +56,53 @@ public class APIController {
 	BlockService blSvc;
 	@Autowired
 	BoardService bSvc;
+	@Autowired
+	AiBlockService aSvc;
+	
+	// 검색어로 DB에 장소추가
+	private String searchGooglePlace(String placeName) throws Exception {
+	    String url = "https://places.googleapis.com/v1/places:searchText";
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    Map<String, Object> requestMap = new HashMap<>();
+	    requestMap.put("textQuery", placeName);
+	    requestMap.put("languageCode", "ko");
+
+	    String jsonBody = objectMapper.writeValueAsString(requestMap);
+	    HttpClient client = HttpClient.newHttpClient();
+	    HttpRequest request = HttpRequest.newBuilder()
+	            .uri(URI.create(url))
+	            .header("Content-Type", "application/json")
+	            .header("X-Goog-Api-Key", GoogleRKey)
+	            .header(
+	                "X-Goog-FieldMask",
+	                "places.id,places.displayName,places.formattedAddress,"
+	                + "places.primaryTypeDisplayName,places.location,places.websiteUri"
+	            )
+	            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+	            .build();
+
+	    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+	    System.out.println("Google Places 응답 : " + response.body());
+
+	    JsonNode rootNode = objectMapper.readTree(response.body());
+	    JsonNode places = rootNode.path("places");
+	    if (!places.isArray() || places.isEmpty()) {
+	        return null;
+	    }
+	    String placeId = places.get(0).path("id").asText();
+	    String address = places.get(0).path("formattedAddress").asText();
+	    String name = places.get(0).path("displayName").path("text").asText();
+	    String category = places.get(0).path("primaryTypeDisplayName").path("text").asText();
+	    double lat = places.get(0).path("location").path("latitude").asDouble();
+	    double lng = places.get(0).path("location").path("longitude").asDouble();
+	    String websiteUrl = places.get(0).path("websiteUri").asText(null);
+	    try{
+			pSvc.addPlace(placeId, name, category, address, lat, lng, websiteUrl, null, null);
+		} catch(Exception e) {return null;}
+	    
+	    return places.get(0).path("id").asText();
+	}
 	
 	// 메인화면 게시글 지도 이미지
 	@GetMapping(value="/getBoardImg", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -294,6 +343,138 @@ public class APIController {
 		bSvc.modifyCost(bno, ret.get("maxCost"), ret.get("transportCost"), ret.get("foodCost"), ret.get("roomCost"), ret.get("etcCost"));
 		
 		return ret;
+	}
+	
+	@PostMapping("/searchAiRecommend")
+	public List<Map<String,Object>> searchAiRecommend(@RequestBody Map<String, Object> mapReq) {
+		// 게시글 번호로 일정 블록 정보 조회 
+		List<Map<String, Object>> userBlocks = (List<Map<String, Object>>)mapReq.get("userBlocks");
+		int bno = (Integer)mapReq.get("bno");
+		String arrPlaceCity = (String)mapReq.get("arrPlaceCity");
+		//System.out.println(userBlocks);
+		List<Map<String, Object>> aiChecked = aSvc.getAiChecked(bno);
+		
+		// 기존 ai 추천 일정 지우기
+		aSvc.deleteAiBlock(bno);
+		
+		//OpenAI API 호출 준비
+		String url = "https://api.openai.com/v1/chat/completions";
+		
+		String systemPrompt = "너는 한국 여행 하루 일정을 계획하는 여행 일정 추천 전문가다.\n"
+				+ "[역할]\n"
+		        + "- 사용자가 작성한 기존 일정과 여행 지역 및 방문 예정 장소를 분석하여 효율적인 하루 여행 일정을 구성한다.\n"
+		        + "- 기존 일정은 사용자가 직접 정한 일정이므로 가능한 한 유지한다.\n"
+		        + "- 기존 일정 사이의 빈 시간에는 사용자가 제공한 장소를 우선적으로 배치한다.\n"
+		        + "- 일정에 빈 시간이 있고 여행 효율을 높일 수 있다면 해당 지역에서 방문하기 좋은 장소를 추가로 추천할 수 있다.\n"
+		        + "- 추가로 추천하는 장소는 실제 국내 여행지 또는 실제 운영 중인 장소로 추정되는 장소를 우선한다.\n"
+		        + "[일정 산정 기준]\n"
+		        + "1. 기존 일정에 포함된 장소와 시작 시간, 종료 시간은 변경하지 않는다.\n"
+		        + "2. 사용자가 방문하고자 하는 장소는 가능한 한 일정에 포함한다.\n"
+		        + "3. 기존 일정과 시간이 겹치는 새로운 일정을 생성하지 않는다.\n"
+		        + "4. 장소 간 이동 동선을 고려하여 가까운 장소를 연속적으로 방문하도록 구성한다.\n"
+		        + "5. 장소 간 이동에 필요한 시간을 고려하여 충분한 이동 시간을 확보한다.\n"
+		        + "6. 일반적인 관광지 방문 시간을 고려하여 적절한 체류 시간을 설정한다.\n"
+		        + "7. 식사와 휴식에 필요한 시간을 고려하여 하루 일정이 지나치게 빡빡하지 않도록 한다.\n"
+		        + "8. 기존 일정에 이미 포함된 장소는 중복하여 추가하지 않는다.\n"
+		        + "9. 사용자가 제공한 장소를 우선적으로 일정에 포함하고, 필요한 경우에만 새로운 장소를 추천한다.\n"
+		        + "10. 추가로 추천하는 장소는 기존 일정 및 사용자가 제공한 장소와 이동 동선이 자연스럽도록 선택한다.\n"
+		        + "11. 일정은 시작 시간이 빠른 순서대로 정렬한다.\n"
+		        + "[규칙]\n"
+		        + "- 기존 일정의 장소명, 시작 시간, 종료 시간은 절대 변경하지 않는다.\n"
+		        + "- 기존 일정과 사용자가 제공한 장소를 우선적으로 고려한다.\n"
+		        + "- 새로운 장소를 추천하는 경우 실제 존재할 가능성이 높은 장소명을 사용한다.\n"
+		        + "- 설명, 마크다운, 코드블록을 출력하지 않는다.\n"
+		        + "- 반드시 아래 JSON 배열만 반환한다.\n"
+		        + "{\n"
+		        + "  \"places\": ["
+		        + "		{\n"
+		        + "    		\"placeName\": \"방문할 장소 이름\",\n"
+		        + "    		\"startTime\": \"YYYY-MM-DD HH:mm:ss\",\n"
+		        + "    		\"endTime\": \"YYYY-MM-DD HH:mm:ss\"\n"
+		        + "  	}\n"
+		        + " ]"
+		        + "}";
+		String userPrompt = "기존 일정 : " + userBlocks + "\n"
+		        + "방문 예정 장소 : " + aiChecked + "\n"
+		        + "방문 지역 : " + arrPlaceCity + "\n"
+		        + "위 정보를 바탕으로 하루 여행 일정을 추천해줘.";
+		
+		Map<String, Object> requestMap = new HashMap<>();
+		requestMap.put("model", "gpt-4o-mini");
+		
+		Map<String, String> responseFormat = new HashMap<>();
+		responseFormat.put("type", "json_object");
+		requestMap.put("response_format", responseFormat);
+		
+		List<Map<String,Object>> messages = new ArrayList<>();
+		Map<String,Object> system = new HashMap<>();
+		system.put("role", "system");
+		system.put("content", systemPrompt);
+		messages.add(system);
+		Map<String,Object> user = new HashMap<>();
+		user.put("role", "user");
+		user.put("content", userPrompt);
+		messages.add(user);
+		requestMap.put("messages", messages);
+		
+		//수정: Map을 JSON String 문자열로 변환하는 과정 추가
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonBody = "";
+		try {
+			jsonBody = objectMapper.writeValueAsString(requestMap);
+		} catch (JsonProcessingException e) {e.printStackTrace();}
+		
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(url))
+				.header("Content-Type", "application/json")
+				.header("Authorization", "Bearer " + OpenAIApiKey)
+				.POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+				.build();
+		
+		HttpResponse<String> response = null;
+		JsonNode rootNode = null;
+		String content = null;
+		JsonNode placeJson = null;
+		try {
+			response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			//System.out.println("HTTP 상태 코드 : " + response.statusCode());
+			//System.out.println("OpenAI 응답 : " + response.body());
+			// OpenAI API 응답 전체(JSON) 파싱
+			rootNode = objectMapper.readTree(response.body());
+			// choices[0].message.content 안의 JSON 문자열만 추출
+			content = rootNode.path("choices").get(0).path("message").path("content").asText();
+			// content 내용을 파싱
+			placeJson = objectMapper.readTree(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//구글 placeId 가져오기
+		JsonNode places = placeJson.path("places");
+		for (JsonNode place : places) {
+			//System.out.println("장소명 : " + place.path("placeName").asText());
+			//System.out.println("시작시간 : " + place.path("startTime").asText());
+			//System.out.println("종료시간 : " + place.path("endTime").asText());
+			
+			String placeName = place.path("placeName").asText();
+			String startTime = place.path("startTime").asText();
+			String endTime = place.path("endTime").asText();
+			String placeId = null;
+			try {
+				placeId = searchGooglePlace(placeName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(placeId!=null) {
+				System.out.println("ai 장소 삽입: " + placeName);
+				aSvc.insertAiBlock(bno, placeId, startTime, endTime, 0);
+			}
+		}
+		
+		System.out.println("결과: " + aSvc.getAiBlock(bno));
+		
+		return aSvc.getAiBlock(bno);
 	}
 	
 	

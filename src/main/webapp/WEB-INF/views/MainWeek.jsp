@@ -29,7 +29,7 @@
 <body>
 	<%@ include file="HeaderEditBoard.jsp"%>
 	<%@ include file="BoardTitle.jsp"%>
-	<div id="main" data-bno="${bno}">
+	<div id="main" data-bno="${bno}" data-arr-place-city="${arrPlaceCity}">
 		<%@ include file="Sidebar.jsp"%>
 		<div>
 			<div>

@@ -25,13 +25,18 @@ public class AiBlockServiceImpl implements AiBlockService {
 
 	@Override
 	public void insertAiBlock(int bno, String placeId, String startTime, String endTime, int travelTime){
-		aDao.deleteAiBlock(bno); // 삭제 
+		//aDao.deleteAiBlock(bno); // 삭제 
 		aDao.insertAiBlock(bno, placeId, startTime, endTime, travelTime);
 	}
 
 	@Override
 	public void copyAiBlock(int bno) {
 		aDao.copyAiBlock(bno);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAiChecked(int bno) {
+		return aDao.getAiChecked(bno);
 	}
 	
 }
