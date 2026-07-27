@@ -13,6 +13,13 @@ public interface AiBlockDao {
 	List <Map<String,Object>> getAiBlock(int bno);
 	
 	/**
+	 * Ai에 반영할 장소 조회
+	 * @param bno : 조회할 게시글 번호
+	 * @return : 장소 id, name
+	 */
+	List <Map<String,Object>> getAiChecked(int bno);
+	
+	/**
 	 * AI 블럭 삭제
 	 * @param bno : 게시글의 인덱스 
 	 */

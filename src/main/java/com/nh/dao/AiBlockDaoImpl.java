@@ -40,4 +40,9 @@ public class AiBlockDaoImpl implements AiBlockDao{
 		sqlSession.insert("AiBlockMapper.copyAiBlock", bno);
 	}
 
+	@Override
+	public List<Map<String, Object>> getAiChecked(int bno) {
+		return sqlSession.selectList("AiBlockMapper.getAiChecked", bno);
+	}
+
 }
