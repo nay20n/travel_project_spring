@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css"/>
 	<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
 	<script src="../../resources/js/jquery-4.0.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 	<script src="../../resources/js/MainPlan.js"></script>
 	<script src="../../resources/js/HeaderEditBoard.js"></script>
 	<script  src="../../resources/js/BoardTitle.js"></script>
@@ -56,21 +58,6 @@
 				<svg id="closeAi" class="hide" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 				  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 				</svg>
-				<!-- <style>
-					#map gmp-map {
-						height:600px; 
-						position: absolute; 
-						top:0; 
-						left:0; 
-						bottom:0; 
-						right:0;
-					}
-					#map > div {
-						position: absolute; 
-						top: 10px; 
-						left: 10px; 
-					}
-				</style> -->
 				<div id="map" class="hide">
 					<gmp-map
 					    center="${arrMapData.lat}, ${arrMapData.lng}"
@@ -93,12 +80,12 @@
 			</svg>
 			<div>
 				<div>
-	                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 					  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
 					</svg>
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 					  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-					</svg>
+					</svg> -->
 	            </div>
 				<div class="popupPlace">
 					<div>
@@ -140,12 +127,6 @@
 							</svg>
 						</div>
 						<div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
 							<div></div>
 						</div>
 						<div>
