@@ -1,24 +1,15 @@
 package com.nh.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nh.service.AiBlockService;
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
@@ -285,5 +273,18 @@ public class APIController {
 		//System.out.println(userBlocks);
 		
 		return eSvc.searchAiRecommend(userBlocks, bno, arrPlaceCity);
+	}
+	
+	// 이메일 보내기
+	@PostMapping("/getEmail")
+	public String getEmaiil(HttpSession session,String email, String nickName) {
+		try {
+			eSvc.sendEmail(session, email, nickName);
+			return "성공";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "실패";
+		}
+		
 	}
 }

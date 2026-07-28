@@ -91,7 +91,7 @@ body > *:not(:first-child) {margin: 80px auto 0;}
 }
 #main > svg:nth-child(6) { /*편지이모티콘*/
 	position: absolute;
-	top: 353px;
+	top: 350px;
 	left: 242px;	
 	width: 18px;
 	height: 15px;

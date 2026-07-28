@@ -47,6 +47,13 @@ public class MemberController {
 	
 	@RequestMapping("/forget")
 	public String foget(HttpSession session, Model model) {
+		int loginId = (int)session.getAttribute("loginId");
+		
+		String email = mSvc.getEmail(loginId);
+		String nickName = mSvc.getNickName(loginId);
+		
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("email", email);
 		
 		return "ResetPw";
 	}

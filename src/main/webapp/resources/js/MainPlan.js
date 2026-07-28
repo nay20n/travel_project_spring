@@ -245,6 +245,7 @@ function reviewNewPage(pageNum, placeId) {
 	});
 }
 
+let placeSlider = null;
 // 장소 팝업 띄우기
 function clickPlaceTitle(placeId) {
 	fetch("../../getPlaceDetail?placeId="+placeId, {method:"POST"})
@@ -258,7 +259,25 @@ function clickPlaceTitle(placeId) {
 		let reviews = data.reviews;
 		let loginId = data.loginId;
 			
+		if (placeSlider!=null) {
+			placeSlider.destroySlider();
+			placeSlider = null;
+		}
+	
+		let img = pDetail.images;
+		let imgHtml = ``;
+
+		if (img != null && img.length > 0) {
+			for(let i = 0; i < img.length; i++){
+				imgHtml += `<div><img src="${img[i]}" onerror="this.style.display='none';"/></div>`;
+			}
+			$(".popupContainer > div:nth-child(1) > div > div:nth-child(1)").html(imgHtml);
+		} else {
+			$(".popupContainer > div:nth-child(1) > div > div:nth-child(1)").empty();
+		}
+			
 		$(".popupPlace").attr("data-placeid", placeId);
+		//$(".popupContainer> div:nth-child(1) > div > div:nth-child(1)").html(imgHtml);
 		$(".popupPlace > div:nth-child(1) > div:nth-child(1) > a").text(pDetail.name); 
 		let avgRating = Number(pDetail.avgRating);
 		$(".popupPlace > div:nth-child(2) > span:nth-child(2)").text(Math.round(avgRating*10)/10);
@@ -275,14 +294,14 @@ function clickPlaceTitle(placeId) {
 		} else {
 			$(".placeDetail > div:nth-child(2)").removeClass("hide");
 			$(".placeDetail > div:nth-child(3)").removeClass("hide");
-			$(".placeDetail > div:nth-child(3) > div").text(pDetail.businessHours);
+			$(".placeDetail > div:nth-child(3) > div").html(pDetail.businessHours);
 		}
 		
 		if(pDetail.websiteUrl==null){
 			$(".placeDetail > div:nth-child(4)").addClass("hide");
 		} else {
 			$(".placeDetail > div:nth-child(4)").removeClass("hide");
-			$(".placeDetail > div:nth-child(4)>div").text(pDetail.websiteUrl);
+			$(".placeDetail > div:nth-child(4) > div").text(pDetail.websiteUrl);
 		}
 		
 		if(pDetail.reviewCnt==0){
@@ -306,11 +325,23 @@ function clickPlaceTitle(placeId) {
 		
 		$(".popupContainer").removeClass("hide");
 		$(".popupContainer>div:nth-child(1)").removeClass("hide");
+		
+		
+		if (img != null && img.length > 0) {
+			placeSlider = $(".popupContainer > div:nth-child(1) > div > div:nth-child(1)").bxSlider({
+				pager: false,
+				controls: true,      
+				adaptiveHeight: true,
+				touchEnabled: false
+			});
+		}
+
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
 	});
 }
+
 
 $(function() {
 	// 초기 설정
