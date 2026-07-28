@@ -30,8 +30,6 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String home(Integer pageNum, HttpSession session, Model model) {
-		session.setAttribute("loginId", 2);
-		
 		// 페이지
 		int page = 1;
 		if(pageNum!=null) page = pageNum;

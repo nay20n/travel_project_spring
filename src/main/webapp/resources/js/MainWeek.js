@@ -216,6 +216,7 @@ function setBlocks(calendar) {
 
 // 드래그로 장소추가
 function handleDropEvent(event, ui) {
+	//alert("드래그감지");
 	const $droppable = $(event.target);
 	//alert(ui.draggable.data("place-id"));
 	//alert($droppable.data("event-id"));
