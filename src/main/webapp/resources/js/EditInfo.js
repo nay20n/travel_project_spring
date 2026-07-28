@@ -34,6 +34,18 @@ $(function() {
 				type : 'POST',
 				success : function(result){
 					console.log(result);
+					Toastify({
+					  text: "프로필 이미지가 업데이트 되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
 					//alert(result);
 				},
 	            error: function(r,s,e){
@@ -107,6 +119,18 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
+			Toastify({
+			  text: "저장되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
 				//console.log(data);
 			})
 			.catch(function(error){
