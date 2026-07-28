@@ -59,51 +59,6 @@ public class APIController {
 	@Autowired
 	AiBlockService aSvc;
 	
-	// 검색어로 DB에 장소추가
-	private String searchGooglePlace(String placeName) throws Exception {
-	    String url = "https://places.googleapis.com/v1/places:searchText";
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    Map<String, Object> requestMap = new HashMap<>();
-	    requestMap.put("textQuery", placeName);
-	    requestMap.put("languageCode", "ko");
-
-	    String jsonBody = objectMapper.writeValueAsString(requestMap);
-	    HttpClient client = HttpClient.newHttpClient();
-	    HttpRequest request = HttpRequest.newBuilder()
-	            .uri(URI.create(url))
-	            .header("Content-Type", "application/json")
-	            .header("X-Goog-Api-Key", GoogleRKey)
-	            .header(
-	                "X-Goog-FieldMask",
-	                "places.id,places.displayName,places.formattedAddress,"
-	                + "places.primaryTypeDisplayName,places.location,places.websiteUri"
-	            )
-	            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-	            .build();
-
-	    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-	    System.out.println("Google Places 응답 : " + response.body());
-
-	    JsonNode rootNode = objectMapper.readTree(response.body());
-	    JsonNode places = rootNode.path("places");
-	    if (!places.isArray() || places.isEmpty()) {
-	        return null;
-	    }
-	    String placeId = places.get(0).path("id").asText();
-	    String address = places.get(0).path("formattedAddress").asText();
-	    String name = places.get(0).path("displayName").path("text").asText();
-	    String category = places.get(0).path("primaryTypeDisplayName").path("text").asText();
-	    double lat = places.get(0).path("location").path("latitude").asDouble();
-	    double lng = places.get(0).path("location").path("longitude").asDouble();
-	    String websiteUrl = places.get(0).path("websiteUri").asText(null);
-	    try{
-			pSvc.addPlace(placeId, name, category, address, lat, lng, websiteUrl, null, null);
-		} catch(Exception e) {return null;}
-	    
-	    return places.get(0).path("id").asText();
-	}
-	
 	// 메인화면 게시글 지도 이미지
 	@GetMapping(value="/getBoardImg", produces = MediaType.IMAGE_JPEG_VALUE)
 	public byte[] getBoardImg(@RequestParam String center, @RequestParam String path) throws MalformedURLException, IOException {
@@ -152,7 +107,8 @@ public class APIController {
 	public String getRoute(@RequestBody Map<String,Object> mapReq) {
 		String travelMode = (String)mapReq.get("travelMode");
 		List<String> placeIds = (List)mapReq.get("placeIds");
-		//System.out.println(placeIds);
+		System.out.println(travelMode);
+		System.out.println(placeIds);
 		String url = "https://routes.googleapis.com/directions/v2:computeRoutes";
 		try {
 			URL apiUrl = new URL(url);
@@ -196,6 +152,7 @@ public class APIController {
 	            json.append("]");
 	        }
 	        json.append("}");
+	        System.out.println(json);
 	        
 	        try ( OutputStream os = con.getOutputStream()) {
                 byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
@@ -217,6 +174,7 @@ public class APIController {
 	        
 	        String line;
 	        while ((line = br.readLine()) != null) {
+	        	System.out.println("!"+line);
 	        	response.append(line);
 	        }
 	        
@@ -462,7 +420,7 @@ public class APIController {
 			String endTime = place.path("endTime").asText();
 			String placeId = null;
 			try {
-				placeId = searchGooglePlace(placeName);
+				//placeId = searchGooglePlace(placeName);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
