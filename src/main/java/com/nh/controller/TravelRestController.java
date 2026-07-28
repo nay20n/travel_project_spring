@@ -277,7 +277,13 @@ public class TravelRestController {
 		int bno = (Integer)mapReq.get("bno");
 		int pageNum = (Integer)mapReq.get("pageNum");
 		String input = (String)mapReq.get("input");
+System.out.println("input : " + input);		
 		List<Map<String, Object>> listPlaces = bSvc.getSerchedPlace(loginId, bno, input, pageNum);
+		
+		for(Map<String, Object> m : listPlaces) {
+			String pid = (String)m.get("placeId");
+			System.out.println(pid);
+		}
 		
 		return listPlaces;
 	}

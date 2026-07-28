@@ -13,7 +13,9 @@
 				ab.ai_travel_time "travelTime", 
 				p.name "name", 
 				p.lat "lat", 
-				p.lng "lng" 
+				p.lng "lng",
+				p.category "category",
+				p.address "address"
 			FROM ai_blocks ab 
 			    INNER JOIN places p ON p.place_id = ab.place_id 
 			WHERE bno = #{bno}

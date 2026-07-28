@@ -80,12 +80,6 @@ public class BlockServiceImpl implements BlockService {
 	public List<Map<String, Object>> getColors() {
 		return blDao.getColors();
 	}
-	
-	// ai 견적검색용 블럭 조회
-	@Override
-	public List<Map<String, Object>> getBlocksForAiCount(int bno) {
-		return blDao.getBlocksForAiCount(bno);
-	}
 
 	// 구글 Routes용 블럭 조회
 	@Override

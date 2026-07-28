@@ -85,13 +85,6 @@ public interface BlockService {
 	List<Map<String, Object>> getColors();
 	
 	/**
-	 * 장소 들어있는 블럭 조회(ai 견적용)
-	 * @param bno
-	 * @return name, address
-	 */
-	List<Map<String, Object>> getBlocksForAiCount(int bno);
-	
-	/**
 	 * 장소 들어있는 블럭 조회(구글 Routes 용)
 	 * @param bno
 	 * @param inputTime 해당날짜 반드시 'YYYY-MM-DD'형식

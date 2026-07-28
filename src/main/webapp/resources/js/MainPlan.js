@@ -96,6 +96,7 @@ function placeNewPage(search, bno) {
 		"bno" : bno,
 		"input" : search
 	};
+	console.log(jsonData.input);
 	const initData = {
 		method: "post",
 		headers: {
@@ -595,54 +596,79 @@ $(function() {
 	// 일정 클릭시 정보창 팝업
 	$(document).on("click", ".toastui-calendar-event-time-content", function() {
 		let blockIdx = $(this).parent().data("event-id");
-		$(".popupContainer > div:nth-child(2)").attr("data-block-index",blockIdx);
+		let calendarId = $(this).parent().data("calendar-id");
+		console.log(calendarId);
 		console.log(blockIdx);
-		const jsonData = {
-			"blockIdx" : blockIdx
-		};
-		const initData = {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(jsonData)
-		};
-		fetch("../../getBlockDetail", initData)
-		.then(function(response) {
-			return response.json();
-		})
-		.then(function(data) {
-			console.log(data);
-			$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").data("blockIdx",data.blockIdx);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', blockColorArr[data.colorIdx]);
-			if(data.name==null) {
-				$(".popupContainer>div:nth-child(2)>div:nth-child(3)").addClass("hide");
-				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").addClass("hide");
+		if(calendarId==calendar) {
+			$(".popupContainer > div:nth-child(2)").attr("data-block-index",blockIdx);
+			const jsonData = {
+				"blockIdx" : blockIdx
+			};
+			const initData = {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(jsonData)
+			};
+			fetch("../../getBlockDetail", initData)
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				console.log(data);
+				$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").data("blockIdx",data.blockIdx);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', blockColorArr[data.colorIdx]);
+				if(data.name==null) {
+					$(".popupContainer>div:nth-child(2)>div:nth-child(3)").addClass("hide");
+					$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").addClass("hide");
+					$(".popupContainer").removeClass("hide");
+					$(".popupContainer>div:nth-child(2)").removeClass("hide");
+					return;
+				}
+				let center = data.lat + "," + data.lng;
+				let marker = "color:0x673AB7|" + center;
+				const params = new URLSearchParams({
+				    center: center,
+				    marker: marker
+				});
+				$("#blockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(data.startTime+"~"+data.endTime);
+				if(data.checkedAi==1)
+					$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', true);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(data.name);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(data.category);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(data.address);
+				$(".popupContainer>div:nth-child(2)>div:nth-child(3)").removeClass("hide");
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").removeClass("hide");
 				$(".popupContainer").removeClass("hide");
 				$(".popupContainer>div:nth-child(2)").removeClass("hide");
-				return;
+			})
+			.catch(function(error) {
+				alert("에러! : " + error);
+			});
+		} else {
+			let block;
+			for(let i=0;i<aiBlocks.length;i++){
+				block = aiBlocks[i];
+				if(block.idx==blockIdx) break;
 			}
-			let center = data.lat + "," + data.lng;
+			let center = block.lat + "," + block.lng;
 			let marker = "color:0x673AB7|" + center;
 			const params = new URLSearchParams({
 			    center: center,
 			    marker: marker
 			});
-			$("#blockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(data.startTime+"~"+data.endTime);
-			if(data.checkedAi==1)
-				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', true);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(data.name);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(data.category);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(data.address);
-			$(".popupContainer>div:nth-child(2)>div:nth-child(3)").removeClass("hide");
-			$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").removeClass("hide");
+			$("#aiBlockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
+			$(".popupContainer>div:nth-child(5)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(block.startTime.substring(11,16)+"~"+block.endTime.substring(11,16));
+			$(".popupContainer>div:nth-child(5)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(block.name);
+			$(".popupContainer>div:nth-child(5)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(block.category);
+			$(".popupContainer>div:nth-child(5)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(block.address);
+			$(".popupContainer>div:nth-child(5)>div:nth-child(3)").removeClass("hide");
+			$(".popupContainer>div:nth-child(5)>div:nth-child(2)>div:nth-child(2)").removeClass("hide");
 			$(".popupContainer").removeClass("hide");
-			$(".popupContainer>div:nth-child(2)").removeClass("hide");
-		})
-		.catch(function(error) {
-			alert("에러! : " + error);
-		});
+			$(".popupContainer>div:nth-child(5)").removeClass("hide");
+		}
 	});
 	// 블럭 색 바꾸기 창 띄우기
 	$(document).on("click", ".setBlockColor", function() {

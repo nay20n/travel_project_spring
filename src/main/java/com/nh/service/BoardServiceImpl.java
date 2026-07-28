@@ -38,7 +38,10 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("endDate", endDate);
 		
 		String arrAddress = pDao.getAddressByPlaceId(arrPlaceId);
-		String arrPlaceCity =  arrAddress.split(" ")[1];
+		String arrPlaceCity = "해외";
+		if(arrAddress.contains("대한민국"))
+			arrPlaceCity = arrAddress.split(" ")[1];
+		
 		map1.put("arrPlaceCity", arrPlaceCity);
 		
 		return bDao.insertBoard(map1);
@@ -141,6 +144,7 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("input", "%" + input + "%");
 		
 		List<Map<String, Object>> listPlaces = bDao.getSerchedPlace(map1);
+System.out.println("size : " + listPlaces.size());		
 		
 		// 장소 이미지 추가
 		for(int i=0;i<listPlaces.size();i++) {

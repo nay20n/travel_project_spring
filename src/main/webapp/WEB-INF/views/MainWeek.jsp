@@ -278,6 +278,31 @@
 			<span></span>
 			<span></span>
 		</div>
+		<div class="popupContent bs hide">
+			<svg class="bs" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+	  			<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+			</svg>
+			<div>
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+					</svg>
+					<span>00:00 ~ 00:00</span>
+				</div>
+				<div>
+				</div>
+			</div>
+			<div>
+				<div id="aiBlockImg">
+					<!-- 장소좌표 -->
+				</div>
+				<div>
+					<div>아나키아</div>
+					<div>카페</div>
+					<div>의정부 어딘가. 가끔 피아노 연주도 와요.</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

@@ -72,6 +72,7 @@ $(function(){
 	    "latitude": lat,
 	    "longitude": lng,
 	    "timezone": "Asia/Seoul",
+	    //"timezone": "America/New_York",
 	    "daily": "weather_code"
 	});
 	
@@ -93,7 +94,7 @@ $(function(){
 		setTimeout(() => setWeather(startr,startc), 0);
 	})
 	.catch(function(error){
-		alert("에러! : " + error);
+		console.log("에러!!! : " + error);
 	});
 	
 	//$('#selectDate > input').val('');
@@ -171,7 +172,7 @@ $(function(){
 			
 		})
 		.catch(function(error){
-			alert("에러! : " + error);
+			alert("에러~! : " + error);
 		});
 		
 	});
