@@ -16,6 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nh.dao.AiBlockDao;
 import com.nh.dao.BlockDao;
 import com.nh.dao.BoardDao;
+import com.nh.dao.MemberDao;
 import com.nh.dao.PlaceDao;
 
 @PropertySource("classpath:secret.properties")
@@ -42,6 +53,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	private String GoogleRKey;
 	@Value("${openAI.api.key}")
 	private String OpenAIApiKey;
+	@Value("${naver.sendEmail.pw}")
+	private String sendEmailPw;
 	
 	@Autowired
 	PlaceDao pDao;
@@ -51,6 +64,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	BlockDao blDao;
 	@Autowired
 	AiBlockDao aDao;
+	@Autowired
+	MemberDao mDao;
 	
 	/**
 	 * 장소 이름으로 장소 정보 DB 추가 및 placeId 반환 함수
@@ -462,5 +477,101 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		System.out.println("결과: " + aDao.getAiBlock(bno));
 		
 		return aDao.getAiBlock(bno);
+	}
+	// 비밀번호 재설정 페이지로 넘어가기 위한 키 발급 함수
+	@Override
+	public String updateKey(String email) {
+		
+		// 랜덤키
+		StringBuffer sb = new StringBuffer();
+		while(sb.length()<6) {
+			int temp = (int)(Math.random()*75) + 48;
+			if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
+		}
+		mDao.updateKey(sb.toString(), email);
+		return (String)sb.toString(); 
+	}
+	
+	@Override
+	public void sendEmail(HttpSession httpSession, String email, String nickName) {
+		// 1. 이메일 관련 전역 변수 설정
+		String host = "smtp.naver.com";
+		String port = "465";
+		final String id = "travel-planner-2026@naver.com";
+		final String pw = sendEmailPw;
+		String to = email;
+		
+		// 2. 이메일 환경 설정
+		Properties props = new Properties();
+		props.put("mail.smtp.host", host);						
+		props.put("mail.smtp.port", port);						
+		props.put("mail.smtp.auth", "true");					
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");		// SSL/TLS 버전 호환 설정
+		props.put("mail.smtp.ssl.enable", "false");				// 자동적으로 보안 채널을 생성하여 메일을 전송 [ SSL/TLS ]
+		props.put("mail.smtp.ssl.trust", host);					
+		props.put("mail.debug", "true");						
+		props.put("mail.smtp.socketFactory.fallback", "false"); 
+		
+		// 이메일 환경 설정 ( 465 인 경우 SSL )
+		if("465".equals(port)) {
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");	// SSL FACTORY CLASS
+			props.put("mail.smtp.socketFactory.port", "465");
+			//System.out.println("[system.out] 1-1");
+		} 
+		
+		try {
+			// 3. 로그인 실시
+			Session session = Session.getDefaultInstance(props, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(id, pw);
+				}
+			});
+			
+			//System.out.println("[system.out] 2");
+			// 4. 메시지 내용 보내기 설정
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(id));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			
+			//System.out.println("[system.out] 3");
+			message.setSubject("트래블 플레너 비밀번호 재설정");
+			
+			String key = updateKey(email);
+			httpSession.setAttribute("key", key);
+			System.out.println("key : "+key);
+			System.out.println("url : " + "http://localhost:9090/TravelPlanner/setpw?key="+ key);
+		
+			String html = "<h1>비밀번호 재설정 안내</h1>"
+					+ "<p style='font-size: 17px; line-height: 2; color: #333333; margin-bottom: 24px;'>"
+					+ "안녕하세요, "+ nickName +"님<br/> "
+					+ "본 메일은 비밀번호 재설정을 위해 트래블 플래너에서 발송하는 메일입니다.<br/>"
+					+ "본인이 요펑한 메일이 아니라면 개인정보 보호를 위해 비밀번호를 재설정해주세요. <br/>"
+					+ "비밀번호를 다시 설정하려면 '비밀번호 재설정'링크를 클릭해주세요."
+					+ "</p>"
+					+ "<a href='http://localhost:9090/TravelPlanner/setpw?key=" + key + "' style='"
+		            + "display: inline-block; "
+		            + "padding: 5px 7px; "
+		            + "border-radius: 4px; "
+		            + "font-size: 16px; "
+		            + "font-weight: 500; "
+		            + "color: white; "
+		            + "background-color: #925DE8; "
+		            + "text-decoration: none; "
+		            + "text-align: center;'>"
+		            + "비밀번호 재설정</a>";
+			
+			message.setContent(html, "text/html; charset=UTF-8");
+			
+			// 5. 메세지 발송 프로세스
+			message.setSentDate(new java.util.Date());
+			//System.out.println("[system.out] 4");
+			Transport.send(message);
+			System.out.println("[system.out] 메일 발송 성공");
+						
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
