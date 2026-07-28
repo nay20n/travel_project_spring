@@ -52,11 +52,11 @@
 							INNER JOIN  places p ON lp.place_id = p.place_id
 							LEFT OUTER JOIN reviews r ON r.place_id = lp.place_id
 						WHERE lp.member_id = #{memberId}
-                            AND (6371 * ACOS(LEAST(1,GREATEST(-1,COS((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
+                            AND ((6371 * ACOS(LEAST(1,GREATEST(-1,COS((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
 						    * COS(p.lat * (ACOS(-1) / 180))* COS((p.lng * (ACOS(-1) / 180)) - (SELECT lng FROM places WHERE place_id = #{arrPlaceId})
 						    * (ACOS(-1) / 180)) + SIN((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
 						    * SIN(p.lat * (ACOS(-1) / 180))))) <= 20)
-                            OR p.address LIKE '%' || (SELECT arr_place_city FROM boards WHERE bno = #{bno}) || '%'
+                            OR p.address LIKE '%' || (SELECT arr_place_city FROM boards WHERE bno = #{bno}) || '%')
 						GROUP BY p.place_id, p.name, p.category, p.address, p.lat, p.lng) b1) b2
 			WHERE b2.rnum BETWEEN #{start} AND #{end}
 		]]>
@@ -77,11 +77,11 @@
 						FROM places p
 							LEFT OUTER JOIN reviews r ON p.place_id = r.place_id
 						WHERE ( name LIKE #{input} OR category LIKE #{input} OR address LIKE #{input} OR p.place_id LIKE #{input})
-							AND (6371 * ACOS(LEAST(1,GREATEST(-1,COS((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
+							AND ( (6371 * ACOS(LEAST(1,GREATEST(-1,COS((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
 						    * COS(p.lat * (ACOS(-1) / 180))* COS((p.lng * (ACOS(-1) / 180)) - (SELECT lng FROM places WHERE place_id = #{arrPlaceId})
 						    * (ACOS(-1) / 180)) + SIN((SELECT lat FROM places WHERE place_id = #{arrPlaceId}) * (ACOS(-1) / 180))
 						    * SIN(p.lat * (ACOS(-1) / 180))))) <= 20)
-							OR p.address LIKE '%' || (SELECT arr_place_city FROM boards WHERE bno = #{bno}) || '%'
+							OR p.address LIKE '%' || (SELECT arr_place_city FROM boards WHERE bno = #{bno}) || '%')
 						GROUP BY  p.place_id, p.name, p.category, p.address, p.lat, p.lng
 						ORDER BY "reviewCnt" DESC, "name" DESC) b1) b2
 			WHERE b2.rnum BETWEEN #{start} AND #{end}

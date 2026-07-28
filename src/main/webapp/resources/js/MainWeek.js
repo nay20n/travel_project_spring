@@ -4,6 +4,7 @@ let aiCalendar;
 // 일정에 들어간 이벤트들
 let eventList;
 let aiEventList;
+let aiBlocks;
 
 // 지도
 let routeLine=null; // 경로
@@ -47,7 +48,7 @@ function drawAiRoute(encodedPolyline) {
     aiRouteLine = new google.maps.Polyline({
         path: path,
         map: mapElement.innerMap,
-        strokeColor: "#ff0000",
+        strokeColor: "#0000ff",
         strokeOpacity: 1,
         strokeWeight: 5
     });
@@ -69,7 +70,7 @@ async function drawMarker(lat, lng, placeId) {
 	
     marker.addListener("gmp-click", function() {
     	// 정보창 팝업
-		clickPlaceTitle(placeId);
+		//clickPlaceTitle(placeId);
 		// 초기화 후 해당 장소로 검색
 		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
 		$(".place").remove();
@@ -109,9 +110,10 @@ async function drawMyMarker(lat, lng) {
 }
 
 // 지도에 ai 마커 그리기
-async function drawAiMarker(lat, lng) {
+async function drawAiMarker(lat, lng, placeId) {
 	// 지도가 준비될 때까지 기다림
     const map = await mapReady;
+    let bno = $("#main").data("bno");
     
     // 마커 디자인
     const aiPin = new PinElement({
@@ -128,7 +130,16 @@ async function drawAiMarker(lat, lng) {
 	});
 
     marker.addListener("gmp-click", function() {
-        console.log("ai 마크이다.");
+        // 정보창 팝업
+		//clickPlaceTitle(placeId);
+		// 초기화 후 해당 장소로 검색
+		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
+		$(".place").remove();
+		placePageNum = 1;
+		
+		mapping = "getSerchedPlace";
+		//console.log(placeId);
+		placeNewPage(placeId, bno);
     });
     
 	aiPlaceMarkers.push(marker);
@@ -184,6 +195,7 @@ function setBlocks(calendar) {
 	        // 캘린더 데이터
 	        eventList.push({
 	            id: id,
+	            calendarId: 'calendar',
 	            title: title,
 	            start: start,
 	            end: end,
@@ -454,7 +466,7 @@ $(function() {
 		  position: "center",
 		  stopOnFocus: true,
 		  style: {
-		    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+		    background: "linear-gradient(to left, #E8EEFF, #3D5AFE)",
 		  }
 		}).showToast();
 		if(aiLock) return;
@@ -504,9 +516,11 @@ $(function() {
 			// ai 마커와 캘린더 데이터를 지우고 다시 생성
 			removeMarker(aiPlaceMarkers);
 			aiEventList = [];
+			aiBlocks = [];
 			
 			for(let i=0;i<data.length;i++) {
 				let block = data[i];
+				aiBlocks.push(block);
 				
 				let id = block.idx;
 		        let placeId = block.placeId;
@@ -518,11 +532,12 @@ $(function() {
 		        
 		        // 만약 장소 데이터가 있다면 ai 마커를 추가
 		        if(lat!=null)
-		        	drawAiMarker(lat, lng);
+		        	drawAiMarker(lat, lng, placeId);
 		        
 		        // 캘린더 데이터
 		        aiEventList.push({
 		            id: id,
+		            calendarId: 'aiCalendar',
 		            title: title,
 		            start: start,
 		            end: end,

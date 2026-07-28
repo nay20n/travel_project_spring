@@ -847,6 +847,93 @@ body>* {
 	background-color: rgba(146, 93, 232, 0.18);
 }
 
+/* ********************* ai 일정 블록 팝업********************* */
+
+.popupContainer > div:nth-child(5) {
+	width: 360px;
+	height: 200px;
+	position: fixed;
+    top: 200px;
+    left: 420px;
+    padding: 15px;
+}
+
+.popupContainer> div:nth-child(5) > svg:nth-child(1) { /* 창닫기 */
+	position: sticky;
+    height: 30px;
+    top: 0%;
+	color: #4B4C56;
+	cursor: pointer;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid #E3D4FF;
+}
+
+.popupContainer> div:nth-child(5) > svg:nth-child(1):hover {
+	background-color: #E3D4FF;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(2) { /* 시간 */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-right: 36px;
+	margin-top: -30px;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(2) > div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(2) > div > svg {
+	width: 18px;
+	margin-right: 5px;
+	flex-shrink: 0;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(2) > div > span {
+	font-size: 14px;
+	margin-right: 5px;
+	font-weight: 500;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(3) { /* 장소정보 */
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(3) > div:nth-child(1) { /* 좌표 */
+	width: 145px;
+    height: 135px;
+    border: 1px solid #925DE8;
+	border-radius: 12px;
+	flex-shrink: 0;
+	background-size: cover;
+	background-position: center;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(3) > div:nth-child(2) {
+	padding: 0px 8px;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) {
+    margin-bottom: 3px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.popupContainer> div:nth-child(5) > div:nth-child(3) > div:nth-child(2) > div:nth-child(2) {
+    margin-bottom: 14px;
+    font-size: 10px;
+    color: #4B4C56;
+}
+
+
 /* **********************공통************************* */
 
 svg {
