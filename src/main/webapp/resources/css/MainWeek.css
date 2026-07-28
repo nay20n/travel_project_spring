@@ -220,12 +220,19 @@ body>* {
 	font-weight: 600;
 	color: #925DE8;
 	margin-top: 12px;
-	margin-left: 30px;
+	margin-left: 12px;
 	background-color: #E7DEF9;
 	cursor: pointer;
 	border-radius: 12px;
 	border: 1.3px solid rgba(58, 58, 58, 0.2);
 	padding: 5px;
+}
+
+.alert {
+    font-size: 10px;
+    margin: 14px -14px 1px 14px;
+	font-weight: 600;
+	color: #E53935;
 }
 
 #main > div:nth-child(2)>div:nth-child(1)>span:nth-child(2) {

@@ -70,7 +70,7 @@ async function drawMarker(lat, lng, placeId) {
 	
     marker.addListener("gmp-click", function() {
     	// 정보창 팝업
-		//clickPlaceTitle(placeId);
+		clickPlaceTitle(placeId);
 		// 초기화 후 해당 장소로 검색
 		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
 		$(".place").remove();
@@ -101,9 +101,10 @@ async function drawMyMarker(lat, lng) {
 	    content: myPin,
 	    zIndex: 3
 	});
-
-    marker.addListener("gmp-click", function() {
-        console.log("내 일정 마크이다.");
+	
+	marker.addListener("gmp-click", function() {
+		// 내 일정에 포함된 장소 보이기
+    	$("#sidebar>div:nth-child(2)>div:nth-child(1)").trigger("click");
     });
     
 	myPlaceMarkers.push(marker);
@@ -131,7 +132,7 @@ async function drawAiMarker(lat, lng, placeId) {
 
     marker.addListener("gmp-click", function() {
         // 정보창 팝업
-		//clickPlaceTitle(placeId);
+		clickPlaceTitle(placeId);
 		// 초기화 후 해당 장소로 검색
 		$("#main>div:nth-child(1)>div:nth-child(2)>div").removeClass("isCheckedBtn");
 		$(".place").remove();
@@ -216,7 +217,8 @@ function setBlocks(calendar) {
 		    console.log($(".toastui-calendar-event-time").length);
 		
 		    $(".toastui-calendar-event-time").droppable({
-		        drop: handleDropEvent
+		        drop: handleDropEvent,
+		        tolerance: 'pointer'
 		    });
 		}, 100);
 		//console.log(eventList);
@@ -251,6 +253,18 @@ function handleDropEvent(event, ui) {
 	})
 	.then(function(data){
 		//console.log(data);
+		Toastify({
+		  text: "장소를 추가했습니다.",
+		  duration: 3000,
+		  newWindow: true,
+		  close: true,
+		  gravity: "top",
+		  position: "center",
+		  stopOnFocus: true,
+		  style: {
+		    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+		  }
+		}).showToast();
 	  	setBlocks(calendar);
 	})
 	.catch(function(error){
@@ -345,32 +359,46 @@ $(function() {
 	
 	// 일정 삭제
 	$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").click(function(){
-		let blockIdx = $(this).data("blockIdx");
-		console.log(blockIdx);
-		
-		const jsonData = {
-			"blockIdx" : blockIdx
-		};
-		const initData = {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(jsonData)
-		};
-		fetch("../../deleteBlock", initData)
-		.then(function(response){
-			return response.text();
-		})
-		.then(function(data){
-			console.log(data);
-		  	setBlocks(calendar);
-		})
-		.catch(function(error){
-			alert("에러! : " + error);
-		})
-	  	$(".popupContainer").addClass("hide");
-		$(".popupContainer>div:nth-child(2)").addClass("hide");
+		if(confirm("일정을 삭제하시겠습니까?")){
+			let blockIdx = $(this).data("blockIdx");
+			console.log(blockIdx);
+			
+			const jsonData = {
+				"blockIdx" : blockIdx
+			};
+			const initData = {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(jsonData)
+			};
+			fetch("../../deleteBlock", initData)
+			.then(function(response){
+				return response.text();
+			})
+			.then(function(data){
+				console.log(data);
+			  	setBlocks(calendar);
+			  	Toastify({
+				  text: "삭제되었습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+			})
+			.catch(function(error){
+				alert("에러! : " + error);
+			})
+		  	$(".popupContainer").addClass("hide");
+			$(".popupContainer>div:nth-child(2)").addClass("hide");
+		}
 	});
 	
 	// 일정 이동 및 시간 변경
@@ -426,6 +454,7 @@ $(function() {
 		$("#goNext").addClass("hide");
 		$("#makeAiBlock").removeClass("hide");
 		$("#map").removeClass("hide");
+		$(".transportation").removeClass("hide");
 	});
 	
 	// 주 단위로 이동
@@ -440,6 +469,7 @@ $(function() {
 		$("#toPlan").addClass("hide");
 		$("#closeAi").addClass("hide");
 		$("#map").addClass("hide");
+		$(".transportation").addClass("hide");
 	});
 	
 	// 월 단위로 이동

@@ -48,7 +48,19 @@ $(function(){
 				})
 				.then(function(data){
 					console.log(data);
-					alert("비밀번호가 변경되었습니다.");
+					Toastify({
+					  text: "비밀번호가 변경되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+					//alert("비밀번호가 변경되었습니다.");
 				})
 				.catch(function(error){
 					alert("에러! : " + error);
@@ -57,7 +69,19 @@ $(function(){
 			}
 			
 		} else { // 둘중 하나라도 비워져 있을 때 
-			alert("정보를 입력하세요!");
+			Toastify({
+			  text: "정보를 입력하세요!",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+			//alert("정보를 입력하세요!");
 		}
 	});
 });
