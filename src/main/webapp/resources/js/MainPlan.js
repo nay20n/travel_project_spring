@@ -500,7 +500,18 @@ $(function() {
 	});
 	// 댓글 사진 추가
 	$(document).on("click", ".reviewInput>div:nth-child(3)>div:nth-child(1)", function() {
-		alert("사진 삽입!");
+		$("#reviewImg").click();
+	});
+	// 이미지 데이터
+	let formData;
+	$("#reviewImg").change(function(){
+		if(this.files && this.files[0]){
+			let imgUrl = URL.createObjectURL(this.files[0]);
+	        
+	        let files = this.files[0];
+	        formData = new FormData();
+			formData.append("file", files);
+		}
 	});
 	// ******************* 장소 리뷰 스크롤 *****************************
 	$(".popupContainer > div:nth-child(1)").scroll(function(e){
@@ -524,18 +535,19 @@ $(function() {
 	// 댓글 등록
 	$(".reviewInput>div:nth-child(3)>div:nth-child(2)").click(function() {
 		let content	= $(this).parent().parent().find("#textarea").find("textarea").val();
-		let placeId = $(".popupPlace").attr("data-place-id");
+		let placeId = $(".popupPlace").attr("data-placeid");
 		let rating = 0;
 		$(".reviewInput > div:nth-child(1) > svg").each(function(index, item) {
 			if($(item).hasClass("fillStar"))
 				rating++;
 		});
-		let image;
+		let imageFile = formData;
 			
 		if(!confirm("댓글을 등록하겠습니까?")){
 			$(this).parent().parent().find("#textarea").find("textarea").val("");
 			return;
 		}
+		alert(placeId);
 		
 		const jsonData = {
 			"placeId" : placeId,
@@ -555,11 +567,23 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
+			//console.log(data);
 			//alert("정상 등록");
 			popupPageNum = 1;
 			$(".popupPlace>div:nth-child(6)").empty();
 			reviewNewPage(popupPageNum, placeId);
+			Toastify({
+			  text: "댓글이 등록되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
 		})
 		.catch(function(error) {
 			alert("에러! : 댓글 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
@@ -581,10 +605,22 @@ $(function() {
 				return response.text();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log(data);
 				$(".popupPlace>div:nth-child(6)").empty();
 				popupPageNum=1;
 				reviewNewPage(popupPageNum, placeId);
+				Toastify({
+				  text: "댓글을 삭제했습니다ㄴ.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
 			})
 			.catch(function(error) {
 				alert("에러! : " + error);
@@ -599,8 +635,9 @@ $(function() {
 		let calendarId = $(this).parent().data("calendar-id");
 		console.log(calendarId);
 		console.log(blockIdx);
-		if(calendarId==calendar) {
-			$(".popupContainer > div:nth-child(2)").attr("data-block-index",blockIdx);
+		if(calendarId=="calendar") {
+			//alert($(".popupContainer>div:nth-child(2)").length);
+			$(".popupContainer>div:nth-child(2)").attr("data-block-index",blockIdx);
 			const jsonData = {
 				"blockIdx" : blockIdx
 			};
@@ -617,7 +654,9 @@ $(function() {
 			})
 			.then(function(data) {
 				console.log(data);
-				$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").data("blockIdx",data.blockIdx);
+				// 일정 삭제를 위한 인덱스 넣기
+				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(3)").data("blockIdx",data.blockIdx);
+				// 블럭 색
 				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(3)").css('color', blockColorArr[data.colorIdx]);
 				if(data.name==null) {
 					$(".popupContainer>div:nth-child(2)>div:nth-child(3)").addClass("hide");
@@ -677,10 +716,10 @@ $(function() {
 	// 블럭 색 지정하기
 	$(document).on("click", ".blockColor", function() {
 		let colorIdx = $(this).index();
-		let blockIdx = $(".popupContainer>div:nth-child(2)").data("block-index");
+		let blockIdx = $(".popupContainer>div:nth-child(2)").attr("data-block-index");
 		
 		//alert(colorIdx);
-		//alert(blockIdx);
+		alert(blockIdx);
 		
 		const jsonData = {
 			"blockIdx" : blockIdx,

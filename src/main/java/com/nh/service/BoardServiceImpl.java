@@ -144,7 +144,6 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("input", "%" + input + "%");
 		
 		List<Map<String, Object>> listPlaces = bDao.getSerchedPlace(map1);
-System.out.println("size : " + listPlaces.size());		
 		
 		// 장소 이미지 추가
 		for(int i=0;i<listPlaces.size();i++) {

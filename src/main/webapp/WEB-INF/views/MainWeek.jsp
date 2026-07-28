@@ -39,7 +39,8 @@
 				<div class="changeView fl bs" >
 					<span class="dayView">일</span><span class="selectedView">주</span><span>월</span>
 				</div>
-				<div class="transportation fl bs">이동수단</div>
+				<div class="transportation fl bs hide">이동수단</div>
+				<div class="alert fl">(2026년 상반기)정부정책으로 인해<br/>구글 길찾기 서비스는 해외에서만 가능합니다.</div>
 				<span class="fr moveDate" id="moveNext">></span>
 				<span class="fr moveDate" id="today">오늘</span>
 				<span class="fr moveDate" id="movePast">&lt;</span>
@@ -285,5 +286,6 @@
 			</div>
 		</div>
 	</div>
+	<input id="reviewImg" type="file" name="reviewImg" class="hide"/>
 </body>
 </html>
