@@ -281,7 +281,19 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
+			//console.log(data);
+			Toastify({
+			  text: "예산을 수정했습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
 		})
 		.catch(function(error) {
 			alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
@@ -317,7 +329,7 @@ $(function() {
 				location.href= "/TravelPlanner";
 			})
 			.catch(function(error) {
-				alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
+				alert("에러! : 삭제에 문제가 발생했습니다. 다시 시도해주세요." + error);
 			});
 			// 예산 합 초기화
 			getSum();
@@ -344,6 +356,18 @@ $(function() {
 				$('input[data-field="etcCost"]').val(data.etcCost);
 				$('span[data-field="totalCost"]').text((data.foodCost+data.roomCost+data.etcCost)+ "원");
 				$('span[data-field="maxCost"]').text("~ " +  data.maxCost + "원 (AI 예상 최대 견적)");
+				Toastify({
+				  text: "예산을 업데이트했습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -402,7 +426,7 @@ $(function() {
 			return;
 		}
     	
-		// 제목에 변경 사항이 없다면 종료
+		// 댓글에 변경 사항이 없다면 종료
 		if (originalContent === currentContent) return;
 		
 		const jsonData = {
@@ -421,7 +445,19 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
+			//console.log(data);
+			Toastify({
+			  text: "댓글을 수정했습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
 		})
 		.catch(function(error) {
 			alert("에러! : 댓글 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
@@ -447,7 +483,19 @@ $(function() {
 				return response.text();
 			})
 			.then(function(data) {
-				alert("삭제되었습니다.");
+				//alert("삭제되었습니다.");
+				Toastify({
+				  text: "댓글을 삭제했습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
 				// 페이지 다시 그리기
 				newPage(gPageNum,bno);
 			})
@@ -483,8 +531,20 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
-			alert("정상 등록");
+			//console.log(data);
+			Toastify({
+			  text: "댓글을 저장했습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+			//alert("정상 등록");
 			
 			// 페이지 다시 그리기
 			newPage(gPageNum,bno);
