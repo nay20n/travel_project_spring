@@ -48,7 +48,7 @@ function newPage(pageNum,mapping,input) {
 			for(let j=0;j<4;j++) {
 				if(dataIdx>data.length-1) break;
 				let board = data[dataIdx];
-				console.log(board);
+				//console.log(board);
 				
 				// 지도 중앙, 위치 쿼리 만들기
 				let mapData = board.mapData;
@@ -177,7 +177,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -188,7 +188,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -204,9 +204,51 @@ $(function() {
 		$(".popupContainer").attr("style","display: none");
 		$(".popupContent").attr("style","display: none");
 	});
-	// 비밀번호 재설정 페이지로 이동
+	// 비밀번호 재설정
 	$(".popupContainer>div:nth-child(1)>div:nth-child(3)>div:nth-child(4)>span:nth-child(2)").click(function() {
-		location.href="forget";
+		let inputMail = $(this).parent().find(".userEmail").val();
+		if(inputMail=="") {
+			Toastify({
+			  text: "이메일을 입력해주세요.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+			return;
+		}
+		fetch("isExistMail?email=" + inputMail, {method: "post"})
+		.then(function(response) {
+			return response.text();
+		})
+		.then(function(data) {
+			if(data=="empty") {
+				Toastify({
+				  text: "이메일을 다시 확인해주세요.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+				return;
+			}
+			if(data=="true") {
+				location.href="forget?email="+inputMail;
+			}
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
 	});
 	// 로그인
 	$(".userPw, .userEmail").keypress(function(e) {
@@ -258,7 +300,7 @@ $(function() {
 			$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)").trigger("click");
 		}
 	});
-	$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)").click(function() {
+	$(".sendMail").click(function() {
 		if($(this).parent().find(".checkBox").is(":checked")) {
 			// 이메일 전송 비동기 및 임시 가입
 			let email = $(".popupContainer>div:nth-child(2)>div>.inputBdDiv>input[type=email]").val();
@@ -292,13 +334,43 @@ $(function() {
 				}).showToast();
 				return;
 			}
-			console.log(email);
+			//console.log(email);
 			fetch("join?email=" + email, {method: "post"})
 			.then(function(response) {
 				return response.text();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log(data);
+				if(data=="duplicate") {
+					Toastify({
+					  text: "가입되어 있는 이메일입니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+					return;
+				}
+				if(data=="fail") {
+					Toastify({
+					  text: "이메일 발송에 문제가 발생했습니다. 조금 뒤 다시 시도해주세요.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+					return;
+				}
 				Toastify({
 				  text: "인증 메일을 전송했습니다.",
 				  duration: 3000,

@@ -529,17 +529,27 @@ public class TravelRestController {
 	// 신규회원 가입 이메일 보내기
 	@PostMapping("/join")
 	public String insertMember(HttpSession session, String email) {
+		// 중복이라면 종료
+		if(mSvc.isExistEmail(email)) return "duplicate";
+		
 		String nickName = "신규 가입자";
 		String pageType = "mainPage";
 		session.setAttribute("email", email);
-		
 		try {
 			String key = eSvc.sendEmail(email, nickName, pageType);
 			session.setAttribute("key", key);
-			return "전송성공";
+			return "success";
 		} catch(Exception e) {
 			e.printStackTrace();
-			return "전송실패";
+			return "fail";
 		}
+	}
+	
+	// 메인 화면 이메일 존재 여부 확인
+	@PostMapping("/isExistMail")
+	public String isExistMail(HttpSession session, String email) {
+		// 중복이라면 종료
+		if(!mSvc.isExistEmail(email)) return "empty";
+		return "true";
 	}
 }
