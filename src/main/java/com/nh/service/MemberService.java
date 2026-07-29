@@ -148,7 +148,7 @@ public interface MemberService {
 	 * @param code
 	 * @return email
 	 */
-	String getEmailByKakao(String code);
+	String getEmailByKakao(String code, String mapping);
 	
 	/**
 	 * 네이버로 email 조회
