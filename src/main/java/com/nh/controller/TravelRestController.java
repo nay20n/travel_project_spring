@@ -547,9 +547,10 @@ public class TravelRestController {
 	
 	// 메인 화면 이메일 존재 여부 확인
 	@PostMapping("/isExistMail")
-	public String isExistMail(HttpSession session, String email) {
+	public String isExistMail(String email) {
 		// 중복이라면 종료
-		if(!mSvc.isExistEmail(email)) return "empty";
-		return "true";
+		System.out.println(email);
+		if(mSvc.isExistEmail(email)) return "true";
+		return "empty";
 	}
 }
