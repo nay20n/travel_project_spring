@@ -36,6 +36,18 @@ $(function() {
 				type : 'POST',
 				success : function(result){
 					console.log(result);
+					Toastify({
+					  text: "프로필 이미지가 업데이트 되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
 					//alert(result);
 				},
 	            error: function(r,s,e){
@@ -202,8 +214,19 @@ $(function() {
 					return response.json();
 				})
 				.then(function(data){
-					console.log(data);
-					alert("저장되었습니다. 토스트 메뉴 보이기");
+					//console.log(data);
+					Toastify({
+						text: "저장되었습니다.",
+						duration: 3000,
+						newWindow: true,
+						close: true,
+						gravity: "top",
+						position: "center",
+						stopOnFocus: true,
+						style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
 					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").hide();
 				})
 				.catch(function(error){
@@ -212,7 +235,6 @@ $(function() {
 			} else {  //저장 안하겟다고 하면 
 				alert("저장이 취소 되었습니다. 토스트 메뉴 보이기");
 			}
-			
 			
 		}  else { // 원래의 이메일과 적은 이메일이 같지 않고, 인증도 안되얶ㅆ다면 
 				$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("이메일을 인증하세요!");

@@ -64,7 +64,7 @@ public class TravelRestController {
 	// 블럭 색 변경
 	@PostMapping("/modifyBlockColor")
 	public String modifyBlockColor(@RequestBody Map<String,Object> mapReq) {
-		int blockIdx = (Integer)mapReq.get("blockIdx");
+		int blockIdx = Integer.parseInt((String)mapReq.get("blockIdx"));
 		int colorIdx = (Integer)mapReq.get("colorIdx");
 		blSvc.modifyBlockColor(blockIdx, colorIdx);
 		return "블럭 색 변경";
@@ -278,7 +278,6 @@ public class TravelRestController {
 		int bno = (Integer)mapReq.get("bno");
 		int pageNum = (Integer)mapReq.get("pageNum");
 		String input = (String)mapReq.get("input");
-System.out.println("input : " + input);		
 		List<Map<String, Object>> listPlaces = bSvc.getSerchedPlace(loginId, bno, input, pageNum);
 		
 		for(Map<String, Object> m : listPlaces) {

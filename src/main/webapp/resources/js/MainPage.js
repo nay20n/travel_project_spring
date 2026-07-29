@@ -47,7 +47,7 @@ function newPage(pageNum,mapping,input) {
 				let mapData = board.mapData;
 				let sumLat = 0;
 				let sumLng = 0;
-				let path = "weight:5|color:0x673AB7|";
+				let path = "weight:5|color:0xE53935|";
 				for(let k=0;k<mapData.length;k++) {
 					sumLat+=mapData[k].lat;
 					sumLng+=mapData[k].lng;
