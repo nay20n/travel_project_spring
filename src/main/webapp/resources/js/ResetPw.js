@@ -3,15 +3,15 @@ $(function (){
 	$("#main > button").click(function() {
 		
 		let email = $("#main").attr("data-email");
-		let nickName = $("#main").attr("data-nick-name");
+		let nickName = "사용자";
 		let emailInput = $("#main > input").val();
 		
-		if(emailInput===email){  //이메일을 잘 입력했을 떄
+		if(emailInput===email){ //이메일을 잘 입력했을 떄
 			$("#main > div:nth-child(7)").removeClass("show");
 			$("#main > input").removeClass("borderWraning");
 			
 			const jsonData = {
-				"email" : email,
+				"email" : emailInput,
 				"nickName" : nickName,
 				"pageType" : "resetPw", 
 			};
@@ -35,7 +35,7 @@ $(function (){
 			
 			alert("비밀번호 재설정 메일을 보냈습니다.");
 		}
-		else{ //이메일을 잘못 입력 못햇을 떄
+		else{ //이메일을 잘못 입력 못햇을 떄 
 			$("#main > div:nth-child(7)").addClass("show");
 			$("#main > input").addClass("borderWraning");
 		}
