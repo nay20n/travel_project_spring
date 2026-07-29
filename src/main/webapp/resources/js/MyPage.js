@@ -171,6 +171,8 @@ $(function() {
 	});
 	// 정보창 닫기 버튼 클릭
 	$("#popupHeader > svg").click(function() {
+		$("#popupContent > div:nth-child(3)").hide();
+		$("#popupPw > div > input").removeClass("borderWraning");
 		$("#popupEditInfo").hide();
 	});
 	// 정보수정팝업 확인 버튼 엔터처리
@@ -198,6 +200,7 @@ $(function() {
 				$("#popupPw > div > input").addClass("borderWraning");
 			} else { // 비밀번호가 일치했을 떄
 				$("#popupContent > div:nth-child(3)").hide();
+				$("#popupPw > div > input").removeClass("borderWraning");
 				location.href="mypage/edit";
 			}
 		})
@@ -210,9 +213,13 @@ $(function() {
 	$("#popupContent > div:nth-child(4) > a").click(function() {
 		location.href="forget";
 	});
-	// 구글 계정 인증 버튼 클릭
-	$("#popupVerify > img").click(function() {
-		alert("구글 인증하는 API 연결하기");
+	// 카카오 계정 인증 버튼 클릭
+	$("#popupVerify > div:nth-child(1)").click(function() {
+		location.href="/TravelPlanner/kakaologin?mapping=editInfo";
+	});
+	// 카카오 계정 인증 버튼 클릭
+	$("#popupVerify > div:nth-child(2)").click(function() {
+		location.href="/TravelPlanner/naverlogin?mapping=editInfo";
 	});
 	
 });

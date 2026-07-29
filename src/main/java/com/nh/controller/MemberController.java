@@ -1,5 +1,9 @@
 package com.nh.controller;
 
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -30,6 +34,10 @@ public class MemberController {
     private String KakaoClientId;
 	@Value("${kakao.client.secret}")
 	private String KakaoClientSecret;
+	@Value("${naver.client.id}")
+    private String NaverClientId;
+	@Value("${naver.client.secret}")
+	private String NaverClientSecret;
 	
 	@Autowired
 	MemberService mSvc;
@@ -115,6 +123,66 @@ public class MemberController {
 
 		return "redirect:/";
 	}
+	// 네이버 로그인 요청 보내기
+	@GetMapping("/naverlogin")
+	public String naverlogin(@RequestParam String mapping) {
+		String redirect = "http://localhost:9090/TravelPlanner/naverlogin/editInfo";
+		if("login".equals(mapping)) {
+			redirect = "http://localhost:9090/TravelPlanner/naverlogin/mainHome";
+		}
+		
+		SecureRandom random = new SecureRandom();
+	    String state = new BigInteger(130, random).toString(32);
+
+	    String url = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+	            + "&client_id=" + NaverClientId
+	            + "&redirect_uri=" + redirect
+	            + "&state=" + state;
+		
+	    //System.out.println ("url : "+url);
+		return "redirect:" + url;
+	}
+	// 네이버 로그인 처리
+	@GetMapping("/naverlogin/mainHome")
+	public String naverlogin(@RequestParam(required = false) String code,
+			@RequestParam(required = false) String state, 
+			HttpSession session, RedirectAttributes rttr) {
+		
+	    String email = mSvc.getEmailByNaver(code, state);
+	    
+	    //System.out.println("emai; : " + email);
+	    
+	    if(mSvc.isExistEmail(email)) {
+	    	session.setAttribute("loginId", mSvc.getId(email));
+	    	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+	    } else {
+	    	session.setAttribute("loginId", mSvc.addMember(email));
+	    	System.out.println("loginId : " +  mSvc.addMember(email));
+	    	rttr.addFlashAttribute("msg", "회원가입 되었습니다.");
+	    }
+	    
+	    return "redirect:/";
+	}
+	
+	// 카카오 로그인 처리(정보수정)
+	@GetMapping("/naverlogin/editInfo")
+	public String naverloginEditInfo(@RequestParam(required = false) String code,
+			@RequestParam(required = false) String state, 
+			HttpSession session, RedirectAttributes rttr) {
+		
+		String email = mSvc.getEmailByNaver(code,state);
+		
+		if(mSvc.isExistEmail(email)) {
+			session.setAttribute("loginId", mSvc.getId(email));
+			rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+		} else {
+			rttr.addFlashAttribute("msg", "로그인한 이메일과 다릅니다. 정보를 다시 확인해주세요.");
+			return "redirect:/";
+		}
+		
+		return "redirect:http://localhost:9090/TravelPlanner/mypage/edit";
+	}
+	
 	
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
