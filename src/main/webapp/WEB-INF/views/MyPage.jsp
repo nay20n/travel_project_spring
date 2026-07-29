@@ -206,7 +206,8 @@
 			</div>
 		</div>
 		<div id="popupVerify">
-			<img class="bs" src = "resources/img/google.png"> 
+			<div></div>
+			<div></div> 
 		</div>
 	</div>
 </div>
