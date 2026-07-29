@@ -1,5 +1,12 @@
 let mailVerify = false;
 
+// 이메일 유효성 체크
+const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+function emailValidChk(email) {
+    if(pattern.test(email) === false) { return false; }
+    else { return true; }
+}
+
 $(function() {
 	let rttrMsg = $("#serverMsg").val();
 	if(rttrMsg)
@@ -66,7 +73,11 @@ $(function() {
 		$(".popupContent > div:nth-child(2) > div:nth-child(2) > span:nth-child(1)").text(inputEmail);
 		
 		if(inputEmail===email){ // 기존 이메일과 동일할 때 
-					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("기존 이메일과 동일합니다. 새 이메일 주소를 입력하세요.");
+			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("기존 이메일과 동일합니다. 새 이메일 주소를 입력하세요.");
+			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").show();
+			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > input").addClass("borderWraning");
+		} else if(!emailValidChk(inputEmail)) { // 이메일 유효성 체크
+			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("올바른 이메일을 입력하세요.");
 			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").show();
 			$("#basicInfo > div:nth-child(2) > div:nth-child(5) > input").addClass("borderWraning");
 		} else { // 기존 이메일이랑 다를 때
@@ -91,15 +102,45 @@ $(function() {
 			})
 			.then(function(data){
 				//console.log(data);
-				alert("인증메일이 보내졌습니다 토스트로 바꾸기");
+				let text;
+				if(data === "exist") { // 이미 가입한 이메일이라면
+					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("이미 가입이 된 이메일 입니다. 다른 이메일을 입력하세요.");
+					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").show();
+					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > input").addClass("borderWraning");
+				} else if(data == "fail") { // 전송을 실패했을 경우
+					Toastify({
+					  text: "인증메일 전송을 실패했습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+				}).showToast();
+				} else { //이메일을 전송했을 경우
+					Toastify({
+					  text: "인증메일이 전송되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+					$(".popupContainer").show(); // 인증 메일 보내는 팝업 띄우기
+					$(".popupContent > div:nth-child(2) > div:nth-child(4)").focus();
+				}
+				
 			})
 			.catch(function(error){
 				alert("에러: " + error);
 			});
-			
-			
-			$(".popupContainer").show(); // 인증 메일 보내는 팝업 띄우기
-			$(".popupContent > div:nth-child(2) > div:nth-child(4)").focus();
 		}
 	});
 	// 팝업창 닫기
@@ -119,14 +160,36 @@ $(function() {
 			
 			if(data){ // 인증번호가 맞다면
 				mailVerify = true;
-				alert("인증이 완료되었습니다. 토스트로 바꾸기 ");
+				Toastify({
+					  text: "인증메일이 완료되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+				}).showToast();
 				$(".popupContent > div:nth-child(2) > div:nth-child(4)").removeClass("borderWraning");
 				$(".popupContainer").hide();
 				$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("이메일이 인증되었습니다.");
 				$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").show();
 				
 			} else { // 인증번호가 일치하지 않으면
-				alert("인증번호가 불일치 합니다. 토스트로 바꾸기");
+				Toastify({
+					  text: "인증번호가 불일치 합니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+				}).showToast();
 				$(".popupContent > div:nth-child(2) > div:nth-child(4)").addClass("borderWraning");
 			}
 			
@@ -159,7 +222,18 @@ $(function() {
 		})
 		.then(function(data){
 			//console.log(data);
-			alert("인증메일이 재전송 되었씁니다 토스트로 바꾸기");
+			Toastify({
+					  text: "인증메일이 재전송 되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+			}).showToast();
 		})
 		.catch(function(error){
 			alert("에러: " + error);
@@ -233,7 +307,18 @@ $(function() {
 					alert("에러! : " + error);
 				});
 			} else {  //저장 안하겟다고 하면 
-				alert("저장이 취소 되었습니다. 토스트 메뉴 보이기");
+				Toastify({
+						text: "저장이 취소 되었습니다.",
+						duration: 3000,
+						newWindow: true,
+						close: true,
+						gravity: "top",
+						position: "center",
+						stopOnFocus: true,
+						style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+				}).showToast();
 			}
 			
 		}  else { // 원래의 이메일과 적은 이메일이 같지 않고, 인증도 안되얶ㅆ다면 

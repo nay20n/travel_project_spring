@@ -189,8 +189,11 @@ public class MemberController {
 		int loginId = (int)session.getAttribute("loginId");
 		session.setAttribute("loginId", loginId);
 		
+		String email = mSvc.getEmail(loginId);
+		
 		Map<String,Object> getMyPage = mSvc.getMyPage(loginId);
 		model.addAttribute("getMyPage", getMyPage);
+		model.addAttribute("email", email);
 		
 		return "MyPage";
 	}
@@ -207,15 +210,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/forget")
-	public String foget(HttpSession session, Model model) {
-		int loginId = (int)session.getAttribute("loginId");
-		
-		String email = mSvc.getEmail(loginId);
-		String nickName = mSvc.getNickName(loginId);
-		
-		model.addAttribute("nickName", nickName);
+	public String foget(HttpSession session, String email, Model model) {
 		model.addAttribute("email", email);
-		
 		return "ResetPw";
 	}
 	
