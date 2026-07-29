@@ -69,6 +69,12 @@ public interface MemberService {
 	void addMember(String email, String pw);
 	
 	/**
+	 * 회원 삽입(소셜 가입)
+	 * @param email : 삽입할 이메일
+	 */
+	int addMember(String email);
+	
+	/**
 	 * 프로필 이미지 수정 
 	 * @param memberId :수정할 회원의 아이디
 	 * @param profileImg : 수정될 이미지
@@ -129,4 +135,11 @@ public interface MemberService {
 	 * @return 조회된 비밀번호
 	 */
 	String getPw (int memberId);
+	
+	/**
+	 * 아이디 조회
+	 * @param email
+	 * @return memberId
+	 */
+	int getId (String email);
 }

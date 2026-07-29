@@ -48,11 +48,11 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public void addMember(String email, String pw) {
+	public int addMember(String email, String pw) {
 		Map<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("pw", pw);
-		sqlSession.insert("memberMapper.addMember",map);
+		return sqlSession.insert("memberMapper.addMember",map);
 	}
 
 	@Override
@@ -137,6 +137,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public String getpw(int memberId) {
 		return sqlSession.selectOne("memberMapper.getPw", memberId);
+	}
+
+	@Override
+	public int getId(String email) {
+		return sqlSession.selectOne("memberMapper.getId", email);
 	}
 
 	
