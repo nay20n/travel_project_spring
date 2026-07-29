@@ -211,7 +211,8 @@ $(function() {
 	});
 	// 비밀번호 재설정 링크 클릭 
 	$("#popupContent > div:nth-child(4) > a").click(function() {
-		location.href="forget";
+		let email = $("#profile").attr("data-email");
+		location.href="forget?email=" + email;
 	});
 	// 카카오 계정 인증 버튼 클릭
 	$("#popupVerify > div:nth-child(1)").click(function() {

@@ -26,6 +26,7 @@ import com.nh.service.AiBlockService;
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
 import com.nh.service.ExternalApiService;
+import com.nh.service.MemberService;
 import com.nh.service.PlaceService;
 
 @PropertySource("classpath:secret.properties")
@@ -49,6 +50,8 @@ public class APIController {
 	AiBlockService aSvc;
 	@Autowired
 	ExternalApiService eSvc;
+	@Autowired
+	MemberService mSvc;
 	
 //	// 게시글 일정 경로 생성
 //	@GetMapping("/test")
@@ -282,14 +285,18 @@ public class APIController {
 		String nickName = (String)mapReq.get("nickName");
 		String pageType = (String)mapReq.get("pageType");
 		
-		try {
-			String key = eSvc.sendEmail(email, nickName, pageType);
-			session.setAttribute("key", key);
-			return key;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "실패";
-		}
+		if(!mSvc.isExistEmail(email)) {
+			try {
+				String key = eSvc.sendEmail(email, nickName, pageType);
+				session.setAttribute("key", key);
+				return key;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "fail";
+			}
+		} else {return "exist";}
+		
+		
 		
 	}
 }
