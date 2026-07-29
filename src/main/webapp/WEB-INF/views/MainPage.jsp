@@ -93,7 +93,7 @@
 					<div class="popupBigTitle">이메일 입력</div>
 					<div class="popupSmallTitle">인증번호를 받을 이메일을 입력해주세요</div>
 					<div class="inputBdDiv"><input type="email" placeholder="이메일"/></div>
-					<div class="loginButton">인증번호 받기</div>
+					<div class="loginButton sendMail">인증번호 받기</div>
 					<div class="loginButton">뒤로가기</div>
 					<div>
 						<label>
@@ -117,7 +117,7 @@
 					</div>
 					<div contenteditable="true" class="loginButton"></div> <!-- 인증번호받는곳 -->
 					<div class="loginButton">인증 완료</div>
-					<div class="loginButton">인증번호 재전송</div>
+					<div class="loginButton sendMail">인증번호 재전송</div>
 					<div>
 						<label>
 							<input class="checkBox" type="checkbox" name="agreeCheck" checked/>
