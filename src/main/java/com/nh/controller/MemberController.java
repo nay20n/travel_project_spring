@@ -71,7 +71,7 @@ public class MemberController {
 //	    System.out.println("errorDescription: " + errorDescription);
 //	    System.out.println("state: " + state);
 		
-	    String email = mSvc.getEmailByKakao(code);
+	    String email = mSvc.getEmailByKakao(code,"mainHome");
 	    
 	    if(mSvc.isExistEmail(email)) {
 	    	session.setAttribute("loginId", mSvc.getId(email));
@@ -91,7 +91,7 @@ public class MemberController {
 			@RequestParam(required = false) String state, 
 			HttpSession session, RedirectAttributes rttr) {
 		
-		String email = mSvc.getEmailByKakao(code);
+		String email = mSvc.getEmailByKakao(code,"editInfo");
 		
 		if(mSvc.isExistEmail(email)) {
 			session.setAttribute("loginId", mSvc.getId(email));
@@ -150,7 +150,7 @@ public class MemberController {
 		
 	    String email = mSvc.getEmailByNaver(code, state);
 	    
-	    //System.out.println("emai; : " + email);
+	    //System.out.println("email : " + email);
 	    
 	    if(mSvc.isExistEmail(email)) {
 	    	session.setAttribute("loginId", mSvc.getId(email));

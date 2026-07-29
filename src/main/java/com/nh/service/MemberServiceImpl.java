@@ -171,7 +171,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String getEmailByKakao(String code) {
+	public String getEmailByKakao(String code, String mapping) {
 		// 코드로 토큰 발급
 	    String authCode = code;
 	    
@@ -182,7 +182,7 @@ public class MemberServiceImpl implements MemberService {
 	    MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 	    body.add("grant_type", "authorization_code");
 	    body.add("client_id", KakaoClientId);
-	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/kakaologin/oauth");
+	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/kakaologin/"+mapping);
 	    body.add("code", authCode);
 	    body.add("client_secret", KakaoClientSecret);
 	    
