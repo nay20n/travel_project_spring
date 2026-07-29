@@ -21,7 +21,7 @@ $(function() {
 	$("#basicInfo > div:nth-child(2) > input").change(function(){
 		if(this.files && this.files[0]){
 			let imgUrl = URL.createObjectURL(this.files[0]);
-	        // img 태그 src 변경
+	        // img 태그 src 변경(사진 미리보기)
 	        $("#basicInfo > div:nth-child(2) > img").attr("src", imgUrl);
 	        
 	        let files = this.files[0];
