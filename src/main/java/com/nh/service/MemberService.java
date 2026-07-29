@@ -145,8 +145,15 @@ public interface MemberService {
 	
 	/**
 	 * 카카오로 email 조회
-	 * @param authCode
+	 * @param code
 	 * @return email
 	 */
 	String getEmailByKakao(String code);
+	
+	/**
+	 * 네이버로 email 조회
+	 * @param code
+	 * @return email
+	 */
+	String getEmailByNaver(String code, String state);
 }

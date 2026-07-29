@@ -219,9 +219,10 @@ body > div:nth-child(5) {
 #popupEditInfo > div {
 	margin: 10% auto;
 	width: 500px;
-	height: 374px;
+	height: 440px;
 	background-color: #fff;	
 	border-radius: 15px;
+	position: relative;
 }
 /*정보창 헤어*/
 #popupHeader { 
@@ -337,24 +338,33 @@ body > div:nth-child(5) {
 	color: #0078ff;
 	text-decoration: underline #0078ff 1px;
 }
-#popupEditInfo > div {
-	position: relative;
-}
+
 #popupVerify { /*인증버튼*/
 	position:absolute;
-	bottom: 30px;
+	bottom: 24px;
 	left: 35px;
-	width: 428px;
-	height: 54px;
-	cursor: pointer;
-	border-radius:10px;
-	border: 1px solid rgb(220, 225, 229);
 	/*background-color: rgb(249, 250, 251); /*마우스 오버시   */ 
 	
 }
-#popupVerify > img { /*구글이미지*/
+#popupVerify > div {
 	width: 428px;
 	height: 54px;
+	cursor: pointer;
+	border: 1px solid #925DE8;
+	border-radius: 8px;
+	background-size: cover;
+	background-position : center;
+	margin-top: 6px;
+}
+#popupVerify > div:nth-child(1){
+	/* 카카오 */
+	background-image: url("../img/kakao_login_large_wide.png");
+}
+#popupVerify > div:nth-child(2){
+	/* 네이버 */
+	background-image: url("../img/NAVER_login_Dark_KR_green_wide_H48.png");
+	margin-top: 10px;
+	
 }
 
 

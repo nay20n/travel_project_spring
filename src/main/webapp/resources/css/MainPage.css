@@ -378,8 +378,10 @@ input:focus {
 }
 
 .popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(2) {
-	/* 구글 */
-	background-image: url("../img/구글.png");
+	/* 네이버 */
+	background-image: url("../img/NAVER_login_Dark_KR_green_wide_H48.png");
+	background-size: cover;
+	background-position : center;
 }
 
 .popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(3):hover {
