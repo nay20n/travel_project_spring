@@ -132,5 +132,22 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.getpw(memberId);
 	}
 
+	@Override
+	public int getId(String email) {
+		return mDao.getId(email);
+	}
+
+	@Override
+	public int addMember(String email) {
+		// 비밀번호 생성
+		StringBuffer sb = new StringBuffer();
+		while(sb.length()<6) {
+			int temp = (int)(Math.random()*75) + 48;
+			if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
+		}
+		String pw = sb.toString();
+		return mDao.addMember(email, pw);
+	}
+
 	
 }

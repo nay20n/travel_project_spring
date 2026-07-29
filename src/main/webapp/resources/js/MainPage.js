@@ -232,6 +232,9 @@ $(function() {
 	    document.body.appendChild(form);
 	    form.submit();
 	});
+	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(1)").click(function() {
+		location.href="kakaologin";
+	});
 	// 이메일로 가입하기
 	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(3)").click(function() {
 		$(".popupContainer>div:nth-child(1)").hide();

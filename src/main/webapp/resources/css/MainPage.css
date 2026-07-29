@@ -372,7 +372,9 @@ input:focus {
 
 .popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(1) {
 	/* 카카오 */
-	background-image: url("../img/카카오.png");
+	background-image: url("../img/kakao_login_large_wide.png");
+	background-size: cover;
+	background-position : center;
 }
 
 .popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(2) {

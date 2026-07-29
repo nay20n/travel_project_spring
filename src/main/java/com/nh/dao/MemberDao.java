@@ -19,6 +19,13 @@ public interface MemberDao {
 	boolean isExistEmail(String email);
 	
 	/**
+	 * 아이디 조회
+	 * @param email
+	 * @return
+	 */
+	int getId(String email);
+	
+	/**
 	 * 이메일, 비밀번호 조회
 	 * @param email 
 	 * @param pw
@@ -45,7 +52,7 @@ public interface MemberDao {
 	 * @param email : 삽입할 이메일
 	 * @param pw : 삽입할 계정 비밀번호
 	 */
-	void addMember(String email, String pw);
+	int addMember(String email, String pw);
 	
 	/**
 	 * 프로필 이미지 수정 
