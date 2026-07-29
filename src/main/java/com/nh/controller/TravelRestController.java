@@ -366,13 +366,32 @@ public class TravelRestController {
 	}
 	// 장소 댓글 입력 
 	@PostMapping("/addReview")
-	public String addReview(@RequestBody Map<String,Object> mapReq, HttpSession session) {
+	public String addReview(@RequestParam("file") MultipartFile file, @RequestParam("placeId") String placeId, @RequestParam("content") String content, @RequestParam("rating") int rating, HttpSession session) {
 		int loginId = (int)session.getAttribute("loginId");
-		String placeId = (String)mapReq.get("placeId");
-		String content = (String)mapReq.get("content");
-		int rating = (Integer)mapReq.get("rating");
-		String image = (String)mapReq.get("image");
-		pSvc.addReview(loginId, placeId, content, rating, image);
+		
+		String path = application.getRealPath("resources/upload"); // upload 폴더의 절대경로(C:\로 시작) 얻기. 
+		System.out.println("절대경로 : " + path);
+		
+		File f= new File(path);
+		if(!f.exists()) 
+			f.mkdir();// 해당 폴더 생성
+		
+		String filename = "";
+		String filenameUUID = "";
+		if(!file.isEmpty()) {
+			filename = file.getOriginalFilename();
+			int dotIdx = filename.lastIndexOf(".");
+			filenameUUID = UUID.randomUUID().toString() + filename.substring(dotIdx);
+			// 파일명 중복 방지
+			File saveFile = new File(path, filenameUUID);
+			
+			try {
+				file.transferTo(saveFile); // 파일 저장
+			} catch(Exception e) {e.printStackTrace();}
+		}
+		System.out.println("저장된 파일명 : " + filenameUUID);
+		
+		pSvc.addReview(loginId, placeId, content, rating, filenameUUID);
 		return "insert";
 	}
 	// 장소 댓글 삭제 

@@ -17,6 +17,13 @@
 			WHERE member_id = #{memberID}
 		]]>
 	</select>
+	<select id="getId" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT member_id "memberId" 
+			FROM members
+			WHERE email = #{email}
+		]]>
+	</select>
 	<select id="isExistEmail" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT COUNT(*) 
@@ -48,6 +55,9 @@
 			INSERT INTO members(member_id, email, nick_name, pw)
 			VALUES(seq_member.nextval, #{email}, '익명의 사용자', #{pw})
 		]]>
+		<selectKey keyProperty="member_id" resultType="java.lang.Integer" order="AFTER">
+			SELECT seq_member.CURRVAL FROM dual
+		</selectKey>
 	</insert>
 	<update id="modifyProfileImg">
 		<![CDATA[

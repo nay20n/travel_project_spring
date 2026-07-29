@@ -99,7 +99,7 @@ function newPage(pageNum, bno) {
 			if(item.proFile==null){
 				str2 = `<img src="../resources/img/기본 프로필.png"/>`;
 			} else {
-				str2 = `<img src="../resources/img/${item.proFile}" />`;
+				str2 = `<img src="../resources/upload/${item.proFile}" />`;
 			}
 			const str3 = `
 							<div>${item.nickName}</div>

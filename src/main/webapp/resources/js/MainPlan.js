@@ -181,11 +181,11 @@ function reviewNewPage(pageNum, placeId) {
 			
 			let profile = `<img src="../../resources/img/기본 프로필.png"/>`;
 			if(reviews[i].profileImg!=null)
-				profile = `<img src="../../resources/img/${reviews[i].profileImg}"/>`;
+				profile = `<img src="../../resources/upload/${reviews[i].profileImg}"/>`;
 				
 			let imgHtml = `<img class="hide"/>`;
 			if(reviews[i].image!=null)
-				imgHtml = `<img src="../../resources/img/${reviews[i].image}" />`;
+				imgHtml = `<img src="../../resources/upload/${reviews[i].image}" />`;
 				
 			let content = ``;
 			if(reviews[i].content!=null)
@@ -533,15 +533,13 @@ $(function() {
 	$(document).on("click", ".reviewInput>div:nth-child(3)>div:nth-child(1)", function() {
 		$("#reviewImg").click();
 	});
-	// 이미지 데이터
-	let formData;
+	// 댓글 데이터
+	let formData = new FormData();
 	$("#reviewImg").change(function(){
 		if(this.files && this.files[0]){
 			let imgUrl = URL.createObjectURL(this.files[0]);
-	        
 	        let files = this.files[0];
-	        formData = new FormData();
-			formData.append("file", files);
+			formData.set("file", files);
 		}
 	});
 	// ******************* 장소 리뷰 스크롤 *****************************
@@ -578,20 +576,21 @@ $(function() {
 			$(this).parent().parent().find("#textarea").find("textarea").val("");
 			return;
 		}
-		alert(placeId);
+		//alert(placeId);
 		
-		const jsonData = {
-			"placeId" : placeId,
-			"content" : content,
-			"rating" : rating,
-			"image" : image
-		};
+		
+		formData.set("placeId", placeId);
+		formData.set("content", content);
+		formData.set("rating", rating);
+		//const jsonData = {
+		//	"placeId" : placeId,
+		//	"content" : content,
+		//	"rating" : rating,
+		//	"image" : image
+		//};
 		const initData = {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(jsonData)
+			method: "POST",
+			body: formData
 		};
 		fetch("../../addReview", initData)
 		.then(function(response) {
@@ -603,6 +602,7 @@ $(function() {
 			popupPageNum = 1;
 			$(".popupPlace>div:nth-child(6)").empty();
 			reviewNewPage(popupPageNum, placeId);
+			
 			Toastify({
 			  text: "댓글이 등록되었습니다.",
 			  duration: 3000,
