@@ -5,13 +5,30 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.nh.dao.MemberDao;
 
+@PropertySource("classpath:secret.properties")
+@Configuration
 @Service
 public class MemberServiceImpl implements MemberService {
-
+	@Value("${kakao.client.id}")
+    private String KakaoClientId;
+	@Value("${kakao.client.secret}")
+	private String KakaoClientSecret;
+	
 	@Autowired
 	MemberDao mDao;
 	
@@ -147,6 +164,58 @@ public class MemberServiceImpl implements MemberService {
 		}
 		String pw = sb.toString();
 		return mDao.addMember(email, pw);
+	}
+
+	@Override
+	public String getEmailByKakao(String code) {
+		// 코드로 토큰 발급
+	    String authCode = code;
+	    
+	    // 헤더
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    // body
+	    MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+	    body.add("grant_type", "authorization_code");
+	    body.add("client_id", KakaoClientId);
+	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/kakaologin/oauth");
+	    body.add("code", authCode);
+	    body.add("client_secret", KakaoClientSecret);
+	    
+	    // Http요청 객체
+	    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
+	    // Kakao API 호출
+	    ResponseEntity<JsonNode> response =
+	        new RestTemplate().exchange(
+	            "https://kauth.kakao.com/oauth/token",
+	            HttpMethod.POST,
+	            httpEntity,
+	            JsonNode.class);
+	    
+	    JsonNode jsonNode = response.getBody();
+	    
+	    // 토큰으로 이메일 조회
+	    String token = jsonNode.get("access_token").asText();
+	    
+	    // 헤더
+	    headers = new HttpHeaders();
+	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    headers.add("Authorization", "bearer " + token);
+	    
+	    // Http요청 객체
+	    httpEntity = new HttpEntity<>(headers);
+	    
+	    // Kakao API 호출
+	    response = new RestTemplate().exchange(
+	            "https://kapi.kakao.com/v2/user/me",
+	            HttpMethod.GET,
+	            new HttpEntity<>(headers),
+	            JsonNode.class);
+	    
+	    //System.out.println(response.getBody());
+	    jsonNode = response.getBody();
+	    String email = jsonNode.get("kakao_account").get("email").asText();
+		return email;
 	}
 
 	
