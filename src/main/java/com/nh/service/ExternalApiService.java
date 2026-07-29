@@ -35,13 +35,14 @@ public interface ExternalApiService {
 	 * @param session : key 값 보내기
 	 * @param email : 보낼 이메일
 	 * @param nickName : 보낼 사람의 닉네임
+	 * @param pageType : 이메일을 어디서 보내는지(페이지 이름)
 	 */
-	void sendEmail(HttpSession session,String email, String nickName);
+	String sendEmail(String email, String nickName, String pageType);
 	
 	/**
 	 * 비밀번호 재설정 인증코드 수정
 	 * @param email : 비밀번호 재설정할 이메일 이름
 	 * @return 
 	 */
-	public String updateKey(String email);
+	String updateKey(String email, String pageType);
 }

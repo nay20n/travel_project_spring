@@ -10,12 +10,23 @@ $(function (){
 			$("#main > div:nth-child(7)").removeClass("show");
 			$("#main > input").removeClass("borderWraning");
 			
-			fetch("getEmail?email=" + emailInput + "&nickName=" + nickName, {method:"post"})
+			const jsonData = {
+				"email" : email,
+				"nickName" : nickName,
+				"pageType" : "resetPw", 
+			};
+			const initData = {
+				method: "post",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(jsonData)
+			};
+			
+			fetch("sendEmail", initData)
 			.then(function(response){
 				return response.text();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러: " + error);

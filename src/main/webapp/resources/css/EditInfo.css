@@ -227,7 +227,7 @@ body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 
 	right: 10px;
 	top: 10px;
 	color: #4B4C56;
-	cursor: pointer;
+	cursor:pointer;
 }
 .popupContent > svg:nth-child(1):hover {color: #E3D4FF;}
 .popupContent > div:nth-child(2) { /*팝업들 메인 내용들*/
@@ -252,7 +252,7 @@ body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 
 }
 .popupContent > div:nth-child(2) > div:nth-child(4) { /* 인증번호입력란 */
 	margin: 15px auto 8px;
-	color: red;
+	cursor: auto;
 }
 .popupContent > div:nth-child(2) > div:nth-child(5) { /* 인증완료 */
 	background-color: #925DE8;
