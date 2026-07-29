@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@ include file="HeaderPlain.jsp"%>
-<div id="profile" class="bs"> <!--젤 위 프로필 박스-->
+<div id="profile" class="bs" data-email="${email}"> <!--젤 위 프로필 박스-->
 	<c:choose>
 		<c:when test="${empty getMyPage.getMemberProfile.profileImg}">
 			<img src="resources/img/defaultImg.png"/>
