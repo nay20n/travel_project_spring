@@ -28,6 +28,10 @@ public class MemberServiceImpl implements MemberService {
     private String KakaoClientId;
 	@Value("${kakao.client.secret}")
 	private String KakaoClientSecret;
+	@Value("${naver.client.id}")
+    private String NaverClientId;
+	@Value("${naver.client.secret}")
+	private String NaverClientSecret;
 	
 	@Autowired
 	MemberDao mDao;
@@ -215,6 +219,61 @@ public class MemberServiceImpl implements MemberService {
 	    //System.out.println(response.getBody());
 	    jsonNode = response.getBody();
 	    String email = jsonNode.get("kakao_account").get("email").asText();
+		return email;
+	}
+	
+	@Override
+	public String getEmailByNaver(String code, String state) {
+		// 코드로 토큰 발급
+	    
+	    // 헤더
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    // body
+	    MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+	    body.add("grant_type", "authorization_code");
+	    body.add("client_id", NaverClientId);
+	    body.add("client_secret", NaverClientSecret);
+	    body.add("code", code);
+	    body.add("state", state);
+	    
+	    
+	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/naverlogin/mainHome");
+	    
+	    
+	    // Http요청 객체
+	    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
+	    // Kakao API 호출
+	    ResponseEntity<JsonNode> response =
+	        new RestTemplate().exchange(
+	            "https://nid.naver.com/oauth2.0/token",
+	            HttpMethod.POST,
+	            httpEntity,
+	            JsonNode.class);
+	    
+	    JsonNode jsonNode = response.getBody();
+	    
+	    // 토큰으로 이메일 조회
+	    String token = jsonNode.get("access_token").asText();
+	    
+	    // 헤더
+	    headers = new HttpHeaders();
+	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    headers.add("Authorization", "Bearer " + token);
+	    
+	    // Http요청 객체
+	    httpEntity = new HttpEntity<>(headers);
+	    
+	    // Kakao API 호출
+	    response = new RestTemplate().exchange(
+	            "https://openapi.naver.com/v1/nid/me",
+	            HttpMethod.GET,
+	            new HttpEntity<>(headers),
+	            JsonNode.class);
+	    
+	    //System.out.println(response.getBody());
+	    jsonNode = response.getBody();
+	    String email = jsonNode.get("response").get("email").asText();
 		return email;
 	}
 

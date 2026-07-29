@@ -232,8 +232,13 @@ $(function() {
 	    document.body.appendChild(form);
 	    form.submit();
 	});
+	//카카오로 로그인
 	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(1)").click(function() {
 		location.href="kakaologin?mapping=login";
+	});
+	//네이버로 로그인
+	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(2)").click(function() {
+		location.href="naverlogin?mapping=login";
 	});
 	// 이메일로 가입하기
 	$(".popupContainer>div:nth-child(1)>div:nth-child(4)>div:nth-child(3)").click(function() {
