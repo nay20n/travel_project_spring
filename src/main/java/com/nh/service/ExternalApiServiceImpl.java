@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -480,20 +481,28 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	}
 	// 비밀번호 재설정 페이지로 넘어가기 위한 키 발급 함수
 	@Override
-	public String updateKey(String email) {
+	public String updateKey(String email, String pageType) {
 		
-		// 랜덤키
-		StringBuffer sb = new StringBuffer();
-		while(sb.length()<6) {
-			int temp = (int)(Math.random()*75) + 48;
-			if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
+		if("resetPw".equals(pageType)) {
+			// 랜덤키
+			StringBuffer sb = new StringBuffer();
+			while(sb.length()<6) {
+				int temp = (int)(Math.random()*75) + 48;
+				if(temp<58||(temp>64&&temp<91)||(temp>96)) sb.append((char)temp);
+			}
+			mDao.updateKey(sb.toString(), email);
+			return (String)sb.toString(); 
+		} else {
+			Random random = new Random();
+			int randomNumber = random.nextInt(10000); 
+			String authCode = String.format("%04d", randomNumber); // 인증 코드
+			mDao.updateKey(authCode, email);
+			return authCode;
 		}
-		mDao.updateKey(sb.toString(), email);
-		return (String)sb.toString(); 
 	}
 	
 	@Override
-	public void sendEmail(HttpSession httpSession, String email, String nickName) {
+	public String sendEmail(String email, String nickName, String pageType) {
 		// 1. 이메일 관련 전역 변수 설정
 		String host = "smtp.naver.com";
 		String port = "465";
@@ -534,43 +543,68 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			message.setFrom(new InternetAddress(id));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			
-			//System.out.println("[system.out] 3");
-			message.setSubject("트래블 플레너 비밀번호 재설정");
 			
-			String key = updateKey(email);
-			httpSession.setAttribute("key", key);
-			System.out.println("key : "+key);
-			System.out.println("url : " + "http://localhost:9090/TravelPlanner/setpw?key="+ key);
-		
-			String html = "<h1>비밀번호 재설정 안내</h1>"
-					+ "<p style='font-size: 17px; line-height: 2; color: #333333; margin-bottom: 24px;'>"
-					+ "안녕하세요, "+ nickName +"님<br/> "
-					+ "본 메일은 비밀번호 재설정을 위해 트래블 플래너에서 발송하는 메일입니다.<br/>"
-					+ "본인이 요펑한 메일이 아니라면 개인정보 보호를 위해 비밀번호를 재설정해주세요. <br/>"
-					+ "비밀번호를 다시 설정하려면 '비밀번호 재설정'링크를 클릭해주세요."
-					+ "</p>"
-					+ "<a href='http://localhost:9090/TravelPlanner/setpw?key=" + key + "' style='"
-		            + "display: inline-block; "
-		            + "padding: 5px 7px; "
-		            + "border-radius: 4px; "
-		            + "font-size: 16px; "
-		            + "font-weight: 500; "
-		            + "color: white; "
-		            + "background-color: #925DE8; "
-		            + "text-decoration: none; "
-		            + "text-align: center;'>"
-		            + "비밀번호 재설정</a>";
+			String key = updateKey(email, pageType); // 재설정 페이지 코드
 			
-			message.setContent(html, "text/html; charset=UTF-8");
+			String title = "";
+			String html = "";
+			
+			if("resetPw".equals(pageType)) { // 비밀번호 재설정 페이지에서
+				
+				title = "[트래블 플레너] 비밀번호 재설정";
+				html = "<h1>비밀번호 재설정 안내</h1>"
+						+ "<p style='font-size: 17px; line-height: 2; color: #333333; margin-bottom: 24px;'>"
+						+ "안녕하세요, "+ nickName +"님<br/> <br/>"
+						+ "본 메일은 비밀번호 재설정을 위해 트래블 플래너에서 발송하는 메일입니다.<br/>"
+						+ "본인이 요펑한 메일이 아니라면 개인정보 보호를 위해 비밀번호를 재설정해주세요. <br/>"
+						+ "비밀번호를 다시 설정하려면 '비밀번호 재설정'링크를 클릭해주세요."
+						+ "</p>"
+						+ "<a href='http://localhost:9090/TravelPlanner/setpw?key=" + key + "' style='"
+			            + "	display: inline-block; "
+			            + "	padding: 5px 7px; "
+			            + "	border-radius: 4px; "
+			            + "	font-size: 16px; "
+			            + "	font-weight: 500; "
+			            + "	color: white; "
+			            + "	background-color: #925DE8; "
+			            + "	text-decoration: none; "
+			            + "	text-align: center;'>"
+			            + "비밀번호 재설정</a>";
+			} else { // 정보수정 페이지에서(이메일 변경)
+				
+				title = "[트래플 플레너] 이메일 변경";
+				html= "<h1>메일 인증번호</h1>"
+						+ "<p style='font-size: 17px; line-height: 2; color: #333333; margin-bottom: 24px;'>"
+						+ "안녕하세요, "+ nickName +"님<br/> <br/>"
+						+ "인증을 위한 인증 코드를 발급하였습니다. <br/>"
+						+ "아래의 인증 코드를 입력하여 주세요. <br/>"
+						+ "<div style='background-color: #E3D4FF; "
+						+ "	color: #925DE8;"
+						+ "	width: 260px;"
+						+ "	text-align: center;"
+						+ " font-size: 17px;"
+						+ " padding: 10px 0px;"
+						+ " border-radius: 7px;'>"
+						+ key 
+						+ "</div>"
+						+ "</p>";
+			}
+			
+			
+			message.setSubject(title); // 제목
+			message.setContent(html, "text/html; charset=UTF-8"); // 내용
 			
 			// 5. 메세지 발송 프로세스
 			message.setSentDate(new java.util.Date());
 			//System.out.println("[system.out] 4");
 			Transport.send(message);
 			System.out.println("[system.out] 메일 발송 성공");
+			
+			return key;
 						
 		} catch(Exception e) {
 			e.printStackTrace();
+			return "apiService실패";
 		}
 		
 	}

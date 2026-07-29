@@ -69,12 +69,12 @@
 				<div>
 					<div class="popupBigTitle">인증번호 입력</div>
 					<div class="popupSmallTitle">
-						<span>${editPage.email}</span><span>(으)로</span>
+						<span></span><span>(으)로</span>
 					</div>
 					<div class="popupSmallTitle">
 						<span>전송된 4자리 숫자를 입력하세요.</span>
 					</div>
-					<div class="popupBtn">0000</div> <!-- 인증번호받는곳 -->
+					<div class="popupBtn" contenteditable></div> <!-- 인증번호받는곳 -->
 					<div class="popupBtn">인증 완료</div>
 					<div class="popupBtn">인증번호 재전송</div>
 				</div>

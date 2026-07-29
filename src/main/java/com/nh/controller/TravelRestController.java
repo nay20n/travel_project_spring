@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
@@ -481,5 +482,29 @@ System.out.println("input : " + input);
 		ret.put("email", email);
 		
 		return ret;
+	}
+	
+	// 인증번호 맞는지 체크 
+	@PostMapping("/checkAuthCode")
+	public boolean checkAuthCode (HttpSession session, String key) {
+		
+		
+		
+		// 지금 현재 세션에 저장된 key여야지만 접근 가능
+		String keySession = (String)session.getAttribute("key");
+		System.out.println("발급된 키 "+keySession);
+		if(!keySession.equals(key)) {
+			System.out.println("key");
+			return false;
+		}
+		
+		// 키가 존재하는지 + 만료되지 않았는지 서비스에서 확인
+        boolean isValid = mSvc.isValidCode(key);
+        if (isValid) {
+        	System.out.println("key인증");
+        	return false;
+        }
+        
+        return true;
 	}
 }

@@ -276,11 +276,16 @@ public class APIController {
 	}
 	
 	// 이메일 보내기
-	@PostMapping("/getEmail")
-	public String getEmaiil(HttpSession session,String email, String nickName) {
+	@PostMapping("/sendEmail")
+	public String sendEmail(HttpSession session,@RequestBody Map<String, Object> mapReq) {
+		String email = (String)mapReq.get("email");
+		String nickName = (String)mapReq.get("nickName");
+		String pageType = (String)mapReq.get("pageType");
+		
 		try {
-			eSvc.sendEmail(session, email, nickName);
-			return "성공";
+			String key = eSvc.sendEmail(email, nickName, pageType);
+			session.setAttribute("key", key);
+			return key;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "실패";
