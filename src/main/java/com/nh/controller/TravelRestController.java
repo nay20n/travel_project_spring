@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
 import com.nh.service.CommentService;
+import com.nh.service.ExternalApiService;
 import com.nh.service.MemberService;
 import com.nh.service.PlaceService;
 
@@ -41,6 +42,8 @@ public class TravelRestController {
 	MemberService mSvc;
 	@Autowired
 	BlockService blSvc;
+	@Autowired
+	ExternalApiService eSvc;
 	
 	@Autowired
 	private ServletContext application; // 절대경로
@@ -505,9 +508,6 @@ public class TravelRestController {
 	// 인증번호 맞는지 체크 
 	@PostMapping("/checkAuthCode")
 	public boolean checkAuthCode (HttpSession session, String key) {
-		
-		
-		
 		// 지금 현재 세션에 저장된 key여야지만 접근 가능
 		String keySession = (String)session.getAttribute("key");
 		System.out.println("발급된 키 "+keySession);
@@ -524,5 +524,22 @@ public class TravelRestController {
         }
         
         return true;
+	}
+	
+	// 신규회원 가입 이메일 보내기
+	@PostMapping("/join")
+	public String insertMember(HttpSession session, String email) {
+		String nickName = "신규 가입자";
+		String pageType = "mainPage";
+		session.setAttribute("email", email);
+		
+		try {
+			String key = eSvc.sendEmail(email, nickName, pageType);
+			session.setAttribute("key", key);
+			return "전송성공";
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "전송실패";
+		}
 	}
 }

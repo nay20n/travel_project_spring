@@ -49,10 +49,12 @@ public class MemberDaoImpl implements MemberDao{
 
 	@Override
 	public int addMember(String email, String pw) {
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("email", email);
 		map.put("pw", pw);
-		return sqlSession.insert("memberMapper.addMember",map);
+		
+		sqlSession.insert("memberMapper.addMember",map);
+		return (int)map.get("memberId");
 	}
 
 	@Override

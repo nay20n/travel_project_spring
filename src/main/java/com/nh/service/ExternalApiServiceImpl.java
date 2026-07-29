@@ -482,7 +482,6 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	// 비밀번호 재설정 페이지로 넘어가기 위한 키 발급 함수
 	@Override
 	public String updateKey(String email, String pageType) {
-		
 		if("resetPw".equals(pageType)) {
 			// 랜덤키
 			StringBuffer sb = new StringBuffer();
@@ -572,7 +571,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			            + "비밀번호 재설정</a>";
 			} else { // 정보수정 페이지에서(이메일 변경)
 				
-				title = "[트래플 플레너] 이메일 변경";
+				title = "[트래플 플레너] 이메일 인증";
 				html= "<h1>메일 인증번호</h1>"
 						+ "<p style='font-size: 17px; line-height: 2; color: #333333; margin-bottom: 24px;'>"
 						+ "안녕하세요, "+ nickName +"님<br/> <br/>"

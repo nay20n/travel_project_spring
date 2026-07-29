@@ -55,10 +55,16 @@
 			INSERT INTO members(member_id, email, nick_name, pw)
 			VALUES(seq_member.nextval, #{email}, '익명의 사용자', #{pw})
 		]]>
-		<selectKey keyProperty="member_id" resultType="java.lang.Integer" order="AFTER">
+		<selectKey keyProperty="memberId" resultType="java.lang.Integer" order="AFTER">
 			SELECT seq_member.CURRVAL FROM dual
 		</selectKey>
 	</insert>
+	<!-- <insert id="insertTempMember">
+		<![CDATA[
+			INSERT INTO members(member_id, email, key, ex_date)
+			VALUES(seq_member.nextval, #{email}, #{key}, SYSDATE+1/24/6)
+		]]>
+	</insert> -->
 	<update id="modifyProfileImg">
 		<![CDATA[
 			UPDATE members SET profile_img = #{profileImg}

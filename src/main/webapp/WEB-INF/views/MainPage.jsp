@@ -110,12 +110,12 @@
 				<div>
 					<div class="popupBigTitle">인증번호 입력</div>
 					<div class="popupSmallTitle">
-						<span>zxton@naver.com</span><span>(으)로</span>
+						<span>이메일</span><span>(으)로</span>
 					</div>
 					<div class="popupSmallTitle">
 						<span>전송된 4자리 숫자를 입력하세요.</span>
 					</div>
-					<div class="loginButton">0000</div> <!-- 인증번호받는곳 -->
+					<div contenteditable="true" class="loginButton"></div> <!-- 인증번호받는곳 -->
 					<div class="loginButton">인증 완료</div>
 					<div class="loginButton">인증번호 재전송</div>
 					<div>

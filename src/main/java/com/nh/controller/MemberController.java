@@ -10,21 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.nh.service.ExternalApiService;
 import com.nh.service.MemberService;
 
 @PropertySource("classpath:secret.properties")
@@ -38,6 +33,8 @@ public class MemberController {
 	
 	@Autowired
 	MemberService mSvc;
+	@Autowired
+	ExternalApiService eSvc;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -45,7 +42,7 @@ public class MemberController {
 	@GetMapping("/kakaologin")
 	public String kakaologin(@RequestParam String mapping) {
 		String redirect = "http://localhost:9090/TravelPlanner/kakaologin/editInfo";
-		if(mapping.equals("login")) {
+		if("login".equals(mapping)) {
 			redirect = "http://localhost:9090/TravelPlanner/kakaologin/mainHome";
 		}
 		String url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + KakaoClientId 
@@ -99,6 +96,25 @@ public class MemberController {
 		return "redirect:http://localhost:9090/TravelPlanner/mypage/edit";
 	}
 	
+	// 신규 회원 인증번호 맞는지 체크 
+	@GetMapping("/joinCode")
+	public String checkAuthCode (RedirectAttributes rttr, HttpSession session, String inputKey) {
+		// 지금 현재 세션에 저장된 key여야지만 접근 가능
+		String keySession = (String)session.getAttribute("key");
+		System.out.println("발급된 키 "+keySession);
+		System.out.println("입력된 키 "+inputKey);
+		if(!keySession.equals(inputKey)) {
+			rttr.addFlashAttribute("msg", "인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+		} else {
+			int memberId = mSvc.addMember((String)session.getAttribute("email"));
+			System.out.println(memberId);
+			session.setAttribute("loginId", memberId);
+			rttr.addFlashAttribute("msg", "회원 가입이 완료 되었습니다. 꼭 비밀번호를 변경해주세요.");
+			return "SetPw";
+		}
+
+		return "redirect:/";
+	}
 	
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
@@ -157,5 +173,4 @@ public class MemberController {
         model.addAttribute("key", key);
         return "SetPw"; 
 	}
-	
 }

@@ -4,6 +4,13 @@ let scrollLock = false;
 let gPageNum = 1;
 let boardListIdx = 1;
 
+// 이메일 유효성 체크
+const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+function emailValidChk(email) {
+    if(pattern.test(email) === false) { return false; }
+    else { return true; }
+}
+
 // 게시글 페이지 불러오기 함수
 function newPage(pageNum,mapping,input) {
 	if(gPageLock) return;
@@ -165,7 +172,7 @@ $(function() {
 		//alert(bno);
 		
 		if($(this).hasClass("fillHeart")){ // 찜 삭제
-			fetch("/TravelPlanner/deleteLikeBoard?bno="+bno, {method:"POST"})
+			fetch("deleteLikeBoard?bno="+bno, {method:"POST"})
 			.then(function(response){
 				return response.json();
 			})
@@ -176,7 +183,7 @@ $(function() {
 				alert("에러! : " + error);
 			})
 		} else { // 찜 더하기
-			fetch("/TravelPlanner/insertLikeBoard?bno="+bno, {method:"POST"})
+			fetch("insertLikeBoard?bno="+bno, {method:"POST"})
 			.then(function(response){
 				return response.json();
 			})
@@ -248,10 +255,77 @@ $(function() {
 	});
 	$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)").click(function() {
 		if($(this).parent().find(".checkBox").is(":checked")) {
-			$(".popupContainer>div:nth-child(2)").hide();
-			$(".popupContainer>div:nth-child(3)").show();
+			// 이메일 전송 비동기 및 임시 가입
+			let email = $(".popupContainer>div:nth-child(2)>div>.inputBdDiv>input[type=email]").val();
+			if(email=="") {
+				Toastify({
+				  text: "내용을 입력해주세요.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+				return;
+			}
+			if(!emailValidChk(email)) {
+				Toastify({
+				  text: "올바른 이메일을 입력해주세요.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+				return;
+			}
+			console.log(email);
+			fetch("join?email=" + email, {method: "post"})
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				console.log(data);
+				Toastify({
+				  text: "인증 메일을 전송했습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+				$(".popupContainer>div:nth-child(3)>div>div:nth-child(2)>span:nth-child(1)").html(email);
+				$(".popupContainer>div:nth-child(2)").hide();
+				$(".popupContainer>div:nth-child(3)").show();
+			})
+			.catch(function(error) {
+				alert("에러! : " + error);
+			});
 		}else {
-			alert("약관에 동의하지 않으면 가입할 수 없습니다.");
+			Toastify({
+			  text: "약관에 동의하지 않으면 가입할 수 없습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
 			return;		
 		}
 	});
@@ -261,12 +335,23 @@ $(function() {
 		$(".popupContainer>div:nth-child(1)").show();
 	});
 	// 이메일로 가입하기-인증번호 받기-인증완료
-	$(".popupContainer > div:nth-child(3) > div:nth-child(2) > div:nth-child(5)").click(function() {
-		if($(this).parent().find(".checkBox").is(":checked")) {
-			location.href="SetPw.html";
-		}else {
-			alert("약관에 동의하지 않으면 가입할 수 없습니다.");
-			return;		
+	$(".popupContainer > div:nth-child(3) > div > div:nth-child(5)").click(function() {
+		if(!$(this).parent().find(".checkBox").is(":checked")) {
+			Toastify({
+			  text: "약관에 동의하지 않으면 가입할 수 없습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+			return;
 		}
+		let inputKey = $(".popupContainer >div:nth-child(3)>div>div:nth-child(4)").html();
+		location.href="joinCode?inputKey=" + inputKey;
 	});
 });
