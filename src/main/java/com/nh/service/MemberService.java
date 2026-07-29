@@ -142,4 +142,11 @@ public interface MemberService {
 	 * @return memberId
 	 */
 	int getId (String email);
+	
+	/**
+	 * 카카오로 email 조회
+	 * @param authCode
+	 * @return email
+	 */
+	String getEmailByKakao(String code);
 }

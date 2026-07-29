@@ -42,15 +42,19 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	// 카카오 로그인 요청 보내기
-	@RequestMapping("/kakaologin")
-	public String kakaologin(HttpSession session, Model model) {
+	@GetMapping("/kakaologin")
+	public String kakaologin(@RequestParam String mapping) {
+		String redirect = "http://localhost:9090/TravelPlanner/kakaologin/editInfo";
+		if(mapping.equals("login")) {
+			redirect = "http://localhost:9090/TravelPlanner/kakaologin/mainHome";
+		}
 		String url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + KakaoClientId 
-				+ "&redirect_uri=" + "http://localhost:9090/TravelPlanner/kakaologin/oauth";
+				+ "&redirect_uri=" + redirect;
 		return "redirect:" + url;
 	}
 	// 카카오 로그인 처리
-	@GetMapping("/kakaologin/oauth")
-	public String kakaologinOauth(@RequestParam(required = false) String code,
+	@GetMapping("/kakaologin/mainHome")
+	public String kakaologinMainHome(@RequestParam(required = false) String code,
 		      @RequestParam(required = false) String error,
 		      @RequestParam(name = "error_description", required = false) String errorDescription,
 		      @RequestParam(required = false) String state, 
@@ -62,53 +66,7 @@ public class MemberController {
 //	    System.out.println("errorDescription: " + errorDescription);
 //	    System.out.println("state: " + state);
 		
-		// 코드로 토큰 발급
-	    String authCode = code;
-	    
-	    // 헤더
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-	    // body
-	    MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-	    body.add("grant_type", "authorization_code");
-	    body.add("client_id", KakaoClientId);
-	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/kakaologin/oauth");
-	    body.add("code", authCode);
-	    body.add("client_secret", KakaoClientSecret);
-	    
-	    // Http요청 객체
-	    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
-	    // Kakao API 호출
-	    ResponseEntity<JsonNode> response =
-	        new RestTemplate().exchange(
-	            "https://kauth.kakao.com/oauth/token",
-	            HttpMethod.POST,
-	            httpEntity,
-	            JsonNode.class);
-	    
-	    JsonNode jsonNode = response.getBody();
-	    
-	    // 토큰으로 이메일 조회
-	    String token = jsonNode.get("access_token").asText();
-	    
-	    // 헤더
-	    headers = new HttpHeaders();
-	    headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-	    headers.add("Authorization", "bearer " + token);
-	    
-	    // Http요청 객체
-	    httpEntity = new HttpEntity<>(headers);
-	    
-	    // Kakao API 호출
-	    response = new RestTemplate().exchange(
-	            "https://kapi.kakao.com/v2/user/me",
-	            HttpMethod.GET,
-	            new HttpEntity<>(headers),
-	            JsonNode.class);
-	    
-	    //System.out.println(response.getBody());
-	    jsonNode = response.getBody();
-	    String email = jsonNode.get("kakao_account").get("email").asText();
+	    String email = mSvc.getEmailByKakao(code);
 	    
 	    if(mSvc.isExistEmail(email)) {
 	    	session.setAttribute("loginId", mSvc.getId(email));
@@ -119,6 +77,26 @@ public class MemberController {
 	    }
 	    
 	    return "redirect:/";
+	}
+	// 카카오 로그인 처리(정보수정)
+	@GetMapping("/kakaologin/editInfo")
+	public String kakaologinEditInfo(@RequestParam(required = false) String code,
+			@RequestParam(required = false) String error,
+			@RequestParam(name = "error_description", required = false) String errorDescription,
+			@RequestParam(required = false) String state, 
+			HttpSession session, RedirectAttributes rttr) {
+		
+		String email = mSvc.getEmailByKakao(code);
+		
+		if(mSvc.isExistEmail(email)) {
+			session.setAttribute("loginId", mSvc.getId(email));
+			rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+		} else {
+			rttr.addFlashAttribute("msg", "로그인한 이메일과 다릅니다. 정보를 다시 확인해주세요.");
+			return "redirect:/";
+		}
+		
+		return "redirect:http://localhost:9090/TravelPlanner/mypage/edit";
 	}
 	
 	
