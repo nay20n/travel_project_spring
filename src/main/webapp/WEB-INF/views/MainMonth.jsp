@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="../../resources/js/jquery-4.0.0.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="../../resources/js/MainMonth.js"></script>
-	<script type="text/javascript" src="../../resources/js/Header.js"></script>
+	<script type="text/javascript" src="../../resources/js/HeaderEditBoard.js"></script>
 	<script type="text/javascript" src="../../resources/js/BoardTitle.js"></script>
 	
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -28,7 +28,7 @@
 	<%@ include file="HeaderEditBoard.jsp"%>
 	<%@ include file="BoardTitle.jsp"%>
 	<div id="daterange" data-start="${startDate}" data-end="${endDate}"></div>
-	<div id="main" data-bno="${bno}">
+	<div id="main" data-bno="${bno}" data-key="${key}">
 		<div>
 			<h2 class="date fl">2026년 5월</h2>
 			<div class="changeView fl bs" >
