@@ -243,7 +243,7 @@ public class MemberServiceImpl implements MemberService {
 	    
 	    // Http요청 객체
 	    HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
-	    // Kakao API 호출
+	    // Naver API 호출
 	    ResponseEntity<JsonNode> response =
 	        new RestTemplate().exchange(
 	            "https://nid.naver.com/oauth2.0/token",
