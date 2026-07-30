@@ -8,18 +8,11 @@ $(function() {
 	});
 	
 	// 공유
-	$(document).on("click", "#header> div:nth-child(2)>div:nth-child(1)>div", function() {
+	$(document).on("click", "#shareBtn", function() {
 		if(gCreateKeyLock) return; // 이미 생성 중이라면 막기
 		
 		gCreateKeyLock = true;
 		let bno = $(this).data("bno");
-		
-		const originalFee = String($(this).data('original-value'));
-    	const currentFee = $(this).val();
-    	const field = $(this).attr('data-field');
-    	
-		// 제목에 변경 사항이 없다면 종료
-		if (originalFee === currentFee) return;
 		
 		const jsonData = {
 			"bno" : bno
@@ -45,7 +38,6 @@ $(function() {
 		    document.execCommand("copy");
 		    document.body.removeChild(dummy);
 		    
-			gCreateKeyLock = false;
 			Toastify({
 			  text: "공유 링크가 복사되었습니다!",
 			  duration: 3000,
@@ -58,10 +50,15 @@ $(function() {
 			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
 			  }
 			}).showToast();
+			
+			gCreateKeyLock = false;
 		})
 		.catch(function(error) {
-			alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);
+			alert("에러! : 공유링크 생성에 문제가 발생했습니다. 다시 시도해주세요." + error);
 		});
+		// 연결
+		if(webSocket==null)
+			webSocket = new WebSocket("ws://localhost:9090/TravelPlanner/broadcasting?key="+bno);
 	});
 	// 로그아웃
 	$("#header> div:nth-child(2)>div:nth-child(2)>div").click(function() {

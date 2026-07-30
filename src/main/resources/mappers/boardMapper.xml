@@ -122,6 +122,9 @@
 				b.food_cost "foodCost", 
 				b.room_cost "roomCost", 
 				b.etc_cost "etcCost",
+				b.share_user_id "shareUserId",
+				b.key "key",
+				b.ex_date "exDate",
 				(SELECT COUNT(*) FROM comments c WHERE b.bno = c.bno) "reviewCnt", 
 				(SELECT COUNT(*) FROM like_boards lb WHERE member_id = #{memberId} AND lb.bno = b.bno) "isLiked",
 				(SELECT COUNT(*)FROM like_boards lb WHERE lb.bno = b.bno) "likedCnt"
