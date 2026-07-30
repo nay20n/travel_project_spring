@@ -67,6 +67,7 @@ async function drawMarker(lat, lng, placeId) {
 	});
 	
 	marker.placeId = placeId;
+	//console("placeId", placeId);
 	
     marker.addListener("gmp-click", function() {
     	// 정보창 팝업
@@ -484,6 +485,8 @@ $(function() {
 		
 		location.href = url.pathname.substr(0, endIdx);
 	});
+	
+	
 	// ai 추천
 	let aiLock = false; // 실행 중이라면 막아줄 전역 변수
 	$("#main > div:nth-child(2)>button:nth-child(4)").click(function() {
@@ -500,7 +503,7 @@ $(function() {
 		  }
 		}).showToast();
 		if(aiLock) return;
-		auLock = true;
+		aiLock = true;
 		let date = calendar.getDate().toDate();
 		let yyyy = date.getFullYear();
 		let mm = String(date.getMonth() + 1).padStart(2, "0");	

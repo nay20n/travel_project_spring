@@ -285,18 +285,29 @@ public class APIController {
 		String nickName = (String)mapReq.get("nickName");
 		String pageType = (String)mapReq.get("pageType");
 		
-		if(!mSvc.isExistEmail(email)) {
-			try {
-				String key = eSvc.sendEmail(email, nickName, pageType);
-				session.setAttribute("key", key);
-				return key;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "fail";
-			}
-		} else {return "exist";}
-		
-		
-		
+		if("editInfo".equals(pageType)) {
+			if(!mSvc.isExistEmail(email)) {
+				try {
+					String key = eSvc.sendEmail(email, nickName, pageType);
+					session.setAttribute("key", key);
+					return key;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "fail";
+				}
+			} else {return "exist";}
+			
+		}else {
+			if(mSvc.isExistEmail(email)) {
+				try {
+					String key = eSvc.sendEmail(email, nickName, pageType);
+					session.setAttribute("key", key);
+					return key;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "fail";
+				}
+			} else {return "empty";}
+		}
 	}
 }

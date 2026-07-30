@@ -26,7 +26,47 @@ $(function (){
 				return response.text();
 			})
 			.then(function(data){
-				//console.log(data);
+				console.log(data);
+				if(data==="empty"){
+					Toastify({
+					  text: "메일이 존재하지 않습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+				} else if(data=="fail") {
+					Toastify({
+					  text: "메일 전송을 실패했습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+				} else {
+					Toastify({
+					  text: "메일이 전송되었습니다.",
+					  duration: 3000,
+					  newWindow: true,
+					  close: true,
+					  gravity: "top",
+					  position: "center",
+					  stopOnFocus: true,
+					  style: {
+					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+					  }
+					}).showToast();
+				}
 			})
 			.catch(function(error){
 				alert("에러: " + error);

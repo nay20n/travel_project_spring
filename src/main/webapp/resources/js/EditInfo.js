@@ -102,14 +102,13 @@ $(function() {
 			})
 			.then(function(data){
 				//console.log(data);
-				let text;
 				if(data === "exist") { // 이미 가입한 이메일이라면
 					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").text("이미 가입이 된 이메일 입니다. 다른 이메일을 입력하세요.");
 					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > div:nth-child(3)").show();
 					$("#basicInfo > div:nth-child(2) > div:nth-child(5) > input").addClass("borderWraning");
 				} else if(data == "fail") { // 전송을 실패했을 경우
 					Toastify({
-					  text: "인증메일 전송을 실패했습니다.",
+					  text: "메일 전송을 실패했습니다.",
 					  duration: 3000,
 					  newWindow: true,
 					  close: true,
@@ -119,10 +118,10 @@ $(function() {
 					  style: {
 					    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
 					  }
-				}).showToast();
+					}).showToast();
 				} else { //이메일을 전송했을 경우
 					Toastify({
-					  text: "인증메일이 전송되었습니다.",
+					  text: "메일이 전송되었습니다.",
 					  duration: 3000,
 					  newWindow: true,
 					  close: true,

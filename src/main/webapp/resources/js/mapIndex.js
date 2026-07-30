@@ -117,7 +117,8 @@ async function init() {
 			
 			// 마커를 클릭 했을때 (버튼 비활성화, 마커 삭제)
 			marker.addListener("gmp-click", (event) => {
-				$("#nextBtn > div").removeClass("coloredBtn");
+				$(".coloredBtn").removeClass("coloredBtn");
+				//$(".coloredPlace").removeClass("coloredPlace");
 				isActive = false;
 				marker.map = null;
 				marker = undefined;
@@ -127,6 +128,44 @@ async function init() {
 	      alert("선택한 장소의 위치 정보가 없습니다.");
 	    }
   	});
+  	
+  	mapElement.innerMap.addListener("click", async function(e) {
+		//기본 제공되는 구글의 팝업 창을 안 뜨게 막음 
+    	//e.stop();
+    	
+	  	const placeId = e.placeId
+	  	console.log(placeId);
+	  	if (!placeId) return; //지면 클릭 시
+		// 마커 그리기 전 선택 된 것들 삭제
+		$(".coloredPlace").removeClass("coloredPlace");
+		if(marker != undefined) {
+			marker.map = null;
+			marker = undefined;
+		}
+		// 마커 그리기
+		marker = new AdvancedMarkerElement({
+			position: {
+					lat: e.latLng.lat(), 
+        			lng: e.latLng.lng()
+        	},   
+		    map: mapElement.innerMap,
+		});
+		// placeId 먹이'
+		$("#nextBtn").attr("data-placeid", placeId);
+			
+		// Activate '다음' 버튼.
+		$("#nextBtn > div").addClass("coloredBtn");
+		isActive = true;
+		
+		// 마커를 클릭 했을때 (버튼 비활성화, 마커 삭제)
+		marker.addListener("gmp-click", (event) => {
+			$(".coloredBtn").removeClass("coloredBtn");
+			//$(".coloredPlace").removeClass("coloredPlace");
+			isActive = false;
+			marker.map = null;
+			marker = undefined;
+		});
+    });
 }
 void init();
 
