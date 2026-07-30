@@ -76,7 +76,7 @@ public interface BoardService {
 	 * @param bno
 	 * @param key
 	 */
-	void addSharedMember(int memberId, int bno, String key);
+	Map<String, Object> addSharedMember(int memberId, int bno, String key);
 
 	/**
 	 * 일정 날짜 추가 및 삭제

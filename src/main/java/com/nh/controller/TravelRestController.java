@@ -407,8 +407,9 @@ public class TravelRestController {
 	}
 	// 게시글 공유 링크 생성
 	@PostMapping("/createShareKey")
-	public String createShareKey() {
-		return bSvc.createShareKey(0);
+	public String createShareKey(@RequestBody Map<String,Object> mapReq) {
+		int bno = (Integer) mapReq.get("bno");
+		return bSvc.createShareKey(bno);
 	}
 	// 일정 날짜 추가 및 삭제 (main/month)
 	@PostMapping("/modifyTravelDate")

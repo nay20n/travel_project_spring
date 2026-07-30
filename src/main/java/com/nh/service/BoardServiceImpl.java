@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nh.dao.AiBlockDao;
 import com.nh.dao.BlockDao;
@@ -174,13 +175,20 @@ public class BoardServiceImpl implements BoardService {
 
 	// 인증코드를 입력해서 공유회원이 들어온 경우
 	@Override
-	public void addSharedMember(int memberId, int bno, String key) {
+	@Transactional
+	public Map<String, Object> addSharedMember(int memberId, int bno, String key) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("key", key);
 		map1.put("bno", bno);
 		map1.put("memberId", memberId);
 		
 		bDao.addSharedMember(map1);
+		
+		Map<String, Object> mapBoard = bDao.getBoardInfo(map1);
+		mapBoard.put("bno", bno);
+		mapBoard.put("arrMapData", pDao.getPlaceMapData((String)mapBoard.get("arrPlaceId")));
+		
+		return mapBoard;
 	}
 	
 	// 일정 날짜 추가 및 삭제
