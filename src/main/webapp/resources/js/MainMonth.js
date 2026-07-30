@@ -8,6 +8,7 @@ let del= `<svg class="bs delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0
 let gDrp;   // DateRangePicker
 let gYear;
 let gMonth;
+let webSocket;
 		
 // 달력 띄우는 함수
 function clickInput() {
@@ -62,12 +63,59 @@ function calDate(dateStr ,days){
     return `${year}.${month}.${day}`;
 }
 
+// 공유
+webSocket.onmessage = function(e) {
+	if(e.data!="month") { return; }
+	$("#calender").daterangepicker({
+		locale: {
+			"format": 'YYYY.MM.DD',
+			"yearSuffix": "년",
+			"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+			"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+		},
+		"startDate" : '2027.04.04', 
+		"endDate" :  '2027.04.13',
+		"inline": true,
+		"linkedCalendars": false,
+		"autoUpdateInput": false,
+		"autoApply": true
+		}, function(start, end, label) {
+			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+		}
+	);
+	clickInput();
+	drawDel();
+	drawPlus();
+};
+webSocket.onopen = function(e) {
+	Toastify({
+	  text: "연결되었습니다.",
+	  duration: 3000,
+	  newWindow: true,
+	  close: true,
+	  gravity: "top",
+	  position: "center",
+	  stopOnFocus: true,
+	  style: {
+	    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+	  }
+	}).showToast();
+};
+webSocket.onerror = function(e) {
+	alert("에러!"); 
+};
+
 $(function() {
-    
+    // *********** 공통 필드 **************
 	let sDate = $('#daterange').attr('data-start'); 
     let eDate = $('#daterange').attr('data-end');  
     let bno = Number($("#main").attr("data-bno"));
-
+    let key = Number($("#main").attr("data-key"));
+    
+    // ********** 공유키가 있다면 연결 **********
+	if(key!=0)
+		webSocket = new WebSocket("ws://localhost:9090/TravelPlanner/broadcasting?key="+bno);
+	
     //alert(sDate.substring(0, sDate.indexOf(".")));
 	gYear = sDate.substring(0, sDate.indexOf("."));
 	//alert(sDate.substr(sDate.indexOf(".")+1, 2));
@@ -150,6 +198,8 @@ $(function() {
 				
 				setTimeout(drawPlus, 100);
 				setTimeout(drawDel, 100);
+				if(webSocket!=null)
+					webSocket.send("month");
 				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate} ~ ${data.endDate}`);
 			})
 			.catch(function(error){
@@ -325,6 +375,8 @@ $(function() {
 			})
 			.then(function(data){
 				console.log(data);
+				if(webSocket!=null)
+					webSocket.send("month");
 				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
 			})
 			.catch(function(error){
