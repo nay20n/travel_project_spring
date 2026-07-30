@@ -142,7 +142,7 @@ public class BoardServiceTest {
 	
 	// 인증코드 및 만료일시 생성 테스트
 	@Test
-	@Transactional
+	//@Transactional
 	public void testCreateShareKey() {
 		// 1) Given
 		int bno = 1;
