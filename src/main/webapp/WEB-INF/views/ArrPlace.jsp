@@ -36,7 +36,6 @@
 		</div>
 		<div id="searchPlace">
 			<div>직접 여행지 찾기</div>
-			
 			<div id="map" class="bs">
 	 			<gmp-map
 			    center="35.76, 127.03"
@@ -47,12 +46,18 @@
 				    <gmp-place-autocomplete id="autocomplete" placeholder="장소 검색"></gmp-place-autocomplete>
 	            </div>
 			</div>
- 
- 
  		</div>
 		<div id="aiPlace">
 			<div>사진으로 여행지 찾기</div>
-			<img class="bs" src = "../resources/img/AIPlaceImg.png"> 
+			<input type="file" name="file"/>
+			<div>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+				</svg>
+				<span>파일 업로드</span>
+			</div>
+			<img class="bs" src = "../resources/img/test.png"> 
+			<div>어딘지 분석하기</div>
 		</div>
 		<div id="nextBtn">
 			<div class="bs">다음</div>
