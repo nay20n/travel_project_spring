@@ -6,6 +6,9 @@ let eventList;
 let aiEventList;
 let aiBlocks;
 
+// 웹소켓
+let webSocket=null;
+
 // 지도
 let routeLine=null; // 경로
 let aiRouteLine=null; // ai경로
@@ -266,6 +269,8 @@ function handleDropEvent(event, ui) {
 		    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
 		  }
 		}).showToast();
+		if(webSocket!=null)
+			webSocket.send("week");
 	  	setBlocks(calendar);
 	})
 	.catch(function(error){
@@ -277,6 +282,46 @@ $(function() {
 	// ************** 공동 필드 *****************
 	let bno = $("#main").data("bno");
 	let arrPlaceCity = $("#main").data("arr-place-city");
+	let key = Number($("#main").attr("data-key"));
+	
+	if(key!=0) {
+		webSocket = new WebSocket("ws://localhost:9090/TravelPlanner/broadcasting?key="+bno);
+		
+		// 공유
+		webSocket.onmessage = function(e) {
+			if(e.data!="week") { return; }
+			Toastify({
+			  text: "수정사항이 반영되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+			setBlocks(calendar);
+		};
+		webSocket.onopen = function(e) {
+			Toastify({
+			  text: "연결되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+		};
+		webSocket.onerror = function(e) {
+			alert("에러!"); 
+		};
+	}
 	
 	// **************캘린더********************
 	const Calendar = tui.Calendar;
@@ -351,6 +396,8 @@ $(function() {
 		})
 		.then(function(data){
 			console.log(data);
+			if(webSocket!=null)
+				webSocket.send("week");
 		  	setBlocks(calendar);
 		})
 		.catch(function(error){
@@ -380,6 +427,8 @@ $(function() {
 			})
 			.then(function(data){
 				console.log(data);
+				if(webSocket!=null)
+					webSocket.send("week");
 			  	setBlocks(calendar);
 			  	Toastify({
 				  text: "삭제되었습니다.",
@@ -438,6 +487,8 @@ $(function() {
 		})
 		.then(function(data){
 			console.log(data);
+			if(webSocket!=null)
+				webSocket.send("week");
 		  	setBlocks(calendar);
 		})
 		.catch(function(error){
