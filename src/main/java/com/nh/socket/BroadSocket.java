@@ -13,6 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class BroadSocket extends TextWebSocketHandler {
 	public static Map<String, Set<WebSocketSession>> clientsMap = new HashMap<>();
+	public static Set<String> aiLock = Collections.synchronizedSet(new HashSet<>());
 	
 	Set<WebSocketSession> getClients(WebSocketSession session) {
 		String query = session.getUri().getQuery();
@@ -29,21 +30,17 @@ public class BroadSocket extends TextWebSocketHandler {
 		Set<WebSocketSession> clients = getClients(session);
 		clients.add(session);
 		System.out.println("새로운 클라이언트: 현재 " + clients.size() + "명");
-		for(WebSocketSession client : clients) {
-			//client.getBasicRemote().sendText("누군가 들어왔습니다!");
-			client.sendMessage(new TextMessage("누군가 들어왔습니다!"));
-		}
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage msg) throws Exception {
 		Set<WebSocketSession> clients = getClients(session);
 		clients.add(session);
-		System.out.println("클라이언트로 부터 도착한 메세지: " + msg);
+		System.out.println("클라이언트로 부터 도착한 메세지: " + msg.getPayload());
 		for(WebSocketSession client : clients) {
 			if(session != client) {
 				//client.getBasicRemote().sendText(msg);
-				client.sendMessage(msg);
+				client.sendMessage(new TextMessage(msg.getPayload()));
 			}
 		}
 	}

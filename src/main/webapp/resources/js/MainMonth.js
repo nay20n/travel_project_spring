@@ -8,8 +8,8 @@ let del= `<svg class="bs delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0
 let gDrp;   // DateRangePicker
 let gYear;
 let gMonth;
-let webSocket;
-		
+let webSocket=null;
+
 // 달력 띄우는 함수
 function clickInput() {
 	$("#calender").click();
@@ -63,48 +63,6 @@ function calDate(dateStr ,days){
     return `${year}.${month}.${day}`;
 }
 
-// 공유
-webSocket.onmessage = function(e) {
-	if(e.data!="month") { return; }
-	$("#calender").daterangepicker({
-		locale: {
-			"format": 'YYYY.MM.DD',
-			"yearSuffix": "년",
-			"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-			"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-		},
-		"startDate" : '2027.04.04', 
-		"endDate" :  '2027.04.13',
-		"inline": true,
-		"linkedCalendars": false,
-		"autoUpdateInput": false,
-		"autoApply": true
-		}, function(start, end, label) {
-			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-		}
-	);
-	clickInput();
-	drawDel();
-	drawPlus();
-};
-webSocket.onopen = function(e) {
-	Toastify({
-	  text: "연결되었습니다.",
-	  duration: 3000,
-	  newWindow: true,
-	  close: true,
-	  gravity: "top",
-	  position: "center",
-	  stopOnFocus: true,
-	  style: {
-	    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
-	  }
-	}).showToast();
-};
-webSocket.onerror = function(e) {
-	alert("에러!"); 
-};
-
 $(function() {
     // *********** 공통 필드 **************
 	let sDate = $('#daterange').attr('data-start'); 
@@ -113,8 +71,65 @@ $(function() {
     let key = Number($("#main").attr("data-key"));
     
     // ********** 공유키가 있다면 연결 **********
-	if(key!=0)
+	if(key!=0) {
 		webSocket = new WebSocket("ws://localhost:9090/TravelPlanner/broadcasting?key="+bno);
+		
+		// 공유
+		webSocket.onmessage = function(e) {
+			if(e.data=="week") { return; }
+			let strArr = e.data.trim().split(",");
+			$("#calender").daterangepicker({
+				locale: {
+					"format": 'YYYY.MM.DD',
+					"yearSuffix": "년",
+					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				},
+				"startDate" : strArr[0], 
+				"endDate" :  strArr[1],
+				"inline": true,
+				"linkedCalendars": false,
+				"autoUpdateInput": false,
+				"autoApply": true
+				}, function(start, end, label) {
+					console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+				}
+			);
+			clickInput();
+			drawDel();
+			drawPlus();
+			$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${strArr[0]} ~ ${strArr[1]}`);
+			Toastify({
+			  text: "수정사항이 반영되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+		};
+		webSocket.onopen = function(e) {
+			Toastify({
+			  text: "연결되었습니다.",
+			  duration: 3000,
+			  newWindow: true,
+			  close: true,
+			  gravity: "top",
+			  position: "center",
+			  stopOnFocus: true,
+			  style: {
+			    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+			  }
+			}).showToast();
+		};
+		webSocket.onerror = function(e) {
+			alert("에러!"); 
+		};
+	}
 	
     //alert(sDate.substring(0, sDate.indexOf(".")));
 	gYear = sDate.substring(0, sDate.indexOf("."));
@@ -199,7 +214,7 @@ $(function() {
 				setTimeout(drawPlus, 100);
 				setTimeout(drawDel, 100);
 				if(webSocket!=null)
-					webSocket.send("month");
+					webSocket.send(data.startDate + "," + data.endDate);
 				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate} ~ ${data.endDate}`);
 			})
 			.catch(function(error){
@@ -376,7 +391,7 @@ $(function() {
 			.then(function(data){
 				console.log(data);
 				if(webSocket!=null)
-					webSocket.send("month");
+					webSocket.send(data.startDate + "," + data.endDate);
 				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
 			})
 			.catch(function(error){
