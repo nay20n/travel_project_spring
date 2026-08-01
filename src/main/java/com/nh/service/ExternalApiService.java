@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface ExternalApiService {
 	/**
 	 * 경로 문자열 배열 얻기
@@ -45,4 +47,12 @@ public interface ExternalApiService {
 	 * @return 
 	 */
 	String updateKey(String email, String pageType);
+	
+	/**
+	 * 이미지를 보고 어느 랜드마크인지 리턴
+	 * @param imgSrc
+	 * @return : 예상된 추출 장소 이름
+	 */
+	public Map<String, Object> getVisionResult(MultipartFile fil);
+
 }
