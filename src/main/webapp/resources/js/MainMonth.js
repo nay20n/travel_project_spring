@@ -62,6 +62,33 @@ function calDate(dateStr ,days){
     
     return `${year}.${month}.${day}`;
 }
+// 날짜 수정 비동기
+function editDate(sDate, eDate) {
+	const jsonData = {
+		bno : bno,
+		startDate : sDate,
+		endDate : eDate	
+	};
+	const initData = {
+		method: "post",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(jsonData)
+	};
+	fetch("../../modifyTravelDate", initData)
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
+		if(webSocket!=null)
+			webSocket.send("month");
+		$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
+	})
+	.catch(function(error){
+		alert("에러! : " + error);
+	});
+}
+
 
 $(function() {
     // *********** 공통 필드 **************
@@ -228,177 +255,160 @@ $(function() {
 	
 	//삭제 버튼 클릭
 	$(document).on("click", ".delete", function() {
-		let title = $(this).parent().attr('data-title'); 
-		let row = Number(title.split('r')[1].split('c')[0]); // 행
-		let col = Number(title.split('c')[1]);              // 열
-		let target;
+	
+		if(confirm("날짜를 변경하겠습니까?")){
 		
-		let index = $("td .delete").index(this);
-		//alert(index);  // 시작=0, 끝=1
-		
-		if(index == 0){  // 시작날짜인 경우
-			// 1. 왼쪽에 있는 숫자(날짜) 복원
-			if(col==0){
-				target = "r" + (row-1) + "c" + (6);
-			} else {
-				target = "r" + (row) + "c" + (col-1);
-			}
-			let originalNum = $(`.left td[data-title=${target}]`).attr("num");
-			$(`.left td[data-title=${target}]`).text(originalNum);
-
-			// 2. (+, 쓰레기통) 오른쪽으로 옮기기
-			$(this).parent().removeClass("active"); 
-			$(this).parent().removeClass("start-date");
-			$(this).parent().html(plus);
-
-			if(col==6){
-				target = "r" + (row+1) + "c" + (0);
-			} else {
-				target = "r" + (row) + "c" + (col+1);
-			}
-
-			originalNum = $(`.left td[data-title=${target}]`).text();
-			$(`.left td[data-title=${target}]`).attr("num", originalNum);
-			$(`.left td[data-title=${target}]`).html(del);			
-			$(`.left td[data-title=${target}]`).removeClass("in-range");
-			$(`.left td[data-title=${target}]`).addClass("active start-date");
+			let title = $(this).parent().attr('data-title'); 
+			let row = Number(title.split('r')[1].split('c')[0]); // 행
+			let col = Number(title.split('c')[1]);              // 열
+			let target;
 			
-			// startDate 를 다ㅏㅏㅏㅏ아ㅡㅁ 날로.
-			sDate = calDate(sDate,1);
-			gDrp.setStartDate(sDate);
-		}
-		else if(index == 1){  // 끝날짜인 경우
-			// 1. 오른쪽에 있는 숫자(날짜) 복원
-			if(col==6){
-				target = "r" + (row+1) + "c" + (0);
-			} else {
-				target = "r" + (row) + "c" + (col+1);
+			let index = $("td .delete").index(this);
+			//alert(index);  // 시작=0, 끝=1
+			
+			if(index == 0){  // 시작날짜인 경우
+				// 1. 왼쪽에 있는 숫자(날짜) 복원
+				if(col==0){
+					target = "r" + (row-1) + "c" + (6);
+				} else {
+					target = "r" + (row) + "c" + (col-1);
+				}
+				let originalNum = $(`.left td[data-title=${target}]`).attr("num");
+				$(`.left td[data-title=${target}]`).text(originalNum);
+	
+				// 2. (+, 쓰레기통) 오른쪽으로 옮기기
+				$(this).parent().removeClass("active"); 
+				$(this).parent().removeClass("start-date");
+				$(this).parent().html(plus);
+	
+				if(col==6){
+					target = "r" + (row+1) + "c" + (0);
+				} else {
+					target = "r" + (row) + "c" + (col+1);
+				}
+	
+				originalNum = $(`.left td[data-title=${target}]`).text();
+				$(`.left td[data-title=${target}]`).attr("num", originalNum);
+				$(`.left td[data-title=${target}]`).html(del);			
+				$(`.left td[data-title=${target}]`).removeClass("in-range");
+				$(`.left td[data-title=${target}]`).addClass("active start-date");
+				
+				// startDate 를 다ㅏㅏㅏㅏ아ㅡㅁ 날로.
+				sDate = calDate(sDate,1);
+				gDrp.setStartDate(sDate);
 			}
-			let originalNum = $(`.left td[data-title=${target}]`).attr("num");
-			$(`.left td[data-title=${target}]`).text(originalNum);
-
-			// 2. (+, 쓰레기통) 왼쪽으로 옮기기
-			$(this).parent().removeClass("active"); 
-			$(this).parent().removeClass("end-date");
-			$(this).parent().removeClass("in-range");
-			$(this).parent().html(plus);
-
-			if(col==0){
-				target = "r" + (row-1) + "c" + (6);
-			} else {
-				target = "r" + (row) + "c" + (col-1);
+			else if(index == 1){  // 끝날짜인 경우
+				// 1. 오른쪽에 있는 숫자(날짜) 복원
+				if(col==6){
+					target = "r" + (row+1) + "c" + (0);
+				} else {
+					target = "r" + (row) + "c" + (col+1);
+				}
+				let originalNum = $(`.left td[data-title=${target}]`).attr("num");
+				$(`.left td[data-title=${target}]`).text(originalNum);
+	
+				// 2. (+, 쓰레기통) 왼쪽으로 옮기기
+				$(this).parent().removeClass("active"); 
+				$(this).parent().removeClass("end-date");
+				$(this).parent().removeClass("in-range");
+				$(this).parent().html(plus);
+	
+				if(col==0){
+					target = "r" + (row-1) + "c" + (6);
+				} else {
+					target = "r" + (row) + "c" + (col-1);
+				}
+	
+				originalNum = $(`.left td[data-title=${target}]`).text();
+				$(`.left td[data-title=${target}]`).attr("num", originalNum);
+				$(`.left td[data-title=${target}]`).html(del);			
+				$(`.left td[data-title=${target}]`).removeClass("in-range");
+				$(`.left td[data-title=${target}]`).addClass("active end-date");
+	
+				// endDate를 전날로 이동. 
+				eDate = calDate(eDate,-1);
+				gDrp.setEndDate(eDate);
 			}
-
-			originalNum = $(`.left td[data-title=${target}]`).text();
-			$(`.left td[data-title=${target}]`).attr("num", originalNum);
-			$(`.left td[data-title=${target}]`).html(del);			
-			$(`.left td[data-title=${target}]`).removeClass("in-range");
-			$(`.left td[data-title=${target}]`).addClass("active end-date");
-
-			// endDate를 전날로 이동. 
-			eDate = calDate(eDate,-1);
-			gDrp.setEndDate(eDate);
+			
+			editDate(sDate,eDate);
 		}
 	});
 	// 쓰레기통 버튼 클릭
 	$(document).on("click", ".plus", function() {
-		let title = $(this).parent().attr('data-title'); 
-		let row = Number(title.split('r')[1].split('c')[0]); // 행
-		let col = Number(title.split('c')[1]);              // 열
-		let target;
-		
-		let index = $("td .plus").index(this);
-		//alert(index);  // 시작=0, 끝=1
-
-		if(index == 0){  // 시작날짜인 경우
-			// 1. (+)버튼 왼쪽으로 옮기기  
-			if(col==0){
-				target = "r" + (row-1) + "c" + (6);
-			} else {
-				target = "r" + (row) + "c" + (col-1);
-			}
-			let originalNum = $(`.left td[data-title=${target}]`).text();
-			$(`.left td[data-title=${target}]`).attr("num", originalNum);
-			$(`.left td[data-title=${target}]`).html(plus);
-			$(".left .start-date").removeClass("start-date");
-			$(`.left td.active:eq(${index})`).removeClass("active");
-			
-			// 2. (쓰레기통) 왼쪽으로 옮기기
-			$(this).parent().addClass("active start-date");
-			$(this).parent().html(del);
-			if(col==6){
-				target = "r" + (row+1) + "c" + (0);
-			} else {
-				target = "r" + (row) + "c" + (col+1);
-			}
-			originalNum = $(`.left td[data-title=${target}]`).attr("num");
-			$(`.left td[data-title=${target}]`).html(originalNum);			
-			$(`.left td[data-title=${target}]`).addClass("in-range");
-			
-			sDate = calDate(sDate,-1);
-			gDrp.setStartDate(sDate);
-		} 
-		else if(index == 1){  // 끝날짜인 경우
-			// 1. (+)버튼 오른쪽으로 옮기기  
-			if(col==6){
-				target = "r" + (row+1) + "c" + (0);
-			} else {
-				target = "r" + (row) + "c" + (col+1);
-			}
-			let originalNum = $(`.left td[data-title=${target}]`).text();
-			$(`.left td[data-title=${target}]`).attr("num", originalNum);
-			$(`.left td[data-title=${target}]`).html(plus);
-			$(".left .end-date").removeClass("end-date");
-			$(`.left td.active:eq(${index})`).removeClass("active");
-			
-			// 2. (쓰레기통) 오른쪽으로 옮기기
-			$(this).parent().addClass("active end-date");
-			$(this).parent().html(del);
-
-			if(col==0){
-				target = "r" + (row-1) + "c" + (6);
-			} else {
-				target = "r" + (row) + "c" + (col-1);
-			}
-
-			originalNum = $(`.left td[data-title=${target}]`).attr("num");
-			$(`.left td[data-title=${target}]`).html(originalNum);			
-			$(`.left td[data-title=${target}]`).addClass("in-range");
-			
-			eDate = calDate(eDate,+1);
-			gDrp.setEndDate(eDate);
-		}
-		
-	});
 	
-	$(document).on("click", ".table-condensed svg", function() {
-		
 		if(confirm("날짜를 변경하겠습니까?")){
-			const jsonData = {
-				bno : bno,
-				startDate : sDate,
-				endDate : eDate	
-			};
-			const initData = {
-				method: "post",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(jsonData)
-			};
-			fetch("../../modifyTravelDate", initData)
-			.then(function(response){
-				return response.json();
-			})
-			.then(function(data){
-				console.log(data);
-				if(webSocket!=null)
-					webSocket.send(data.startDate + "," + data.endDate);
-				$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
-			})
-			.catch(function(error){
-				alert("에러! : " + error);
-			});
-		}
 		
+			let title = $(this).parent().attr('data-title'); 
+			let row = Number(title.split('r')[1].split('c')[0]); // 행
+			let col = Number(title.split('c')[1]);              // 열
+			let target;
+			
+			let index = $("td .plus").index(this);
+			//alert(index);  // 시작=0, 끝=1
+	
+			if(index == 0){  // 시작날짜인 경우
+				// 1. (+)버튼 왼쪽으로 옮기기  
+				if(col==0){
+					target = "r" + (row-1) + "c" + (6);
+				} else {
+					target = "r" + (row) + "c" + (col-1);
+				}
+				let originalNum = $(`.left td[data-title=${target}]`).text();
+				$(`.left td[data-title=${target}]`).attr("num", originalNum);
+				$(`.left td[data-title=${target}]`).html(plus);
+				$(".left .start-date").removeClass("start-date");
+				$(`.left td.active:eq(${index})`).removeClass("active");
+				
+				// 2. (쓰레기통) 왼쪽으로 옮기기
+				$(this).parent().addClass("active start-date");
+				$(this).parent().html(del);
+				if(col==6){
+					target = "r" + (row+1) + "c" + (0);
+				} else {
+					target = "r" + (row) + "c" + (col+1);
+				}
+				originalNum = $(`.left td[data-title=${target}]`).attr("num");
+				$(`.left td[data-title=${target}]`).html(originalNum);			
+				$(`.left td[data-title=${target}]`).addClass("in-range");
+				
+				sDate = calDate(sDate,-1);
+				gDrp.setStartDate(sDate);
+			} 
+			else if(index == 1){  // 끝날짜인 경우
+				// 1. (+)버튼 오른쪽으로 옮기기  
+				if(col==6){
+					target = "r" + (row+1) + "c" + (0);
+				} else {
+					target = "r" + (row) + "c" + (col+1);
+				}
+				let originalNum = $(`.left td[data-title=${target}]`).text();
+				$(`.left td[data-title=${target}]`).attr("num", originalNum);
+				$(`.left td[data-title=${target}]`).html(plus);
+				$(".left .end-date").removeClass("end-date");
+				$(`.left td.active:eq(${index})`).removeClass("active");
+				
+				// 2. (쓰레기통) 오른쪽으로 옮기기
+				$(this).parent().addClass("active end-date");
+				$(this).parent().html(del);
+	
+				if(col==0){
+					target = "r" + (row-1) + "c" + (6);
+				} else {
+					target = "r" + (row) + "c" + (col-1);
+				}
+	
+				originalNum = $(`.left td[data-title=${target}]`).attr("num");
+				$(`.left td[data-title=${target}]`).html(originalNum);			
+				$(`.left td[data-title=${target}]`).addClass("in-range");
+				
+				eDate = calDate(eDate,+1);
+				gDrp.setEndDate(eDate);
+				
+			}
+			
+			editDate(sDate,eDate);
+		}
+	
 	});
 	
 	// 일정확정하기

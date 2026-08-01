@@ -142,7 +142,10 @@ body > * {margin: 0px auto;}
 #aiPlace {
     margin-top: 50px;
     margin-bottom: 150px;
-	width: 763px;
+	width: 785px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 9px;
 }
 #aiPlace > div:nth-child(1) { /*사진으로 여행지  찾기*/
 	margin-bottom: 14px;
@@ -150,46 +153,47 @@ body > * {margin: 0px auto;}
 	font-weight: 700;
 	color: rgb(58, 58, 58);
 }
-#aiPlace > input {display: none;}
-#aiPlace > div:nth-child(3) { /* 파일업록드 + svg */
-    border-radius: 4px;
-    width: 763px;
-    height: 46px;
-    text-align: center;
-    padding: 13px;
-    background-color: #EDE8F6;
-    border: rgba(58, 58, 58, 0.08) solid 1px;
-    margin-bottom: 9px;
-    cursor: pointer;
-}
-#aiPlace > div:nth-child(3) > span { /* 파일업록드 */
-    font-size: 16px;
-    font-weight: 700;
-    color: rgba(58, 58, 58, 0.6);;
-}
-#aiPlace > div:nth-child(3) > svg { /* 파일업록드 */
-    width: 17px;
-    color: rgba(58, 58, 58, 0.6);
-}
-#aiPlace > div:nth-child(3):hover {
-	color: #925DE8;
-	border-color: #925DE8;
-}
+#aiPlace > input {display: none;} /*파일 업로드 input태그*/
+
 #aiPlace > img {
 	width: 763px;
 }
-#aiPlace > div:nth-child(5) { /* 파일업록드 */
-	border-radius: 4px;
-    width: 763px;
+#aiPlace > div:nth-child(4),
+#aiPlace > div:nth-child(5) { /* 파일업록드 + svg */
+    border-radius: 4px;
+    width: 377px;
     height: 46px;
     text-align: center;
     padding: 13px;
     background-color: #EDE8F6;
     border: rgba(58, 58, 58, 0.08) solid 1px;
-    margin-bottom: 9px;
+    margin-top: 9px;
     cursor: pointer;
+    display: inline-block;
+    color: rgba(58, 58, 58, 0.6);
+}
+
+#aiPlace > div:nth-child(4) > span { /* 파일업록드 */
+    font-size: 16px;
+    font-weight: 700;
+    
+}
+#aiPlace > div:nth-child(4) > svg { /* 파일업록드 */
     width: 17px;
     color: rgba(58, 58, 58, 0.6);
+}
+#aiPlace > div:nth-child(4):hover {
+	color: #925DE8;
+	border-color: #925DE8;
+}
+#aiPlace > div:nth-child(5) { /* 이미지 분석하기 */
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 5px;
+}
+#aiPlace > div:nth-child(5):hover {
+	color: #925DE8;
+	border-color: #925DE8;
 }
 /*다음 버튼*/
 #nextBtn {
