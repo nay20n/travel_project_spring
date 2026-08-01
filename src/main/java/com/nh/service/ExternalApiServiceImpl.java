@@ -13,6 +13,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -524,7 +526,6 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		if("465".equals(port)) {
 			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");	// SSL FACTORY CLASS
 			props.put("mail.smtp.socketFactory.port", "465");
-			//System.out.println("[system.out] 1-1");
 		} 
 		
 		try {
@@ -536,12 +537,10 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 				}
 			});
 			
-			//System.out.println("[system.out] 2");
 			// 4. 메시지 내용 보내기 설정
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(id));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			
 			
 			String key = updateKey(email, pageType); // 재설정 페이지 코드
 			
@@ -595,10 +594,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			
 			// 5. 메세지 발송 프로세스
 			message.setSentDate(new java.util.Date());
-			//System.out.println("[system.out] 4");
 			Transport.send(message);
 			System.out.println("[system.out] 메일 발송 성공");
-			
 			return key;
 						
 		} catch(Exception e) {
@@ -606,5 +603,106 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			return "apiService실패";
 		}
 		
+	}
+
+	@Override
+	public Map<String, Object> getVisionResult(MultipartFile file) {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+	    HttpURLConnection conn = null;
+
+	    try {
+	        byte[] bytes = file.getBytes();
+	        String base64Image = Base64.getEncoder().encodeToString(bytes);
+
+	        // 2. 요청 Body JSON Map 생성
+	        Map<String, Object> imageMap = new HashMap<>();
+	        imageMap.put("content", base64Image);
+	        Map<String, Object> featureMap = new HashMap<>();
+	        featureMap.put("type", "LANDMARK_DETECTION");
+	        List<Map<String, Object>> featureList = new ArrayList<>();
+	        featureList.add(featureMap);
+	        
+	        Map<String, Object> requestMap = new HashMap<>();
+	        requestMap.put("image", imageMap);
+	        requestMap.put("features", featureList);
+	        List<Map<String, Object>> requestList = new ArrayList<>();
+	        requestList.add(requestMap);
+	        
+	        Map<String, Object> bodyMap = new HashMap<>();
+	        bodyMap.put("requests", requestList);
+
+	        // 3. Jackson ObjectMapper로 Map -> JSON 문자열 변환
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        String jsonBody = objectMapper.writeValueAsString(bodyMap);
+
+	        // 4. HttpURLConnection 생성 및 설정
+	        String urlStr = "https://vision.googleapis.com/v1/images:annotate?key=" + GoogleApiKey;
+	        URL url = new URL(urlStr);
+	        conn = (HttpURLConnection) url.openConnection();
+
+	        conn.setRequestMethod("POST");
+	        conn.setRequestProperty("Content-Type", "application/json; utf-8");
+	        conn.setRequestProperty("Accept", "application/json");
+	        conn.setRequestProperty("Referer", "http://localhost:9090/"); 
+	        conn.setDoOutput(true); 
+
+	        try (OutputStream os = conn.getOutputStream()) {
+	            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+	            os.write(input, 0, input.length);
+	        }
+	        // 응답데이터
+	        int responseCode = conn.getResponseCode();
+	        BufferedReader br;
+	        if (responseCode >= 200 && responseCode < 300) {
+	            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+	        } else {
+	            br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+	        }
+	        StringBuilder responseSb = new StringBuilder();
+	        String responseLine;
+	        while ((responseLine = br.readLine()) != null) {
+	            responseSb.append(responseLine.trim());
+	        }
+	        br.close();
+	        System.out.println("Google Vision API 원본 응답 JSON:" + responseSb);
+	        
+	        JsonNode rootNode = objectMapper.readTree(responseSb.toString());
+	        JsonNode responsesNode = rootNode.path("responses").get(0);
+
+	        if (responsesNode.has("error")) {
+	        	resultMap.put("error", responsesNode.path("error").path("message").asText());
+	            return resultMap;
+	        }
+	        StringBuilder resultBuilder = new StringBuilder();
+	        JsonNode landmarkAnnotations = responsesNode.path("landmarkAnnotations");
+	        if (landmarkAnnotations.isArray() && landmarkAnnotations.size() > 0) {
+	            JsonNode firstLandmark = landmarkAnnotations.get(0); // 첫 번째 감지 결과
+	            
+	            String description = firstLandmark.path("description").asText();
+	            JsonNode latLngNode = firstLandmark.path("locations").get(0).path("latLng");
+	            double lat = latLngNode.path("latitude").asDouble();
+	            double lng = latLngNode.path("longitude").asDouble();
+
+	            resultMap.put("success", true);
+	            resultMap.put("name", description); // 장소 이름 ("Louvre Museum")
+	            resultMap.put("lat", lat);           // 위도 (48.8606111)
+	            resultMap.put("lng", lng);           // 경도 (2.337644)
+	        } else {
+	            resultMap.put("success", false);
+	            resultMap.put("message", "No landmarks found");
+	        }
+
+	        return resultMap;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        resultMap.put("error", e.getMessage());
+	        return resultMap;
+	    } finally {
+	        if (conn != null) {
+	            conn.disconnect();
+	        }
+	    }
 	}
 }
