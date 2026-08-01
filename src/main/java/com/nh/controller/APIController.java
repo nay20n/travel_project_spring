@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nh.service.AiBlockService;
 import com.nh.service.BlockService;
@@ -310,4 +311,11 @@ public class APIController {
 			} else {return "empty";}
 		}
 	}
+	
+	// 구글비전
+	@PostMapping("/googleVision")
+	public Map<String, Object> googleVision(@RequestParam("file") MultipartFile file) {
+		Map<String, Object> query = eSvc.getVisionResult(file);
+        return query;
+    }
 }

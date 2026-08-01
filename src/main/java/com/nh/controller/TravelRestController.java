@@ -426,7 +426,6 @@ public class TravelRestController {
 		
 		return ret;
 	}
-	
 	// 비밀번호가 로그인한 사람의 비밀번호와 일치한지
 	@PostMapping("/checkPW")
 	public boolean checkPW(HttpSession session, String input) {
@@ -439,7 +438,6 @@ public class TravelRestController {
 		else return false;
 		
 	}
-	
 	// 비밀번호 재설정 링크 생성
 	@PostMapping("/createResetKey")
 	public String createResetKey(HttpSession session, String email) {
@@ -447,7 +445,6 @@ public class TravelRestController {
 		session.setAttribute("key", key);
 		return key;
 	}
-	
 	//비밀번호 재 설정
 	@PostMapping("/modifyPw")
 	public boolean modifyPw(HttpSession session, String pw) {
@@ -456,7 +453,6 @@ public class TravelRestController {
 		try{mSvc.modifyPw(loginId, pw); return true;}
 		catch(Exception e) {e.printStackTrace(); return false;}
 	}
-	
 	// 정보 수정 저장 버튼
 	@PostMapping("/updateprofile")
 	public String updateInfo(HttpSession session, Model model,@RequestParam("file") MultipartFile file) {
@@ -554,4 +550,6 @@ public class TravelRestController {
 		if(mSvc.isExistEmail(email)) return "true";
 		return "empty";
 	}
+	
+	//구글 비전 이미지 업로드
 }

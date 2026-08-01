@@ -20,10 +20,6 @@ $(function() {
 		$("#basicInfo > div:nth-child(2) > input").click(); // 파일 업로드 input 태그 클릭
 		//alert("프로필 사진 수정");
 	});
-	$("#basicInfo > div:nth-child(2) > input").click(function() {
-		
-		
-	});
 	// 프로필 사진 바뀌면 
 	$("#basicInfo > div:nth-child(2) > input").change(function(){
 		if(this.files && this.files[0]){
