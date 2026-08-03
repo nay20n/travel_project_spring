@@ -76,7 +76,7 @@ $(function() {
 		
 		// 공유
 		webSocket.onmessage = function(e) {
-			if(e.data=="week") { return; }
+			if(e.data=="week"||e.data=="true"||e.data=="false") { return; }
 			let strArr = e.data.trim().split(",");
 			$("#calender").daterangepicker({
 				locale: {

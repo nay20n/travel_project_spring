@@ -37,10 +37,32 @@ public class BroadSocket extends TextWebSocketHandler {
 		Set<WebSocketSession> clients = getClients(session);
 		clients.add(session);
 		System.out.println("클라이언트로 부터 도착한 메세지: " + msg.getPayload());
+		TextMessage tm = null;
+		String query = session.getUri().getQuery();
+		String key = query.substring(query.indexOf("=")+1);
+		if("ai".equals(msg.getPayload())) {
+			if(aiLock.contains(key))
+				tm = new TextMessage("true");
+			else {
+				tm = new TextMessage("false");
+				aiLock.add(key);
+			}
+			
+			for(WebSocketSession client : clients) {
+				if(session == client) {
+					//client.getBasicRemote().sendText(msg);
+					client.sendMessage(tm);
+					return;
+				}
+			}
+		} else {
+			if("aiUpdate".equals(msg.getPayload())) aiLock.remove(key);
+			tm = new TextMessage(msg.getPayload());
+		}
 		for(WebSocketSession client : clients) {
 			if(session != client) {
 				//client.getBasicRemote().sendText(msg);
-				client.sendMessage(new TextMessage(msg.getPayload()));
+				client.sendMessage(tm);
 			}
 		}
 	}
@@ -55,6 +77,7 @@ public class BroadSocket extends TextWebSocketHandler {
 				String query = session.getUri().getQuery();
 				String key = query.substring(query.indexOf("=")+1);
 				clientsMap.remove(key);
+				aiLock.remove(key);
 			}
 		}
 		System.out.println("클라이언트 나감: 현재 " + clients.size() + "명");
