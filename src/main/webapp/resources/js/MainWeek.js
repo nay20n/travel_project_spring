@@ -746,7 +746,38 @@ $(function() {
 	});
 	// ai 추천 반영버튼
 	$("#toPlan").click(function() {
-		alert("반영하기!");
+		if(confirm("AI 일정을 반영하겠습니까?\n(원래의 계획은 사라집니다.)")){
+			fetch("/TravelPlanner/reflectAIBlock?bno="+bno, {method:'post'})
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				console.log(data);
+        		calendar.changeView('day');
+        		removeMarker(aiPlaceMarkers);
+        		setBlocks(calendar);
+        		
+        		
+        		$("#closeAi").click();
+        		Toastify({
+				  text: "AI 추천 일정이 반영되었습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+			})
+			.catch(function(error) {
+			    alert("에러! : " + error);
+			});
+		
+		}
+	
 	});
 	// ai 추천 닫기
 	$("#closeAi").click(function() {

@@ -113,6 +113,19 @@ $(function(){
 			return;
 		}
 		
+		Toastify({
+		  text: "AI가 이미지를 분석중입니다.",
+		  duration: 3000,
+		  newWindow: true,
+		  close: true,
+		  gravity: "top",
+		  position: "center",
+		  stopOnFocus: true,
+		  style: {
+		    background: "linear-gradient(to left, #E8EEFF, #3D5AFE)",
+		  }
+		}).showToast();
+		
 		// 파일 데이터를 담을 FormData 생성
 	    let formData = new FormData();
 	    formData.append("file", file); // 'file'이라는 이름으로 담음
@@ -155,7 +168,18 @@ $(function(){
 	       } else if (data.error) { //에러 났을 때
 				alert("error : " + data.error);
 	       } else {
-	       		alert("사진에서 랜드마크를 찾을 수 없습니다.");
+	       		Toastify({
+					text: "사진에서 랜드마크를 찾을 수 없습니다.",
+					duration: 3000,
+					newWindow: true,
+					close: true,
+					gravity: "top",
+					position: "center",
+					stopOnFocus: true,
+					style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
 	       }
 	       
 	       //drawMarker(data.lat, data.lng);

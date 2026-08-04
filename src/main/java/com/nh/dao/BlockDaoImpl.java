@@ -156,4 +156,9 @@ public class BlockDaoImpl implements BlockDao {
 		map1.put("inputTime", inputTime);
 		return sqlSession.selectList("blockMapper.selectBlocksForRoutes", map1);
 	}
+	
+	@Override
+	public void deleteBlockByAiBlock(int bno) {
+		sqlSession.delete("blockMapper.deleteBlockByAiBlock", bno);
+	}
 }
