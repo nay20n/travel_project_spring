@@ -691,6 +691,10 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	            String placeId = searchGooglePlace(description);
 	            resultMap.put("placeId", placeId);
 	            
+	            
+	            
+	            
+	            
 	        } else {
 	            resultMap.put("success", false);
 	            resultMap.put("message", "No landmarks found");
