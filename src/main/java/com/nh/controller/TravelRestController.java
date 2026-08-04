@@ -17,12 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nh.service.AiBlockService;
 import com.nh.service.BlockService;
 import com.nh.service.BoardService;
 import com.nh.service.CommentService;
@@ -44,6 +43,8 @@ public class TravelRestController {
 	BlockService blSvc;
 	@Autowired
 	ExternalApiService eSvc;
+	@Autowired
+	AiBlockService aSvc;
 	
 	@Autowired
 	private ServletContext application; // 절대경로
@@ -551,5 +552,12 @@ public class TravelRestController {
 		return "empty";
 	}
 	
-	//구글 비전 이미지 업로드
+	// ai 추천 반영 
+	@PostMapping("/reflectAIBlock")
+	public String reflectAIBlock(int bno) {
+		// 현재 ai 블럭 가져오기 
+		// 현재 적어논 원래의 계획 지우기 
+		aSvc.copyAiBlock(bno);
+		return "succes";
+	}
 }

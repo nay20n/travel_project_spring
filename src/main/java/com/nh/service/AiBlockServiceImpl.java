@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nh.dao.AiBlockDao;
+import com.nh.dao.BlockDao;
 
 @Service
 public class AiBlockServiceImpl implements AiBlockService {
 	@Autowired
 	AiBlockDao aDao;
+	@Autowired
+	BlockDao bDao;
 
 	@Override
 	public List<Map<String, Object>> getAiBlock(int bno) {
@@ -31,6 +34,7 @@ public class AiBlockServiceImpl implements AiBlockService {
 
 	@Override
 	public void copyAiBlock(int bno) {
+		bDao.deleteBlockByAiBlock(bno);
 		aDao.copyAiBlock(bno);
 	}
 
