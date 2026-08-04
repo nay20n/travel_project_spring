@@ -128,11 +128,32 @@ $(function(){
 	       console.log("구글 비전 결과:", data);
 	       
 	       if(data.success === true || data.success === "true"){
+	       
 	      		moveCameraInTheMap(data.lat, data.lng);	 	
 	       		drawMarker(data.lat, data.lng);
+	       		
+	       		Toastify({
+					text: "사진에서 랜드마크를 찾았습니다.",
+					duration: 3000,
+					newWindow: true,
+					close: true,
+					gravity: "top",
+					position: "center",
+					stopOnFocus: true,
+					style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+	       		
+	       		// Set the placeid of '#nextBtn'
+				$("#nextBtn").attr("data-placeid", data.placeId);
+				
+				// Activate '다음' 버튼.
+				$("#nextBtn > div").addClass("coloredBtn");
+				isActive = true;
+	       		
 	       } else if (data.error) { //에러 났을 때
 				alert("error : " + data.error);
-	       
 	       } else {
 	       		alert("사진에서 랜드마크를 찾을 수 없습니다.");
 	       }

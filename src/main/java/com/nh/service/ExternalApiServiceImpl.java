@@ -665,7 +665,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	            responseSb.append(responseLine.trim());
 	        }
 	        br.close();
-	        System.out.println("Google Vision API 원본 응답 JSON:" + responseSb);
+	        //System.out.println("Google Vision API 원본 응답 JSON:" + responseSb);
 	        
 	        JsonNode rootNode = objectMapper.readTree(responseSb.toString());
 	        JsonNode responsesNode = rootNode.path("responses").get(0);
@@ -674,7 +674,6 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	        	resultMap.put("error", responsesNode.path("error").path("message").asText());
 	            return resultMap;
 	        }
-	        StringBuilder resultBuilder = new StringBuilder();
 	        JsonNode landmarkAnnotations = responsesNode.path("landmarkAnnotations");
 	        if (landmarkAnnotations.isArray() && landmarkAnnotations.size() > 0) {
 	            JsonNode firstLandmark = landmarkAnnotations.get(0); // 첫 번째 감지 결과
@@ -688,6 +687,14 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	            resultMap.put("name", description); // 장소 이름 ("Louvre Museum")
 	            resultMap.put("lat", lat);           // 위도 (48.8606111)
 	            resultMap.put("lng", lng);           // 경도 (2.337644)
+	            
+	            String placeId = searchGooglePlace(description);
+	            resultMap.put("placeId", placeId);
+	            
+	            
+	            
+	            
+	            
 	        } else {
 	            resultMap.put("success", false);
 	            resultMap.put("message", "No landmarks found");
