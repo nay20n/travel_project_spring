@@ -28,9 +28,11 @@ public interface ExternalApiService {
 	 * @param userBlocks 하루 일정
 	 * @param bno
 	 * @param arrPlaceCity
+	 * @param date 날짜
+	 * @param mapll 위도,경도
 	 * @return 추천 하루 일정
 	 */
-	List<Map<String,Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno, String arrPlaceCity);
+	List<Map<String,Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno, String arrPlaceCity, String date, String mapll);
 	
 	/**
 	 * 이메일 보내기

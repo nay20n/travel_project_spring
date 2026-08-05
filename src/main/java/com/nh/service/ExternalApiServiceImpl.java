@@ -356,7 +356,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	@Override
 	@Transactional
 	public List<Map<String, Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno,
-			String arrPlaceCity) {
+			String arrPlaceCity, String date, String mapll) {
 		List<Map<String, Object>> aiChecked = aDao.getAiChecked(bno);
 		
 		// 기존 ai 추천 일정 지우기
@@ -386,6 +386,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		        + "11. 일정은 시작 시간이 빠른 순서대로 정렬한다.\n"
 		        + "[규칙]\n"
 		        + "- 기존 일정의 장소명, 시작 시간, 종료 시간은 절대 변경하지 않는다.\n"
+		        + "- 절대로 년도를 수정하지 않는다.\n"
 		        + "- 기존 일정과 사용자가 제공한 장소를 우선적으로 고려한다.\n"
 		        + "- 새로운 장소를 추천하는 경우 실제 존재할 가능성이 높은 장소명을 사용한다.\n"
 		        + "- 설명, 마크다운, 코드블록을 출력하지 않는다.\n"
@@ -402,6 +403,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		String userPrompt = "기존 일정 : " + userBlocks + "\n"
 		        + "방문 예정 장소 : " + aiChecked + "\n"
 		        + "방문 지역 : " + arrPlaceCity + "\n"
+		        + "방문 날짜 : " + date + "\n"
+		        + "여행지 위도, 경도 : " + mapll + "\n"
 		        + "위 정보를 바탕으로 하루 여행 일정을 추천해줘.";
 		
 		Map<String, Object> requestMap = new HashMap<>();

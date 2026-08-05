@@ -31,7 +31,7 @@
 <body>
 	<%@ include file="HeaderEditBoard.jsp"%>
 	<%@ include file="BoardTitle.jsp"%>
-	<div id="main" data-bno="${bno}" data-arr-place-city="${arrPlaceCity}" data-key="${key}">
+	<div id="main" data-bno="${bno}" data-arr-place-city="${arrPlaceCity}" data-key="${key}" data-mapll="${arrMapData.lat},${arrMapData.lng}">
 		<%@ include file="Sidebar.jsp"%>
 		<div>
 			<div>

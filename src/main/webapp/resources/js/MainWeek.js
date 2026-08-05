@@ -161,6 +161,59 @@ function removeMarker(markerArr) {
 	markerArr = [];
 }
 
+// 캘린더 타입과 현재 게시글의 블럭 list가 들어오면 캘린더에 담아주는 함수
+function setBlocksToCalendar(calendar,data) {
+	// 내 일정 마커를 지우고 다시 생성
+	removeMarker(myPlaceMarkers);
+	
+	for(let i=0;i<data.length;i++) {
+		let block = data[i];
+		
+		let id = block.blockIdx;
+        let title = block.name;
+        let start = block.startTime;
+        let end = block.endTime;
+        let colorCode = block.colorCode;
+        let placeId = block.placeId;
+        let lat = block.lat;
+        let lng = block.lng;
+        
+        // 만약 장소 데이터가 있다면 내 일정 마커를 추가
+        if(lat!=null)
+        	drawMyMarker(lat, lng);
+        
+        // 캘린더 데이터
+        eventList.push({
+            id: id,
+            calendarId: 'calendar',
+            title: title,
+            start: start,
+            end: end,
+            backgroundColor: colorCode,
+            color: '#000000',
+            body: placeId
+        });
+        
+        // 캘린더 비우기
+        calendar.clear();
+        
+        // 데이터 삽입
+        if (eventList.length > 0) {
+	        calendar.createEvents(eventList);
+	    }
+	}
+	// 장소가 들어갈 수 있도록 설정
+    setTimeout(function() {
+	    console.log($(".toastui-calendar-event-time").length);
+	
+	    $(".toastui-calendar-event-time").droppable({
+	        drop: handleDropEvent,
+	        tolerance: 'pointer'
+	    });
+	}, 100);
+	//console.log(eventList);
+}
+
 // 일정 삽입 함수
 function setBlocks(calendar) {
 	eventList = [];
@@ -181,54 +234,7 @@ function setBlocks(calendar) {
 		return response.json();
 	})
 	.then(function(data){
-		// 내 일정 마커를 지우고 다시 생성
-		removeMarker(myPlaceMarkers);
-		
-		for(let i=0;i<data.length;i++) {
-			let block = data[i];
-			
-			let id = block.blockIdx;
-	        let title = block.name;
-	        let start = block.startTime;
-	        let end = block.endTime;
-	        let colorCode = block.colorCode;
-	        let placeId = block.placeId;
-	        let lat = block.lat;
-	        let lng = block.lng;
-	        
-	        // 만약 장소 데이터가 있다면 내 일정 마커를 추가
-	        if(lat!=null)
-	        	drawMyMarker(lat, lng);
-	        
-	        // 캘린더 데이터
-	        eventList.push({
-	            id: id,
-	            calendarId: 'calendar',
-	            title: title,
-	            start: start,
-	            end: end,
-	            backgroundColor: colorCode,
-	            color: '#000000',
-	            body: placeId
-	        });
-	        
-	        // 캘린더 비우기
-	        calendar.clear();
-	        
-	        // 데이터 삽입
-	        if (eventList.length > 0) {
-		        calendar.createEvents(eventList);
-		    }
-		}
-	    setTimeout(function() {
-		    console.log($(".toastui-calendar-event-time").length);
-		
-		    $(".toastui-calendar-event-time").droppable({
-		        drop: handleDropEvent,
-		        tolerance: 'pointer'
-		    });
-		}, 100);
-		//console.log(eventList);
+		setBlocksToCalendar(calendar,data);
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
@@ -286,6 +292,7 @@ $(function() {
 	let bno = $("#main").data("bno");
 	let arrPlaceCity = $("#main").data("arr-place-city");
 	let key = Number($("#main").attr("data-key"));
+	let mapll = $("#main").attr("data-mapll");
 	
 	// ai 추천 일정 받기
 	function getAiResult() {
@@ -317,7 +324,9 @@ $(function() {
 	    const jsonData = {
 			"userBlocks" : userBlocks,
 			"bno" : bno,
-			"arrPlaceCity" : arrPlaceCity
+			"arrPlaceCity" : arrPlaceCity,
+			"date" : date,
+			"mapll" : mapll
 		};
 		const initData = {
 			method: "post",
@@ -340,6 +349,9 @@ $(function() {
 			removeMarker(aiPlaceMarkers);
 			aiEventList = [];
 			aiBlocks = [];
+			
+	        // 캘린더 비우기
+	        aiCalendar.clear();
 			
 			for(let i=0;i<data.length;i++) {
 				let block = data[i];
@@ -369,9 +381,6 @@ $(function() {
 		            body: placeId
 		        });
 		    }
-	        
-	        // 캘린더 비우기
-	        aiCalendar.clear();
 	        
 	        // 데이터 삽입
 	        if (aiEventList.length > 0) {
@@ -479,7 +488,144 @@ $(function() {
 				getAiResult();
 			}
 			if(e.data=="aiUpdate") {
-				// 서버에서 ai 블럭 가져오고.. 일 탭을 보고 있었다면 ai 캘린더 띄운다. 경로도 띄운다.
+				Toastify({
+				  text: "AI 추천 결과가 도착했습니다.",
+				  duration: 3000,
+				  newWindow: true,
+				  close: true,
+				  gravity: "top",
+				  position: "center",
+				  stopOnFocus: true,
+				  style: {
+				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+				  }
+				}).showToast();
+				
+				const jsonData = {
+					"bno" : bno
+				};
+				const initData = {
+					method: "post",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(jsonData)
+				};
+				fetch("../../getAiBlock", initData)
+				.then(function(response){
+					return response.json();
+				})
+				.then(function(data){
+					console.log(data);
+
+					// ai 마커와 캘린더 데이터를 지우고 다시 생성
+					removeMarker(aiPlaceMarkers);
+					aiEventList = [];
+					aiBlocks = [];
+					
+			        // 캘린더 비우기
+			        aiCalendar.clear();
+					
+					for(let i=0;i<data.length;i++) {
+						let block = data[i];
+						aiBlocks.push(block);
+						
+						let id = block.idx;
+				        let placeId = block.placeId;
+				        let start = block.startTime;
+				        let end = block.endTime;
+				        let title = block.name;
+				        let lat = block.lat;
+				        let lng = block.lng;
+				        
+				        // 만약 장소 데이터가 있다면 ai 마커를 추가
+				        if(lat!=null)
+				        	drawAiMarker(lat, lng, placeId);
+				        
+				        // 캘린더 데이터
+				        aiEventList.push({
+				            id: id,
+				            calendarId: 'aiCalendar',
+				            title: title,
+				            start: start,
+				            end: end,
+				            backgroundColor: '#EDE8F6',
+				            color: '#000000',
+				            body: placeId
+				        });
+				    }
+			        
+			        // 데이터 삽입
+			        if (aiEventList.length > 0) {
+				        aiCalendar.createEvents(aiEventList);
+				    }
+				    
+				    // 보여주기
+				    calendar.changeView('day');
+					$("#calendar").addClass("changeToDay");
+					$(this).parent().find("span").removeClass("selectedView");
+					$(this).addClass("selectedView");
+					$("#goNext").addClass("hide");
+					$("#makeAiBlock").removeClass("hide");
+					$("#map").removeClass("hide");
+					$(".transportation").removeClass("hide");
+					
+					$("#aiCalendar").removeClass("hide");
+					$("#toPlan").removeClass("hide");
+					$("#closeAi").removeClass("hide");
+					
+					// 장소가 들어간 일정이 하나거나 없다면 종료
+				    if(aiEventList.length<2) return;
+				    
+				    // 장소가 들어있다면 경로 그리기
+				    let placeIds = [];
+				    for(let i=0;i<aiEventList.length;i++){
+				    	let place = aiEventList[i];
+				    	placeIds.push(place.body);
+				    }
+				    console.log(placeIds);
+				    fetch("../../getRoute", {
+					    method: "POST",
+					    headers: {
+					        "Content-Type": "application/json"
+					    },
+					    body: JSON.stringify({
+					        placeIds: placeIds,
+					        travelMode: travelModeArr[travelModeIdx]
+					    })
+					})
+					.then(function(response) {
+					    return response.json();
+					})
+					.then(function(data) {
+			    		if (!data.routes || data.routes.length == 0) {
+			    			Toastify({
+							  text: "경로를 찾을 수 없습니다.",
+							  duration: 3000,
+							  newWindow: true,
+							  close: true,
+							  gravity: "top",
+							  position: "center",
+							  stopOnFocus: true,
+							  style: {
+							    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
+							  }
+							}).showToast();
+					        console.error("경로 데이터가 없습니다.", data);
+					        return;
+					    }
+					    encodedPolyline = data.routes[0].polyline.encodedPolyline;
+			    		console.log(encodedPolyline);
+			    		drawAiRoute(encodedPolyline);
+			    		aiLock = false;
+					})
+					.catch(function(error) {
+					    alert("에러! : " + error);
+					});
+				})
+				.catch(function(error){
+					alert("에러! : " + error);
+				})
 				console.log(e.data);
 			}
 		};
@@ -715,7 +861,6 @@ $(function() {
 		
 		location.href = url.pathname.substr(0, endIdx);
 	});
-	
 	
 	// ai 추천
 	$("#main > div:nth-child(2)>button:nth-child(4)").click(function() {

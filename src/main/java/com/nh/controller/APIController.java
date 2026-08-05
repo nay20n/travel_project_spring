@@ -274,9 +274,11 @@ public class APIController {
 		List<Map<String, Object>> userBlocks = (List<Map<String, Object>>)mapReq.get("userBlocks");
 		int bno = (Integer)mapReq.get("bno");
 		String arrPlaceCity = (String)mapReq.get("arrPlaceCity");
+		String date = (String)mapReq.get("date");
+		String mapll = (String)mapReq.get("mapll");
 		//System.out.println(userBlocks);
 		
-		return eSvc.searchAiRecommend(userBlocks, bno, arrPlaceCity);
+		return eSvc.searchAiRecommend(userBlocks, bno, arrPlaceCity, date, mapll);
 	}
 	
 	// 이메일 보내기
