@@ -15,13 +15,17 @@
 	margin: auto 15px;
 }
 
+#header> div:nth-child(1) {
+	display: flex;
+	align-items: center;
+}
+
 #header> div:nth-child(1):hover {
 	opacity: 30%;
 }
 
-#header>div:nth-child(1)>svg {
-	color: #925DE8;
-	height: 24px;
+#header>div:nth-child(1)>img {
+	height: 40px;
 }
 
 #header>div:nth-child(1)>a {
