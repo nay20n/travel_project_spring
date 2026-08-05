@@ -38,6 +38,7 @@ public interface AiBlockService {
 	/**
 	 * AI 블록 내 일정에 복제
 	 * @param bno : 복제할 게시글의 번호
+	 * @return 복제 후의 캘린더 다시 그리기
 	 */
-	void copyAiBlock(int bno);
+	List<Map<String, Object>> copyAiBlock(int bno);
 }

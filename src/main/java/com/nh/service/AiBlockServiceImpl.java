@@ -15,6 +15,8 @@ public class AiBlockServiceImpl implements AiBlockService {
 	AiBlockDao aDao;
 	@Autowired
 	BlockDao bDao;
+	@Autowired
+	AiBlockDao blDao;
 
 	@Override
 	public List<Map<String, Object>> getAiBlock(int bno) {
@@ -33,9 +35,11 @@ public class AiBlockServiceImpl implements AiBlockService {
 	}
 
 	@Override
-	public void copyAiBlock(int bno) {
+	public List<Map<String, Object>> copyAiBlock(int bno) {
 		bDao.deleteBlockByAiBlock(bno);
 		aDao.copyAiBlock(bno);
+		List<Map<String, Object>> blocks = blDao.getAiBlock(bno);
+		return blocks;
 	}
 
 	@Override
