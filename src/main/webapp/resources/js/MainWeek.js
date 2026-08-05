@@ -753,12 +753,11 @@ $(function() {
 			})
 			.then(function(data) {
 				console.log(data);
-        		calendar.changeView('day');
+				
         		removeMarker(aiPlaceMarkers);
         		setBlocks(calendar);
-        		
-        		
         		$("#closeAi").click();
+        		
         		Toastify({
 				  text: "AI 추천 일정이 반영되었습니다.",
 				  duration: 3000,
