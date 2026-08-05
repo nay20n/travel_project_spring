@@ -253,7 +253,7 @@ public class APIController {
 	
 	// 게시글 일정 경로 생성
 	@PostMapping("/getRoute")
-	public String getRoute(@RequestBody Map<String,Object> mapReq) {
+	public List<String> getRoute(@RequestBody Map<String,Object> mapReq) {
 		String travelMode = (String)mapReq.get("travelMode");
 		List<String> placeIds = (List<String>)mapReq.get("placeIds");
 		//System.out.println(travelMode);

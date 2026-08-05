@@ -14,7 +14,7 @@
 	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
 	<script type="text/javascript" src="../resources/js/Board.js"></script>
 	<script type="text/javascript" src="../resources/js/Header.js"></script>
-	<c:if test="${sessionScope.loginId==writerId}">
+	<c:if test="${sessionScope.loginId==writerId||sessionScope.loginId==shareUserId}">
 		<script type="text/javascript" src="../resources/js/BoardTitle.js"></script>
 	</c:if>
 </head>
@@ -46,7 +46,7 @@
 				<div>
 					<span>교통</span>
 					<c:choose>
-						<c:when test="${sessionScope.loginId==writerId}">
+						<c:when test="${sessionScope.loginId==writerId||sessionScope.loginId==shareUserId}">
 							<div>
 						<input data-bno="${bno}" data-field="transportCost" class="fee" type="text" value="${transportCost}"/><span>원</span>
 					</div>
@@ -105,7 +105,7 @@
 				<div style="clear:both;"></div>
 			</div>
 			<c:choose>
-				<c:when test="${sessionScope.loginId==writerId}">
+				<c:when test="${sessionScope.loginId==writerId||sessionScope.loginId==shareUserId}">
 					<div class="my">
 						<div class="button">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

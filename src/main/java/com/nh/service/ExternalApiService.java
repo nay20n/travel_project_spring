@@ -14,7 +14,7 @@ public interface ExternalApiService {
 	 * @param placeIds 장소아이디들
 	 * @return api 응답 성공 시: routes.polyline.encodedPolyline / 실패 시: "fail"
 	 */
-	String getRoute(String travelMode, List<String> placeIds);
+	List<String> getRoute(String travelMode, List<String> placeIds);
 	
 	/**
 	 * ai 견적 확인
