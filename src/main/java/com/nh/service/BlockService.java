@@ -9,37 +9,43 @@ public interface BlockService {
 	 * @param bno
 	 * @param startTime
 	 * @param endTime
-	 * @return
+	 * @return key:blockIdx->삽입된 블럭의 인덱스 
+	 *         key:blocks->삽입 후의 블럭들 
 	 */
-	int addBlock(int bno, String startTime, String endTime);
+	Map<String,Object> addBlock(int bno, String startTime, String endTime);
 	
 	/**
 	 * 블럭 장소 수정
 	 * @param blockIdx
 	 * @param placeId
+	 * @param bno
+	 * @return 수정된 모든 블럭들 
 	 */
-	void modifyBlockPlace(int blockIdx, String placeId);
+	List<Map<String, Object>> modifyBlockPlace(int blockIdx, String placeId, int bno);
 	
 	/**
 	 * 블럭 삭제(해당 인덱스만)
 	 * @param blockIdx
+	 * @return 삭제된 후의 모든 블럭들 
 	 */
-	void deleteBlock(int blockIdx);
+	List<Map<String,Object>> deleteBlock(int blockIdx, int bno);
 	
 	/**
-	 * 블럭 색 수정
+	 * 블럭 색 수정 후 블럭들 리턴 
 	 * @param blockIdx
 	 * @param colorIdx
+	 * @return 블럭 색 수정 후 블럭들 리턴
 	 */
-	void modifyBlockColor(int blockIdx, int colorIdx);
+	List<Map<String,Object>> modifyBlockColor(int blockIdx, int colorIdx, int bno);
 	
 	/**
 	 * 블럭 시간 수정
 	 * @param blockIdx
 	 * @param startTime
 	 * @param endTime
+	 * @return 수정 후의 모든 블럭들
 	 */
-	void modifyBlockTime(int blockIdx, String startTime, String endTime);
+	 List<Map<String,Object>> modifyBlockTime(int blockIdx, String startTime, String endTime, int bno);
 	
 	/**
 	 * 블럭 AI 반영여부 수정

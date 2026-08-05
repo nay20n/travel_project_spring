@@ -162,6 +162,10 @@ function setBlocksToCalendar(calendar,data) {
 	// 내 일정 마커를 지우고 다시 생성
 	removeMarker(myPlaceMarkers);
 	
+	// 캘린더 비우기
+    calendar.clear();
+    eventList = [];
+	
 	for(let i=0;i<data.length;i++) {
 		let block = data[i];
 		
@@ -189,15 +193,11 @@ function setBlocksToCalendar(calendar,data) {
             color: '#000000',
             body: placeId
         });
-        
-        // 캘린더 비우기
-        calendar.clear();
-        
-        // 데이터 삽입
-        if (eventList.length > 0) {
-	        calendar.createEvents(eventList);
-	    }
 	}
+    // 데이터 삽입
+    if (eventList.length > 0) {
+        calendar.createEvents(eventList);
+    }
 	// 장소가 들어갈 수 있도록 설정
     setTimeout(function() {
 	    console.log($(".toastui-calendar-event-time").length);
@@ -212,7 +212,6 @@ function setBlocksToCalendar(calendar,data) {
 
 // 일정 삽입 함수
 function setBlocks(calendar) {
-	eventList = [];
 	let bno = $("#main").data("bno");
 	
 	const jsonData = {
@@ -230,6 +229,7 @@ function setBlocks(calendar) {
 		return response.json();
 	})
 	.then(function(data){
+		//console.log("일정삽입함수",data);
 		setBlocksToCalendar(calendar,data);
 	})
 	.catch(function(error){
@@ -241,13 +241,15 @@ function setBlocks(calendar) {
 function handleDropEvent(event, ui) {
 	//alert("드래그감지");
 	const $droppable = $(event.target);
+	let bno = $("#main").data("bno");
 	//alert(ui.draggable.data("place-id"));
 	//alert($droppable.data("event-id"));
 	console.log("장소 삽입");
 	
 	const jsonData = {
 		"placeId" : ui.draggable.data("place-id"),
-		"blockIdx": $droppable.data("event-id")
+		"blockIdx": $droppable.data("event-id"),
+		"bno" : bno
 	};
 	const initData = {
 		method: "post",
@@ -258,10 +260,10 @@ function handleDropEvent(event, ui) {
 	};
 	fetch("../../modifyBlockPlace", initData)
 	.then(function(response){
-		return response.text();
+		return response.json();
 	})
 	.then(function(data){
-		//console.log(data);
+		//console.log("장소 드래그 후의 블럭들", data);
 		Toastify({
 		  text: "장소를 추가했습니다.",
 		  duration: 3000,
@@ -276,7 +278,7 @@ function handleDropEvent(event, ui) {
 		}).showToast();
 		if(webSocket!=null)
 			webSocket.send("week");
-	  	setBlocks(calendar);
+	  	setBlocksToCalendar(calendar, data);
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
@@ -735,10 +737,10 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data){
-			console.log(data);
 			if(webSocket!=null)
 				webSocket.send("week");
-		  	setBlocks(calendar);
+				
+			setBlocksToCalendar(calendar,data.blocks);
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
@@ -752,7 +754,8 @@ $(function() {
 			console.log(blockIdx);
 			
 			const jsonData = {
-				"blockIdx" : blockIdx
+				"blockIdx" : blockIdx,
+				"bno" : bno
 			};
 			const initData = {
 				method: "post",
@@ -763,13 +766,13 @@ $(function() {
 			};
 			fetch("../../deleteBlock", initData)
 			.then(function(response){
-				return response.text();
+				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log("삭제 후의 블럭들",data);
 				if(webSocket!=null)
 					webSocket.send("week");
-			  	setBlocks(calendar);
+			  	setBlocksToCalendar(calendar,data);
 			  	Toastify({
 				  text: "삭제되었습니다.",
 				  duration: 3000,
@@ -810,7 +813,8 @@ $(function() {
 		const jsonData = {
 			"blockIdx" : blockIdx,
 			"startTime": startTime.toDate().toISOString(),
-	    	"endTime": endTime.toDate().toISOString()
+	    	"endTime": endTime.toDate().toISOString(),
+	    	"bno": bno
 		};
 		
 		console.log(jsonData.startTime);
@@ -823,13 +827,13 @@ $(function() {
 		};
 		fetch("../../modifyBlockTime", initData)
 		.then(function(response){
-			return response.text();
+			return response.json();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log("일정 블럭 옮긴 후의 블럭들",data);
 			if(webSocket!=null)
 				webSocket.send("week");
-		  	setBlocks(calendar);
+		  	setBlocksToCalendar(calendar,data);
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
@@ -909,13 +913,13 @@ $(function() {
 		if(confirm("AI 일정을 반영하겠습니까?\n(원래의 계획은 사라집니다.)")){
 			fetch("/TravelPlanner/reflectAIBlock?bno="+bno, {method:'post'})
 			.then(function(response) {
-				return response.text();
+				return response.json();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log("ai 반영 후의 블럭들",data);
 				
         		removeMarker(aiPlaceMarkers);
-        		setBlocks(calendar);
+        		setBlocksToCalendar(calendar,data);
         		$("#closeAi").click();
         		
         		Toastify({

@@ -757,7 +757,8 @@ $(function() {
 		
 		const jsonData = {
 			"blockIdx" : blockIdx,
-			"colorIdx" : colorIdx
+			"colorIdx" : colorIdx,
+			"bno" : bno
 		};
 		const initData = {
 			method: "post",
@@ -768,14 +769,14 @@ $(function() {
 		};
 		fetch("../../modifyBlockColor", initData)
 		.then(function(response) {
-			return response.text();
+			return response.json();
 		})
 		.then(function(data) {
-			//console.log(data);
+			console.log("블럭 색 전환 후의 블럭들",data);
 			let color = "color: " + blockColorArr[colorIdx];
 			$(".setBlockColor").attr("style",color);
 			$(".popupContainer>div:nth-child(3)").addClass("hide");
-			setBlocks(calendar);
+			setBlocksToCalendar(calendar, data);
 		})
 		.catch(function(error) {
 			alert("에러! : " + error);

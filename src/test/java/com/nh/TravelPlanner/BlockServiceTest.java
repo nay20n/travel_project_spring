@@ -33,10 +33,11 @@ public class BlockServiceTest {
 		String endTime = "2026-07-08 10:40";
 		
 		// 2) When
-		int blockIdx = blSvc.addBlock(bno, startTime, endTime);
+		Map<String, Object> map = blSvc.addBlock(bno, startTime, endTime);
 		
 		// 3) Then : sql 오류가 없다면 성공
-		System.out.println(blockIdx);
+		System.out.println(map.get("blockIdx"));
+		System.out.println(map.get("blocks"));
 	}
 	
 	// 블럭 장소 수정 테스트
@@ -44,13 +45,15 @@ public class BlockServiceTest {
 	@Transactional
 	public void testModifyBlockPlace() {
 		// 1) Given
-		int bno = 1;
+		int blockIdx = 266;
 		String placeId = "ChIJe1QMOBvraDUR9__2s01MxDE";
+		int bno = 220;
 		
 		// 2) When
-		blSvc.modifyBlockPlace(bno, placeId);
+		List<Map<String, Object>> blocks = blSvc.modifyBlockPlace(blockIdx, placeId, bno);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(blocks);
 	}
 	
 	// 블럭 삭제 테스트
@@ -59,11 +62,13 @@ public class BlockServiceTest {
 	public void testDelBlock1() {
 		// 1) Given
 		int blockIdx = 1;
+		int bno = 220;
 		
 		// 2) When
-		blSvc.deleteBlock(blockIdx);
+		List<Map<String, Object>> blocks = blSvc.deleteBlock(blockIdx, bno);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(blocks);
 	}
 	
 	// 블럭 색 수정 테스트
@@ -73,11 +78,14 @@ public class BlockServiceTest {
 		// 1) Given
 		int blockIdx = 1;
 		int colorIdx = 2;
+		int bno = 220;
 		
 		// 2) When
-		blSvc.modifyBlockColor(blockIdx, colorIdx);
+		List<Map<String, Object>> blocks = blSvc.modifyBlockColor(blockIdx, colorIdx, bno);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(blocks);
+		
 	}
 	
 	// 블럭 시간 수정 테스트
@@ -85,14 +93,16 @@ public class BlockServiceTest {
 	@Transactional
 	public void testModifyBlockTime() {
 		// 1) Given
-		int blockIdx = 1;
+		int blockIdx = 266;
 		String startTime = "2026-07-08 11:50";
 		String endTime = "2026-07-08 11:55";
+		int bno = 220;
 		
 		// 2) When
-		blSvc.modifyBlockTime(blockIdx, startTime, endTime);
+		List<Map<String, Object>> blocks = blSvc.modifyBlockTime(blockIdx, startTime, endTime, bno);
 		
 		// 3) Then : sql 오류가 없다면 성공
+		System.out.println(blocks);
 	}
 	
 	// 블럭 AI 반영여부 수정 테스트
