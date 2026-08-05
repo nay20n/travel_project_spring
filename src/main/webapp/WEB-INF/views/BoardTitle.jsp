@@ -10,7 +10,7 @@
 	</div>
 	<div>
 		<c:choose>
-				<c:when test="${sessionScope.loginId==writerId}">
+				<c:when test="${sessionScope.loginId==writerId||sessionScope.loginId==shareUserId}">
 					<label>
 						<input data-bno="${bno}" class="boardTitle" type="text" value="${title}"/>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

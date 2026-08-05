@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +49,7 @@ import com.nh.dao.PlaceDao;
 
 @PropertySource("classpath:secret.properties")
 @Configuration
-@Repository
+@Service
 public class ExternalApiServiceImpl implements ExternalApiService {
 	@Value("${google.api.key}")
     private String GoogleApiKey;
@@ -156,11 +157,79 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	    
 	    return places.get(0).path("id").asText();
 	}
-
+	
+	// 길찾기
 	@Override
-	public String getRoute(String travelMode, List<String> placeIds) {
+	public List<String> getRoute(String travelMode, List<String> placeIds) {
 		String url = "https://routes.googleapis.com/directions/v2:computeRoutes";
-		try {
+		try {		
+			// 대중교통의 경우 경유지를 포함할 수 없으므로 반복 실행
+			if("TRANSIT".equals(travelMode)) {
+				List<String> rList = new ArrayList<>();
+				
+				for(int i=0;i<placeIds.size()-1;i++) {
+					URL apiUrl = new URL(url);
+					HttpURLConnection con = (HttpURLConnection) apiUrl.openConnection();
+					
+					// 헤더
+					con.setRequestMethod("POST");
+					con.setRequestProperty("Content-Type", "application/json");
+					con.setRequestProperty("X-Goog-Api-Key", GoogleRKey);
+					con.setRequestProperty("X-Goog-FieldMask", "routes.polyline.encodedPolyline");
+					//con.setRequestProperty("X-Goog-FieldMask", "*");
+					con.setDoOutput(true);
+					
+					// 바디
+					StringBuffer json = new StringBuffer();
+
+			        json.append("{");
+			        json.append("\"origin\":{");
+			        json.append("\"placeId\":\"");
+			        json.append(placeIds.get(i));
+			        json.append("\"},");
+			        
+			        json.append("\"destination\":{");
+			        json.append("\"placeId\":\"");
+			        json.append(placeIds.get(i+1));
+			        json.append("\"},");
+			        
+			        json.append("\"travelMode\":\"");
+			        json.append(travelMode);
+			        json.append("\"");
+			        
+			        json.append("}");
+			        System.out.println(json);
+			        
+			        try ( OutputStream os = con.getOutputStream()) {
+		                byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
+		                os.write(input);
+		            }
+			        
+			        // 응답
+			        int responseCode = con.getResponseCode();
+			        System.out.println("responseCode : "+ responseCode);
+			        
+			        InputStream inputStream;
+			        if (responseCode>=200 && responseCode<300) {
+			                inputStream = con.getInputStream();
+			        } else { inputStream =con.getErrorStream(); }
+			        
+			        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+			        
+			        StringBuffer response = new StringBuffer();
+			        
+			        String line;
+			        while ((line = br.readLine()) != null) {
+			        	//System.out.println("!"+line);
+			        	response.append(line);
+			        }
+			        
+			        System.out.println(response.toString());
+			        
+			        rList.add(response.toString());
+				}
+				return rList;
+			}
 			URL apiUrl = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) apiUrl.openConnection();
 			
@@ -230,13 +299,18 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	        }
 	        
 	        System.out.println(response.toString());
-	        return response.toString();
+	        
+	        List<String> rList = new ArrayList<>();
+	        rList.add(response.toString());
+	        
+	        return rList;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "fail";
+		return null;
 	}
-
+	
+	// ai 예상 견적
 	@Override
 	public Map<String, Object> searchCost(int bno) {
 		List<Map<String, Object>> list = blDao.getBlocksForAiCount(bno);
@@ -352,7 +426,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		ret.remove("bno");
 		return ret;
 	}
-
+	
+	// ai 일정 추천
 	@Override
 	@Transactional
 	public List<Map<String, Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno,
@@ -484,6 +559,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		
 		return aDao.getAiBlock(bno);
 	}
+	
 	// 비밀번호 재설정 페이지로 넘어가기 위한 키 발급 함수
 	@Override
 	public String updateKey(String email, String pageType) {

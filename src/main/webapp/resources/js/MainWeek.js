@@ -13,8 +13,8 @@ let webSocket=null;
 let aiLock = false; // 실행 중이라면 막아줄 전역 변수
 
 // 지도
-let routeLine=null; // 경로
-let aiRouteLine=null; // ai경로
+let routeLine=[]; // 경로
+let aiRouteLine=[]; // ai경로
 let mapElement;
 let encoding; // 구글맵의 geometryLib.encoding 클래스
 let AdvancedMarkerElement;  // 구글맵의 마커 클래스
@@ -30,34 +30,30 @@ let travelModeIdx = 0;
 
 // 지도에 경로 그리기
 function drawRoute(encodedPolyline) {
-    // 기존 경로가 있다면 제거
-    if (routeLine!=null) { routeLine.setMap(null); }
     // encodedPolyline → 좌표 배열
     const path = encoding.decodePath(encodedPolyline);
     // 지도에 경로 그리기
-    routeLine = new google.maps.Polyline({
+    routeLine.push(new google.maps.Polyline({
         path: path,
         map: mapElement.innerMap,
         strokeColor: "#ff0000",
         strokeOpacity: 1,
         strokeWeight: 5
-    });
+    }));
 }
 
 // 지도에 ai경로 그리기
 function drawAiRoute(encodedPolyline) {
-    // 기존 경로가 있다면 제거
-    if (routeLine!=null) { routeLine.setMap(null); }
     // encodedPolyline → 좌표 배열
     const path = encoding.decodePath(encodedPolyline);
     // 지도에 경로 그리기
-    aiRouteLine = new google.maps.Polyline({
+    aiRouteLine.push(new google.maps.Polyline({
         path: path,
         map: mapElement.innerMap,
         strokeColor: "#0000ff",
         strokeOpacity: 1,
         strokeWeight: 5
-    });
+    }));
 }
 
 // 지도에 마커 그리기
@@ -416,7 +412,8 @@ $(function() {
 			    return response.json();
 			})
 			.then(function(data) {
-	    		if (!data.routes || data.routes.length == 0) {
+				let rData = JSON.parse(data[0]).routes;
+	    		if (!rData || rData.length == 0) {
 	    			Toastify({
 					  text: "경로를 찾을 수 없습니다.",
 					  duration: 3000,
@@ -432,9 +429,18 @@ $(function() {
 			        console.error("경로 데이터가 없습니다.", data);
 			        return;
 			    }
-			    encodedPolyline = data.routes[0].polyline.encodedPolyline;
-	    		console.log(encodedPolyline);
-	    		drawAiRoute(encodedPolyline);
+			    
+			    // 기존 경로 지우기
+			    for(let i=0;i<aiRouteLine.length;i++){
+			    	aiRouteLine[i].setMap(null);
+			    }
+			    aiRouteLine = [];
+			    
+			    for(let i=0;i<data.length;i++){
+				    encodedPolyline = JSON.parse(data[i]).routes[0].polyline.encodedPolyline;
+		    		//console.log(encodedPolyline);
+		    		drawRoute(encodedPolyline);
+			    }
 	    		aiLock = false;
 			})
 			.catch(function(error) {
@@ -598,7 +604,8 @@ $(function() {
 					    return response.json();
 					})
 					.then(function(data) {
-			    		if (!data.routes || data.routes.length == 0) {
+						let rData = JSON.parse(data[0]).routes;
+			    		if (!rData || rData.length == 0) {
 			    			Toastify({
 							  text: "경로를 찾을 수 없습니다.",
 							  duration: 3000,
@@ -614,9 +621,17 @@ $(function() {
 					        console.error("경로 데이터가 없습니다.", data);
 					        return;
 					    }
-					    encodedPolyline = data.routes[0].polyline.encodedPolyline;
-			    		console.log(encodedPolyline);
-			    		drawAiRoute(encodedPolyline);
+					    // 기존 경로 지우기
+					    for(let i=0;i<aiRouteLine.length;i++){
+					    	aiRouteLine[i].setMap(null);
+					    }
+					    aiRouteLine = [];
+					    
+					    for(let i=0;i<data.length;i++){
+						    encodedPolyline = JSON.parse(data[i]).routes[0].polyline.encodedPolyline;
+				    		//console.log(encodedPolyline);
+				    		drawRoute(encodedPolyline);
+					    }
 			    		aiLock = false;
 					})
 					.catch(function(error) {
@@ -931,7 +946,7 @@ $(function() {
 	});
 	// 내 일정 경로 표시(이동수단의 첫번째 버튼 클릭 시 경로 보여줌/그 외>이동수단만 변경)
 	$(".popupContainer>div:nth-child(4)>span").click(function() {
-		travelModeIdx = $(this).index();
+		if($(this).index()!=0) travelModeIdx = $(this).index();
 		$(".popupContainer").addClass("hide");
 		$(".popupContainer>div:nth-child(4)").addClass("hide");
 		if($(".dayView").hasClass("selectedView")&&$(this).index()==0){
@@ -977,7 +992,8 @@ $(function() {
 			    return response.json();
 			})
 			.then(function(data) {
-        		if (!data.routes || data.routes.length == 0) {
+				let rData = JSON.parse(data[0]).routes;
+        		if (!rData || rData.length == 0) {
         			Toastify({
 					  text: "경로를 찾을 수 없습니다.",
 					  duration: 3000,
@@ -993,9 +1009,16 @@ $(function() {
 			        console.error("경로 데이터가 없습니다.", data);
 			        return;
 			    }
-			    encodedPolyline = data.routes[0].polyline.encodedPolyline;
-        		console.log(encodedPolyline);
-        		drawRoute(encodedPolyline);
+			    // 기존 경로 지우기
+			    for(let i=0;i<routeLine.length;i++){
+			    	routeLine[i].setMap(null);
+			    }
+			    routeLine = [];
+			    for(let i=0;i<data.length;i++){
+				    encodedPolyline = JSON.parse(data[i]).routes[0].polyline.encodedPolyline;
+		    		//console.log(encodedPolyline);
+		    		drawRoute(encodedPolyline);
+			    }
 			})
 			.catch(function(error) {
 			    alert("에러! : " + error);

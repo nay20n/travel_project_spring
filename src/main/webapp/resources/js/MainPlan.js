@@ -704,8 +704,11 @@ $(function() {
 				});
 				$("#blockImg").css('background-image', `url(../../getBlockImg?${params.toString()})`);
 				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>span:nth-child(2)").html(data.startTime+"~"+data.endTime);
-				if(data.checkedAi==1)
+				if(data.checkedAi==1){
 					$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', true);
+				} else {
+					$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").prop('checked', false);
+				}
 				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(1)").html(data.name);
 				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)").html(data.category);
 				$(".popupContainer>div:nth-child(2)>div:nth-child(3)>div:nth-child(2)>div:nth-child(3)").html(data.address);
