@@ -29,6 +29,10 @@
 	height: 20px;
 	color: #925DE8;
 }
+#title > div:nth-child(2) > div:nth-child(2) {
+	display: inline-block;
+    margin-left: 17px;
+}
 
 #title > div > div {
 	display: flex;
