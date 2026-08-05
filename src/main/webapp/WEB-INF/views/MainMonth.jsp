@@ -6,6 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>일정표 - 메일(월)</title>
+	<link rel="icon" href="../../resources/img/favicon.ico"/>
 	<link rel="stylesheet" href="../../resources/css/MainMonth.css"/>
 	<link rel="stylesheet" href="../../resources/css/Header.css"/>
 	<link rel="stylesheet" href="../../resources/css/BoardTitle.css"/>
