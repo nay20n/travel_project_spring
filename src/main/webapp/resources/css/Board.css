@@ -189,6 +189,9 @@ body>* {
 	height: 500px;
 	width: 1088px;
 }
+.toastui-calendar-event-time {
+	cursor: default !important;
+}
 
 /* *******************content3********************** */
 

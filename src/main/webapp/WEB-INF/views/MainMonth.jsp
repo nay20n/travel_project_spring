@@ -30,7 +30,6 @@
 	<div id="daterange" data-start="${startDate}" data-end="${endDate}"></div>
 	<div id="main" data-bno="${bno}" data-key="${key}">
 		<div>
-			<h2 class="date fl">2026년 5월</h2>
 			<div class="changeView fl bs" >
 				<span>주</span><span>월</span>
 			</div>
