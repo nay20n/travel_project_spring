@@ -42,13 +42,9 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	background-color: white;
 	border-radius: 15px;
 }
-.date { /*2026년 5월*/
-   font-size: 22px;
-   margin-left: 10px;
-}
 .changeView { /*일월주담고있는 큰 div*/
-	margin-top: 12px;
-	margin-left: 30px;
+    margin-top: 60px;
+    margin-left: 17px;
 	width: 123px;
 	height: 35px;
 	background-color: #E7DEF9;
@@ -93,6 +89,7 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	visibility:hidden;
     position: absolute;
     left: 97px;
+    top: 32px;
 }
 /************달력****************/
 .daterangepicker:before, .daterangepicker:after {
