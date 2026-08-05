@@ -64,6 +64,7 @@ function calDate(dateStr ,days){
 }
 // 날짜 수정 비동기
 function editDate(sDate, eDate) {
+	let bno = Number($("#main").attr("data-bno"));
 	const jsonData = {
 		bno : bno,
 		startDate : sDate,
@@ -81,7 +82,7 @@ function editDate(sDate, eDate) {
 	.then(function(data){
 		console.log(data);
 		if(webSocket!=null)
-			webSocket.send("month");
+			webSocket.send(`${data.startDate},${data.endDate}`);
 		$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
 	})
 	.catch(function(error){
@@ -103,7 +104,7 @@ $(function() {
 		
 		// 공유
 		webSocket.onmessage = function(e) {
-			if(e.data=="week"||e.data=="true"||e.data=="false") { return; }
+			if(e.data=="week"||e.data=="true"||e.data=="false"||e.data=="aiUpdate") { return; }
 			let strArr = e.data.trim().split(",");
 			$("#calender").daterangepicker({
 				locale: {
