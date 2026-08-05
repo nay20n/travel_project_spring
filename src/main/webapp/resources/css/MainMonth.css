@@ -90,7 +90,9 @@ body > *:not(:first-child){margin: 20px auto 0;}
 	height: 730px;
 }
 #main > div:nth-child(2) > input { 
-	display: none;
+	visibility:hidden;
+    position: absolute;
+    left: 97px;
 }
 /************달력****************/
 .daterangepicker:before, .daterangepicker:after {
@@ -100,8 +102,8 @@ body > *:not(:first-child){margin: 20px auto 0;}
     width: 720px !important;
 	display: block !important;
 	border-radius: 12px !important;
-	left: 420px !important;
-	top: 335px !important;
+	/* left: 420px !important;
+	top: 335px !important; */
 }
 .daterangepicker .drp-calendar.right {display: none !important;} /* 오른쪽 달력 없애기*/
 .daterangepicker .drp-calendar.left { /* 왼쪽 달력 영역이 전체 너비를 가득 채우도록 설정 */
