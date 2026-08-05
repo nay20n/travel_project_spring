@@ -58,44 +58,51 @@ public class TravelRestController {
 	    return kstDateTime.format(formatter);
 	}
 	// 블럭 장소 변경
-	@PostMapping("/modifyBlockPlace")
-	public String modifyBlockPlace(@RequestBody Map<String,Object> mapReq) {
+	@PostMapping("/modifyBlockPlace") 
+	public List<Map<String,Object>> modifyBlockPlace(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = (Integer)mapReq.get("blockIdx");
 		String placeId = (String)mapReq.get("placeId");
-		blSvc.modifyBlockPlace(blockIdx, placeId);
-		return "블럭 변경";
+		int bno = (Integer)mapReq.get("bno");
+		
+		return blSvc.modifyBlockPlace(blockIdx, placeId, bno);
 	}
 	// 블럭 색 변경
 	@PostMapping("/modifyBlockColor")
-	public String modifyBlockColor(@RequestBody Map<String,Object> mapReq) {
+	public List<Map<String,Object>> modifyBlockColor(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = Integer.parseInt((String)mapReq.get("blockIdx"));
 		int colorIdx = (Integer)mapReq.get("colorIdx");
-		blSvc.modifyBlockColor(blockIdx, colorIdx);
-		return "블럭 색 변경";
+		int bno = (Integer)mapReq.get("bno");
+		List<Map<String,Object>> blocks = blSvc.modifyBlockColor(blockIdx, colorIdx, bno);
+		return blocks;
 	}
 	// 블럭 시간 변경
 	@PostMapping("/modifyBlockTime")
-	public String modifyBlockTime(@RequestBody Map<String,Object> mapReq) {
+	public List<Map<String,Object>> modifyBlockTime(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = (Integer)mapReq.get("blockIdx");
 		String startTime = changeDateFormat((String)mapReq.get("startTime"));
 		String endTime = changeDateFormat((String)mapReq.get("endTime"));
-		blSvc.modifyBlockTime(blockIdx, startTime, endTime);
-		return "블럭 변경";
+		int bno = (Integer)mapReq.get("bno");
+		
+		List<Map<String,Object>> blocks = blSvc.modifyBlockTime(blockIdx, startTime, endTime, bno);
+		return blocks;
 	}
 	// 블럭 삭제
 	@PostMapping("/deleteBlock")
-	public String deleteBlock(@RequestBody Map<String,Object> mapReq) {
+	public List<Map<String,Object>> deleteBlock(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = (Integer)mapReq.get("blockIdx");
-		blSvc.deleteBlock(blockIdx);
-		return "블럭 삭제";
+		int bno = (Integer)mapReq.get("bno");
+		List<Map<String,Object>> blocks = blSvc.deleteBlock(blockIdx, bno);
+		return blocks;
 	}
 	// 블럭 삽입
 	@PostMapping("/addBlock")
-	public int addBlock(@RequestBody Map<String,Object> mapReq) {
+	public Map<String,Object> addBlock(@RequestBody Map<String,Object> mapReq) {
 		int bno = (Integer)mapReq.get("bno");
 		String startTime = changeDateFormat((String)mapReq.get("startTime"));
 		String endTime = changeDateFormat((String)mapReq.get("endTime"));
 		//System.out.println(startTime+","+endTime);
+		
+		
 		return blSvc.addBlock(bno, startTime, endTime);
 	}
 	// 게시글에 들어간 블럭 전체 조회
@@ -561,10 +568,8 @@ public class TravelRestController {
 	
 	// ai 추천 반영 
 	@PostMapping("/reflectAIBlock")
-	public String reflectAIBlock(int bno) {
-		// 현재 ai 블럭 가져오기 
-		// 현재 적어논 원래의 계획 지우기 
-		aSvc.copyAiBlock(bno);
-		return "succes";
+	public List<Map<String, Object>> reflectAIBlock(int bno) {
+		List<Map<String, Object>> blocks = aSvc.copyAiBlock(bno);
+		return blocks;
 	}
 }
