@@ -120,4 +120,16 @@
 			WHERE bno = #{bno}
 		]]>
 	</insert>
+	<delete id="deleteBlockByAiBlock">
+		<![CDATA[
+			DELETE FROM blocks b
+			WHERE 
+				bno=#{bno} 
+				AND
+    			EXISTS (SELECT 1
+            			FROM ai_blocks ab
+            			WHERE TO_CHAR(start_time, 'YYYY-MM-DD') = TO_CHAR(ai_start_time, 'YYYY-MM-DD')
+        				)
+		]]>
+	</delete>
 </mapper>

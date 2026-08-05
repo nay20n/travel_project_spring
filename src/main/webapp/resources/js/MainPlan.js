@@ -750,7 +750,7 @@ $(function() {
 		let blockIdx = $(".popupContainer>div:nth-child(2)").attr("data-block-index");
 		
 		//alert(colorIdx);
-		alert(blockIdx);
+		//alert(blockIdx);
 		
 		const jsonData = {
 			"blockIdx" : blockIdx,
