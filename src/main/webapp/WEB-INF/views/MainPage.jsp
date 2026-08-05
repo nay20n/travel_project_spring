@@ -6,6 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Main</title>
+	<link rel="icon" href="resources/img/favicon.ico"/>
 	<link rel="stylesheet" href="resources/css/MainPage.css"/>
 	<link rel="stylesheet" href="resources/css/Header.css"/>
 	<script type="text/javascript" src="resources/js/jquery-4.0.0.min.js"></script>
