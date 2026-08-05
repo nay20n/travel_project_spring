@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>여행 기간은?</title>
+		<link rel="icon" href="../resources/img/favicon.ico"/>
 		<link rel="styleSheet" href="../resources/css/Date.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="../resources/js/Date.js"></script>

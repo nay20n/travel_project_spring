@@ -6,6 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>게시글</title>
+	<link rel="icon" href="../resources/img/favicon.ico"/>
 	<link rel="stylesheet" href="../resources/css/Board.css"/>
 	<link rel="stylesheet" href="../resources/css/Header.css"/>
 	<link rel="stylesheet" href="../resources/css/BoardTitle.css"/>

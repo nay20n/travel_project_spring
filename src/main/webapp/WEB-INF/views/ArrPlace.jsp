@@ -14,6 +14,7 @@
                 key: "${googleApiKey}"
             });
         </script>
+        <link rel="icon" href="../resources/img/favicon.ico"/>
 		<link rel="stylesheet" href="../resources/css/ArrPlace.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="../resources/js/ArrPlace.js"></script>

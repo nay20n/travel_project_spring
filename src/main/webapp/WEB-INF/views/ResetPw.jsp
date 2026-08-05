@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>비밀번호 재설정</title>
+		<link rel="icon" href="resources/img/favicon.ico"/>
 		<link rel="stylesheet" href="resources/css/Header.css"/>
 		<link rel="stylesheet" href="resources/css/ResetPw.css"/>
 		<script type="text/javascript" src="resources/js/jquery-4.0.0.min.js"></script>
