@@ -120,4 +120,10 @@ public interface BlockDao {
 	 * @return placeId
 	 */
 	List<String> getBlocksForRoutes(int bno, String inputTime);
+	
+	/**
+	 * AI 블럭을 넣기전에 본래의 블럭 삭제 함수
+	 * @param bno : 삭제할 bno
+	 */
+	void deleteBlockByAiBlock(int bno);
 }

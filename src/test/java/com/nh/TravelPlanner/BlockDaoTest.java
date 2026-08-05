@@ -255,4 +255,17 @@ public class BlockDaoTest {
 		assertNotNull("리스트는 널이 아님", list1);
 		System.out.println(list1);
 	}
+	
+	// AI 블럭 삽입 전 삭제 
+	@Test
+	@Transactional
+	public void testDeleteBlockByAiBlock() {
+		// 1) Given
+		int bno = 220;
+		
+		// 2) When
+		blDao.deleteBlockByAiBlock(bno);
+		
+		// 3) Then
+	}
 }
