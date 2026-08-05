@@ -31,7 +31,8 @@ public class BoardController {
 	
 	@GetMapping("/plan/{bno}")
 	public String planDetail(@PathVariable int bno, HttpSession session, Model model) {
-		model.addAllAttributes(bSvc.getBoardInfo((int)session.getAttribute("loginId"), bno));
+		int loginId = (int)session.getAttribute("loginId");
+		model.addAllAttributes(bSvc.getBoardInfo(loginId, bno));
 		return "Board";
 	}
 	
