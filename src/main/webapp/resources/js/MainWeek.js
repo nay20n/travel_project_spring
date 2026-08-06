@@ -466,7 +466,7 @@ $(function() {
 	
 	// ************* 웹소켓 ************************
 	if(key!=0) {
-		webSocket = new WebSocket("ws://localhost:9090/TravelPlanner/broadcasting?key="+bno);
+		webSocket = new WebSocket("ws://52.199.216.149:9090/TravelPlanner/broadcasting?key="+bno);
 		
 		// 공유
 		webSocket.onmessage = function(e) {

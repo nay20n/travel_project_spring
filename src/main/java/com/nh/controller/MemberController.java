@@ -49,9 +49,9 @@ public class MemberController {
 	// 카카오 로그인 요청 보내기
 	@GetMapping("/kakaologin")
 	public String kakaologin(@RequestParam String mapping) {
-		String redirect = "http://localhost:9090/TravelPlanner/kakaologin/editInfo";
+		String redirect = "http://52.199.216.149:9090/TravelPlanner/kakaologin/editInfo";
 		if("login".equals(mapping)) {
-			redirect = "http://localhost:9090/TravelPlanner/kakaologin/mainHome";
+			redirect = "http://52.199.216.149:9090/TravelPlanner/kakaologin/mainHome";
 		}
 		String url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + KakaoClientId 
 				+ "&redirect_uri=" + redirect;
@@ -101,7 +101,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-		return "redirect:http://localhost:9090/TravelPlanner/mypage/edit";
+		return "redirect:http://http://52.199.216.149:9090/TravelPlanner/mypage/edit";
 	}
 	
 	// 신규 회원 인증번호 맞는지 체크 
@@ -126,9 +126,9 @@ public class MemberController {
 	// 네이버 로그인 요청 보내기
 	@GetMapping("/naverlogin")
 	public String naverlogin(@RequestParam String mapping) {
-		String redirect = "http://localhost:9090/TravelPlanner/naverlogin/editInfo";
+		String redirect = "http://52.199.216.149:9090/TravelPlanner/naverlogin/editInfo";
 		if("login".equals(mapping)) {
-			redirect = "http://localhost:9090/TravelPlanner/naverlogin/mainHome";
+			redirect = "http://52.199.216.149:9090/TravelPlanner/naverlogin/mainHome";
 		}
 		
 		SecureRandom random = new SecureRandom();
@@ -180,7 +180,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-		return "redirect:http://localhost:9090/TravelPlanner/mypage/edit";
+		return "redirect:http://52.199.216.149:9090/TravelPlanner/mypage/edit";
 	}
 	
 	
