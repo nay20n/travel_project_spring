@@ -77,13 +77,13 @@ async function init() {
 			return response.text();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log(data);
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
 		})
 	
-		console.log("전체 장소 데이터:", jsonData);
+		//console.log("전체 장소 데이터:", jsonData);
 		
 	    // 검색된 장소로 지도 이동 및 마커 표시
 	    if (place.location) {
@@ -134,7 +134,7 @@ async function init() {
     	//e.stop();
     	
 	  	const placeId = e.placeId
-	  	console.log(placeId);
+	  	//console.log(placeId);
 	  	if (!placeId) return; //지면 클릭 시
 		// 마커 그리기 전 선택 된 것들 삭제
 		$(".coloredPlace").removeClass("coloredPlace");

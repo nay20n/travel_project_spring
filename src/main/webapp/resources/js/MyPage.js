@@ -9,7 +9,7 @@ function newPageMyBoard(pageNum, lastNum) {
 		return response.json();
 	})
 	.then(function(data) {
-		console.log(data);
+		//console.log(data);
 		
 		for(let i=0; i<data.length; i++) {
 		
@@ -54,7 +54,7 @@ function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
 		return response.json();
 	})
 	.then(function(data) {
-		console.log(data);
+		//console.log(data);
 		
 		for(let i=0; i<data.length; i++) {
 			let isLiked = ``;
@@ -107,7 +107,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -120,7 +120,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);

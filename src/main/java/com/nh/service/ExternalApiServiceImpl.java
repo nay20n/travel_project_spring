@@ -198,7 +198,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			        json.append("\"");
 			        
 			        json.append("}");
-			        System.out.println(json);
+			        //System.out.println(json);
 			        
 			        try ( OutputStream os = con.getOutputStream()) {
 		                byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
@@ -207,7 +207,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			        
 			        // 응답
 			        int responseCode = con.getResponseCode();
-			        System.out.println("responseCode : "+ responseCode);
+			        //System.out.println("responseCode : "+ responseCode);
 			        
 			        InputStream inputStream;
 			        if (responseCode>=200 && responseCode<300) {
@@ -224,7 +224,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			        	response.append(line);
 			        }
 			        
-			        System.out.println(response.toString());
+			        //System.out.println(response.toString());
 			        
 			        rList.add(response.toString());
 				}
@@ -272,7 +272,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	            json.append("]");
 	        }
 	        json.append("}");
-	        System.out.println(json);
+	        //System.out.println(json);
 	        
 	        try ( OutputStream os = con.getOutputStream()) {
                 byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
@@ -281,7 +281,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	        
 	        // 응답
 	        int responseCode = con.getResponseCode();
-	        System.out.println("responseCode : "+ responseCode);
+	        //System.out.println("responseCode : "+ responseCode);
 	        
 	        InputStream inputStream;
 	        if (responseCode>=200 && responseCode<300) {
@@ -298,7 +298,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	        	response.append(line);
 	        }
 	        
-	        System.out.println(response.toString());
+	        //System.out.println(response.toString());
 	        
 	        List<String> rList = new ArrayList<>();
 	        rList.add(response.toString());
@@ -314,7 +314,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	@Override
 	public Map<String, Object> searchCost(int bno) {
 		List<Map<String, Object>> list = blDao.getBlocksForAiCount(bno);
-		System.out.println(list);
+		//System.out.println(list);
 		
 		String startAddress = "";
 		String startName = "";
@@ -330,8 +330,8 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		if (targetMap != null) {
 		    list.remove(targetMap);
 		}
-		System.out.println("출발장소 이름 : " + startName);
-		System.out.println("출발장소 주소 : " + startAddress);
+		//System.out.println("출발장소 이름 : " + startName);
+		//System.out.println("출발장소 주소 : " + startAddress);
 		
 		//OpenAI API 호출 준비
 	    String url = "https://api.openai.com/v1/chat/completions";
@@ -420,7 +420,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 		ret.put("etcCost", budgetJson.path("etcCost").asInt(0));
 		ret.put("maxCost", budgetJson.path("maxCost").asInt(0));
 		ret.put("bno", bno);
-		System.out.println("결과 Map: " + ret);
+		//System.out.println("결과 Map: " + ret);
 		
 		bDao.modifyCost(ret);
 		ret.remove("bno");
@@ -550,12 +550,12 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 				e.printStackTrace();
 			}
 			if(placeId!=null) {
-				System.out.println("ai 장소 삽입: " + placeName);
+				//System.out.println("ai 장소 삽입: " + placeName);
 				aDao.insertAiBlock(bno, placeId, startTime, endTime, 0);
 			}
 		}
 		
-		System.out.println("결과: " + aDao.getAiBlock(bno));
+		//System.out.println("결과: " + aDao.getAiBlock(bno));
 		
 		return aDao.getAiBlock(bno);
 	}
@@ -674,7 +674,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 			// 5. 메세지 발송 프로세스
 			message.setSentDate(new java.util.Date());
 			Transport.send(message);
-			System.out.println("[system.out] 메일 발송 성공");
+			//System.out.println("[system.out] 메일 발송 성공");
 			return key;
 						
 		} catch(Exception e) {

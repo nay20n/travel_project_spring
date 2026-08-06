@@ -207,7 +207,7 @@ $(function() {
 	// 비밀번호 재설정
 	$(".popupContainer>div:nth-child(1)>div:nth-child(3)>div:nth-child(4)>span:nth-child(2)").click(function() {
 		let inputMail = $(".userEmail").val();
-		console.log(inputMail);
+		//console.log(inputMail);
 		if(inputMail=="") {
 			Toastify({
 			  text: "이메일을 입력해주세요.",
@@ -228,7 +228,7 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
+			//console.log(data);
 			if(data=="empty") {
 				Toastify({
 				  text: "이메일을 다시 확인해주세요.",
