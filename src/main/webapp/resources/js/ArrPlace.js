@@ -138,7 +138,7 @@ $(function(){
 	        return response.json(); 
 	    })
 	    .then(function(data){
-	       console.log("구글 비전 결과:", data);
+	       //console.log("구글 비전 결과:", data);
 	       
 	       if(data.success === true || data.success === "true"){
 	       
@@ -148,7 +148,7 @@ $(function(){
 	       		Toastify({
 					text: "사진에서 랜드마크를 찾았습니다.",
 					duration: 3000,
-					newWindow: true,
+					newWindow: true,s
 					close: true,
 					gravity: "top",
 					position: "center",

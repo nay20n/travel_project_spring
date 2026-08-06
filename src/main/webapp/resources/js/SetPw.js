@@ -47,7 +47,7 @@ $(function(){
 					return response.text();
 				})
 				.then(function(data){
-					console.log(data);
+					//console.log(data);
 					Toastify({
 					  text: "비밀번호가 변경되었습니다.",
 					  duration: 3000,

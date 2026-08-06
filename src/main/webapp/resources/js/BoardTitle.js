@@ -34,7 +34,7 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data) {
-			console.log(data);
+			//console.log(data);
 		})
 		.catch(function(error) {
 			alert("에러! : 제목 저장에 문제가 발생했습니다. 다시 시도해주세요." + error);

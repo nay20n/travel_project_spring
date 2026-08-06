@@ -80,7 +80,7 @@ function editDate(sDate, eDate) {
 		return response.json();
 	})
 	.then(function(data){
-		console.log(data);
+		//console.log(data);
 		if(webSocket!=null)
 			webSocket.send(`${data.startDate},${data.endDate}`);
 		$("#title>div:nth-child(2)>div>div:nth-child(1)>div").text(`${data.startDate}~${data.endDate}`);
@@ -120,7 +120,7 @@ $(function() {
 				"autoUpdateInput": false,
 				"autoApply": true
 				}, function(start, end, label) {
-					console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+					//console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 				}
 			);
 			clickInput();
@@ -186,7 +186,7 @@ $(function() {
 		"autoUpdateInput": false,
 		"autoApply": true
 		}, function(start, end, label) {
-			console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+			//console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 		}
 	);
 
@@ -208,7 +208,7 @@ $(function() {
 			let year = $(".daterangepicker .left .month").text().split(" ")[1];
 			let month = $(".daterangepicker .left .month").text().split(" ")[0].replace("월", "");
 			let myMonth = moment([year, month-1, 1]);
-			console.log(myMonth);
+			//console.log(myMonth);
 			if($(this).hasClass("prev")) {
 				// 한달 전으로 이동.
 //		        targetMonth = picker.leftCalendar.month.clone().subtract(1, 'month');
@@ -237,7 +237,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 				
 				setTimeout(drawPlus, 100);
 				setTimeout(drawDel, 100);

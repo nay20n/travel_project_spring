@@ -26,7 +26,7 @@ $(function (){
 				return response.text();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);(data);
 				if(data==="empty"){
 					Toastify({
 					  text: "메일이 존재하지 않습니다.",

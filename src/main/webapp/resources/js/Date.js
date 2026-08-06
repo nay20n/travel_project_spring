@@ -76,15 +76,15 @@ $(function(){
 	    "daily": "weather_code"
 	});
 	
-	console.log("https://api.open-meteo.com/v1/forecast?"+params.toString());
+	//console.log("https://api.open-meteo.com/v1/forecast?"+params.toString());
 	
 	fetch("https://api.open-meteo.com/v1/forecast?"+params.toString())
 	.then(function(response){
 		return response.json();
 	})
 	.then(function(data){
-		console.log(data);
-		console.log(data.daily.weather_code);
+		//console.log(data);
+		//console.log(data.daily.weather_code);
 		weeklyWeather = data.daily.weather_code;
 		startrc = $(".today").data("title");
 		//console.log(startrc);  // r3c5
@@ -94,7 +94,7 @@ $(function(){
 		setTimeout(() => setWeather(startr,startc), 0);
 	})
 	.catch(function(error){
-		console.log("에러!!! : " + error);
+		//console.log("에러!!! : " + error);
 	});
 	
 	//$('#selectDate > input').val('');
@@ -127,14 +127,14 @@ $(function(){
 		startDate = picker.startDate.format('YYYY.MM.DD');
 		endDate = picker.endDate.format('YYYY.MM.DD');
 		
-		console.log("선택한 시작일 (startDate):", startDate);
-	    console.log("선택한 종료일 (endDate):", endDate);
+		//console.log("선택한 시작일 (startDate):", startDate);
+	    //console.log("선택한 종료일 (endDate):", endDate);
 		
 		// 버튼 활성화 처리
 		isActive = true;
 		$("#nextBtn > div").addClass("coloredBtn");
 		$("#selectDate > input").trigger("click");
-		console.log("현재 isActive 상태:", isActive);
+		//console.log("현재 isActive 상태:", isActive);
 	});
 
 	// 다음 페이지 클릭하면 도착지 페이지로 이동

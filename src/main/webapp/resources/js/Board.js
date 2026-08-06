@@ -49,7 +49,7 @@ function setBlocks(calendar) {
 		        calendar.createEvents(eventList);
 		    }
 		}
-		console.log(eventList);
+		//console.log(eventList);
 	})
 	.catch(function(error){
 		alert("에러! : " + error);
@@ -325,7 +325,7 @@ $(function() {
 				return response.text();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log(data);
 				location.href= "/TravelPlanner";
 			})
 			.catch(function(error) {
@@ -348,7 +348,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log("받은 예상 경비 :", data); 
+				//console.log("받은 예상 경비 :", data); 
 				$('input[data-field="transportCost"]').val(data.transportCost);
 				
 				$('input[data-field="foodCost"]').val(data.foodCost);
@@ -569,7 +569,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -581,7 +581,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
