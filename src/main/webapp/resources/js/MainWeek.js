@@ -292,8 +292,15 @@ $(function() {
 	let key = Number($("#main").attr("data-key"));
 	let mapll = $("#main").attr("data-mapll");
 	
+	
+  
+	
 	// ai 추천 일정 받기
 	function getAiResult() {
+		// 로딩바 생성
+		$('.loading_spinner').removeClass("hide");
+		$(".popupContainer").removeClass("hide");
+		
 		aiLock = true;
 		let date = calendar.getDate().toDate();
 		let yyyy = date.getFullYear();
@@ -339,6 +346,9 @@ $(function() {
 		})
 		.then(function(data){
 			console.log(data);
+			
+			$('.loading_spinner').addClass("hide");
+			$(".popupContainer").addClass("hide");
 			
 			if(webSocket!=null)
 				webSocket.send("aiUpdate");

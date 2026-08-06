@@ -11,6 +11,7 @@
                 key: "${googleApiKey}"
             });
         </script>
+        <link rel="icon" href="../resources/img/favicon.ico"/>
 		<link rel="styleSheet" href="../resources/css/StartPlace.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="../resources/js/StartPlace.js"></script>

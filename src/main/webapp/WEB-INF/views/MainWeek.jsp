@@ -6,6 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Weekly</title>
+	<link rel="icon" href="../../resources/img/favicon.ico"/>
 	<link rel="stylesheet" href="../../resources/css/MainWeek.css"/>
 	<link rel="stylesheet" href="../../resources/css/Header.css"/>
 	<link rel="stylesheet" href="../../resources/css/BoardTitle.css"/>
@@ -19,8 +20,17 @@
 	<script  src="../../resources/js/BoardTitle.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>
 	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+	
+	<script src="
+https://cdn.jsdelivr.net/npm/jquery.spinner@0.2.1/dist/js/jquery.spinner.min.js
+"></script>
+<link href="
+https://cdn.jsdelivr.net/npm/jquery.spinner@0.2.1/dist/css/bootstrap-spinner.min.css
+" rel="stylesheet">
+	
 	<script src="../../resources/js/MainWeek.js"></script>
 	<script type="module" src="../../resources/js/mapIndexForPlan.js"></script>
+	
 	<script>
         // prettier-ignore
         (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.\${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
@@ -74,6 +84,7 @@
 			<button class="bs hide" id="makeAiBlock">AI 추천 일정</button>
 		</div>
 	</div>
+	
 	<div class="popupContainer hide">
 		<div class="popupContent bs hide">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -81,12 +92,6 @@
 			</svg>
 			<div>
 				<div>
-	                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-					  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-					</svg>
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-					  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-					</svg> -->
 	            </div>
 				<div class="popupPlace">
 					<div>
@@ -285,7 +290,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="loading_spinner hide">
+	    <div class="cv_spinner">
+		        <span class="spinner"></span>
+		    </div>
+		</div>
 	</div>
-	<input id="reviewImg" type="file" name="reviewImg" class="hide"/>
+	
+	
 </body>
 </html>
