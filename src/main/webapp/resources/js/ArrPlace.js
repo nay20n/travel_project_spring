@@ -148,7 +148,7 @@ $(function(){
 	       		Toastify({
 					text: "사진에서 랜드마크를 찾았습니다.",
 					duration: 3000,
-					newWindow: true,s
+					newWindow: true,
 					close: true,
 					gravity: "top",
 					position: "center",

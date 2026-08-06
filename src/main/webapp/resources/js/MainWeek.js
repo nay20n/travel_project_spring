@@ -929,7 +929,8 @@ $(function() {
 				//console.log("ai 반영 후의 블럭들",data);
 				
         		removeMarker(aiPlaceMarkers);
-        		setBlocksToCalendar(calendar,data);
+        		setBlocks(calendar);
+        		//setBlocksToCalendar(calendar,data);
         		$("#closeAi").click();
         		
         		Toastify({
