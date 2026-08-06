@@ -15,7 +15,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		if(session!=null && session.getAttribute("loginId")!=null) return true;
 		
-		System.out.println("인터셉터에서 막힘 ->" + request.getRequestURI());
+		//System.out.println("인터셉터에서 막힘 ->" + request.getRequestURI());
 		
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("msg", "로그인이 필요한 서비스입니다.");
