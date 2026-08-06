@@ -85,13 +85,13 @@ async function init() {
 			return response.text();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log(data);
 		})
 		.catch(function(error){
 			alert("에러! : " + error);
 		})
 	
-		console.log("전체 장소 데이터:", jsonData);
+		//console.log("전체 장소 데이터:", jsonData);
 		
 	    // 검색된 장소로 지도 이동
 	    if (place.location) {
@@ -112,7 +112,7 @@ async function init() {
   	
   	// 지도위에 들어가 있는 장소들 클릭 
 	mapElement.innerMap.addListener("click", async function(e) {
-    	console.log(e);
+    	//console.log(e);
 	 	//기본 제공되는 구글의 팝업 창을 안 뜨게 막음 
 		e.stop();
 		
@@ -166,7 +166,7 @@ async function init() {
 			return response.text();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log(data);
 			//데이터 삽입 후 마커+장소팝업 
 			drawMarker(place.location.lat(), place.location.lng(), place.id)
 		})

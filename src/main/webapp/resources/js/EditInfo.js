@@ -38,7 +38,7 @@ $(function() {
 				data : formData,
 				type : 'POST',
 				success : function(result){
-					console.log(result);
+					//console.log(result);
 					Toastify({
 					  text: "프로필 이미지가 업데이트 되었습니다.",
 					  duration: 3000,
@@ -55,7 +55,7 @@ $(function() {
 				},
 	            error: function(r,s,e){
 	                alert("업로드 실패!");
-	                console.log(e);
+	                //console.log(e);
 	            }
 			});
 		}
@@ -151,7 +151,7 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data){
-			console.log("인증",data);
+			//console.log("인증",data);
 			
 			if(data){ // 인증번호가 맞다면
 				mailVerify = true;
@@ -243,7 +243,7 @@ $(function() {
 			return response.text();
 		})
 		.then(function(data){
-			console.log("받은 키",data);
+			//console.log("받은 키",data);
 			location.href = "/TravelPlanner/setpw?key=" + encodeURIComponent(data);
 		})
 		.catch(function(error){
@@ -289,7 +289,7 @@ $(function() {
 						duration: 3000,
 						newWindow: true,
 						close: true,
-						gravity: "top",
+						sgravity: "top",
 						position: "center",
 						stopOnFocus: true,
 						style: {
