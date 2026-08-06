@@ -109,13 +109,13 @@ public class MemberController {
 	public String checkAuthCode (RedirectAttributes rttr, HttpSession session, String inputKey) {
 		// 지금 현재 세션에 저장된 key여야지만 접근 가능
 		String keySession = (String)session.getAttribute("key");
-		System.out.println("발급된 키 "+keySession);
-		System.out.println("입력된 키 "+inputKey);
+		//System.out.println("발급된 키 "+keySession);
+		//System.out.println("입력된 키 "+inputKey);
 		if(!keySession.equals(inputKey)) {
 			rttr.addFlashAttribute("msg", "인증번호가 일치하지 않습니다. 다시 시도해주세요.");
 		} else {
 			int memberId = mSvc.addMember((String)session.getAttribute("email"));
-			System.out.println(memberId);
+			//System.out.println(memberId);
 			session.setAttribute("loginId", memberId);
 			rttr.addFlashAttribute("msg", "회원 가입이 완료 되었습니다. 꼭 비밀번호를 변경해주세요.");
 			return "SetPw";
@@ -157,7 +157,7 @@ public class MemberController {
 	    	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
 	    } else {
 	    	session.setAttribute("loginId", mSvc.addMember(email));
-	    	System.out.println("loginId : " +  mSvc.addMember(email));
+	    	//System.out.println("loginId : " +  mSvc.addMember(email));
 	    	rttr.addFlashAttribute("msg", "회원가입 되었습니다.");
 	    }
 	    

@@ -293,7 +293,7 @@ public class TravelRestController {
 		
 		for(Map<String, Object> m : listPlaces) {
 			String pid = (String)m.get("placeId");
-			System.out.println(pid);
+			//System.out.println(pid);
 		}
 		
 		return listPlaces;
@@ -382,7 +382,7 @@ public class TravelRestController {
 		int loginId = (int)session.getAttribute("loginId");
 		
 		String path = application.getRealPath("resources/upload"); // upload 폴더의 절대경로(C:\로 시작) 얻기. 
-		System.out.println("절대경로 : " + path);
+		//System.out.println("절대경로 : " + path);
 		
 		File f= new File(path);
 		if(!f.exists()) 
@@ -401,7 +401,7 @@ public class TravelRestController {
 				file.transferTo(saveFile); // 파일 저장
 			} catch(Exception e) {e.printStackTrace();}
 		}
-		System.out.println("저장된 파일명 : " + filenameUUID);
+		//System.out.println("저장된 파일명 : " + filenameUUID);
 		
 		pSvc.addReview(loginId, placeId, content, rating, filenameUUID);
 		return "insert";
@@ -467,7 +467,7 @@ public class TravelRestController {
 		int loginId = (int)session.getAttribute("loginId");
 		
 		String path = application.getRealPath("resources/upload"); // upload 폴더의 절대경로(C:\로 시작) 얻기. 
-		System.out.println("절대경로 : " + path);
+		//System.out.println("절대경로 : " + path);
 		
 		File f= new File(path);
 		if(!f.exists()) 
@@ -486,7 +486,7 @@ public class TravelRestController {
 				file.transferTo(saveFile); // 파일 저장
 			} catch(Exception e) {e.printStackTrace();}
 		}
-		System.out.println("저장된 파일명 : " + filenameUUID);
+		//System.out.println("저장된 파일명 : " + filenameUUID);
 		mSvc.modifyProfileImg(loginId, filenameUUID);
 		
 		model.addAttribute("filenameUUID",filenameUUID);
@@ -515,16 +515,16 @@ public class TravelRestController {
 	public boolean checkAuthCode (HttpSession session, String key) {
 		// 지금 현재 세션에 저장된 key여야지만 접근 가능
 		String keySession = (String)session.getAttribute("key");
-		System.out.println("발급된 키 "+keySession);
+		//System.out.println("발급된 키 "+keySession);
 		if(!keySession.equals(key)) {
-			System.out.println("key");
+			//System.out.println("key");
 			return false;
 		}
 		
 		// 키가 존재하는지 + 만료되지 않았는지 서비스에서 확인
         boolean isValid = mSvc.isValidCode(key);
         if (isValid) {
-        	System.out.println("key인증");
+        	//System.out.println("key인증");
         	return false;
         }
         
@@ -554,7 +554,7 @@ public class TravelRestController {
 	@PostMapping("/isExistMail")
 	public String isExistMail(String email) {
 		// 중복이라면 종료
-		System.out.println(email);
+		//System.out.println(email);
 		if(mSvc.isExistEmail(email)) return "true";
 		return "empty";
 	}

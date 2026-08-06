@@ -29,14 +29,14 @@ public class BroadSocket extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		Set<WebSocketSession> clients = getClients(session);
 		clients.add(session);
-		System.out.println("새로운 클라이언트: 현재 " + clients.size() + "명");
+		//System.out.println("새로운 클라이언트: 현재 " + clients.size() + "명");
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage msg) throws Exception {
 		Set<WebSocketSession> clients = getClients(session);
 		clients.add(session);
-		System.out.println("클라이언트로 부터 도착한 메세지: " + msg.getPayload());
+		//System.out.println("클라이언트로 부터 도착한 메세지: " + msg.getPayload());
 		TextMessage tm = null;
 		String query = session.getUri().getQuery();
 		String key = query.substring(query.indexOf("=")+1);
@@ -80,6 +80,6 @@ public class BroadSocket extends TextWebSocketHandler {
 				aiLock.remove(key);
 			}
 		}
-		System.out.println("클라이언트 나감: 현재 " + clients.size() + "명");
+		//System.out.println("클라이언트 나감: 현재 " + clients.size() + "명");
 	}
 }
