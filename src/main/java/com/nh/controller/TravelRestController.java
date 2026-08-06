@@ -572,4 +572,13 @@ public class TravelRestController {
 		List<Map<String, Object>> blocks = aSvc.copyAiBlock(bno);
 		return blocks;
 	}
+	
+	// ai 반영 장소 변경
+	@PostMapping("/checkedAi")
+	public String checkedAi(@RequestBody Map<String,Object> mapReq) {
+		int blockIdx = Integer.parseInt((String)mapReq.get("blockIdx"));
+		boolean checkedAi = (boolean)mapReq.get("checkedAi");
+		blSvc.modifyBlockCheckedAi(blockIdx, checkedAi);
+		return "mod";
+	}
 }

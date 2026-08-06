@@ -684,7 +684,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log(data);
 				// 일정 삭제를 위한 인덱스 넣기
 				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(3)").data("blockIdx",data.blockIdx);
 				// 블럭 색
@@ -743,6 +743,33 @@ $(function() {
 			$(".popupContainer>div:nth-child(5)").removeClass("hide");
 		}
 	});
+	// 정보창에서 AI 반영 클릭 시 
+	$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>input").on("change", function () {
+		//alert("변경!");
+		let blockIdx = $(".popupContainer>div:nth-child(2)").attr("data-block-index");
+		//alert(blockIdx);
+		const jsonData = {
+			"blockIdx" : blockIdx,
+			"checkedAi" : $(this).is(":checked") ? true : false
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("../../checkedAi", initData)
+		.then(function(response) {
+			return response.text();
+		})
+		.then(function(data) {
+			//console.log(data);
+		})
+		.catch(function(error) {
+			alert("에러! : " + error);
+		});
+	});
 	// 블럭 색 바꾸기 창 띄우기
 	$(document).on("click", ".setBlockColor", function() {
 		$(".popupContainer>div:nth-child(3)").removeClass("hide");
@@ -772,7 +799,7 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data) {
-			console.log("블럭 색 전환 후의 블럭들",data);
+			//console.log("블럭 색 전환 후의 블럭들",data);
 			let color = "color: " + blockColorArr[colorIdx];
 			$(".setBlockColor").attr("style",color);
 			$(".popupContainer>div:nth-child(3)").addClass("hide");
