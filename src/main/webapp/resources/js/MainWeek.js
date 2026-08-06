@@ -200,7 +200,7 @@ function setBlocksToCalendar(calendar,data) {
     }
 	// 장소가 들어갈 수 있도록 설정
     setTimeout(function() {
-	    console.log($(".toastui-calendar-event-time").length);
+	    //console.log($(".toastui-calendar-event-time").length);
 	
 	    $(".toastui-calendar-event-time").droppable({
 	        drop: handleDropEvent,
@@ -244,7 +244,7 @@ function handleDropEvent(event, ui) {
 	let bno = $("#main").data("bno");
 	//alert(ui.draggable.data("place-id"));
 	//alert($droppable.data("event-id"));
-	console.log("장소 삽입");
+	//console.log("장소 삽입");
 	
 	const jsonData = {
 		"placeId" : ui.draggable.data("place-id"),
@@ -345,7 +345,7 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data){
-			console.log(data);
+			//console.log(data);
 			
 			$('.loading_spinner').addClass("hide");
 			$(".popupContainer").addClass("hide");
@@ -409,7 +409,7 @@ $(function() {
 		    	let place = aiEventList[i];
 		    	placeIds.push(place.body);
 		    }
-		    console.log(placeIds);
+		    //console.log(placeIds);
 		    fetch("../../getRoute", {
 			    method: "POST",
 			    headers: {
@@ -534,7 +534,7 @@ $(function() {
 					return response.json();
 				})
 				.then(function(data){
-					console.log(data);
+					//console.log(data);
 
 					// ai 마커와 캘린더 데이터를 지우고 다시 생성
 					removeMarker(aiPlaceMarkers);
@@ -601,7 +601,7 @@ $(function() {
 				    	let place = aiEventList[i];
 				    	placeIds.push(place.body);
 				    }
-				    console.log(placeIds);
+				    //console.log(placeIds);
 				    fetch("../../getRoute", {
 					    method: "POST",
 					    headers: {
@@ -653,7 +653,7 @@ $(function() {
 				.catch(function(error){
 					alert("에러! : " + error);
 				})
-				console.log(e.data);
+				//console.log(e.data);
 			}
 		};
 		webSocket.onopen = function(e) {
@@ -726,7 +726,7 @@ $(function() {
 	
 	// 캘린더 내 드래그로 일정추가
 	calendar.on('selectDateTime', (eventObj) => {
-		console.log(eventObj);
+		//console.log(eventObj);
 		let bno = $("#main").data("bno");
 	  	
 	  	calendar.clearGridSelections();
@@ -761,7 +761,7 @@ $(function() {
 	$(".popupContainer > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)").click(function(){
 		if(confirm("일정을 삭제하시겠습니까?")){
 			let blockIdx = $(this).data("blockIdx");
-			console.log(blockIdx);
+			//console.log(blockIdx);
 			
 			const jsonData = {
 				"blockIdx" : blockIdx,
@@ -810,8 +810,8 @@ $(function() {
 		
 		// 변화가 없다면 종료
 		if(changes.start==null&&changes.end==null) return;
-		console.log(event);
-		console.log(changes);
+		//console.log(event);
+		//console.log(changes);
 		
 		// 시간 세팅
 		let startTime = event.start;
@@ -827,7 +827,7 @@ $(function() {
 	    	"bno": bno
 		};
 		
-		console.log(jsonData.startTime);
+		//console.log(jsonData.startTime);
 		const initData = {
 			method: "post",
 			headers: {
@@ -991,7 +991,7 @@ $(function() {
 		    	let place = events[i];
 		    	placeIds.push(place.body);
 		    }
-		    console.log(placeIds);
+		    //console.log(placeIds);
 		    fetch("../../getRoute", {
 			    method: "POST",
 			    headers: {

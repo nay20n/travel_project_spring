@@ -90,13 +90,13 @@ function addSideContent(data) {
 }
 // 사이드바 장소 불러오기 비동기
 function placeNewPage(search, bno) {
-	console.log("placeNewPage 호출");
+	//console.log("placeNewPage 호출");
 	const jsonData = {
 		"pageNum" : placePageNum,
 		"bno" : bno,
 		"input" : search
 	};
-	console.log(jsonData.input);
+	//console.log(jsonData.input);
 	const initData = {
 		method: "post",
 		headers: {
@@ -109,7 +109,7 @@ function placeNewPage(search, bno) {
 		return response.json();
 	})
 	.then(function(data) {
-		console.log(data);
+		//console.log(data);
 		addSideContent(data);
 	})
 	.catch(function(error) {
@@ -163,7 +163,7 @@ function reviewNewPage(pageNum, placeId) {
 		return response.json();
 	})
 	.then(function(data) {
-		console.log(data);
+		//console.log(data);
 		let reviews = data.reviews;
 		if(data.reviews.length<1) {
 			reviewPageLock = false;
@@ -253,8 +253,8 @@ function clickPlaceTitle(placeId) {
 		return response.json();
 	})
 	.then(function(data){
-		console.log(data.placeDetail);
-		console.log(data.reviews);
+		//console.log(data.placeDetail);
+		//console.log(data.reviews);
 		let pDetail = data.placeDetail;
 		let reviews = data.reviews;
 		let loginId = data.loginId;
@@ -351,7 +351,7 @@ $(function() {
 		return response.json();
 	})
 	.then(function(data){
-		console.log(data);
+		//console.log(data);
 		for(let i=0;i<data.length;i++){
 			blockColorArr[i] = data[i].colorCode;
 		}
@@ -443,7 +443,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -454,7 +454,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -491,7 +491,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -502,7 +502,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data){
-				console.log(data);
+				//console.log(data);
 			})
 			.catch(function(error){
 				alert("에러! : " + error);
@@ -664,8 +664,8 @@ $(function() {
 	$(document).on("click", ".toastui-calendar-event-time-content", function() {
 		let blockIdx = $(this).parent().data("event-id");
 		let calendarId = $(this).parent().data("calendar-id");
-		console.log(calendarId);
-		console.log(blockIdx);
+		//console.log(calendarId);
+		//console.log(blockIdx);
 		if(calendarId=="calendar") {
 			//alert($(".popupContainer>div:nth-child(2)").length);
 			$(".popupContainer>div:nth-child(2)").attr("data-block-index",blockIdx);
@@ -684,7 +684,7 @@ $(function() {
 				return response.json();
 			})
 			.then(function(data) {
-				console.log(data);
+				//console.log(data);
 				// 일정 삭제를 위한 인덱스 넣기
 				$(".popupContainer>div:nth-child(2)>div:nth-child(2)>div:nth-child(3)").data("blockIdx",data.blockIdx);
 				// 블럭 색
@@ -772,7 +772,7 @@ $(function() {
 			return response.json();
 		})
 		.then(function(data) {
-			console.log("블럭 색 전환 후의 블럭들",data);
+			//console.log("블럭 색 전환 후의 블럭들",data);
 			let color = "color: " + blockColorArr[colorIdx];
 			$(".setBlockColor").attr("style",color);
 			$(".popupContainer>div:nth-child(3)").addClass("hide");
