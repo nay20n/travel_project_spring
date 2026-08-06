@@ -636,7 +636,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 						+ "본인이 요펑한 메일이 아니라면 개인정보 보호를 위해 비밀번호를 재설정해주세요. <br/>"
 						+ "비밀번호를 다시 설정하려면 '비밀번호 재설정'링크를 클릭해주세요."
 						+ "</p>"
-						+ "<a href='http://localhost:9090/TravelPlanner/setpw?key=" + key + "' style='"
+						+ "<a href='http://52.199.216.149:9090/TravelPlanner/setpw?key=" + key + "' style='"
 			            + "	display: inline-block; "
 			            + "	padding: 5px 7px; "
 			            + "	border-radius: 4px; "
@@ -723,7 +723,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	        conn.setRequestMethod("POST");
 	        conn.setRequestProperty("Content-Type", "application/json; utf-8");
 	        conn.setRequestProperty("Accept", "application/json");
-	        conn.setRequestProperty("Referer", "http://localhost:9090/"); 
+	        conn.setRequestProperty("Referer", "http://52.199.216.149:9090/"); 
 	        conn.setDoOutput(true); 
 
 	        try (OutputStream os = conn.getOutputStream()) {
