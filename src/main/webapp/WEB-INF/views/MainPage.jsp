@@ -85,6 +85,7 @@
 					<div class="loginButton"></div>
 					<div class="loginButton">이메일로 가입하기</div>
 				</div>
+				<div id="testId">테스트계정1 id:a  pw:a<br/>테스트계정2 id:b pw:b</div>
 			</div>
 			<div class="popupContent bs">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
