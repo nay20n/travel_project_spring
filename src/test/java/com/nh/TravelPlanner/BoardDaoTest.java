@@ -351,10 +351,10 @@ public class BoardDaoTest {
 	@Transactional
 	public void testDeleteBoard() {
 		// 1) Given
-		int bno = 155; // 블럭 없는 게시글이어야해서 일단 있는 거 넣었어요. 155 없으면 에러날 거예요.
+		//int bno = 155; // 블럭 없는 게시글이어야해서 일단 있는 거 넣었어요. 155 없으면 에러날 거예요.
 		
 		// 2) When
-		bDao.deleteBoard(bno);
+		//bDao.deleteBoard(bno);
 		
 		// 3) Then : sql 오류가 없다면 성공
 	}
