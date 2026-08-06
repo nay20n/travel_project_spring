@@ -21,7 +21,7 @@
 </c:if>
 <div id="header" class="bs">
 	<div>
-		<img src="resources/img/logo.png"/>
+		<img src="<c:url value='/resources/img/logo.png'/>"/>
 		<a>트래블 플래너</a>
 	</div>
 </div>

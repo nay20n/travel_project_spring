@@ -36,4 +36,33 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	
+	<!-- /error/ 경로로 들어오는 요청은 스프링이 가로채지 않고 톰캣이 직접 폴더를 보도록 -->
+	<resources mapping="/error/**" location="/error/" />
+	
+	<beans:bean id="interceptor1" class="com.nh.common.AuthInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/TravelPlanner/getBoardsLastestOrder"/>
+			<exclude-mapping path="/TravelPlanner/getBoardsKeyOrder"/>
+			<exclude-mapping path="/TravelPlanner/getBoardImg"/>
+			<exclude-mapping path="/TravelPlanner/isExistMail"/>
+			<exclude-mapping path="/TravelPlanner/sendEmail"/>
+			<exclude-mapping path="/TravelPlanner/login"/>
+			<exclude-mapping path="/TravelPlanner/kakaologin"/>
+			<exclude-mapping path="/TravelPlanner/kakaologin/mainHome"/>
+			<exclude-mapping path="/TravelPlanner/kakaologin/editInfo"/>
+			<exclude-mapping path="/TravelPlanner/naverlogin"/>
+			<exclude-mapping path="/TravelPlanner/naverlogin/mainHome"/>
+			<exclude-mapping path="/TravelPlanner/naverlogin/editInfo"/>
+			<exclude-mapping path="/TravelPlanner/join"/>
+			<exclude-mapping path="/TravelPlanner/joinCode"/>
+			<exclude-mapping path="/TravelPlanner/forget"/>
+			<exclude-mapping path="/error/**"/>
+			<exclude-mapping path="/resources/**"/>
+			<beans:ref bean="interceptor1"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>
