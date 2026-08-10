@@ -135,11 +135,11 @@ body>* {
 
 .my {
 	display: flex;
-	justify-content: space-around;
+	justify-content: flex-end;
 }
 
 .my>div { /* 버튼 */
-	margin-top: 26px;
+    margin: 26px 0px 0px 11px;
 	font-size: 13px;
 }
 

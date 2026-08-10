@@ -11,6 +11,7 @@
                 key: "${googleApiKey}"
             });
         </script>
+        <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
         <link rel="icon" href="../resources/img/favicon.ico"/>
 		<link rel="styleSheet" href="../resources/css/StartPlace.css"/>
 		<script type="text/javascript" src="../resources/js/jquery-4.0.0.min.js"></script>

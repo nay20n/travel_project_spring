@@ -18,6 +18,7 @@ public class BroadSocket extends TextWebSocketHandler {
 	Set<WebSocketSession> getClients(WebSocketSession session) {
 		String query = session.getUri().getQuery();
 		String key = query.substring(query.indexOf("=")+1);
+		System.out.println("웹소켓 요청 발생, key:" + key);
 		
 		if(clientsMap.containsKey(key)) return clientsMap.get(key);
 		Set<WebSocketSession> clients = Collections.synchronizedSet(new HashSet<>());
