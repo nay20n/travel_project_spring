@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>정보수정</title>
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 		<link rel="icon" href="../resources/img/favicon.ico"/>
 		<link rel="stylesheet" href="../resources/css/EditInfo.css"/>
 		<link rel="stylesheet" href="../resources/css/Header.css"/>
@@ -43,22 +44,6 @@
 				<div class="fr">
 					<button class="bs">취소</button>
 					<button class="bs">저장</button>
-				</div>
-			</div>
-		</div>
-		<div id="connect" class="bs">
-			<div>계정연동</div>
-			<div>
-				<div>
-					<img class="RyPGm2iMntl88a2Z6XYZ" src="https://hera-client.grepp.co/02beb1329f49c1e1642a.png">
-					<span>Google</span>
-					<button class="fr bs">연결하기</button>
-				</div>
-				<div></div>
-				<div>
-					<img class="RyPGm2iMntl88a2Z6XYZ" src="https://hera-client.grepp.co/a9bd352b867488cd2b2b.png"/>
-					<span class="fr">Kakao</span>
-					<button class="fr bs">연결하기</button>
 				</div>
 			</div>
 		</div>

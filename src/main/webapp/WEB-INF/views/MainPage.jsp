@@ -6,6 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Main</title>
+	<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 	<link rel="icon" href="resources/img/favicon.ico"/>
 	<link rel="stylesheet" href="resources/css/MainPage.css"/>
 	<link rel="stylesheet" href="resources/css/Header.css"/>

@@ -96,10 +96,10 @@ $(function() {
 	let sDate = $('#daterange').attr('data-start'); 
     let eDate = $('#daterange').attr('data-end');  
     let bno = Number($("#main").attr("data-bno"));
-    let key = Number($("#main").attr("data-key"));
+    let key = $("#main").attr("data-key");
     
     // ********** 공유키가 있다면 연결 **********
-	if(key!=0) {
+	if(key) {
 		webSocket = new WebSocket("ws://52.199.216.149:9090/TravelPlanner/broadcasting?key="+bno);
 		
 		// 공유

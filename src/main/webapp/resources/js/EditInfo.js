@@ -323,18 +323,4 @@ $(function() {
 			}	
 		//let profileImg = $("#basicInfo > div:nth-child(2) > img")
 	});
-	/***********계정연동*************/
-	//연결해제 버튼 
-	$("#connect > div:nth-child(2) > div > button").click(function() {
-		
-		if($(this).hasClass("connect")){ // 연결하기를 가지고 있는 클래스(즉, 연결해제 버튼)
-			$(this).removeClass("connect");
-			$(this).text("연결하기");
-			$(this).parent().find("span").eq(1).remove();
-		} else { //연결하기 버튼)
-			$(this).addClass("connect");
-			$(this).text("연결해제");
-			$(this).after("<span>연결됨<span>");
-		}
-	});
 });

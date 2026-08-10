@@ -228,16 +228,12 @@ public class TravelRestController {
 			bSvc.modifyCost(bno, null, null, null, currentFee, null);
 		if(field.equals("etcCost"))
 			bSvc.modifyCost(bno, null, null, null, null, currentFee);
-		// ai 예상 견적(미완성)
-		if(field.equals("all"))
-			bSvc.modifyCost(bno, null, null, null, null, null);
 		
 		return "게시글 예산 수정됨";
 	}
 	// 게시글 찜하기
 	@PostMapping("/insertLikeBoard")
 	public boolean insertLikeBoard(HttpSession session, int bno) {
-		//임시 로그인
 		int loginId = (int)session.getAttribute("loginId");
 		try {
 	        bSvc.insertLikeBoard(loginId, bno);
@@ -249,7 +245,6 @@ public class TravelRestController {
 	// 게시글 찜 삭제하기 
 	@PostMapping("/deleteLikeBoard")
 	public boolean deleteLikeBoard(HttpSession session, int bno) {
-		//임시 로그인,
 		int loginId = (int)session.getAttribute("loginId");
 		try {
 	        bSvc.deleteLikeBoard(loginId, bno);
@@ -291,10 +286,10 @@ public class TravelRestController {
 		String input = (String)mapReq.get("input");
 		List<Map<String, Object>> listPlaces = bSvc.getSerchedPlace(loginId, bno, input, pageNum);
 		
-		for(Map<String, Object> m : listPlaces) {
-			String pid = (String)m.get("placeId");
-			//System.out.println(pid);
-		}
+//		for(Map<String, Object> m : listPlaces) {
+//			String pid = (String)m.get("placeId");
+//			//System.out.println(pid);
+//		}
 		
 		return listPlaces;
 	}

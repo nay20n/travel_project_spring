@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>비밀번호 재설정</title>
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 		<link rel="icon" href="resources/img/favicon.ico"/>
 		<link rel="stylesheet" href="resources/css/Header.css"/>
 		<link rel="stylesheet" href="resources/css/ResetPw.css"/>

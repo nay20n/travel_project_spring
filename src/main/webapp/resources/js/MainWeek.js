@@ -289,7 +289,7 @@ $(function() {
 	// ************** 공동 필드 *****************
 	let bno = $("#main").data("bno");
 	let arrPlaceCity = $("#main").data("arr-place-city");
-	let key = Number($("#main").attr("data-key"));
+	let key = $("#main").attr("data-key");
 	let mapll = $("#main").attr("data-mapll");
 	
 	
@@ -465,7 +465,7 @@ $(function() {
 	}
 	
 	// ************* 웹소켓 ************************
-	if(key!=0) {
+	if(key) {
 		webSocket = new WebSocket("ws://52.199.216.149:9090/TravelPlanner/broadcasting?key="+bno);
 		
 		// 공유

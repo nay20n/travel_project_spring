@@ -138,68 +138,6 @@ body > div:nth-child(n+3):not(:last-child) > div:nth-child(1) { /*기본정보, 
 #basicInfo > div:nth-child(2) > div:nth-child(6) > button:nth-child(2):hover {
 	opacity: 0.3;
 }
-/*****************계정연동****************/
-#connect {
-	background-color: white;
-	border-radius: 15px;
-	height: 217px;
-	margin: 40px auto 100px; 
-	width: 850px;
-}
-#connect > div:nth-child(2) {
-	padding: 0px 40px 24px;
-	margin: 0px 8px;
-}
-#connect > div:nth-child(2) > div:nth-child(2) {
-	height: 1px;
-	margin: 5px 0 16px;
-	background-color: #d7e2eb;
-}
-#connect > div:nth-child(2) > div:not(:nth-child(2)) {
-	position: relative;
-}
-#connect > div:nth-child(2) > div > img { /*이미지들*/
-	width:60px;
-}
-#connect > div:nth-child(2) > div > span:nth-child(2) { /*Google, Kakao 텍스트*/
-	position: absolute;
-	top: 22px;
-	left: 77px;
-	font-size: 15px;
-	font-weight: 500;
-	color: rgb(66, 66, 66);
-}
-#connect > div:nth-child(2) > div > span:nth-child(4) { /*연결됨*/
-	position: absolute;
-	top: 22px;
-	right: 143px;
-	font-size: 15px;
-	font-weight: 500;
-	color: #ababab;
-}
-#connect > div:nth-child(2) > div > button { /*연결하기 버튼들*/
-	cursor: pointer;
-	position: absolute;
-	top: 8px;
-	right: 33px;
-	width: 103px;
-	height: 45px;
-	padding: 12px 19px;
-	border-radius: 4px;
-	border: none;
-	font-size: 14px;
-	font-weight: 700;
-	color: #925DE8;
-	background-color: #EDE8F6;
-}
-#connect > div:nth-child(2) > div > button:hover {background: #E3D4FF;}
-.connect { /*연결하기*/
-	
-	color: #4B4C56 !important;
-	background-color: #fbfbfd !important;
-	border: #e0e0e0 solid 1px !important;
-}
-.connect:hover {background-color: #E3D4FF !important;}
 
 
 /* ****************************팝업********************************* */
