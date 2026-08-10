@@ -461,7 +461,7 @@ public class TravelRestController {
 		try{mSvc.modifyPw(loginId, pw); return true;}
 		catch(Exception e) {e.printStackTrace(); return false;}
 	}
-	// 정보 수정 저장 버튼
+	// 프로필 업로드 
 	@PostMapping("/updateprofile")
 	public String updateInfo(HttpSession session, Model model,@RequestParam("file") MultipartFile file) {
 		int loginId = (int)session.getAttribute("loginId");
@@ -573,7 +573,7 @@ public class TravelRestController {
 		return blocks;
 	}
 	
-	// ai 반영 장소 변경
+	// ai 반영 장소 변경  
 	@PostMapping("/checkedAi")
 	public String checkedAi(@RequestBody Map<String,Object> mapReq) {
 		int blockIdx = Integer.parseInt((String)mapReq.get("blockIdx"));
