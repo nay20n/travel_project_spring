@@ -30,7 +30,7 @@
 			<%@ include file="Header.jsp"%>
 		</c:otherwise>
 	</c:choose>
-	<div id="main">
+	<div id="main" data-islogin="${isLogin}">
 		<video autoplay="" muted="" loop="" playsinline="" class="w-full h-full object-cover" poster="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/4b5d6a91ec066b46ff31542b2667c21e_l.jpg"><source src="https://stubbyseoul.s3.ap-northeast-2.amazonaws.com/intro.webm" type="video/webm">
 		</video>
         <div>상상 속 여행을</div>

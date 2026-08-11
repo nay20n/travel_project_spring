@@ -277,8 +277,9 @@ public class APIController {
 		String date = (String)mapReq.get("date");
 		String mapll = (String)mapReq.get("mapll");
 		//System.out.println(userBlocks);
-		
-		return eSvc.searchAiRecommend(userBlocks, bno, arrPlaceCity, date, mapll);
+		List<Map<String, Object>> searchAiRecommends = eSvc.searchAiRecommend(userBlocks, bno, arrPlaceCity, date, mapll);
+		System.out.println(searchAiRecommends);
+		return searchAiRecommends;
 	}
 	
 	// 이메일 보내기

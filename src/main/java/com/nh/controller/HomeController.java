@@ -34,6 +34,14 @@ public class HomeController {
 		// 최신 게시글 조회
 		model.addAttribute("boards",bSvc.getBoardsLastestOrder((Integer)session.getAttribute("loginId"), page));
 		
+		Integer loginId = (Integer) session.getAttribute("loginId");
+		if(loginId==null || loginId.equals(null)) {
+			model.addAttribute("isLogin", false);
+		} else {
+			model.addAttribute("isLogin", true);
+		}
+		
+		
 		return "MainPage";
 	}
 	

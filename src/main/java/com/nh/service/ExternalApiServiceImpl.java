@@ -430,8 +430,7 @@ public class ExternalApiServiceImpl implements ExternalApiService {
 	// ai 일정 추천
 	@Override
 	@Transactional
-	public List<Map<String, Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno,
-			String arrPlaceCity, String date, String mapll) {
+	public List<Map<String, Object>> searchAiRecommend(List<Map<String, Object>> userBlocks, int bno,String arrPlaceCity, String date, String mapll) {
 		List<Map<String, Object>> aiChecked = aDao.getAiChecked(bno);
 		
 		// 기존 ai 추천 일정 지우기
