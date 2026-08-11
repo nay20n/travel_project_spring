@@ -3,7 +3,7 @@ let gPageLike = 1;
 let gPageCom = 1;
 
 function newPageMyBoard(pageNum, lastNum) {
-	
+	//alert(pageNum);
 	fetch("getMyBoard?pageNum=" + pageNum, {method: "post"})
 	.then(function(response) {
 		return response.json();
@@ -12,7 +12,6 @@ function newPageMyBoard(pageNum, lastNum) {
 		//console.log(data);
 		
 		for(let i=0; i<data.length; i++) {
-		
 			let dDay = `D-Day`;
 			if(data[i].dDay>0){
 				dDay = `D+${data[i].dDay}`;
@@ -41,14 +40,14 @@ function newPageMyBoard(pageNum, lastNum) {
 								️<span>${data[i].cntLike}</span>
 							</td>
 					  </tr>`;
-			$("body > div:nth-child(3) .table tbody").append(html);
+			$(".myBoard .table tbody").append(html);
 		}
 	})
 	.catch(function(error) {
 		alert("에러! : " + error);
 	});
 }
-function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
+function newPageLikedAndCommentBoard(pageNum, mapping, className, lastNum) {
 	fetch(mapping + "?pageNum=" + pageNum, {method: "post"})
 	.then(function(response) {
 		return response.json();
@@ -76,7 +75,7 @@ function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
 								️<span>${data[i].cntLike}</span>
 							</td>
 						</tr>`;
-			$(`body > div:nth-child(${nthChild}) .table tbody`).append(html);
+			$(`.${className} .table tbody`).append(html);
 		}
 	})
 	.catch(function(error) {
@@ -135,29 +134,31 @@ $(function() {
 		$(this).toggleClass("fillHeart"); // css 꾸미기
 	});
 	// 내 게시글 스크롤
-	$("body > div:nth-child(3) .table").scroll(function(e){
+	$(".myBoard .table").scroll(function(e){
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
-	    	if (lastNum % 10 ==0)
-				newPageMyBoard(++gPageMy, lastNum);
+	    	if (lastNum % 10 ==0){
+	    		newPageMyBoard(++gPageMy, lastNum);
+	    	}
+				
 		} 
 	});
 	// 내가 찜한 게시글 스크롤
-	$("body > div:nth-child(4) .table").scroll(function(e){
+	$(".likedBoard .table").scroll(function(e){
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
 	    	if (lastNum % 10 ==0)
-				newPageLikedAndCommentBoard(++gPageLike, "getLikedBoard",4, lastNum);
+				newPageLikedAndCommentBoard(++gPageLike, "getLikedBoard","likedBoard", lastNum);
 		} 
 	});
 	// 내가 댓글을 단 게시글 스크롤
-	$("body > div:nth-child(5) .table").scroll(function(e){
+	$(".commentBoard .table").scroll(function(e){
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
@@ -165,7 +166,7 @@ $(function() {
 	    	//alert("스크롤 끝까지 내림");
 	    	let lastNum = Number($(this).find('tr:last th:first').text());
 	    	if (lastNum % 10 ==0)
-				newPageLikedAndCommentBoard(++gPageCom, "getCommentBoard",5,lastNum);
+				newPageLikedAndCommentBoard(++gPageCom, "getCommentBoard","commentBoard",lastNum);
 		} 
 	});
 	

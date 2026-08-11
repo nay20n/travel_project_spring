@@ -33,6 +33,7 @@ public class BoardController {
 	public String planDetail(@PathVariable int bno, HttpSession session, Model model) {
 		int loginId = (int)session.getAttribute("loginId");
 		model.addAllAttributes(bSvc.getBoardInfo(loginId, bno));
+		//System.out.println(bSvc.getBoardInfo(loginId, bno));
 		return "Board";
 	}
 	

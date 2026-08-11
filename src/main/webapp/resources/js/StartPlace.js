@@ -31,7 +31,7 @@ $(function() {
 		
 		// 도착 아이디 얻어오기
 		let arrId = getUrlParams().arrId;
-		// 출발 아이디 (일단 서울역)
+		// 출발 아이디 
 		let startId = $(this).parent().attr("data-placeid");
 		// bno 가져오기 
 		let bno = getUrlParams().bno;
