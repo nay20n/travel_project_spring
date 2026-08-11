@@ -65,7 +65,7 @@ public class BoardController {
 				return "MainWeek";
 			}
 		}
-		rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+		rttr.addFlashAttribute("msg", "잘못된 접근입니다. 공유 링크의 경우 링크를 다시 입력해주세요.");
 		return "redirect:/";
 	}
 	
@@ -96,7 +96,7 @@ public class BoardController {
 				return "MainMonth";
 			}
 		}
-		rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+		rttr.addFlashAttribute("msg", "잘못된 접근입니다. 공유 링크의 경우 링크를 다시 입력해주세요.");
 		return "redirect:/";
 	}
 }

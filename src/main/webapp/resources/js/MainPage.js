@@ -129,6 +129,12 @@ window.onscroll = function() {
 	}
 };
 
+// esc로 팝업창 닫기
+window.addEventListener('keydown', (e) => { 
+	if (e.key == 'Escape' || e.keyCode == 27) 
+    	$(".popupContainer>div>svg:nth-child(1)").trigger("click");
+});
+
 $(function() {
 	newPage(gPageNum,"getBoardsLastestOrder","input");
 	
@@ -199,7 +205,6 @@ $(function() {
 	});
 
 	// ************** 팝업 ******************
-	// 팝업창 닫기
 	$(".popupContainer>div>svg:nth-child(1)").click(function() {
 		$(".popupContainer").attr("style","display: none");
 		$(".popupContent").attr("style","display: none");

@@ -60,8 +60,8 @@ body>* {
 }
 
 #main>div:nth-child(4) { /* 작은회색글씨 */
-	align-items: center; 
-	justify-content : center;
+	align-items: center;
+	justify-content: center;
 	margin: 70px auto 0px;
 	color: #ececec;
 	font-size: 20px;
@@ -72,10 +72,10 @@ body>* {
 
 #main>div:nth-child(5) { /* 일정만들기버튼 */
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	margin-top: 220px;
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 400;
 	letter-spacing: 0px;
 	background-color: #EDE8F6;
@@ -83,7 +83,7 @@ body>* {
 	color: black;
 	border-radius: 36px;
 	padding: 10px 15px;
-	width: 184px;
+	width: 192px;
 	cursor: pointer;
 }
 

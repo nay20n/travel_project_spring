@@ -453,7 +453,9 @@ $(function() {
 		    		//console.log(encodedPolyline);
 		    		drawRoute(encodedPolyline);
 			    }
-	    		aiLock = false;
+			    setTimeout(function() {
+		    		aiLock = false;
+				}, 1000);
 			})
 			.catch(function(error) {
 			    alert("에러! : " + error);
@@ -499,10 +501,14 @@ $(function() {
 				    background: "linear-gradient(to left, #E3D4FF, #925DE8)",
 				  }
 				}).showToast();
-				aiLock = false;
+				setTimeout(function() {
+		    		aiLock = false;
+				}, 1000);
 			}
 			if(e.data=="false") {
-				aiLock = false;
+				setTimeout(function() {
+		    		aiLock = false;
+				}, 1000);
 				getAiResult();
 			}
 			if(e.data=="aiUpdate") {
@@ -644,7 +650,9 @@ $(function() {
 				    		//console.log(encodedPolyline);
 				    		drawRoute(encodedPolyline);
 					    }
-			    		aiLock = false;
+			    		setTimeout(function() {
+				    		aiLock = false;
+						}, 1000);
 					})
 					.catch(function(error) {
 					    alert("에러! : " + error);
@@ -932,6 +940,9 @@ $(function() {
         		setBlocks(calendar);
         		//setBlocksToCalendar(calendar,data);
         		$("#closeAi").click();
+        		
+        		if(webSocket!=null)
+					webSocket.send("week");
         		
         		Toastify({
 				  text: "AI 추천 일정이 반영되었습니다.",

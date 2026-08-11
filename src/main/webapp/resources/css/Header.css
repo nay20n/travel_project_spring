@@ -74,18 +74,17 @@
 	background-color: #EDE8F6;
 }
 
-#shareBtn > svg {
+#shareBtn>svg {
 	color: #925DE8;
-    flex-shrink: unset;
-    width: 20px;
-    margin-right: 5px;
+	flex-shrink: unset;
+	width: 20px;
+	margin-right: 5px;
 }
 
 #profileImg {
-	border-radius: 28px;
+	border-radius: 40px;
 	background-color: #925DE8;
-	padding: 18px 3px;
+	padding: 20px 3px;
 	font-size: 10px;
-	font-weight: 500;
 	color: white;
 }

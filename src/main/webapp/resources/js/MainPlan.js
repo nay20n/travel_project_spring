@@ -342,6 +342,11 @@ function clickPlaceTitle(placeId) {
 	});
 }
 
+// esc로 팝업창 닫기
+window.addEventListener('keydown', (e) => { 
+	if (e.key == 'Escape' || e.keyCode == 27) 
+    	$(".popupContent>svg:nth-child(1)").trigger("click");
+});
 
 $(function() {
 	// 초기 설정

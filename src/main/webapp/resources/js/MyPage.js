@@ -84,6 +84,12 @@ function newPageLikedAndCommentBoard(pageNum, mapping, nthChild, lastNum) {
 	});
 }
 
+// esc로 팝업창 닫기
+window.addEventListener('keydown', (e) => { 
+	if (e.key == 'Escape' || e.keyCode == 27) 
+    	$("#popupHeader > svg").trigger("click");
+});
+
 $(function() {
 	/***************** 테이블 ******************/
 	// 테이블 행 클릭시 게시글로 이동 
