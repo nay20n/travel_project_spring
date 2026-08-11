@@ -56,7 +56,7 @@
 		<a>정보 수정</a>
 	</div>
 </div>
-<div class="tableDiv bs"> <!--내 게시글 박스-->
+<div class="tableDiv bs myBoard"> <!--내 게시글 박스-->
 	<div class="tableTitle">내 게시글</div>
 	<div class="table">
 		<table class="bs">
@@ -103,7 +103,7 @@
 		</table>
 	</div>
 </div>
-<div class="tableDiv bs">
+<div class="tableDiv bs likedBoard">
 	<div class="tableTitle">내가 찜한 게시글</div>
 	<div class="table">
 		<table class="bs">
@@ -142,7 +142,7 @@
 		</table>
 	</div>
 </div>
-<div class="tableDiv bs">
+<div class="tableDiv bs commentBoard">
 	<div class="tableTitle">내가 댓글을 단 게시글</div>
 	<div class="table">
 		<table class="bs">

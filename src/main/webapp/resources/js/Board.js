@@ -305,7 +305,8 @@ $(function() {
 	// *************** 예산 아래 버튼들 ****************
 	// 게시글 복제
 	$(document).on("click", ".other>div", function() {
-		location.href="/TravelPlanner/newplan/start?bno=" + bno;
+		let arrPlaceId = $("#title").attr("data-arrid");
+		location.href="/TravelPlanner/newplan/start?arrId=" + arrPlaceId + "&bno=" + bno;
 	});
 	// 삭제
 	$(document).on("click", ".my>div:nth-child(1)", function() {
