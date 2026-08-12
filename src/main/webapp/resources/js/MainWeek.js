@@ -924,7 +924,7 @@ $(function() {
 			    for(let i=0;i<data.length;i++){
 				    encodedPolyline = JSON.parse(data[i]).routes[0].polyline.encodedPolyline;
 		    		//console.log(encodedPolyline);
-		    		drawRoute(encodedPolyline);
+		    		drawAiRoute(encodedPolyline);
 			    }
 			    setTimeout(function() {
 		    		aiLock = false;
@@ -1121,7 +1121,7 @@ $(function() {
 					    for(let i=0;i<data.length;i++){
 						    encodedPolyline = JSON.parse(data[i]).routes[0].polyline.encodedPolyline;
 				    		//console.log(encodedPolyline);
-				    		drawRoute(encodedPolyline);
+				    		drawAiRoute(encodedPolyline);
 					    }
 			    		setTimeout(function() {
 				    		aiLock = false;
