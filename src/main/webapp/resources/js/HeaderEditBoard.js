@@ -30,7 +30,9 @@ $(function() {
 		})
 		.then(function(data) {
 			var dummy = document.createElement("input");
-		    var text = $(location).attr('href') + "?key=" + data;
+			var text = window.location.origin + '/' + window.location.pathname.split('/')[1] +"/share?bno=" + bno + "&key=" + data;
+			//console.log(text);
+		    //var text = $(location).attr('href') + "?key=" + data;
 		    
 		    document.body.appendChild(dummy);
 		    dummy.value = text;
