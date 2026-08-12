@@ -16,7 +16,6 @@
 	<script src="../../resources/js/jquery-4.0.0.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-	<script src="../../resources/js/MainPlan.js"></script>
 	<script src="../../resources/js/HeaderEditBoard.js"></script>
 	<script  src="../../resources/js/BoardTitle.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.2/jquery-ui.js"></script>

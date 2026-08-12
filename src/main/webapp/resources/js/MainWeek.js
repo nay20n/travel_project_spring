@@ -664,8 +664,6 @@ $(function() {
 		alert("에러! : " + error);
 	});
 	$(".popupContent").draggable(); // 팝업 드래그 가능
-	let bno = $("#main").data("bno");
-	let arrPlaceCity = $("#title>div:last-child>div:last-child>div:last-child>div:last-child").html();
 	if(arrPlaceCity=="해외") {
 		placeNewPage("", bno); // 장소 검색창 채우기
 	} else {

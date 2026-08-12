@@ -37,24 +37,25 @@ public class BoardController {
 		return "Board";
 	}
 	
+	@GetMapping("/share")
+	public String planDetailWeekShare(int bno, String key, HttpSession session, RedirectAttributes rttr) {
+		Integer loginId = (Integer)session.getAttribute("loginId");
+		if(loginId==null) {
+			rttr.addFlashAttribute("msg", "로그인 필요한 서비스입니다. 로그인 후 다시 진행해주세요.");
+			return "redirect:/";
+		}
+		
+		bSvc.addSharedMember(loginId, bno, key);
+		
+		rttr.addFlashAttribute("msg", "공동작업이 추가되었습니다. 마이페이지를 확인해주세요.");
+		return "redirect:/";
+	}
+	
 	@GetMapping("/plan/{bno}/week")
-	public String planDetailWeek(@RequestParam(required = false) String key, @PathVariable int bno, RedirectAttributes rttr, HttpSession session, Model model) {
+	public String planDetailWeek(@PathVariable int bno, RedirectAttributes rttr, HttpSession session, Model model) {
 		int loginId = (int)session.getAttribute("loginId");
 		Map<String, Object> map1 = bSvc.getBoardInfo(loginId, bno);
 		BigDecimal shareUserId = (BigDecimal)map1.get("shareUserId");
-		// 공유 링크로 들어온 경우
-		if(key!=null) {
-			Timestamp now = new Timestamp(System.currentTimeMillis());
-			Timestamp date = (Timestamp)map1.get("exDate");
-			if(date!=null&&map1.get("key")!=null
-					&&shareUserId==null&&((BigDecimal)map1.get("writerId")).intValue()!=loginId
-					&&now.before(date)
-					&&key.equals(map1.get("key"))) {
-				map1 = bSvc.addSharedMember(loginId, bno, key);
-			}
-			//System.out.println(date.getClass());
-			//System.out.println(date);
-		}
 		if(shareUserId==null) {
 			if(((BigDecimal)map1.get("writerId")).intValue()==loginId) {
 				model.addAllAttributes(map1);
@@ -66,26 +67,15 @@ public class BoardController {
 				return "MainWeek";
 			}
 		}
-		rttr.addFlashAttribute("msg", "잘못된 접근입니다. 공유 링크의 경우 링크를 다시 입력해주세요.");
+		rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
 		return "redirect:/";
 	}
 	
 	@GetMapping("/plan/{bno}/month")
-	public String planDetailMonth(@RequestParam(required = false) String key, @PathVariable int bno, RedirectAttributes rttr, HttpSession session, Model model) {
+	public String planDetailMonth(@PathVariable int bno, RedirectAttributes rttr, HttpSession session, Model model) {
 		int loginId = (int)session.getAttribute("loginId");
 		Map<String, Object> map1 = bSvc.getBoardInfo(loginId, bno);
 		BigDecimal shareUserId = (BigDecimal)map1.get("shareUserId");
-		// 공유 링크로 들어온 경우 
-		if(key!=null) {
-			Timestamp now = new Timestamp(System.currentTimeMillis());
-			Timestamp date = (Timestamp)map1.get("exDate");
-			if(date!=null&&map1.get("key")!=null
-					&&shareUserId==null&&((BigDecimal)map1.get("writerId")).intValue()!=loginId
-					&&now.before(date)
-					&&key.equals(map1.get("key"))) {
-				map1 = bSvc.addSharedMember(loginId, bno, key);
-			}
-		}
 		if(shareUserId==null) {
 			if(((BigDecimal)map1.get("writerId")).intValue()==loginId) {
 				model.addAllAttributes(map1);
@@ -97,7 +87,7 @@ public class BoardController {
 				return "MainMonth";
 			}
 		}
-		rttr.addFlashAttribute("msg", "잘못된 접근입니다. 공유 링크의 경우 링크를 다시 입력해주세요.");
+		rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
 		return "redirect:/";
 	}
 }
