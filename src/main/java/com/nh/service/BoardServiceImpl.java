@@ -39,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
 		map1.put("endDate", endDate);
 		
 		String arrAddress = pDao.getAddressByPlaceId(arrPlaceId);
+		System.out.println(arrAddress);
 		String arrPlaceCity = "해외";
 		if(arrAddress.contains("대한민국"))
 			arrPlaceCity = arrAddress.split(" ")[1];

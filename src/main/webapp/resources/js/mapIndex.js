@@ -136,6 +136,62 @@ async function init() {
 	  	const placeId = e.placeId
 	  	//console.log(placeId);
 	  	if (!placeId) return; //지면 클릭 시
+	  	
+	  	const { Place } = await google.maps.importLibrary("places");
+		const place = new Place({ id: placeId });
+		
+		await place.fetchFields({
+			fields: [
+				"id",
+				"displayName", 
+				"formattedAddress",
+				"primaryTypeDisplayName",
+				"location",            // 위도, 경도
+				"regularOpeningHours", // 영업시간
+				"websiteURI",          // 웹사이트 URL
+				"photos",              // 장소 사진 목록
+			],
+		});
+		//	데이터 변환
+		let businessHoursList = place.regularOpeningHours ? place.regularOpeningHours.weekdayDescriptions : [];
+		let businessHours = businessHoursList.join('<br/>'); 
+		//console.log(businessHours);
+	    let photoList = place.photos ? place.photos.slice(0, 5).map(photo => photo.getURI())  : [];
+	    let photos = photoList.join(' ');
+	    //console.log(photos);
+	    
+	    // 장소 데이터 삽입
+		const jsonData = {
+			"placeId": place.id,
+			"name": place.displayName,
+			"address": place.formattedAddress,
+			"category":  place.primaryTypeDisplayName,
+			"lat": place.location.lat(),
+			"lng": place.location.lng(),
+			"businessHours": businessHours,
+			"websiteUrl": place.websiteURI || null,
+			"photos": photos
+		};
+		const initData = {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(jsonData)
+		};
+		fetch("/TravelPlanner/addPlace", initData)
+		.then(function(response){
+			return response.text();
+		})
+		.then(function(data){
+			//console.log(data);
+			//데이터 삽입 후 마커+장소팝업 
+			drawMarker(place.location.lat(), place.location.lng(), place.id)
+		})
+		.catch(function(error){
+			alert("에러! : " + error);
+		});
+	  	
 		// 마커 그리기 전 선택 된 것들 삭제
 		$(".coloredPlace").removeClass("coloredPlace");
 		if(marker != undefined) {
