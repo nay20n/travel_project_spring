@@ -452,6 +452,10 @@ public class TravelRestController {
 	@PostMapping("/modifyPw")
 	public boolean modifyPw(HttpSession session, String pw) {
 		int loginId = (int)session.getAttribute("loginId");
+		
+		// 테스트 계정 비빌번호 재설정 막기
+		if(loginId==1 || loginId==2) return false;
+		
 		//System.out.println(pw);
 		try{mSvc.modifyPw(loginId, pw); return true;}
 		catch(Exception e) {e.printStackTrace(); return false;}

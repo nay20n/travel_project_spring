@@ -14,6 +14,7 @@ function emailValidChk(email) {
 // 게시글 페이지 불러오기 함수
 function newPage(pageNum,mapping,input) {
 	if(gPageLock) return;
+	//console.log("불러오기 실행 page:" + gPageNum);
 	gPageLock = true;
 	
 	let isLogin = $("#main").attr("data-islogin");
@@ -41,7 +42,7 @@ function newPage(pageNum,mapping,input) {
 		let str2;
 		let str3;
 		let dataIdx = 0;
-		if(data.length<8) gPageNum = -1;
+		if(data.length<8) gPageNum = -2;
 		for(let i=0;i<2;i++){ //2줄 생성
 			str1 = `
 				<div id="boardList${boardListIdx}">
@@ -120,7 +121,7 @@ function newPage(pageNum,mapping,input) {
 window.onscroll = function() {
 	if(Math.round( $(window).scrollTop()) == $(document).height() - $(window).height()) {
 		// 더 불러올 게시글이 없으면 종료
-		if(gPageNum==-1) return;
+		if(gPageNum<1) return;
 		// 검색중이면 종료
 		if(scrollLock) return;
 		
@@ -170,6 +171,7 @@ $(function() {
 		// 초기화
 		$("#board>*").remove(); //게시글 리스트 초기화
 		gPageNum = 1; //페이지 초기화
+		gPageLock = false; //페이지 불러오기 가능하도록
 		
 		newPage(gPageNum,"getBoardsKeyOrder",search);
 	});
