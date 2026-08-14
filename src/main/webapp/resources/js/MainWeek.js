@@ -343,7 +343,7 @@ function reviewNewPage(pageNum, placeId) {
 		let loginId = data.loginId;
 		
 		if(reviews.length<1) return; // 페이지가 1보다작으면 return 
-		if(reviews.length<5) gPageNum = -1; //불러올게 더 없다면 페이지 번호를 -1로 변경 
+		if(reviews.length<5) popupPageNum = -1; //불러올게 더 없다면 페이지 번호를 -1로 변경 
 		
 		for(let i=0; i<reviews.length; i++) {
 			let rnum = Number(reviews[i].RNUM);
@@ -1657,8 +1657,8 @@ $(function() {
 		.then(function(data) {
 			//console.log(data);
 			//alert("정상 등록");
+			$(".popupPlace>div:nth-child(6)").empty(); // 원래 가져왔던 리뷰들 지우기
 			popupPageNum = 1;
-			$(".popupPlace>div:nth-child(6)").empty();
 			reviewNewPage(popupPageNum, placeId);
 			
 			Toastify({
@@ -1695,7 +1695,7 @@ $(function() {
 			})
 			.then(function(data) {
 				//console.log(data);
-				$(".popupPlace>div:nth-child(6)").empty();
+				$(".popupPlace>div:nth-child(6)").empty(); // 원래 가져왔던 리뷰들 지우기
 				popupPageNum=1;
 				reviewNewPage(popupPageNum, placeId);
 				Toastify({
