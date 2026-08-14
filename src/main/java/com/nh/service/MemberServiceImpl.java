@@ -182,7 +182,7 @@ public class MemberServiceImpl implements MemberService {
 	    MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 	    body.add("grant_type", "authorization_code");
 	    body.add("client_id", KakaoClientId);
-	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/kakaologin/"+mapping);
+	    body.add("redirect_uri", "http://52.199.216.149:9090/TravelPlanner/kakaologin/"+mapping);
 	    body.add("code", authCode);
 	    body.add("client_secret", KakaoClientSecret);
 	    
@@ -238,7 +238,7 @@ public class MemberServiceImpl implements MemberService {
 	    body.add("state", state);
 	    
 	    
-	    body.add("redirect_uri", "http://localhost:9090/TravelPlanner/naverlogin/mainHome");
+	    body.add("redirect_uri", "http://52.199.216.149:9090/TravelPlanner/naverlogin/mainHome");
 	    
 	    
 	    // Http요청 객체
@@ -264,7 +264,7 @@ public class MemberServiceImpl implements MemberService {
 	    // Http요청 객체
 	    httpEntity = new HttpEntity<>(headers);
 	    
-	    // Kakao API 호출
+	    // Naver API 호출
 	    response = new RestTemplate().exchange(
 	            "https://openapi.naver.com/v1/nid/me",
 	            HttpMethod.GET,
