@@ -101,7 +101,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-		return "redirect:http://http://52.199.216.149:9090/TravelPlanner/mypage/edit";
+		return "redirect:http://52.199.216.149:9090/TravelPlanner/mypage/edit";
 	}
 	
 	// 신규 회원 인증번호 맞는지 체크 
