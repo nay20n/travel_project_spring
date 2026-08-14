@@ -373,7 +373,7 @@ public class TravelRestController {
 	}
 	// 장소 댓글 입력 
 	@PostMapping("/addReview")
-	public String addReview(@RequestParam("file") MultipartFile file, @RequestParam("placeId") String placeId, @RequestParam("content") String content, @RequestParam("rating") int rating, HttpSession session) {
+	public String addReview(@RequestParam(value="file", required=false) MultipartFile file, @RequestParam("placeId") String placeId, @RequestParam("content") String content, @RequestParam("rating") int rating, HttpSession session) {
 		int loginId = (int)session.getAttribute("loginId");
 		
 		String path = application.getRealPath("resources/upload"); // upload 폴더의 절대경로(C:\로 시작) 얻기. 
@@ -381,11 +381,11 @@ public class TravelRestController {
 		
 		File f= new File(path);
 		if(!f.exists()) 
-			f.mkdir();// 해당 폴더 생성
+			f.mkdirs();// 해당 폴더 생성
 		
 		String filename = "";
 		String filenameUUID = "";
-		if(!file.isEmpty()) {
+		if (file!=null && !file.isEmpty()) {
 			filename = file.getOriginalFilename();
 			int dotIdx = filename.lastIndexOf(".");
 			filenameUUID = UUID.randomUUID().toString() + filename.substring(dotIdx);
@@ -470,7 +470,7 @@ public class TravelRestController {
 		
 		File f= new File(path);
 		if(!f.exists()) 
-			f.mkdir();// 해당 폴더 생성
+			f.mkdirs();// 해당 폴더 생성
 		
 		String filename = "";
 		String filenameUUID = "";

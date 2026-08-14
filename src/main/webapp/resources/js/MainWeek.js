@@ -312,7 +312,7 @@ function setInitialColor(blockColorArr) {
 // 댓글 페이지 불러오는 함수 
 function reviewNewPage(pageNum, placeId) {
 	if(reviewPageLock) return;
-	if(popupPageNum==-1) return;
+	if(popupPageNum<1) return;
 	reviewPageLock = true;
 	
 	// 댓글 불러오기 비동기
@@ -406,6 +406,7 @@ function reviewNewPage(pageNum, placeId) {
 			$(".popupPlace>div:nth-child(6)").append(reviewHtml);
 			setStar(reviews[i].rating,rnum);
 		}
+		popupPageNum++;
 		scrollLock = false;
 		reviewPageLock = false;
 	})
@@ -1525,7 +1526,7 @@ $(function() {
 		popupPageNum = 1; // 페이지 1로 초기화 
 		let placeId = $(this).parent().parent().parent().parent().data("place-id");
 		clickPlaceTitle(placeId); // 정보 가져오기 
-		reviewNewPage(popupPageNum++,placeId); // 리뷰 가져오기 
+		reviewNewPage(popupPageNum,placeId); // 리뷰 가져오기 
 	});
 	// 팝업창 닫기
 	$(document).on("click", ".popupContent>svg:nth-child(1)", function() {
@@ -1601,14 +1602,14 @@ $(function() {
 	
 	// ******************* 장소 리뷰 스크롤 *****************************
 	$(".popupContainer > div:nth-child(1)").scroll(function(e){
-		if(popupPageNum==-1) return;
+		if(popupPageNum<1) return;
 		var containerScrollTop = $(this).scrollTop();
     	var containerHeight = $(this).height()
 	    var contentHeight = $(this)[0].scrollHeight;
 	    if(containerScrollTop + containerHeight >= contentHeight - 1) {
 	    	let placeId = $(this).find("div").find(".popupPlace").attr("data-placeid");
 	    	scrollLock = true;
-	    	reviewNewPage(popupPageNum++, placeId);
+	    	reviewNewPage(popupPageNum, placeId);
 	    	scrollLock = false;
 		} 
 	});
@@ -1698,7 +1699,7 @@ $(function() {
 				popupPageNum=1;
 				reviewNewPage(popupPageNum, placeId);
 				Toastify({
-				  text: "댓글을 삭제했습니다ㄴ.",
+				  text: "댓글을 삭제했습니다.",
 				  duration: 3000,
 				  newWindow: true,
 				  close: true,

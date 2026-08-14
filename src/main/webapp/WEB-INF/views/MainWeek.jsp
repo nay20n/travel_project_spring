@@ -296,7 +296,6 @@ https://cdn.jsdelivr.net/npm/jquery.spinner@0.2.1/dist/css/bootstrap-spinner.min
 		    </div>
 		</div>
 	</div>
-	
-	
+	<input type="file" id="reviewImg" name="file"/>
 </body>
 </html>
